@@ -108,8 +108,8 @@ this will execute when they come back to that tab</p>             </td>         
           isThresholdPercentage = <span class="literal">false</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>The whole point is to have a callback function.
-Don't do anything if it's not given</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !$.isFunction( options.callback ) ) {
-        <span class="keyword">throw</span> <span class="string">'Viewport.add :: No callback function provided to Viewport'</span>;
+Don't do anything if it's not given</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( !$.isFunction( options.enter ) ) {
+        <span class="keyword">throw</span> <span class="string">'Viewport.add :: No enter function provided to Viewport'</span>;
       }
 
 </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>Threshold can be a percentage. Parse it.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> ( (<span class="keyword">typeof</span> options.threshold === <span class="string">'string'</span> &amp;&amp; options.threshold.indexOf(<span class="string">'%'</span>) &gt; -<span class="number">1</span> ) ) {
@@ -120,6 +120,8 @@ Don't do anything if it's not given</p>             </td>             <td class=
         isThresholdPercentage = <span class="literal">true</span>;
       }
 
+      options.triggered = <span class="literal">false</span>;
+      options.hasLeaveCallback = $.isFunction( options.leave );
       options.isThresholdPercentage = isThresholdPercentage;
       options.$element = $( options.element );
 
@@ -214,33 +216,75 @@ Then the top is in view.</p>             </td>             <td class="code">    
       <span class="keyword">return</span> percentFromBottom &gt;= percentage;
     },
 
-    triggerCallback : <span class="keyword">function</span>( index, listItem ) {
+    isOutOfViewport : <span class="keyword">function</span>( viewport, side ) {
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          offset = viewport.offset,
+          st = self.lastScrollY,
+          bool;
+
+      <span class="keyword">if</span> ( side === <span class="string">'bottom'</span> ) {
+        bool = !self.isBottomInView( st, self.windowHeight, offset.top, viewport.height );
+      }
+
+      <span class="keyword">return</span> bool;
+    },
+
+    isBottomInView : <span class="keyword">function</span>( viewportTop, viewportHeight, elementTop, elementHeight ) {
+      <span class="keyword">var</span> viewportBottom = viewportTop + viewportHeight,
+          elementBottom = elementTop + elementHeight;
+      <span class="keyword">return</span> elementBottom &gt; viewportTop &amp;&amp; elementBottom &lt;= viewportBottom;
+    },
+
+    triggerEnter : <span class="keyword">function</span>( index, listItem ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
 </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Queue up the callback with the delay. Default is 0</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
-        listItem.callback.call( listItem.element, listItem );
+        listItem.enter.call( listItem.element, listItem );
       }, listItem.delay);
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>No longer need to watch it, so remove from list</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.list.splice( index, <span class="number">1</span> );
+
+      <span class="keyword">if</span> ( $.isFunction( listItem.leave ) ) {
+        listItem.triggered = <span class="literal">true</span>;
+
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>If the leave property is not a function,
+The module no longer needs to watch it, so remove from list</p>             </td>             <td class="code">               <div class="highlight"><pre>      } <span class="keyword">else</span> {
+        self.list.splice( index, <span class="number">1</span> );
+      }
 
 </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>If there are no more, unbind from scroll and resize events</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.maybeUnbindEvents();
     },
 
+    triggerLeave : <span class="keyword">function</span>( index, listItem ) {
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>var self = this;</p>             </td>             <td class="code">               <div class="highlight"><pre>
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Queue up the callback with the delay. Default is 0</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+        listItem.leave.call( listItem.element, listItem );
+      }, listItem.delay);
+
+      listItem.triggered = <span class="literal">false</span>;
+    },
+
     setScrollTop : <span class="keyword">function</span>() {
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Save the new scroll top</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">this</span>.lastScrollY = Settings.$window.scrollTop();
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>Save the new scroll top</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">this</span>.lastScrollY = Settings.$window.scrollTop();
     },
 
     process : <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
 
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>The list can possibly be modified mid loop,
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>The list can possibly be modified mid loop,
 so the loop needs a copy of the variable which won't be modified</p>             </td>             <td class="code">               <div class="highlight"><pre>          list = $.extend( [], self.list );
 
       $.each(list, <span class="keyword">function</span>( i, listItem ) {
-        <span class="keyword">var</span> isInViewport = self.isInViewport( listItem );
+        <span class="keyword">var</span> isInViewport = self.isInViewport( listItem ),
+            isBottomOutOfView = listItem.hasLeaveCallback &amp;&amp; self.isOutOfViewport( listItem, <span class="string">'bottom'</span> );
 
-        <span class="keyword">if</span> ( isInViewport ) {
-          self.triggerCallback( i, listItem );
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>If the enter callback hasn't been triggerd and it's in the viewport,
+trigger the enter callback</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !listItem.triggered &amp;&amp; isInViewport ) {
+          <span class="keyword">return</span> self.triggerEnter( i, listItem );
+        }
+
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>This viewport has already come into view once and now it is out of view
+It's not in view, the bottom is out of view, the list item's enter has been triggered</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> ( !isInViewport &amp;&amp; isBottomOutOfView &amp;&amp; listItem.triggered ) {
+          <span class="keyword">return</span> self.triggerLeave( i, listItem );
         }
       });
     }
@@ -250,18 +294,18 @@ so the loop needs a copy of the variable which won't be modified</p>            
     <span class="keyword">var</span> instance = Viewport.getInstance(),
         options = {};
 
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>If the first arg is a plain object, it is an options object</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( $.isPlainObject( element ) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>If the first arg is a plain object, it is an options object</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="keyword">if</span> ( $.isPlainObject( element ) ) {
       options = element;
 
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>Otherwise assume it is the element</p>             </td>             <td class="code">               <div class="highlight"><pre>    } <span class="keyword">else</span> {
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>Otherwise assume it is the element</p>             </td>             <td class="code">               <div class="highlight"><pre>    } <span class="keyword">else</span> {
       options.element = element;
     }
 
     <span class="keyword">if</span> ( callback ) {
-      options.callback = callback;
+      options.enter = callback;
     }
 
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Get defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>    options = $.extend( {}, Viewport.options, options, Viewport.settings );
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>Get defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>    options = $.extend( {}, Viewport.options, options, Viewport.settings );
 
     <span class="keyword">return</span> instance.add( options );
   };

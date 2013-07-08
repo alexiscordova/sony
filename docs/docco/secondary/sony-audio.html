@@ -7,7 +7,15 @@
 <li><strong>Author:</strong> George Pantazis</li>
 </ul>
 
-<p>Documentation to come.</p>
+<p>A shared interface and initializer for the SoundManager2 Library,
+for use on Sony.com.</p>
+
+<p>You may provide a set of different <code>sources</code> that can be toggled between,
+but note that these are intended to demonstrate sound effects, and not
+different bitrates; HTML5 Audio may incorrectly report file lengths and
+positions, particularly for longer tracks.</p>
+
+<p>You must provide a <code>default</code> source, as in the first example below.</p>
 
 <p><em>Example Usage:</em></p>
 
@@ -71,14 +79,25 @@ instance of SonyAudio's API that interface back to the <code>SonyAudioController
     <span class="keyword">var</span> moduleId = <span class="string">'sonyAudio-'</span> + _moduleCount,
         currentTime = <span class="number">0</span>,
         currentSound,
-        setCurrentTime;
+        onPause,
+        onPlay;
 
     <span class="keyword">if</span> ( !_controller ) {
       _controller = <span class="keyword">new</span> SonyAudioController();
     }
 
-    setCurrentTime = <span class="keyword">function</span>() {
+    onPause = <span class="keyword">function</span>() {
       currentTime = <span class="keyword">this</span>.position;
+
+      <span class="keyword">if</span> ( config.onpause ) {
+        config.onpause();
+      }
+    };
+
+    onPlay = <span class="keyword">function</span>() {
+      <span class="keyword">if</span> ( config.onplay ) {
+        config.onplay();
+      }
     };
 
     sm.onready(<span class="keyword">function</span>(){
@@ -89,7 +108,9 @@ instance of SonyAudio's API that interface back to the <code>SonyAudioController
           url: config.sources[i],
           autoLoad: <span class="literal">true</span>,
           autoPlay: <span class="literal">false</span>,
-          whileplaying: setCurrentTime
+          onpause: onPause,
+          onplay: onPlay,
+          onresume: onPlay
         });
       }
 
@@ -98,6 +119,12 @@ instance of SonyAudio's API that interface back to the <code>SonyAudioController
 
     <span class="keyword">var</span> api = {
 
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p><code>Audio.play()</code>: Play the sound.</p>
+
+<ul>
+<li><code>source</code>: the key string corresponding to one of the audio sources. If not specified,
+        plays the previously loaded source.</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>
       play: <span class="keyword">function</span>(source) {
 
         <span class="keyword">var</span> self = <span class="keyword">this</span>;
@@ -106,13 +133,15 @@ instance of SonyAudio's API that interface back to the <code>SonyAudioController
           currentSound = sm.getSoundById(moduleId + <span class="string">'-'</span> + source);
         }
 
-        sm.pauseAll();
+        self.pause();
 
         currentSound.setPosition(currentTime).play();
 
         <span class="keyword">return</span> self;
       },
 
+</pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p><code>Audio.pause()</code>: Pause all sound. To prevent audio collisions, all audio is stopped when
+                 this method is called.</p>             </td>             <td class="code">               <div class="highlight"><pre>
       pause: <span class="keyword">function</span>() {
 
         <span class="keyword">var</span> self = <span class="keyword">this</span>;

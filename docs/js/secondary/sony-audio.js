@@ -6,7 +6,15 @@
 // * **Version:** 0.1
 // * **Author:** George Pantazis
 //
-// Documentation to come.
+// A shared interface and initializer for the SoundManager2 Library,
+// for use on Sony.com.
+//
+// You may provide a set of different `sources` that can be toggled between,
+// but note that these are intended to demonstrate sound effects, and not
+// different bitrates; HTML5 Audio may incorrectly report file lengths and
+// positions, particularly for longer tracks.
+//
+// You must provide a `default` source, as in the first example below.
 //
 // *Example Usage:*
 //
@@ -71,14 +79,25 @@ define(function(require){
     var moduleId = 'sonyAudio-' + _moduleCount,
         currentTime = 0,
         currentSound,
-        setCurrentTime;
+        onPause,
+        onPlay;
 
     if ( !_controller ) {
       _controller = new SonyAudioController();
     }
 
-    setCurrentTime = function() {
+    onPause = function() {
       currentTime = this.position;
+
+      if ( config.onpause ) {
+        config.onpause();
+      }
+    };
+
+    onPlay = function() {
+      if ( config.onplay ) {
+        config.onplay();
+      }
     };
 
     sm.onready(function(){
@@ -89,7 +108,9 @@ define(function(require){
           url: config.sources[i],
           autoLoad: true,
           autoPlay: false,
-          whileplaying: setCurrentTime
+          onpause: onPause,
+          onplay: onPlay,
+          onresume: onPlay
         });
       }
 
@@ -97,6 +118,11 @@ define(function(require){
     });
 
     var api = {
+
+      // `Audio.play()`: Play the sound.
+      //
+      // * `source`: the key string corresponding to one of the audio sources. If not specified,
+      //             plays the previously loaded source.
 
       play: function(source) {
 
@@ -106,12 +132,15 @@ define(function(require){
           currentSound = sm.getSoundById(moduleId + '-' + source);
         }
 
-        sm.pauseAll();
+        self.pause();
 
         currentSound.setPosition(currentTime).play();
 
         return self;
       },
+
+      // `Audio.pause()`: Pause all sound. To prevent audio collisions, all audio is stopped when
+      //                  this method is called.
 
       pause: function() {
 

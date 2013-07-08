@@ -51,9 +51,12 @@ Settings = require('require/sony-global-settings'),</p>             </td>       
         element: self.element,
         threshold: self.threshold,
         delay: self.delay,
-        callback: <span class="keyword">function</span>() {
+        enter: <span class="keyword">function</span>() {
           self.fadeInCarouselContent();
           self.fade.play();
+        },
+        leave: <span class="keyword">function</span>() {
+          self.fade.pause();
         }
       });
 

@@ -29,6 +29,10 @@ define(<span class="keyword">function</span>(require){
     <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
     self.$el = $(element);
+    self.$tracks = self.$el.find(<span class="string">'.track'</span>);
+    self.$nav = self.$el.find(<span class="string">'nav'</span>);
+    self.$sourceSelect = self.$nav.find(<span class="string">'select'</span>);
+
     self.init();
 
     log(<span class="string">'SONY : SonyAudioPlayer : Initialized'</span>);
@@ -42,23 +46,65 @@ define(<span class="keyword">function</span>(require){
 
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      self.audio = <span class="keyword">new</span> SonyAudio({
-        sources: {
-          <span class="string">'default'</span>: <span class="string">'http://ia700200.us.archive.org/22/items/DebroySomersBand-31-40/DebroySomersAndHisBand-WestwardBound.mp3'</span>,
-          <span class="string">'low'</span>: <span class="string">'http://ia700200.us.archive.org/22/items/DebroySomersBand-31-40/DebroySomersAndHisBand-WestwardBound.mp3'</span>
+      self.currentTrack = <span class="number">0</span>;
+      self.setTrack(<span class="number">0</span>);
+    },
+
+    setTrack: <span class="keyword">function</span>(which) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>,
+          $track = self.$tracks.eq(which),
+          $sources = $track.find(<span class="string">'.source'</span>),
+          sourceList = {};
+
+</pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>START: The below should be moved into a trackInit method;
+we wouldn't want to call (most of) it multiple times.</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      self.$sourceSelect.empty();
+
+      $sources.each(<span class="keyword">function</span>(a,b){
+
+        <span class="keyword">var</span> key = $(<span class="keyword">this</span>).text(),
+            value = $(<span class="keyword">this</span>).find(<span class="string">'a'</span>).attr(<span class="string">'href'</span>);
+
+        sourceList[key] = value;
+
+        self.$sourceSelect.append(<span class="string">'&lt;option value="'</span>+key+<span class="string">'"&gt;'</span>+key+<span class="string">'&lt;/option&gt;'</span>);
+      });
+
+      <span class="keyword">var</span> track = <span class="keyword">new</span> SonyAudio({
+        sources: sourceList,
+        onpause: <span class="keyword">function</span>() {
+          self.$el.removeClass(<span class="string">'playing'</span>).addClass(<span class="string">'paused'</span>);
+        },
+        onplay: <span class="keyword">function</span>() {
+          self.$el.removeClass(<span class="string">'paused'</span>).addClass(<span class="string">'playing'</span>);
         }
       });
 
-      self.$el.on(<span class="string">'click'</span>, <span class="string">'.start-play'</span>, <span class="keyword">function</span>() {
-        self.audio.play();
+      self.$el.on(<span class="string">'click'</span>, <span class="string">'.play'</span>, <span class="keyword">function</span>(e) {
+        e.preventDefault();
+        track.play();
       });
 
-      self.$el.on(<span class="string">'click'</span>, <span class="string">'.high-quality'</span>, <span class="keyword">function</span>() {
-        self.audio.play(<span class="string">'default'</span>);
+      self.$el.on(<span class="string">'click'</span>, <span class="string">'.pause'</span>, <span class="keyword">function</span>(e) {
+        e.preventDefault();
+        track.pause();
       });
 
-      self.$el.on(<span class="string">'click'</span>, <span class="string">'.low-quality'</span>, <span class="keyword">function</span>() {
-        self.audio.play(<span class="string">'low'</span>);
+      self.$el.on(<span class="string">'change'</span>, <span class="string">'select'</span>, <span class="keyword">function</span>(){
+        track.play( $(<span class="keyword">this</span>).val() );
+      });
+
+</pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>END</p>             </td>             <td class="code">               <div class="highlight"><pre>
+      self.setAlbumArt(which);
+    },
+
+    setAlbumArt: <span class="keyword">function</span>(which) {
+
+      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+
+      self.$el.css({
+        backgroundImage: <span class="string">'url('</span>+self.$tracks.eq(which).data(<span class="string">'album-art'</span>)+<span class="string">')'</span>
       });
     }
   };

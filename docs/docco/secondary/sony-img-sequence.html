@@ -58,8 +58,10 @@ define(<span class="keyword">function</span>(require){
     self.touchEvents    = <span class="number">0</span>;
     self.$win           = Settings.$window;
     self.$body          = Settings.$body;
+    self.is360          = $(element).hasClass(<span class="string">'e360'</span>);
 
     self.init();
+
   };
 
   SonySequence.prototype = {
@@ -147,12 +149,18 @@ setTimeout and a $win.resize() we can fire iQ. ?? seems legit?</p>             <
       <span class="keyword">var</span> self = <span class="keyword">this</span>,
           minWidth = <span class="number">0</span>,
           maxWidth = self.sliderControlWidth,
-          sequenceLength = self.sequenceLength,
+          sequenceLength = self.sequenceLength - <span class="number">1</span>,
           sequenceDepth = <span class="number">0</span>,
           lastIndex = self.currIndex;
 
       sequenceDepth = ( positon / maxWidth );
-      self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : <span class="number">0</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>we need to determine if it's the 360 module or image sequence
+why? Because an image sequence needs to go from start to finish with no loop,
+a 360 module needs to loop back to the first index.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span> (self.is360) {
+        self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : <span class="number">0</span>;
+      } <span class="keyword">else</span> {
+        self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength-<span class="number">1</span>);
+      }
 
       <span class="keyword">if</span> (self.currIndex &lt; <span class="number">0</span>) { self.currIndex = <span class="number">0</span>; }
       <span class="keyword">if</span> (!self.pluck( lastIndex )) { <span class="keyword">return</span>; }
@@ -183,7 +191,7 @@ setTimeout and a $win.resize() we can fire iQ. ?? seems legit?</p>             <
        });
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>get the demensions, will need to recalculate on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>    sliderGetDimensions: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>get the demensions, will need to recalculate on resize</p>             </td>             <td class="code">               <div class="highlight"><pre>    sliderGetDimensions: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.sliderControlWidth = (self.$sliderControl.width() - <span class="number">20</span>);
       <span class="keyword">return</span> (self.sliderControlWidth);
@@ -200,7 +208,7 @@ setTimeout and a $win.resize() we can fire iQ. ?? seems legit?</p>             <
           eventX = page.pageX ? page.pageX : <span class="number">0</span>;
 
 
-</pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>get the sldie value positions</p>             </td>             <td class="code">               <div class="highlight"><pre>      pagePos = eventX - self.$sliderControl.offset().left;
+</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>get the sldie value positions</p>             </td>             <td class="code">               <div class="highlight"><pre>      pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
       pagePos = Math.max(-<span class="number">20</span>, pagePos);
 
@@ -209,9 +217,9 @@ setTimeout and a $win.resize() we can fire iQ. ?? seems legit?</p>             <
         ratio = pagePos / self.sliderControlWidth;
         value = self.sliderRatioToValue(ratio);
 
-</pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>set the slider positon</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.setSliderPosition(pagePos);
+</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>set the slider positon</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span> (self.options.barcontrols) { self.setSliderPosition(pagePos); }
 
-</pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>if ( pagePos &lt;= 0 ) { pagePos = 0; }</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.sliderGotoFrame(pagePos);
+</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>if ( pagePos &lt;= 0 ) { pagePos = 0; }</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.sliderGotoFrame(pagePos);
       }
 
       self.dragged = <span class="literal">true</span>;
@@ -223,10 +231,10 @@ setTimeout and a $win.resize() we can fire iQ. ?? seems legit?</p>             <
           $slideHandle;
 
       self.pagePos = <span class="number">0</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>find the handle so we can setup bindings</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$slideHandle = self.$sliderControl.find(<span class="string">'.handle'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>find the handle so we can setup bindings</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$slideHandle = self.$sliderControl.find(<span class="string">'.handle'</span>);
       self.$slideHandle.hammer();
 
-</pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>get slider dimensions</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.sliderGetDimensions();
+</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>get slider dimensions</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.sliderGetDimensions();
 
       self.$slideHandle.on({
         touch : <span class="keyword">function</span>( event ) {
@@ -272,27 +280,27 @@ setTimeout and a $win.resize() we can fire iQ. ?? seems legit?</p>             <
         <span class="string">"&lt;/div&gt;"</span>
       ].join(<span class="string">'\n'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>add our new controls to the container</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.append(controlTmpl.slider);
+</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>add our new controls to the container</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$container.append(controlTmpl.slider);
       self.$sliderControlContainer = self.$container.find(<span class="string">'.control-bar-container'</span>);
       self.$sliderControl = self.$container.find(<span class="string">'.range-control'</span>);
 
       <span class="keyword">if</span> (self.options.labelLeft &amp;&amp; self.labelRight) {
         <span class="keyword">var</span> label = {};
 
-        label.left = <span class="string">"&lt;span class='slider-label label-left l3' data-direction='right'&gt;"</span>+self.options.labelLeft+<span class="string">"&lt;/span&gt;"</span>;
-        label.right = <span class="string">"&lt;span class='slider-label label-right l3' data-direction='left'&gt;"</span>+self.options.labelRight+<span class="string">"&lt;/span&gt;"</span>;
+        label.left = <span class="string">"&lt;span class='slider-label label-left l3' data-direction='left'&gt;"</span>+self.options.labelLeft+<span class="string">"&lt;/span&gt;"</span>;
+        label.right = <span class="string">"&lt;span class='slider-label label-right l3' data-direction='right'&gt;"</span>+self.options.labelRight+<span class="string">"&lt;/span&gt;"</span>;
 
         self.$sliderControlContainer.append(label.right)
           .prepend(label.left);
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>setup the bindings for the control slider</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setupBarBindings();
-</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>we should get rid of the other controls</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$controls.remove();
+</pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>setup the bindings for the control slider</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.setupBarBindings();
+</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>we should get rid of the other controls</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$controls.remove();
 
       cb();
     },
 
-</pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>this will load the sequence of images</p>             </td>             <td class="code">               <div class="highlight"><pre>    loadSequence: <span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>this will load the sequence of images</p>             </td>             <td class="code">               <div class="highlight"><pre>    loadSequence: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
       self.$sequence.addClass(<span class="string">'visuallyhidden'</span>);
@@ -300,24 +308,24 @@ setTimeout and a $win.resize() we can fire iQ. ?? seems legit?</p>             <
       self.$sequence.each(<span class="keyword">function</span>( index ) {
         <span class="keyword">var</span> el = $(<span class="keyword">this</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>remove the hidden class</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$sequence.eq(index).removeClass(<span class="string">'visuallyhidden'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>remove the hidden class</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$sequence.eq(index).removeClass(<span class="string">'visuallyhidden'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>so iQ can catch on
+</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>so iQ can catch on
 self.$win.trigger('resize');</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>now we can hide the element again?</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$sequence.eq(index).addClass(<span class="string">'visuallyhidden'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>now we can hide the element again?</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$sequence.eq(index).addClass(<span class="string">'visuallyhidden'</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>is the BG image loaded?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(  el.data(<span class="string">'hasLoaded'</span>) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>is the BG image loaded?</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(  el.data(<span class="string">'hasLoaded'</span>) ) {
           self.syncControlLayout();
           self.curLoaded++;
           self.checkLoaded();
         } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>its not a preloaded background</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>( el.is( <span class="string">'div'</span> ) ) {
+</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>its not a preloaded background</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>( el.is( <span class="string">'div'</span> ) ) {
             el.on( <span class="string">'iQ:imageLoaded'</span>, $.proxy(self.lockAndLoaded, self) );
           } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <p>check if the inline images are cached</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>( <span class="literal">false</span> === <span class="keyword">this</span>.complete ) {
-</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>not cached, listen for load event</p>             </td>             <td class="code">               <div class="highlight"><pre>              el.onload = self.lockAndLoaded;
+</pre></div>             </td>           </tr>                               <tr id="section-27">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-27">&#182;</a>               </div>               <p>check if the inline images are cached</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span>( <span class="literal">false</span> === <span class="keyword">this</span>.complete ) {
+</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>not cached, listen for load event</p>             </td>             <td class="code">               <div class="highlight"><pre>              el.onload = self.lockAndLoaded;
             } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>cached, count it against the payload</p>             </td>             <td class="code">               <div class="highlight"><pre>              self.syncControlLayout();
+</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>cached, count it against the payload</p>             </td>             <td class="code">               <div class="highlight"><pre>              self.syncControlLayout();
               self.curLoaded++;
               self.checkLoaded();
             }
@@ -325,7 +333,7 @@ self.$win.trigger('resize');</p>             </td>             <td class="code">
         }
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <p>now show the first sequence again</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sequence.eq(<span class="number">0</span>).removeClass(<span class="string">'visuallyhidden'</span>);
+</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>now show the first sequence again</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sequence.eq(<span class="number">0</span>).removeClass(<span class="string">'visuallyhidden'</span>);
     },
 
     startAnimation: <span class="keyword">function</span>(direction) {
@@ -340,14 +348,14 @@ self.$win.trigger('resize');</p>             </td>             <td class="code">
     initBehaviors: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-      <span class="keyword">if</span>( <span class="literal">false</span> === Modernizr.touch ) {
-</pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <p>extend with touch controls</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$controls.hammer();
+      <span class="keyword">if</span>( <span class="literal">true</span> === Modernizr.touch ) {
+</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>extend with touch controls</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$controls.hammer();
         <span class="keyword">var</span> $viewportel = self.$container;
 
         self.viewport.add({
           element : $viewportel,
           threshold : <span class="string">'50%'</span>,
-          callback : <span class="keyword">function</span>($viewportel) {
+          enter : <span class="keyword">function</span>($viewportel) {
             <span class="keyword">if</span>( !self.inViewport ) {
               self.inMotion = <span class="literal">true</span>;
               self.animateDragger();
@@ -384,11 +392,11 @@ self.$win.trigger('resize');</p>             </td>             <td class="code">
 
         }
       } <span class="keyword">else</span> {
-</pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <p>trigger UI indication (Desktop)</p>             </td>             <td class="code">               <div class="highlight"><pre>        $( window ).bind( <span class="string">'scroll'</span>, <span class="keyword">function</span>( event ) {
+</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>trigger UI indication (Desktop)</p>             </td>             <td class="code">               <div class="highlight"><pre>        $( window ).bind( <span class="string">'scroll'</span>, <span class="keyword">function</span>( event ) {
           self.onScroll( event );
         });
 
-</pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <p>setup controller interactions</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$controls.bind( <span class="string">'mousedown'</span>, <span class="keyword">function</span>( event ) {
+</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>setup controller interactions</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$controls.bind( <span class="string">'mousedown'</span>, <span class="keyword">function</span>( event ) {
           self.mouseDown( event );
         });
 
@@ -396,34 +404,34 @@ self.$win.trigger('resize');</p>             </td>             <td class="code">
           self.mouseUp( event );
         });
 
-</pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <p>track mousemove</p>             </td>             <td class="code">               <div class="highlight"><pre>        $( self.$controls ).bind( <span class="string">'mousemove'</span>, <span class="keyword">function</span>( event ) {
+</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>track mousemove</p>             </td>             <td class="code">               <div class="highlight"><pre>        $( self.$controls ).bind( <span class="string">'mousemove'</span>, <span class="keyword">function</span>( event ) {
           self.mouseMove( event );
         });
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <p>bind scroll event to fire animation on the dragger
+</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>bind scroll event to fire animation on the dragger
 1. movement on desktop and 2. viewport on mobile</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-35">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-35">&#182;</a>               </div>               <p>initial animation, hey why not.</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
+</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>initial animation, hey why not.</p>             </td>             <td class="code">               <div class="highlight"><pre>      setTimeout(<span class="keyword">function</span>() {
         self.animateDragger();
       }, <span class="number">500</span>);
 
-</pre></div>             </td>           </tr>                               <tr id="section-36">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-36">&#182;</a>               </div>               <p>reset the step buffer when the window changes size</p>             </td>             <td class="code">               <div class="highlight"><pre>      $( window ).bind( <span class="string">'resize'</span>, <span class="keyword">function</span>( event ) {
+</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>reset the step buffer when the window changes size</p>             </td>             <td class="code">               <div class="highlight"><pre>      $( window ).bind( <span class="string">'resize'</span>, <span class="keyword">function</span>( event ) {
         self.onResize( event );
       });
 
-</pre></div>             </td>           </tr>                               <tr id="section-37">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-37">&#182;</a>               </div>               <p>adjust controls to center if type is image</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">true</span> === self.isImage ) {
+</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>adjust controls to center if type is image</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">true</span> === self.isImage ) {
         self.syncControlLayout();
       }
 
       <span class="keyword">if</span> (self.options.viewcontrols) {
-</pre></div>             </td>           </tr>                               <tr id="section-38">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-38">&#182;</a>               </div>               <p>finally show controlls</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$controls.removeClass( <span class="string">'hidden'</span> );
+</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>finally show controlls</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.$controls.removeClass( <span class="string">'hidden'</span> );
       }
 
     },
 
     easeSwipe: <span class="keyword">function</span>( event ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
-</pre></div>             </td>           </tr>                               <tr id="section-39">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-39">&#182;</a>               </div>               <p>is the swipe greater than one movement
+</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>is the swipe greater than one movement
 where  (container.width / sequence.length-1) / 3 = one step</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> assetWidth      = $( self.$sequence[self.curIndex] ).width(),
           swipeDistance   = event.gesture.distance,
           sequenceLength  = sequence.length - <span class="number">1</span>,
@@ -452,7 +460,7 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
     },
 
     touchDown: <span class="keyword">function</span>( event ) {
-</pre></div>             </td>           </tr>                               <tr id="section-40">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-40">&#182;</a>               </div>               <p>Montana to Rice!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>Montana to Rice!</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">var</span> self = <span class="keyword">this</span>;
       self.$body.addClass(<span class="string">'unselectable'</span>);
       self.clicked = <span class="literal">true</span>;
     },
@@ -511,23 +519,23 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
 
       event.preventDefault();
 
-</pre></div>             </td>           </tr>                               <tr id="section-41">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-41">&#182;</a>               </div>               <p>set a default if not already set</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">null</span> === self.lastTriggerX ) {
+</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>set a default if not already set</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( <span class="literal">null</span> === self.lastTriggerX ) {
         self.lastTriggerX = self.lastX = event.pageX;
       }
 
       <span class="keyword">if</span>( event.pageX &gt; ( self.lastTriggerX + self.dynamicBuffer ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-42">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-42">&#182;</a>               </div>               <p>moving right</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>moving right</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">true</span>;
         self.movingRight  = <span class="literal">false</span>;
         doMove = <span class="literal">true</span>;
         self.lastTriggerX = event.pageX;
       } <span class="keyword">else</span> <span class="keyword">if</span>( event.pageX &lt; ( self.lastTriggerX - self.dynamicBuffer ) ) {
-</pre></div>             </td>           </tr>                               <tr id="section-43">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-43">&#182;</a>               </div>               <p>moving left</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>moving left</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.movingLeft   = <span class="literal">false</span>;
         self.movingRight  = <span class="literal">true</span>;
         doMove = <span class="literal">true</span>;
         self.lastTriggerX = event.pageX;
       }
 
-</pre></div>             </td>           </tr>                               <tr id="section-44">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-44">&#182;</a>               </div>               <p>shall we?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( self.clicked &amp;&amp; doMove ) {
+</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>shall we?</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">if</span>( self.clicked &amp;&amp; doMove ) {
         <span class="keyword">var</span> direction = self.movingLeft ? <span class="string">"left"</span> : <span class="string">"right"</span>;
         self.move( direction );
       }
@@ -536,7 +544,7 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
     },
 
     mobileLog: <span class="keyword">function</span>( data, append ) {
-</pre></div>             </td>           </tr>                               <tr id="section-45">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-45">&#182;</a>               </div>               <p>$( '.e360debug' ).html( data.toString() + '\n' );</p>             </td>             <td class="code">               <div class="highlight"><pre>    },
+</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>$( '.e360debug' ).html( data.toString() + '\n' );</p>             </td>             <td class="code">               <div class="highlight"><pre>    },
 
     animateDragger: <span class="keyword">function</span>( cycles ) {
       <span class="keyword">if</span>(Settings.isLTIE8){
@@ -583,19 +591,19 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
     initSliderBindings: <span class="keyword">function</span>() {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-46">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-46">&#182;</a>               </div>               <p>bind our click event handlers for labels</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sliderControlContainer.on(<span class="string">'click.label-click'</span>, <span class="string">".slider-label"</span>, <span class="keyword">function</span>(e){
+</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>bind our click event handlers for labels</p>             </td>             <td class="code">               <div class="highlight"><pre>      self.$sliderControlContainer.on(<span class="string">'click.label-click'</span>, <span class="string">".slider-label"</span>, <span class="keyword">function</span>(e){
         <span class="keyword">var</span> $el = $(e.target),
             data = $el.data(),
             direction = data.direction;
 
-</pre></div>             </td>           </tr>                               <tr id="section-47">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-47">&#182;</a>               </div>               <p>if its autoplaying we dont want to reset everything -- crazy</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.options.autoplay) {
+</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>if its autoplaying we dont want to reset everything -- crazy</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="keyword">if</span>(self.options.autoplay) {
           <span class="keyword">return</span> <span class="literal">false</span>;
         }
 
-</pre></div>             </td>           </tr>                               <tr id="section-48">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-48">&#182;</a>               </div>               <p>set it back to autoplay</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.options.autoplay = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>set it back to autoplay</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.options.autoplay = <span class="literal">true</span>;
         self.animationLooped = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-49">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-49">&#182;</a>               </div>               <p>start the animation</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.startAnimation(direction);
+</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>start the animation</p>             </td>             <td class="code">               <div class="highlight"><pre>        self.startAnimation(direction);
       });
 
       self.sliderLabelInitialized = <span class="literal">true</span>;
@@ -604,60 +612,67 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
     move: <span class="keyword">function</span>( direction ) {
       <span class="keyword">var</span> self      = <span class="keyword">this</span>,
           lastIndex = self.curIndex,
+          slidePos,
           pagePos;
 
-      pagePos = (self.sliderControlWidth/self.curIndex);
+</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>gets the number of slide notches for the slider</p>             </td>             <td class="code">               <div class="highlight"><pre>      slidePos = (self.curIndex * (self.sliderControlWidth / (self.sequenceLength-<span class="number">1</span>)));
+
       <span class="keyword">switch</span>( direction ) {
         <span class="keyword">case</span> <span class="string">"left"</span>:
-          console.log(<span class="string">'moving left'</span>, self.options.autoplay);
+
           <span class="keyword">if</span>( self.curIndex === <span class="number">0</span> ) {
 
             <span class="keyword">if</span> (self.options.autoplay &amp;&amp; self.animationLooped &amp;&amp; !self.options.loop) {
               self.initBehaviors();
               clearInterval(self.animationInterval);
 
-              <span class="keyword">if</span> (!self.sliderLabelInitialized) {
-                self.createBarControl(<span class="keyword">function</span>(){
-                  <span class="keyword">if</span>(self.sliderLabelInitialized) { $.proxy(self.initSliderBindings(), self); }
-                });
+</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>if we have bar controls </p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">if</span> (self.options.barcontrols) {
+</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>if the slider labels haven't intialized</p>             </td>             <td class="code">               <div class="highlight"><pre>                <span class="keyword">if</span> (!self.sliderLabelInitialized) {
+                  self.createBarControl(<span class="keyword">function</span>(){
+</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>we create the slide controls and then check if the labels are for sure there with the callback</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="keyword">if</span>(self.sliderLabelInitialized) { $.proxy(self.initSliderBindings(), self); }
+                  });
+                }
+                self.setSliderPosition(slidePos);
               }
 
-              self.options.autoplay = <span class="literal">false</span>;
-              <span class="keyword">return</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>set auto play to false since current index is now 0</p>             </td>             <td class="code">               <div class="highlight"><pre>              self.options.autoplay = <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>close the method</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="keyword">return</span>;
             }
 
-            self.curIndex = self.sequenceLength-<span class="number">1</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <p>if we aren't looping or if were arent autoplaying set the curIndex to the lenght - 1 ??</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.curIndex = self.sequenceLength-<span class="number">1</span>;
+            
           } <span class="keyword">else</span> {
-            self.curIndex--;
 
-</pre></div>             </td>           </tr>                               <tr id="section-50">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-50">&#182;</a>               </div>               <p>if were animating we need to get the current slide index and compare it to the slider width, to get the position.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.setSliderPosition(pagePos);
+</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>keep iterating the curIndex down since were moving left</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.curIndex--;
 
-</pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p>we can assume we've done a loop</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (self.curIndex === <span class="number">1</span>) { self.animationLooped = <span class="literal">true</span>; }
+</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>once the curIndex is 1 that means weve done a full loop (started from the sequence length)</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (self.curIndex === <span class="number">1</span>) { self.animationLooped = <span class="literal">true</span>; }
+
+</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>if were animating we need to get the current slide index and compare it to the slider width, to get the position.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (self.options.barcontrols) { self.setSliderPosition(slidePos); }
           }
         <span class="keyword">break</span>;
 
         <span class="keyword">case</span> <span class="string">"right"</span>:
-</pre></div>             </td>           </tr>                               <tr id="section-52">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-52">&#182;</a>               </div>               <p>we can assume we've done a loop</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>( self.curIndex == self.sequenceLength-<span class="number">1</span> ) {
-            self.curIndex = self.sequenceLength;
-            pagePos = (self.sliderControlWidth/self.curIndex);
-
-            self.animationLooped = <span class="literal">true</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <p>we can assume we've done a loop</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="keyword">if</span>( self.curIndex == self.sequenceLength-<span class="number">1</span> ) {
+            self.animationLooped = <span class="literal">true</span>; 
 
             <span class="keyword">if</span> (self.options.autoplay &amp;&amp; self.animationLooped &amp;&amp; !self.options.loop) {
               clearInterval(self.animationInterval);
             }
 
-            self.animationLooped = <span class="literal">true</span>;
+            self.animationLooped = <span class="literal">true</span>; 
             self.options.autoplay = <span class="literal">false</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-53">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-53">&#182;</a>               </div>               <p>jank</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.setSliderPosition(-<span class="number">20</span>);
-            self.curIndex = <span class="number">0</span>;
+            self.curIndex = ( self.sequenceLength -<span class="number">1</span> );
+
+            <span class="keyword">if</span> (self.is360 || self.options.loop) {
+              self.curIndex = <span class="number">0</span>;
+            }
 
           } <span class="keyword">else</span> {
             self.curIndex++;
 
-</pre></div>             </td>           </tr>                               <tr id="section-54">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-54">&#182;</a>               </div>               <p>if were animating we need to get the current slide index and compare it to the slider width, to get the position.</p>             </td>             <td class="code">               <div class="highlight"><pre>            self.setSliderPosition(pagePos);
-          }
+</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <p>we can assume we've done a loop</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="keyword">if</span> (self.options.barcontrols) { self.setSliderPosition(slidePos); }
+          }       
         <span class="keyword">break</span>;
       }
 
@@ -668,44 +683,16 @@ where  (container.width / sequence.length-1) / 3 = one step</p>             </td
     pluck: <span class="keyword">function</span>( lastIndex ) {
       <span class="keyword">var</span> self = <span class="keyword">this</span>;
 
-</pre></div>             </td>           </tr>                               <tr id="section-55">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-55">&#182;</a>               </div>               <p>find by data index</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; self.$sequence.length; i++ ) {
+</pre></div>             </td>           </tr>                               <tr id="section-63">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-63">&#182;</a>               </div>               <p>find by data index</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">for</span>( <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; self.$sequence.length; i++ ) {
         <span class="keyword">if</span>( lastIndex == self.$sequence.eq(i).data( <span class="string">'sequence-id'</span> ) ) {
           <span class="keyword">return</span> self.$sequence.eq(i);
         }
       }
-</pre></div>             </td>           </tr>                               <tr id="section-56">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-56">&#182;</a>               </div>               <p>not found</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">return</span> <span class="literal">false</span>;
+</pre></div>             </td>           </tr>                               <tr id="section-64">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-64">&#182;</a>               </div>               <p>not found</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="keyword">return</span> <span class="literal">false</span>;
     }
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-57">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-57">&#182;</a>               </div>               <h2>jQuery Plugin Definition</h2>
-
-<p>$.extend({
-inspect: function (obj, n) {
-n = n || "this";
-for (var p in obj) {
-if ($.isPlainObject(obj[p])) {
-$.inspect(obj[p], n + "." + p);
-return;
-}
-}
-}
-});</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-58">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-58">&#182;</a>               </div>               <p>$.fn.editorial360Viewer = function( options ) {
-var args = Array.prototype.slice.call( arguments, 1 );
-return this.each(function() {
-var self = $(this),
-editorial360Viewer = self.data('editorial360Viewer');</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-59">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-59">&#182;</a>               </div>               <p>// If we don't have a stored moduleName, make a new one and save it.
-if ( !editorial360Viewer ) {
-editorial360Viewer = new SonySequence( self, options );
-self.data( 'editorial360Viewer', editorial360Viewer );
-}</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-60">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-60">&#182;</a>               </div>               <p>if ( typeof options === 'string' ) {
-editorial360Viewer[ options ].apply( editorial360Viewer, args );
-}
-});
-};</p>             </td>             <td class="code">               <div class="highlight"><pre>
-</pre></div>             </td>           </tr>                               <tr id="section-61">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-61">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>  SonySequence.defaults = {
+</pre></div>             </td>           </tr>                               <tr id="section-65">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-65">&#182;</a>               </div>               <h2>Defaults</h2>             </td>             <td class="code">               <div class="highlight"><pre>  SonySequence.defaults = {
     autoplay: <span class="literal">false</span>,
     viewcontrols: <span class="literal">true</span>,
     barcontrols: <span class="literal">false</span>,
@@ -715,7 +702,7 @@ editorial360Viewer[ options ].apply( editorial360Viewer, args );
     labelRight: <span class="string">'Right'</span>
   };
 
-</pre></div>             </td>           </tr>                               <tr id="section-62">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-62">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>  SonySequence.settings = {
+</pre></div>             </td>           </tr>                               <tr id="section-66">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-66">&#182;</a>               </div>               <h2>Non override-able settings</h2>             </td>             <td class="code">               <div class="highlight"><pre>  SonySequence.settings = {
     isTouch: !!( <span class="string">'ontouchstart'</span> <span class="keyword">in</span> window ),
     isInitialized: <span class="literal">false</span>
   };
