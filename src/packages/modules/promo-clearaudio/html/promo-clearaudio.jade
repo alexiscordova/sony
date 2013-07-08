@@ -1,0 +1,17 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('promo-clearaudio')
++includeJavascriptModule('promo-clearaudio')
+
+.container
+  .grid
+    .span8
+    .span4
+      +sonyAudioPlayer(data.sonyAudioPlayerData);
+      div.clear-audio-controls
+        a.activate(href="#") Listen to ClearAudio+
+        .toggle-clear-audio
+          span Listen in ClearAudio+
+          a.toggle(href="#") On
+            span.slider
+
+

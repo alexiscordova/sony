@@ -37,8 +37,12 @@ module.exports = function(grunt) {
           return template;
         }
       },
-      data: function(path){
-        return grunt.file.readJSON(path);
+      data: function(a){
+        if(typeof a === 'string'){
+          return grunt.file.readJSON(a);
+        } else {
+          return a;
+        }
       },
       locals:{
         getConfigFile:function(path){
@@ -579,8 +583,6 @@ module.exports = function(grunt) {
 
    var str = '@import "_base/variables"; \n@import "_base/mixins"; \n';
     grunt.file.expand('packages/modules/**/css/*.scss').filter(function(a){return a.match(/_responsive/g)}).forEach(function(path){
-      // console.log(path);
-
       str += '@import "' + path.replace(/packages/g, '../..') +'"; \n';
     })
 

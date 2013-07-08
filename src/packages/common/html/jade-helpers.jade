@@ -106,6 +106,9 @@ mixin sonyVideo ( videoData, extraClasses )
         source(type='video/mp4',  src=videoData.mp4)
         source(type='video/flash',src=videoData.mp4)
 
+//- Mixin for SonyAudioPlayer Module
+mixin sonyAudioPlayer ( data )
+  +partial("sony-audio-player/html/sony-audio-player.jade", data)
 
 //- To be used with bootstrap's dropdown
 //- @param {Array} socialButtons an array of social button objects

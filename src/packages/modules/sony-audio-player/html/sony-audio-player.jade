@@ -5,6 +5,7 @@ include ../../../common/html/jade-helpers.jade
 div.sony-audio-player
 
   ul.tracks
+
     each track in data.tracks
       if track.sources && track.sources.default
         li.track(data-album-art=track.albumArt)
