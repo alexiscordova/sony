@@ -364,6 +364,10 @@ module.exports = function(grunt) {
         files:['packages/common/html/**/*.jade', 'packages/modules/**/*.jade', 'packages/modules/**/*.json'],
         tasks:['html']
       },
+      pages:{
+        files:['packages/pages/**/*.jade'],
+        tasks:['pages']
+      },
       assets:{
         files:['packages/modules/**/img/**/*.*'],
         tasks:['assets']
