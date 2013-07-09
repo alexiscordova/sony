@@ -54,8 +54,8 @@ define(function(require){
       return self;
     },
 
-    // This should be moved into its own secondary module for re-use.
-    // left/right events could be subscribed to for SAP triggers below.
+    // This should be moved into its own secondary module (`sony-toggle`)
+    // for re-use. Left/right events could be subscribed to for SAP triggers below.
 
     setupToggle: function(rightLabel, leftLabel, position) {
 
@@ -72,11 +72,12 @@ define(function(require){
       labels.left = leftLabel;
       labels.right = rightLabel;
 
+      // Should be a separate method in a new `sony-toggle` module.
+
       var setToggle = function(newPosition) {
         position = newPosition;
         $label.html( labels[position] );
-        $toggle.removeClass(labels.left).removeClass(labels.right);
-        $toggle.addClass(position);
+        $toggle.removeClass('left right').addClass(position);
       };
 
       setToggle(position);
@@ -85,10 +86,10 @@ define(function(require){
         e.preventDefault();
         if ( position === 'left' ) {
           setToggle('right');
-          self.$audioPlayer.trigger('SonyAudioPlayer:setSource', 'default');
+          self.$audioPlayer.trigger('SonyAudioPlayer:play', 'default');
         } else {
           setToggle('left');
-          self.$audioPlayer.trigger('SonyAudioPlayer:setSource', 'low');
+          self.$audioPlayer.trigger('SonyAudioPlayer:play', 'low');
         }
       });
 

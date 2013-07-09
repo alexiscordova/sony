@@ -52,6 +52,10 @@ define(function(require){
 
       var self = this;
 
+      // These configuration settings are optimized for source-switching,
+      // and provide Flash fallbacks where either <audio> or MP3 audio
+      // (in the case of Mozilla) is poorly supported.
+
       sm.setup({
         flashVersion: 9,
         debugMode: false,
@@ -116,6 +120,9 @@ define(function(require){
 
       currentSound = sm.getSoundById(moduleId + '-default');
     });
+
+    // Public API
+    // ----------
 
     var api = {
 

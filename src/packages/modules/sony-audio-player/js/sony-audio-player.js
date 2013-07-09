@@ -7,6 +7,9 @@
 // * **Modified:** 07/01/2013
 // * **Author:** George Pantazis
 // * **Dependencies:** jQuery 1.7+
+//
+// This module provides a UI interface for controlling an instance of the
+// global `SonyAudio` module.
 
 define(function(require){
 
@@ -49,15 +52,14 @@ define(function(require){
       self.setTrack(0);
     },
 
+    // Get track at 0-based position `which`, and initialize the audio for that track.
+
     setTrack: function(which) {
 
       var self = this,
           $track = self.$tracks.eq(which),
           $sources = $track.find('.source'),
           sourceList = {};
-
-      // START: The below should be moved into a trackInit method;
-      // we wouldn't want to call (most of) it multiple times.
 
       $sources.each(function(a,b){
 
@@ -66,6 +68,8 @@ define(function(require){
 
         sourceList[key] = value;
       });
+
+      // Create audio track with provided sources.
 
       var track = new SonyAudio({
         sources: sourceList,
@@ -77,6 +81,19 @@ define(function(require){
         }
       });
 
+      self.bindNav(track);
+      self.bindModuleAPI(track);
+      self.setAlbumArt(which);
+
+      return self;
+    },
+
+    // Bind the <nav> elements to the `track` object's API.
+
+    bindNav: function(track) {
+
+      var self = this;
+
       self.$el.on('click', '.play', function(e) {
         e.preventDefault();
         track.play();
@@ -86,19 +103,30 @@ define(function(require){
         e.preventDefault();
         track.pause();
       });
+    },
 
-      self.$el.on('SonyAudioPlayer:play', function(){
-        track.play();
-      });
+    // Create an API of custom events that can be triggered by modules that are
+    // using `SonyAudioPlayer` as a submodule.
+    //
+    // *Example Usage:*
+    //
+    //      // Just play.
+    //      $('#audio-player').trigger('SonyAudioPlayer:play');
+    //
+    //      // Switch source to `lowQuality` and play.
+    //      $('#audio-player').trigger('SonyAudioPlayer:play', 'lowQuality');
 
-      self.$el.on('SonyAudioPlayer:setSource', function(e, setting){
+    bindModuleAPI: function(track) {
+
+      var self = this;
+
+      self.$el.on('SonyAudioPlayer:play', function(e, setting){
         track.play(setting);
       });
-
-      // END
-
-      self.setAlbumArt(which);
     },
+
+    // Get track at 0-based position `which`, and set the active album art to the
+    // corresponding data object.
 
     setAlbumArt: function(which) {
 
