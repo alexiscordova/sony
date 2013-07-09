@@ -2,7 +2,7 @@
 define(function(require){
 
   var $ = require('jquery');
-  var FeatureSlideshow = require('modules/feature-slideshow/feature-slideshow');
+  var FeatureSlideshow = require('modules/feature-slideshow-b1/feature-slideshow-b1');
 
   // Initialize Modules that don't require additional configuration.
   $('.fs-module').each(function() {
