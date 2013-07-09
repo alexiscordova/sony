@@ -3,7 +3,7 @@ doctype 5
 include ../common/html/ieconditionals.html
 
 head
-  title Duo
+  title Vaio Duo
   include ../common/html/head.jade
 
 body
@@ -25,6 +25,12 @@ body
         //- E6.C2 Editorial + Hotspots
         +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-hotspots-e6/e6.c2.container-duo.json')
           
+        //- E4.C2 MediaRight
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-slideshows-e4/vaio-duo-pdp.json')       
+
+        //- E1 with E5 as submodule and E1's as E5's submodules - Editorial Chapters
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/full-left-102-D-L-duo-fit.json')
+
       +scrollToTop
 
       e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}
