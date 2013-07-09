@@ -1,7 +1,7 @@
 include ../../../common/html/jade-helpers.jade
 
-- item.hTb = item.headline ? item.headline.linkText.replace(/[\s-]+$/,'').split(/[\s-]/).pop() : ''
-- item.hTa = item.headline ? item.headline.linkText.split(item.hTb).shift() : ''
+- item.hTb = item.headline && item.headline.linkText ? item.headline.linkText.replace(/[\s-]+$/,'').split(/[\s-]/).pop() : ''
+- item.hTa = item.headline && item.headline.linkText ? item.headline.linkText.split(item.hTb).shift() : ''
 
 if item.headline
   - item.contentType = 'has-headline'

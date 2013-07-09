@@ -365,7 +365,7 @@ module.exports = function(grunt) {
         tasks:['html']
       },
       pages:{
-        files:['packages/pages/**/*.jade'],
+        files:['packages/pages/**/*.jade', 'packages/pages/**/*.json'],
         tasks:['pages']
       },
       assets:{
