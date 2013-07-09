@@ -34,6 +34,7 @@ define(function(require){
 
     self.options = $.extend({}, SonySequence.defaults, options);
 
+    console.log(self.options);
     // defaults
     self.$container     = $( element );
     self.$sequence      = self.$container.find('[data-sequence-id]');
