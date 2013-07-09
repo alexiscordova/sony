@@ -75,6 +75,8 @@ mixin copyblock(_copy, _title, _subtitle, _body)
   bodyclass = _body ? _body : "p2"
   linkclass = data.mode == "full" ? "lt2" : "lt3"
   .copy
+    if copyobject.icon
+      i(class=copyobject.icon)
     if copyobject.title
       h2(class = titleclass) !{copyobject.title}
     if copyobject.subtitle

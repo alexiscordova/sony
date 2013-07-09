@@ -2,17 +2,19 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('promo-clearaudio')
 +includeJavascriptModule('promo-clearaudio')
 
-section.promo-clearaudio.container
-  .grid
-    .span8
-    .span4
-      +sonyAudioPlayer(data.sonyAudioPlayerData);
-      div.clear-audio-controls
-        a.activate(href="#") Listen to ClearAudio+
-        .toggle-clear-audio
-          span Listen in ClearAudio+
-          a.toggle(href="#")
-            span.toggle-label
-            span.toggle-dial
+section.promo-clearaudio
+  .container
+    .grid
+      .span8
+      .span4
+        +sonyAudioPlayer(data.sonyAudioPlayerData);
+        div.clear-audio-controls
+          a.activate(href="#") Listen to ClearAudio+
+          .toggle-clear-audio
+            span Listen in ClearAudio+
+            a.toggle(href="#")
+              span.toggle-label
+              span.toggle-dial
+  +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/promo-clearaudio/demo/data/e1-data.json')
 
 

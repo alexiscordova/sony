@@ -55,6 +55,7 @@ define(function(require){
     },
 
     // This should be moved into its own secondary module for re-use.
+    // left/right events could be subscribed to for SAP triggers below.
 
     setupToggle: function(rightLabel, leftLabel, position) {
 
