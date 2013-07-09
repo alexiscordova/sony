@@ -32,8 +32,7 @@ define(function(require){
 
     var self = this;
 
-    $.extend( self, SonySequence.options, options, SonySequence.settings );
-    self.options = options || {};
+    self.options = $.extend({}, SonySequence.defaults, options);
 
     // defaults
     self.$container     = $( element );
@@ -76,8 +75,6 @@ define(function(require){
       self.$container.addClass( 'dim-the-lights' );
       self.viewport = require( 'secondary/index' ).sonyViewport;
 
-      //console.log('initializing SonySequence', self.$container);
-
       // if not, manage the payload by exposing a loader
       // since IE and iQ are not getting along we need to delay this a bit
       // heres the idea, we show the loading screen and then one by one with a
@@ -108,10 +105,8 @@ define(function(require){
         // if we have setup to autoplay
         (self.options.autoplay) ? self.startAnimation('left') : self.initBehaviors();
         // if the user wants bar controls we need to populate the dom
-        if (self.options.barcontrols && !self.options.loop && !self.options.autoplay) {
-          self.createBarControl(function(){
-            $.proxy(self.initSliderBindings(), self);
-          });
+        if (self.options.barcontrols && !self.options.autoplay) {
+          self.createBarControl();
         }
 
       }
@@ -298,8 +293,9 @@ define(function(require){
       self.$container.append(controlTmpl.slider);
       self.$sliderControlContainer = self.$container.find('.control-bar-container');
       self.$sliderControl = self.$container.find('.range-control');
+                   
+      if (self.options.labelLeft && self.options.labelRight) {
 
-      if (self.options.labelLeft && self.labelRight) {
         var label = {};
 
         label.left = "<span class='slider-label label-left l3' data-direction='left'>"+self.options.labelLeft+"</span>";
@@ -314,7 +310,8 @@ define(function(require){
       // we should get rid of the other controls
       self.$controls.remove();
 
-      cb();
+      // intiialize slider bindings
+      self.initSliderBindings();
     },
 
     // this will load the sequence of images
@@ -667,7 +664,6 @@ define(function(require){
 
       switch( direction ) {
         case "left":
-
           if( self.curIndex === 0 ) {
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
@@ -675,16 +671,11 @@ define(function(require){
               clearInterval(self.animationInterval);
 
               // if we have bar controls 
-              if (self.options.barcontrols) {
-                // if the slider labels haven't intialized
-                if (!self.sliderLabelInitialized) {
-                  self.createBarControl(function(){
-                    // we create the slide controls and then check if the labels are for sure there with the callback
-                    if(self.sliderLabelInitialized) { $.proxy(self.initSliderBindings(), self); }
-                  });
-                }
-                self.setSliderPosition(slidePos);
+              if (self.options.barcontrols && !self.sliderLabelInitialized) {
+                self.createBarControl();
               }
+
+              if (self.options.barcontrols) { self.setSliderPosition(slidePos); }
 
               // set auto play to false since current index is now 0
               self.options.autoplay = false;
@@ -696,7 +687,6 @@ define(function(require){
             self.curIndex = self.sequenceLength-1;
             
           } else {
-
             // keep iterating the curIndex down since were moving left
             self.curIndex--;
 
@@ -704,7 +694,7 @@ define(function(require){
             if (self.curIndex === 1) { self.animationLooped = true; }
 
             // if were animating we need to get the current slide index and compare it to the slider width, to get the position.
-            if (self.options.barcontrols) { self.setSliderPosition(slidePos); }
+            if (self.options.barcontrols && self.sliderLabelInitialized) { self.setSliderPosition(slidePos); }
           }
         break;
 
@@ -722,10 +712,10 @@ define(function(require){
 
             self.curIndex = ( self.sequenceLength -1 );
 
-            if (self.is360 || self.options.loop) {
-              self.curIndex = 0;
-            }
+            // if its 360 or were looping set it back to original
+            if (self.is360 || self.options.loop) { self.curIndex = 0; }
 
+            return;
           } else {
             self.curIndex++;
 
@@ -759,7 +749,7 @@ define(function(require){
     autoplay: false,
     viewcontrols: true,
     barcontrols: false,
-    loop: false,
+    loop: true,
     speed: 100,
     labelLeft: 'Left',
     labelRight: 'Right'

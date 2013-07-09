@@ -35,28 +35,22 @@ define(function(require){
       $( '.e360' ).each( function( index, el ) {
         //for each instance, initialize
         var $el = $(this),
-            data = $el.data();
+            data = $el.data(),
+            opts = {};
 
-        // get options to set the SonySequence
-        self.autoplay       = data.sequenceAutoplay ? data.sequenceAutoplay : false;
-        self.viewcontrols   = data.sequenceViewcontrols ? data.sequenceViewcontrols : true;
-        self.barcontrols    = data.sequenceBarcontrols ? data.sequenceBarcontrols : false;
-        self.loop           = data.sequenceLoop ? data.sequenceLoop : false;
-        self.animationspeed = data.sequenceAnimationSpeed ? data.sequenceAnimationSpeed : 100;
-        self.labelLeft      = data.sequenceLabelLeft ? data.sequenceLabelLeft : null;
-        self.labelRight     = data.sequenceLabelRight ? data.sequenceLabelRight : null;
+        // since users have the ability to pass in true // false for some options we cannot simply
+        // check if (options) { do stuff }, since if they set the option to false it will affect the 
+        // overall functionality. Also we do not want to pass in options when the users avoid 
+        // adding them to the jade. 
+        if (typeof data.sequenceAutoplay != 'undefined') { opts.autoplay = data.sequenceAutoplay; }
+        if (typeof data.sequenceViewcontrols != 'undefined') { opts.viewcontrols = data.sequenceViewcontrols; }
+        if (typeof data.sequenceBarcontrols != 'undefined') { opts.barcontrols = data.sequenceBarcontrols; }
+        if (typeof data.sequenceLoop != 'undefined') { opts.loop = data.sequenceLoop; }
+        if (data.sequenceAnimationSpeed != 'undefined') { opts.animationspeed = data.sequenceAnimationSpeed; }
+        if (data.sequenceLabelLeft) { opts.labelLeft = data.sequenceLabelLeft; }
+        if (data.sequenceLabelRight) { opts.labelRight = data.sequenceLabelRight; }          
 
-        self.editorial360 = new SonySequence( el, {
-          autoplay: self.autoplay,
-          viewcontrols: self.viewcontrols,
-          barcontrols: self.barcontrols,
-          loop: self.loop,
-          speed: self.animationspeed,
-          labels: {
-            left: self.labelLeft,
-            right: self.labelRight
-          }
-        });
+        self.editorial360 = new SonySequence( el, opts);
       });
     }
   };

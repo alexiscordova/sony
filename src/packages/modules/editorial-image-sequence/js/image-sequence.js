@@ -33,17 +33,22 @@ define(function(require){
       $.extend(this, {}, sonySequence.defaults, sonySequence.settings);
       $( '.sony-sequence' ).each( function( index, el ) {
         var $el = $(this),
-            data = $el.data();
+            data = $el.data(), 
+            opts = {};
 
-        new SonySequence($el, {
-          autoplay       : data.sequenceAutoplay || SonySequence.defaults.autoplay,
-          viewcontrols   : data.sequenceViewcontrols || SonySequence.defaults.viewcontrols,
-          barcontrols    : data.sequenceBarcontrols || SonySequence.defaults.barcontrols,
-          loop           : data.sequenceLoop || SonySequence.defaults.loop,
-          animationspeed : data.sequenceAnimationSpeed || SonySequence.defaults.speed,
-          labelLeft      : data.sequenceLabelLeft || SonySequence.defaults.autoplay,
-          labelRight     : data.sequenceLabelRight || SonySequence.defaults.autoplay
-        });
+        // since users have the ability to pass in true // false for some options we cannot simply
+        // check if (options) { do stuff }, since if they set the option to false it will affect the 
+        // overall functionality. Also we do not want to pass in options when the users avoid 
+        // adding them to the jade. 
+        if (typeof data.sequenceAutoplay != 'undefined') { opts.autoplay = data.sequenceAutoplay; }
+        if (typeof data.sequenceViewcontrols != 'undefined') { opts.viewcontrols = data.sequenceViewcontrols; }
+        if (typeof data.sequenceBarcontrols != 'undefined') { opts.barcontrols = data.sequenceBarcontrols; }
+        if (typeof data.sequenceLoop != 'undefined') { opts.loop = data.sequenceLoop; }
+        if (data.sequenceAnimationSpeed != 'undefined') { opts.animationspeed = data.sequenceAnimationSpeed; }
+        if (data.sequenceLabelLeft) { opts.labelLeft = data.sequenceLabelLeft; }
+        if (data.sequenceLabelRight) { opts.labelRight = data.sequenceLabelRight; }
+
+        new SonySequence($el, opts);
       });
     }
   };
@@ -56,20 +61,6 @@ define(function(require){
     self.init();
 
     log('SONY : SonySequence : Initialized');
-  };
-
-  // Defaults
-  // --------
-  sonySequence.defaults = {
-    autoplay: false,
-    viewcontrols: true,
-    barcontrols: false,
-    loop: false,
-    speed: 100,
-    labels: {
-      left: 'Left',
-      right: 'Right'
-    }
   };
 
   return sonySequence;
