@@ -1,0 +1,79 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('editorial-image-sequence')
++includeJavascriptModule('editorial-transition-b1')
+
+- type = data.type
+- image = data.sequence[0].image ? data.sequence[0].image : null
+- extraclass = image.classes ? image.classes : ""
+- id = data.id ? data.id : "e360-instance"
+- startId = id+"-0"
+- multiModule = data.multiModule ? data.multiModule : ""
+- isDark = data.dark ? "dark" : "light"
+- lod = isDark ? "l-o-d" : ""
+- bump = (multiModule == "true") ? "multiModule" : ""
+
+// new image sequence additions
+if data.sequenceConfig
+  - autoplay = data.sequenceConfig.autoplay ? data.sequenceConfig.autoplay : ''
+  - viewControls = data.sequenceConfig.viewControls ? data.sequenceConfig.viewControls : ''
+  - barControls = data.sequenceConfig.barControls ? data.sequenceConfig.barControls : ''
+  - loopAnimation = data.sequenceConfig.loopAnimation ? data.sequenceConfig.loopAnimation : ''
+  - animationSpeed = data.sequenceConfig.animationSpeed ? data.sequenceConfig.animationSpeed : ''
+  - labelLeft = data.sequenceConfig.labelLeft ? data.sequenceConfig.labelLeft : ''
+  - labelRight = data.sequenceConfig.labelRight ? data.sequenceConfig.labelRight : ''
+            
+if data.sequenceConfig
+  div(class="sony-sequence dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed, data-sequence-label-left=labelLeft, data-sequence-label-right=labelRight )
+    .outer
+      if data.background == "true"
+        .loading.load-indicator.text-center
+          img.global-loader.load-indicator(src="img/loader.gif", alt="Loading...")
+        if data.sequence
+          - for imgData, i in data.sequence
+            - sequenceId = id+"-"+i
+            - hide = (i == 0) ? "" : "visuallyhidden"
+            .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+      else
+        .loading.is-asset.load-indicator.text-center
+          img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+        if data.sequence
+          - for imgData, i in data.sequence
+            - sequenceId = id+"-"+i
+            - hide = (i == 0) ? "" : "visuallyhidden"
+            img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+              noscript
+                img(src= imgData.noscriptsrc)
+
+    .controls.container.hidden
+      .drag-controls(class=isDark)(class=bump)(class=lod)
+        i.left-arrow.fonticon-10-chevron-reverse
+        span.instructions.l3(class=isDark)(class=lod) DRAG
+        i.right-arrow.fonticon-10-chevron
+    
+else
+  div(class="sony-sequence dim-the-lights", id=id)
+    .outer
+      if data.background == "true"
+        .loading.load-indicator.text-center
+          img.global-loader.load-indicator(src="img/loader.gif", alt="Loading...")
+        if data.sequence
+          - for imgData, i in data.sequence
+            - sequenceId = id+"-"+i
+            - hide = (i == 0) ? "" : "visuallyhidden"
+            .image-module.track-by-background.iq-img.no-fade(id= sequenceId, class= extraclass, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+      else
+        .loading.is-asset.load-indicator.text-center
+          img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+        if data.sequence
+          - for imgData, i in data.sequence
+            - sequenceId = id+"-"+i
+            - hide = (i == 0) ? "" : "visuallyhidden"
+            img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
+              noscript
+                img(src= imgData.noscriptsrc)
+
+    .controls.container.hidden
+      .drag-controls(class=isDark)(class=bump)(class=lod)
+        i.left-arrow.fonticon-10-chevron-reverse
+        span.instructions.l3(class=isDark)(class=lod) DRAG
+        i.right-arrow.fonticon-10-chevron
