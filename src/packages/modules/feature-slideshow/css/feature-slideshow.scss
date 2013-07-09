@@ -50,8 +50,14 @@ $carouselHeight: 700px;
 $topPadding: 90px;
 $bottomPadding: 50px;
 
+$DOT_SIZE: px-em(16px);
+
 .fs-module {
   position: relative;
+
+  &.fs-editorial {
+    padding-top: $topPadding;
+  }
 
   .fs-backdrop {
     position: absolute;
@@ -136,7 +142,7 @@ $bottomPadding: 50px;
   // Create a "safe area" for the image so it doesn't take up the whole module
   &.fs-editorial .fs-slide-inner {
     // padding: 0 0 12%;
-    padding: 0 0 ( ($captionSpaceFromBottom * 2) + px-em(40px) );
+    padding: 0 0 ( ($captionSpaceFromBottom * 2) + px-em(40px) + $DOT_SIZE );
   }
 
   // In the editorial mode, make the image use its intrinsic width/height

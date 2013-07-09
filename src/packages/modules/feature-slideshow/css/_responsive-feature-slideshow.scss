@@ -19,6 +19,8 @@
   $topPadding: 40px;
   $bottomPadding: 10px;
 
+  $DOT_SIZE: px-em(16px);
+
   .fs-module {
 
     // Content is inside the slideshow at desktop, but outside below 768
@@ -28,13 +30,17 @@
     }
 
     &.fs-editorial .fs-slide-inner {
-      padding: 0 0 ( ($captionSpaceFromBottom * 2) + px-em(20px) );
+      padding: 0 0 ( ($captionSpaceFromBottom * 2) + px-em(20px) + $DOT_SIZE );
     }
 
 
     .box {
       padding-top: $topPadding;
       position: static;
+    }
+
+    &.fs-editorial .box {
+      padding: 0;
     }
 
     .caption {
