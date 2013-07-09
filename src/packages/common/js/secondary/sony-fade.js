@@ -68,11 +68,6 @@ define(function(require) {
 
       self.setupGestures();
 
-      Environment.on('global:resizeDebounced-200ms.SonyFade-' + self.id, function() {
-        var slide = Math.min.apply( Math, [self.currentSlide, self.totalSlides - 1] );
-        self.gotoSlide( slide );
-      });
-
       self.gotoSlide( 0, true );
 
       self.$el.addClass('sony-fade-active');
@@ -136,7 +131,8 @@ define(function(require) {
       var self = this,
           speed = ( noAnim ? 0 : self.animationSpeed ),
           $prevSlide,
-          $nextSlide;
+          $nextSlide,
+          isNewSlide = which !== self.currentSlide;
 
       // Next slide faded in
       function complete() {
@@ -175,27 +171,29 @@ define(function(require) {
       // Get current slide
       $nextSlide = self.$slides.eq( which );
 
-      // Get a previous slide if there is one
-      if ( which !== self.currentSlide ) {
-        $prevSlide = self.$slides.eq( self.currentSlide );
-        $prevSlide.addClass('behind');
-      }
-
       // Show this slide
       $nextSlide.addClass('on');
 
-      // Use transitions if available
-      if ( self.hasTransitions ) {
-        $nextSlide.one( Settings.transEndEventName, complete );
+      // Get a previous slide if there is one
+      if ( isNewSlide ) {
+        $prevSlide = self.$slides.eq( self.currentSlide );
+        $prevSlide.addClass('behind');
 
-      // Fallback to jQuery animate
-      } else {
-        $nextSlide.animate( { opacity: 1 }, speed, complete );
+        // Use transitions if available
+        if ( self.hasTransitions ) {
+
+          // Going to a new slide, wait for callback
+          $nextSlide.one( Settings.transEndEventName, complete );
+
+        // Fallback to jQuery animate
+        } else {
+          $nextSlide.animate( { opacity: 1 }, speed, complete );
+        }
+
+        // Delay the previous slide fading out by a little so
+        // the background isn't visible for a split second
+        setTimeout( fadeOutPrevious, self.crossfadeTimeout );
       }
-
-      // Delay the previous slide fading out by a little so
-      // the background isn't visible for a split second
-      setTimeout( fadeOutPrevious, self.crossfadeTimeout );
 
       // Update current slide index
       self.currentSlide = which;
@@ -208,6 +206,12 @@ define(function(require) {
 
       // Trigger event
       self.$el.trigger('SonyFade:gotoSlide', self.currentSlide);
+
+      // Staying on this same slide, immediately invoke callbacks
+      if ( !isNewSlide ) {
+        fadeOutPrevious();
+        complete();
+      }
     },
 
     createPagination: function () {
@@ -327,6 +331,9 @@ define(function(require) {
     loop : function() {
       var self = this;
 
+      if ( self.timer ) {
+        self.timer.clear();
+      }
       // Make falsy checks for timer false
       self.timer = null;
 
@@ -378,7 +385,6 @@ define(function(require) {
       self.$slides.css( slideStyles );
 
       // Unbind
-      Environment.off('global:resizeDebounced-200ms.SonyFade-' + self.id);
       self.$el.off('.sonyfade SonyFade:gotoSlide');
       self.$slides.off('click.sonyfade');
 

@@ -23,6 +23,7 @@ define(function(require) {
     window.iQ = {
       options: {
         speedTestExpireMinutes: 30,
+        minDevicePixelRatio: 1.3, // makes this consistent with the retina.scss stylesheet
         asyncDistance: 200, // needs to be at least 600 for the nav images to load, since they're off the top of the viewport when iQ loads.
         throttleSpeed: 300,
         updateOnResize: true,

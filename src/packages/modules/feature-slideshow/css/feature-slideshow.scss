@@ -44,11 +44,20 @@
 
 
 $captionPadding: 24px;
-$captionHeight: 54px;
+$captionSpaceFromBottom: px-em(54px);
+// $carouselHeight: 540px;
 $carouselHeight: 700px;
+$topPadding: 90px;
+$bottomPadding: 50px;
+
+$DOT_SIZE: px-em(16px);
 
 .fs-module {
   position: relative;
+
+  &.fs-editorial {
+    padding-top: $topPadding;
+  }
 
   .fs-backdrop {
     position: absolute;
@@ -64,7 +73,7 @@ $carouselHeight: 700px;
   .box {
     position: absolute;
     z-index: 1;
-    top: 20px;
+    top: $topPadding;
     left: 0;
   }
 
@@ -132,11 +141,13 @@ $carouselHeight: 700px;
 
   // Create a "safe area" for the image so it doesn't take up the whole module
   &.fs-editorial .fs-slide-inner {
-    padding: 0 0 12%;
+    // padding: 0 0 12%;
+    padding: 0 0 ( ($captionSpaceFromBottom * 2) + px-em(40px) + $DOT_SIZE );
   }
 
-  // In the editorial mode, the full image should always be seen
+  // In the editorial mode, make the image use its intrinsic width/height
   &.fs-editorial .fs-slide .iq-img {
+    // background-size: auto auto;
     background-size: contain;
   }
 
@@ -144,7 +155,7 @@ $carouselHeight: 700px;
   // Captions
   .caption {
     position: absolute;
-    bottom: $captionHeight;
+    bottom: $captionSpaceFromBottom + px-em( $bottomPadding );
     left: 0;
     right: 0;
     margin: auto;
@@ -215,7 +226,7 @@ $carouselHeight: 700px;
   }
 
   .sony-dot-nav .pagination-bullets {
-    bottom: 1.25em;
+    bottom: $bottomPadding;
   }
 }
 
