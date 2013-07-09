@@ -78,6 +78,9 @@ define(function(require){
         },
         onplay: function() {
           self.$el.removeClass('paused').addClass('playing');
+        },
+        onfinish: function() {
+          self.$el.removeClass('playing').addClass('paused');
         }
       });
 
@@ -105,8 +108,8 @@ define(function(require){
       });
     },
 
-    // Create an API of custom events that can be triggered by modules that are
-    // using `SonyAudioPlayer` as a submodule.
+    // Create an Event-driven API of custom events that can be triggered by
+    // modules that are using `SonyAudioPlayer` as a submodule.
     //
     // *Example Usage:*
     //

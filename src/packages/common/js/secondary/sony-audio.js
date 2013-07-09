@@ -84,13 +84,15 @@ define(function(require){
         currentTime = 0,
         currentSound,
         onPause,
-        onPlay;
+        onPlay,
+        onFinish;
 
     if ( !_controller ) {
       _controller = new SonyAudioController();
     }
 
     onPause = function() {
+
       currentTime = this.position;
 
       if ( config.onpause ) {
@@ -104,6 +106,15 @@ define(function(require){
       }
     };
 
+    onFinish = function() {
+
+      currentTime = 0;
+
+      if ( config.onfinish ) {
+        config.onfinish();
+      }
+    };
+
     sm.onready(function(){
       for ( var i in config.sources ) {
 
@@ -114,7 +125,8 @@ define(function(require){
           autoPlay: false,
           onpause: onPause,
           onplay: onPlay,
-          onresume: onPlay
+          onresume: onPlay,
+          onfinish: onFinish
         });
       }
 
@@ -128,8 +140,8 @@ define(function(require){
 
       // `Audio.play()`: Play the sound.
       //
-      // * `source`: the key string corresponding to one of the audio sources. If not specified,
-      //             plays the previously loaded source.
+      // * `source`: the key string corresponding to one of the audio sources.
+      //             If not specified, plays the previously loaded source.
 
       play: function(source) {
 
