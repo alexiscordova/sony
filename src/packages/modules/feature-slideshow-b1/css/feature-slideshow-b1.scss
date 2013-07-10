@@ -43,20 +43,26 @@
 
 
 
-$captionPadding: 24px;
-$captionSpaceFromBottom: px-em(54px);
-// $carouselHeight: 540px;
-$carouselHeight: 700px;
-$topPadding: 90px;
-$bottomPadding: 50px;
+$captionPadding: 18px;
+$carouselHeight: 758px;
 
-$DOT_SIZE: px-em(16px);
+$topPadding: 137px; // 145 with line-height
+$editorialTopPadding: 82px; // 90 with line-height
+
+$navDotFromBtm: 60px;
+$captionFromNavDots: 60px;
+
+$copyBtmMargin: 50px;
+
+$editorialImgSize: 80%;
+
+$DOT_SIZE: 16px;
 
 .fs-module {
   position: relative;
 
   &.fs-editorial {
-    padding-top: $topPadding;
+    padding-top: $editorialTopPadding;
   }
 
   .fs-backdrop {
@@ -75,11 +81,14 @@ $DOT_SIZE: px-em(16px);
     z-index: 1;
     top: $topPadding;
     left: 0;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &.fs-editorial .box {
     position: static;
-    margin-bottom: 22px; // from e1 layouts
   }
 
   .fs-carousel-wrapper {
@@ -92,6 +101,10 @@ $DOT_SIZE: px-em(16px);
   .copy-grid {
     position: relative;
     z-index: 2;
+  }
+
+  &.fs-editorial .copy-grid {
+    margin-bottom: $copyBtmMargin;
   }
 
   .fs-carousel {
@@ -114,11 +127,7 @@ $DOT_SIZE: px-em(16px);
 
   // Get height from parent
   .fs-carousel,
-  .fs-carousel-slide,
-  .caption .caption-inner,
-  .caption .stat-wrap,
-  .caption .stat-wrap .v-wrap,
-  .caption .caption-body {
+  .fs-carousel-slide {
     height: inherit;
   }
 
@@ -139,23 +148,17 @@ $DOT_SIZE: px-em(16px);
     background-position: center center;
   }
 
-  // Create a "safe area" for the image so it doesn't take up the whole module
-  &.fs-editorial .fs-slide-inner {
-    // padding: 0 0 12%;
-    padding: 0 0 ( ($captionSpaceFromBottom * 2) + px-em(40px) + $DOT_SIZE );
-  }
 
-  // In the editorial mode, make the image use its intrinsic width/height
   &.fs-editorial .fs-slide .iq-img {
-    // background-size: auto auto;
     background-size: contain;
+    height: $editorialImgSize; // give room for static positioned captions
   }
 
 
   // Captions
   .caption {
     position: absolute;
-    bottom: $captionSpaceFromBottom + px-em( $bottomPadding );
+    bottom: $navDotFromBtm + $DOT_SIZE + $captionFromNavDots;
     left: 0;
     right: 0;
     margin: auto;
@@ -167,7 +170,13 @@ $DOT_SIZE: px-em(16px);
 
   // .fs-slide-inner has .container on it in editorial mode
   &.fs-editorial .caption {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
     width: 100%;
+    // height: 100% - $editorialImgSize;
   }
 
   // Will get width from javascript
@@ -194,24 +203,31 @@ $DOT_SIZE: px-em(16px);
     }
   }
 
-  .caption .caption-body {
-  }
-
   // Zero margin on value and units
   .caption .stat {
     color: $secondaryMint;
     margin: 0;
     line-height: 0.85; // vertical align getting thrown off by this font-size and line height
-    white-space: nowrap;
   }
 
+  .stat.unit {
+    font-variant: small-caps;
+  }
 
   .sony-dot-nav {
     margin: 0;
   }
 
+  &.fs-editorial .sony-dot-nav {
+    margin-top: -($navDotFromBtm + $DOT_SIZE);
+  }
+
   .sony-dot-nav .pagination-bullets {
-    bottom: $bottomPadding;
+    bottom: $navDotFromBtm;
+  }
+
+  &.fs-editorial .sony-dot-nav .pagination-bullets {
+    position: static;
   }
 }
 
@@ -227,13 +243,6 @@ $DOT_SIZE: px-em(16px);
   .fs-carousel,
   .fs-carousel-slide {
     height: $carouselHeight;
-  }
-
-  .caption .caption-inner,
-  .caption .stat-wrap,
-  .caption .stat-wrap .v-wrap,
-  .caption .caption-body {
-    // height: $captionHeight;
   }
 }
 

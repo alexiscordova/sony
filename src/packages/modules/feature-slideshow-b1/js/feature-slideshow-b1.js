@@ -16,6 +16,7 @@ define(function(require) {
   'use strict';
 
   var $ = require('jquery'),
+      Modernizr = require('modernizr'),
       Environment = require('require/sony-global-environment'),
       Fade = require('secondary/sony-fade');
 
@@ -65,6 +66,7 @@ define(function(require) {
       self.threshold = data.threshold || '50%';
       self.delay = data.delay || 200;
       self.crossfade = data.crossfade || undefined;
+      self.speed = data.speed || 300;
 
       return self;
     },
@@ -85,7 +87,8 @@ define(function(require) {
       var self = this,
           widths = [],
           heights = [],
-          groups = self.evenColumnGroups;
+          groups = self.evenColumnGroups,
+          isSmallerThanTablet = Modernizr.mq( '(max-width: 47.9375em)' );
 
       // Reset
       self.$captions.css( 'width', '' );
@@ -93,6 +96,12 @@ define(function(require) {
       $.each( groups, function( i, $elements ) {
         $elements.css('height', '');
       });
+
+      // Width and height should be reset in case the user goes from desktop to mobile,
+      // but the dimensions do not need to be set.
+      if ( isSmallerThanTablet ) {
+        return;
+      }
 
 
       // Add up stat and copy width and save it
@@ -135,6 +144,7 @@ define(function(require) {
 
       self.fade = new Fade( self.$slideContainer, {
         slides: '.fs-slide',
+        animationSpeed: self.speed,
         crossfade: self.crossfade,
         $dotNavWrapper: self.$wrapper
       });
