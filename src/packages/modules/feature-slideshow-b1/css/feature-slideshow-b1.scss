@@ -199,25 +199,10 @@ $DOT_SIZE: px-em(16px);
 
   // Zero margin on value and units
   .caption .stat {
-    color: inherit;
+    color: $secondaryMint;
     margin: 0;
     line-height: 0.85; // vertical align getting thrown off by this font-size and line height
     white-space: nowrap;
-  }
-
-
-  // Animation states
-  // everything else needs to be hidden
-  &.animation-pending {
-
-    .caption,
-    .pagination-paddles,
-    .pagination-bullets {
-      opacity: 0;
-    }
-  }
-
-  &.animation-complete {
   }
 
 
@@ -233,14 +218,6 @@ $DOT_SIZE: px-em(16px);
 // IE8 and 7 styles
 .lt-ie9 .fs-module {
 
-  &.animation-pending .pagination-paddles,
-  &.animation-pending .pagination-bullets {
-    display: none;
-  }
-  &.animation-complete .pagination-paddles,
-  &.animation-complete .pagination-bullets {
-    display: block;
-  }
 }
 
 // IE7 styles

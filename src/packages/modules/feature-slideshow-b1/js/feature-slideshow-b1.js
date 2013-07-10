@@ -16,13 +16,8 @@ define(function(require) {
   'use strict';
 
   var $ = require('jquery'),
-      // Modernizr = require('modernizr'),
-      // iQ = require('iQ'),
-      // Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment'),
-      // sonyCarousel = require('secondary/index').sonyCarousel,
-      Fade = require('secondary/sony-fade'),
-      Viewport = require('secondary/index').sonyViewport;
+      Fade = require('secondary/sony-fade');
 
   var FeatureSlideshow = function( element ) {
     var self = this;
@@ -49,20 +44,6 @@ define(function(require) {
       self.setupCarousel();
       self.subscribeToEvents();
       self.onResize();
-
-      Viewport.add({
-        element: self.element,
-        threshold: self.threshold,
-        delay: self.delay,
-        enter: function() {
-          self.fadeInCarouselContent();
-          // self.fade.play();
-        },
-        leave: function() {
-          // self.fade.pause();
-        }
-      });
-
     },
 
     setVars : function() {
@@ -93,8 +74,6 @@ define(function(require) {
 
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
-      // self.$slideContainer.on( 'SonyFade:gotoSlide', $.proxy( self.onGoToSlide, self ) );
-      // self.$slideContainer.on( 'SonyFade:AnimationComplete', $.proxy( self.onSlideAnimationComplete, self ) );
     },
 
     onResize : function() {
@@ -148,7 +127,6 @@ define(function(require) {
       $.each( groups, function( i, $elements ) {
         $elements.css( 'height', heights[ i ] );
       });
-
     },
 
     // Main setup method for the carousel
@@ -166,16 +144,6 @@ define(function(require) {
       self.$wrapper.find('.pagination-paddles').addClass('container');
 
       return self;
-    },
-
-    // Image sequence finished
-    fadeInCarouselContent : function() {
-      var self = this;
-
-      self.$el.removeClass('animation-pending').addClass('animation-complete');
-
-      // Fade in copy
-      self.$el.find('.js-copy').addClass('in');
     }
   };
 

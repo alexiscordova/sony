@@ -28,7 +28,6 @@ mixin caption( caption )
   statValue = caption.stat && caption.stat.value ? caption.stat.value : "0.00"
   statUnit = caption.stat && caption.stat.unit ? caption.stat.unit : false
   statDescription = caption.description ? caption.description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
-  toneColor = caption.stat && caption.stat.color ? caption.stat.color : "red"
 
   captionClasses = [ "caption" ]
 
@@ -39,7 +38,7 @@ mixin caption( caption )
     .media.caption-inner
       div(class=[ "pull-left", "text-center", "stat-wrap", "js-even-col" ])
         .table-center-wrap.v-wrap
-          .table-center(class="text-" + toneColor)
+          .table-center
             span.t2-light.stat.value !{ statValue }
             if statUnit
               span.p4.stat.unit !{ statUnit }
@@ -52,7 +51,7 @@ mixin copyGrid( data )
   copyStyle = data.style ? data.style : "dark-text-trans-box"
 
   div(class=[ "grid", "no-grid-at-767", copyStyle ])
-    .span6.box.js-copy.fade
+    .span6.box
       block
 
 
@@ -88,7 +87,7 @@ threshold = data.threshold ? data.threshold : false
 delay = data.delay ? data.delay : false
 
 //- Main section wrapper for slides
-+mainElement( [ "fs-module", mode, "animation-pending" ] )
++mainElement( [ "fs-module", mode ] )
   if data.backdrop
     +iQBackgroundImage( data.backdrop, 'update-always fs-backdrop' )
   .container.copy-grid
