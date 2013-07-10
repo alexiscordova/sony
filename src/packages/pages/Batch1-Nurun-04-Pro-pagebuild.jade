@@ -25,26 +25,29 @@ body
         //- E6.C2 Editorial + Hotspots
         +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-hotspots-e6/e6.c2.container-rx100.json')
 
-        //- E1 with E5 as submodule and E1's as E5's submodules - Editorial Chapters
-        //- +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/layout-e1-full-D-C-vaio-fit.json')
+        //- E1.V1 - Editorial Layouts
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/tout-2up-vertical-66-DL-L-example1.json')
 
-        //- Editorial Feature List - TODO: move data to /pages/
-        //- +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-feature-list-b1/demo/data/mediaright-57-D-L-fit.json')
-
-        //- E4_A1 - Editorial Slideshow
-        //- +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/full-left-102-D-L-vaio-fit-pdp.json')
+        //- E5 with E1s
+        +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/pages/data/editorial-chapters-e5/layout-pdp-vaio-pro.json')
 
         //- E1_? - Editorial Layouts
-        //- +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/tout-3up-444-D-C-vaio-fit.json')
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/tout-3up-444-D-C-vaio-pro.json')
+
+        //- E4_A1 - Editorial Slideshow
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/full-left-102-D-L-vaio-pro-pdp.json')
+
+        //- E1 full inner right
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/full-inner-right-75-LD-R-vaio-pro-04.json')
+
+        //- E1.N2
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/tout-2up-horizontal-66-DL-L-vaio-pro.json')
 
         //- S3_B1 - Secondary Tout
-        //- +partial("secondary-touts-s1-s4/html/secondary-tout-s3.jade", "packages/pages/data/secondary-tout-s3/vaio-fit-keys.json")
-
-        //- S3_B1 - Secondary Tout
-        //- +partial("secondary-touts-s1-s4/html/secondary-tout-s3.jade", "packages/pages/data/secondary-tout-s3/vaio-fit-sound.json")
+        +partial("secondary-touts-s1-s4/html/secondary-tout-s3.jade", "packages/pages/data/secondary-tout-s3/vaio-pro-nfc.json")
 
         //- D5_? - Product Details
-        //- +partial('product-details-d5/html/product-details-d5.jade', 'packages/pages/data/product-details-d5/product-details-d5-rx100.json')
+        +partial('product-details-d5/html/product-details-d5.jade', 'packages/pages/data/product-details-d5/product-details-d5-rx100.json')
 
 
       +scrollToTop
