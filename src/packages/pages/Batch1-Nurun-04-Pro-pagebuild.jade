@@ -3,7 +3,7 @@ doctype 5
 include ../common/html/ieconditionals.html
 
 head
-  title Pro
+  title VAIO Pro
   include ../common/html/head.jade
 
 body
@@ -13,8 +13,41 @@ body
       !{partial('packages/modules/global-header-footer/html/global-header.jade', e)}
       #main(role='main')
 
-        //- Cookie Alert
-        +partial("cookie-policy/html/cookie-policy.jade", "packages/pages/data/cookie-policy/cookie-policy-example.json")
+        //- P2_B1 - Product Intro Plate
+        +partial('primary-tout-p1-d7/html/primary-tout-p1-d7.jade', 'packages/pages/data/primary-tout-p1-d7/pdp-DL-R-vaio-pro.json')
+
+        //- D1.D2 - Product Summary
+        +partial('product-summary-d1-d2/html/product-summary-d1-d2.jade', 'packages/pages/data/product-summary-d1-d2/vaio-pro-pdp.json')
+
+        //- Feature Slideshow - TODO: move data to /pages/
+        +partial('feature-slideshow-b1/html/feature-slideshow-b1.jade', 'packages/modules/feature-slideshow-b1/demo/data/feature-slideshow-default.json')
+
+        //- E6.C2 Editorial + Hotspots
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-hotspots-e6/e6.c2.container-rx100.json')
+
+        //- E1.V1 - Editorial Layouts
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/editorial-layouts-e1/demo/data/tout-2up-vertical-66-DL-L-example1.json')
+
+        //- E5 with E1s
+        +partial('editorial-chapters-e5/html/editorial-chapters-e5.jade', 'packages/pages/data/editorial-chapters-e5/layout-pdp-vaio-pro.json')
+
+        //- E1_? - Editorial Layouts
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/tout-3up-444-D-C-vaio-pro.json')
+
+        //- E4_A1 - Editorial Slideshow
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/full-left-102-D-L-vaio-pro-pdp.json')
+
+        //- E1 full inner right
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/full-inner-right-75-LD-R-vaio-pro-04.json')
+
+        //- E1.N2
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/editorial-layouts-e1/tout-2up-horizontal-66-DL-L-vaio-pro.json')
+
+        //- S3_B1 - Secondary Tout
+        +partial("secondary-touts-s1-s4/html/secondary-tout-s3.jade", "packages/pages/data/secondary-tout-s3/vaio-pro-nfc.json")
+
+        //- D5_? - Product Details
+        +partial('product-details-d5/html/product-details-d5.jade', 'packages/pages/data/product-details-d5/product-details-d5-rx100.json')
 
 
       +scrollToTop

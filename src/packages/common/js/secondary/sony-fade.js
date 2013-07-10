@@ -115,8 +115,8 @@ define(function(require) {
       var self = this;
 
       self.$el.hammer();
-      self.$el.on('swipeleft.sonyfade', $.proxy( self.prev, self ));
-      self.$el.on('swiperight.sonyfade', $.proxy( self.next, self ));
+      self.$el.on('swipeleft.sonyfade', $.proxy( self.next, self ));
+      self.$el.on('swiperight.sonyfade', $.proxy( self.prev, self ));
     },
 
     next: function() {
