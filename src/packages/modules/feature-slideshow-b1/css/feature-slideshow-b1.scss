@@ -15,9 +15,9 @@
   }
 }
 
-@for $i from 1 through 20 {
+@for $i from 1 through 5 {
   .fs-spacing:nth-of-type(#{$i}) {
-    background-color: hsl(0, 0%, $i * 5%);
+    background-color: hsl(0, 0%, $i * 20%);
   }
 }
 
@@ -49,8 +49,9 @@ $carouselHeight: 758px;
 $topPadding: 137px; // 145 with line-height
 $editorialTopPadding: 82px; // 90 with line-height
 
-$navDotFromBtm: 60px;
-$captionFromNavDots: 60px;
+$navDotFromBtm: 40px;
+$captionFromNavDots: 40px;
+$editorialNavDotFromBtm: 60px;
 
 $copyBtmMargin: 50px;
 
@@ -219,7 +220,7 @@ $DOT_SIZE: 16px;
   }
 
   &.fs-editorial .sony-dot-nav {
-    margin-top: -($navDotFromBtm + $DOT_SIZE);
+    margin-top: -($editorialNavDotFromBtm + $DOT_SIZE);
   }
 
   .sony-dot-nav .pagination-bullets {
