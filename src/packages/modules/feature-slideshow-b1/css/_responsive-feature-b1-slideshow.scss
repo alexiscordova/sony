@@ -15,49 +15,78 @@
 @media (max-width: px-em(767)) {
 
   $captionPadding: 12px;
-  $captionSpaceFromBottom: 2em;
-  $topPadding: 40px;
-  $bottomPadding: 10px;
+  $topPadding: 35px; // 40 with line-height
+  $editorialTopPadding: 30px; // 35 with line-height
 
-  $DOT_SIZE: px-em(16px);
+  $navDotFromBtm: 30px;
+  $captionFromNavDots: 20px;
+  $editorialNavDotFromBtm: 30px;
+  $statBtmMargin: 9px; // 20 with line-height
+
+  $copyBtmMargin: 25px;
+
+  $DOT_SIZE: 16px;
 
   .fs-module {
 
-    // Content is inside the slideshow at desktop, but outside below 768
-    // When it's outside, it shouldn't fade in
-    .copy-grid .fade {
-      opacity: 1;
+    &.fs-editorial {
+      padding-top: $editorialTopPadding;
     }
 
-    &.fs-editorial .fs-slide-inner {
-      padding: 0 0 ( ($captionSpaceFromBottom * 2) + px-em(20px) + $DOT_SIZE );
+    &.fs-editorial .copy-grid {
+      margin-bottom: $copyBtmMargin;
     }
-
 
     .box {
-      padding-top: $topPadding;
-      position: static;
+      top: $topPadding;
+      // padding-top: $topPadding;
+      // position: static;
     }
 
     &.fs-editorial .box {
-      padding: 0;
+      padding-top: 0;
     }
 
-    .caption {
+    // Reposition caption
+    .fs-carousel .caption {
       // bottom: 30px;
-      bottom: $captionSpaceFromBottom + px-em( $bottomPadding );
+      bottom: $navDotFromBtm + $DOT_SIZE + $captionFromNavDots;
       // bottom: auto;
       // top: 75%;
       width: $mobileContainerPlusGridWidth;
     }
 
-    .sony-dot-nav .pagination-bullets {
-      bottom: $bottomPadding;
+    // Put stat above description
+    .stat-wrap {
+      float: none;
+      padding: 0;
+      margin: 0 0 $statBtmMargin;
+
+      // Remove divider
+      &:after {
+        content: none;
+      }
     }
 
-    .tone {
-      padding-right: $captionPadding;
-      margin-right: $captionPadding;
+    // Let text-align work, reset table-centering
+    .caption .table-center-wrap,
+    .caption .table-center {
+      display: block;
+    }
+
+    // Center description
+    .caption-body {
+      text-align: center;
+    }
+
+    &.fs-editorial .sony-dot-nav {
+      margin-top: 0;
+      padding-bottom: $editorialNavDotFromBtm;
+    }
+
+    // Resposition nav dots
+    .sony-dot-nav .pagination-bullets {
+      bottom: $navDotFromBtm;
     }
   }
 }
@@ -71,30 +100,35 @@ $tabletMax: px-em(979);
 $superDesktop: px-em(1200);
 
 .fs-module .fs-carousel-wrapper {
+  // Default size is 758px
 
+  // >= 1200
   @media (min-width: $superDesktop) {
     // height: 620px;
     // height: 800px;
   }
 
+  // 768-979
   @media (min-width: $tabletMin) and (max-width: $tabletMax) {
-    height: 440px;
+    height: 620px;
   }
 
+  // < 768
   @media (max-width: $phoneMax) {
-    height: auto;
+    height: 550px;
 
-    .fs-carousel {
-      height: 320px;
-    }
+    // .fs-carousel {
+    //   height: 480px;
+    // }
   }
 
+  // < 480
   @media (max-width: $subPhoneMax){
-    height: auto;
+    height: 500px;
 
-    .fs-carousel {
-      height: 320px;
-    }
+    // .fs-carousel {
+    //   height: 360px;
+    // }
   }
 }
 

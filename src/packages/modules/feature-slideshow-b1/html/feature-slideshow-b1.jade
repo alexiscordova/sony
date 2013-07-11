@@ -25,10 +25,11 @@ mixin featureSlide( data )
 
 mixin caption( caption )
   caption = caption ? caption : {}
-  statValue = caption.stat && caption.stat.value ? caption.stat.value : "0.00"
-  statUnit = caption.stat && caption.stat.unit ? caption.stat.unit : false
+  stat = caption.stat ? caption.stat : {}
+  statValue = stat.value ? stat.value : "0.00"
+  statUnit = stat.unit ? stat.unit : false
+  isSuperScript = stat.superscript != null ? stat.superscript : false
   statDescription = caption.description ? caption.description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
-  toneColor = caption.stat && caption.stat.color ? caption.stat.color : "red"
 
   captionClasses = [ "caption" ]
 
@@ -39,10 +40,13 @@ mixin caption( caption )
     .media.caption-inner
       div(class=[ "pull-left", "text-center", "stat-wrap", "js-even-col" ])
         .table-center-wrap.v-wrap
-          .table-center(class="text-" + toneColor)
-            span.t2-light.stat.value !{ statValue }
-            if statUnit
-              span.p4.stat.unit !{ statUnit }
+          .table-center
+            span.t1-light.stat.value !{ statValue }
+            if statUnit && isSuperScript
+              sup
+                span.t1-light.stat.unit !{ statUnit }
+            else if statUnit
+              span.t1-light.stat.unit !{ statUnit }
       .media-body.caption-body.table-center-wrap.js-even-col
         .table-center
           p.t5-light.text-dark !{ statDescription }
@@ -52,30 +56,27 @@ mixin copyGrid( data )
   copyStyle = data.style ? data.style : "dark-text-trans-box"
 
   div(class=[ "grid", "no-grid-at-767", copyStyle ])
-    .span6.box.js-copy.fade
+    .span6.box
       block
 
 
 mixin copyBlock( data )
-  titleClass = isSlideshowMode ? "t3-bold" : "t2"
-  subtitleClass = isSlideshowMode ? "t7" : "t6"
-  bodyClass = isSlideshowMode ? "p3" : "p2"
-  linkClass = isSlideshowMode ? "lt2" : "lt3"
+  titleClass = "t2"
+  //- subtitleClass = "t6"
+  bodyClass = "p1"
+  linkClass = "lt3"
 
   +copyGrid( data )
     if data.title
       h2(class=titleClass) !{data.title}
-    if data.subtitle
-      h3(class=subtitleClass) !{data.subtitle}
+    //- if data.subtitle
+    //-   h3(class=subtitleClass) !{data.subtitle}
     if data.body
       p(class=bodyClass) !{data.body}
   if data.link
     .link
       linktextsize = data.link.type == "txt" ? linkClass : ""
       +link(data.link, [data.link.type, linktextsize])
-  else if data.addon
-    e = { "locals" : locals, "data" : data.addon }
-    !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
 
 
 //- Default mode to slideshow
@@ -88,7 +89,7 @@ threshold = data.threshold ? data.threshold : false
 delay = data.delay ? data.delay : false
 
 //- Main section wrapper for slides
-+mainElement( [ "fs-module", mode, "animation-pending" ] )
++mainElement( [ "fs-module", mode ] )
   if data.backdrop
     +iQBackgroundImage( data.backdrop, 'update-always fs-backdrop' )
   .container.copy-grid
