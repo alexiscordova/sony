@@ -29,30 +29,13 @@
 
   .fs-module {
 
-    &.fs-editorial {
-      padding-top: $editorialTopPadding;
-    }
-
-    &.fs-editorial .copy-grid {
-      margin-bottom: $copyBtmMargin;
-    }
-
     .box {
       top: $topPadding;
-      // padding-top: $topPadding;
-      // position: static;
-    }
-
-    &.fs-editorial .box {
-      padding-top: 0;
     }
 
     // Reposition caption
     .fs-carousel .caption {
-      // bottom: 30px;
       bottom: $navDotFromBtm + $DOT_SIZE + $captionFromNavDots;
-      // bottom: auto;
-      // top: 75%;
       width: $mobileContainerPlusGridWidth;
     }
 
@@ -79,17 +62,41 @@
       text-align: center;
     }
 
-    &.fs-editorial .sony-dot-nav {
-      margin-top: 0;
-      padding-bottom: $editorialNavDotFromBtm;
-    }
-
     // Resposition nav dots
     .sony-dot-nav .pagination-bullets {
       bottom: $navDotFromBtm;
     }
   }
+
+
+  // Editorial mode
+  .fs-editorial {
+    padding-top: $editorialTopPadding;
+
+    .copy-grid {
+      margin-bottom: $copyBtmMargin;
+    }
+
+    .box {
+      padding-top: 0;
+    }
+
+    .fs-slide-inner {
+      position: static;
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+    }
+
+    .sony-dot-nav {
+      margin-top: 0;
+      padding-top: 17px;
+      padding-bottom: $editorialNavDotFromBtm;
+    }
+  }
 }
+
 
 
 $subPhoneMax: px-em(479);
@@ -99,36 +106,71 @@ $tabletMin: px-em(768);
 $tabletMax: px-em(979);
 $superDesktop: px-em(1200);
 
-.fs-module .fs-carousel-wrapper {
-  // Default size is 758px
 
-  // >= 1200
-  @media (min-width: $superDesktop) {
-    // height: 620px;
-    // height: 800px;
+// >= 1200
+@media (min-width: $superDesktop) {
+
+  .fs-module {
+
+  }
+}
+
+// 768-979
+@media (min-width: $tabletMin) and (max-width: $tabletMax) {
+
+  .fs-module {
+
+    .box {
+      top: 82px;
+    }
+
+    .fs-carousel-wrapper {
+      height: 620px;
+    }
+  }
+}
+
+// < 768
+@media (max-width: $phoneMax) {
+
+  .fs-module {
+
+    .fs-carousel-wrapper {
+      height: 550px;
+    }
   }
 
-  // 768-979
-  @media (min-width: $tabletMin) and (max-width: $tabletMax) {
-    height: 620px;
+  .fs-editorial {
+
+    .fs-carousel-wrapper {
+      height: auto;
+
+      .fs-slide .iq-img {
+        height: 240px;
+      }
+    }
+  }
+}
+
+// < 480
+@media (max-width: $subPhoneMax){
+
+  .fs-module {
+
+    .fs-carousel-wrapper {
+      height: 500px;
+    }
   }
 
-  // < 768
-  @media (max-width: $phoneMax) {
-    height: 550px;
+  .fs-editorial {
 
-    // .fs-carousel {
-    //   height: 480px;
-    // }
-  }
+    .fs-carousel-wrapper {
+      height: auto;
 
-  // < 480
-  @media (max-width: $subPhoneMax){
-    height: 500px;
-
-    // .fs-carousel {
-    //   height: 360px;
-    // }
+      .fs-slide .iq-img {
+        height: 180px;
+      }
+    }
   }
 }
 
