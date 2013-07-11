@@ -106,7 +106,7 @@ mixin boxlayout(_layout)
         +boxlayout
           if data.copy
             +copyblock(data.copy, "t3-bold", "t7", "p3")    
-    div(class="sony-sequence dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed, data-sequence-label-left=labelLeft, data-sequence-label-right=labelRight )
+    div(class="sony-sequence container dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed, data-sequence-label-left=labelLeft, data-sequence-label-right=labelRight )
       .outer
         if data.background == "true"
           .loading.load-indicator.text-center
@@ -138,7 +138,7 @@ mixin boxlayout(_layout)
           i.right-arrow.fonticon-10-chevron
       
   else
-    div(class="sony-sequence dim-the-lights", id=id)
+    div(class="sony-sequence container dim-the-lights", id=id)
       .outer
         if data.background == "true"
           .loading.load-indicator.text-center
