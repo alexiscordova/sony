@@ -234,10 +234,9 @@ define(function(require) {
             '-ms-filter': ''
           });
         }, 900);
-        $elm.data('hasLoaded', true);
-        $elm.trigger('imageLoaded');
       }
-      $elm.trigger('imageReLoaded');
+      $elm.data('hasLoaded', true);
+      $elm.trigger('imageLoaded');
     },
 
     loadImages = function(resizing, rotating, update) {
