@@ -110,7 +110,7 @@ define(function(require) {
             mediaWidth = $media.find('.stat-wrap').outerWidth( true ),
             bodyWidth = $media.find('.caption-body').outerWidth();
 
-        widths.push( mediaWidth + bodyWidth );
+        widths.push( mediaWidth + bodyWidth + 1 ); // +1 is for FF being dumb
       });
 
       $.each( groups, function( i, $elements ) {

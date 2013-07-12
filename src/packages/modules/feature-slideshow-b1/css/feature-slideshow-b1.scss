@@ -62,10 +62,6 @@ $DOT_SIZE: 16px;
 .fs-module {
   position: relative;
 
-  &.fs-editorial {
-    padding-top: $editorialTopPadding;
-  }
-
   .fs-backdrop {
     position: absolute;
     top: 0;
@@ -88,10 +84,6 @@ $DOT_SIZE: 16px;
     }
   }
 
-  &.fs-editorial .box {
-    position: static;
-  }
-
   .fs-carousel-wrapper {
     position: relative;
     z-index: 1;
@@ -102,10 +94,6 @@ $DOT_SIZE: 16px;
   .copy-grid {
     position: relative;
     z-index: 2;
-  }
-
-  &.fs-editorial .copy-grid {
-    margin-bottom: $copyBtmMargin;
   }
 
   .fs-carousel {
@@ -150,12 +138,6 @@ $DOT_SIZE: 16px;
   }
 
 
-  &.fs-editorial .fs-slide .iq-img {
-    background-size: contain;
-    height: $editorialImgSize; // give room for static positioned captions
-  }
-
-
   // Captions
   .caption {
     position: absolute;
@@ -167,17 +149,6 @@ $DOT_SIZE: 16px;
     // For fading in
     opacity: 1;
     @include transition( .2s ease-out );
-  }
-
-  // .fs-slide-inner has .container on it in editorial mode
-  &.fs-editorial .caption {
-    position: static;
-    top: auto;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    // height: 100% - $editorialImgSize;
   }
 
   // Will get width from javascript
@@ -219,18 +190,51 @@ $DOT_SIZE: 16px;
     margin: 0;
   }
 
-  &.fs-editorial .sony-dot-nav {
+  .sony-dot-nav .pagination-bullets {
+    bottom: $navDotFromBtm;
+  }
+}
+
+
+// Editorial mode
+.fs-editorial {
+  padding-top: $editorialTopPadding;
+
+  .box {
+    position: static;
+  }
+
+  .copy-grid {
+    margin-bottom: $copyBtmMargin;
+  }
+
+  .fs-slide .iq-img {
+    background-size: contain;
+    height: $editorialImgSize; // give room for static positioned captions
+  }
+
+  // .fs-slide-inner has .container on it in editorial mode
+  .caption {
+    position: static;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+  }
+
+  .sony-dot-nav {
     margin-top: -($editorialNavDotFromBtm + $DOT_SIZE);
   }
 
   .sony-dot-nav .pagination-bullets {
-    bottom: $navDotFromBtm;
-  }
-
-  &.fs-editorial .sony-dot-nav .pagination-bullets {
     position: static;
   }
 }
+
+
+
+
 
 // IE8 and 7 styles
 .lt-ie9 .fs-module {
