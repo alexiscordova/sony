@@ -15,7 +15,6 @@
 // *Refacting/improvement/performance Notes:*
 //
 // * pluck() would be faster if the image IDs were cached in an object instead of iterated through each time
-// * loadSequence() needs to be slightly refactored so as not to cause so many style recalcs.
 // * Use the `.grab` and `.grabbing` utilitiy classes for cursors (the gmail cursor could be added as a fallback to that too)
 
 define(function(require) {
@@ -26,6 +25,7 @@ define(function(require) {
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
       Settings     = require( 'require/sony-global-settings' ),
+      Environment  = require( 'require/sony-global-environment' ),
       hammer       = require( 'plugins/index' ).hammer,
       Viewport     = require( 'secondary/sony-viewport' );
 
@@ -86,43 +86,24 @@ define(function(require) {
       log('SONY : Editorial SonySequence Module : Initialized');
     },
 
-    lockAndLoaded: function() {
-      var self = this;
-
-      self.syncControlLayout();
-      self.curLoaded++;
-      self.checkLoaded();
-    },
-
     // checks the payload against the loaded image
     checkLoaded: function() {
       var self = this;
 
       if ( self.sequenceLength === self.curLoaded ) {
-        log( 'all 360 assets loaded' );
-        self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
-        self.$container.find( '.load-indicator' ).addClass( 'hidden' );
-        self.syncControlLayout();
-
-        // if we have setup to autoplay
-        if ( self.options.autoplay ) {
-          self.startAnimation('left');
-        } else {
-          self.initBehaviors();
-        }
-
-        // if the user wants bar controls we need to populate the dom
-        if ( self.options.barcontrols && !self.options.autoplay ) {
-          self.createBarControl();
-        }
-
+        self.sequenceLoaded();
       }
     },
 
     syncControlLayout: function() {
-      var self = this;
-      var _assetWidth = self.$sequence.eq( self.curIndex ).width();
-      self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
+      var self = this,
+          $tableCenter = self.$controls.find( '.table-center' ),
+          _assetWidth;
+
+      if ( $tableCenter.length ) {
+        _assetWidth = self.$sequence.eq( self.curIndex ).width();
+        $tableCenter.css( 'width', _assetWidth );
+      }
     },
 
 
@@ -367,48 +348,53 @@ define(function(require) {
 
     // this will load the sequence of images
     loadSequence: function() {
-      var self = this;
+      var self = this,
 
-      self.$sequence.addClass('visuallyhidden');
+      // Checking more than every 200ms isn't necessary
+      debouncedCheck = $.debounce( 200, $.proxy( self.checkLoaded, self ) ),
 
-      self.$sequence.each(function( index ) {
-        var el = $(this);
+      // Always increment loaded count, then check
+      check = function() {
+        self.curLoaded++;
+        debouncedCheck();
+      };
 
-        // remove the hidden class
-        self.$sequence.eq(index).removeClass('visuallyhidden');
+      self.$sequence.each(function( index, element ) {
+        var $el = $( element ),
+            iQEvent = $el.is( 'div' ) ? 'iQ:imageLoaded' : 'imageLoaded',
+            hasLoaded = $el.data('hasLoaded');
 
-        // so iQ can catch on
-        //self.$win.trigger('resize');
-
-        // now we can hide the element again?
-        self.$sequence.eq(index).addClass('visuallyhidden');
-
-        // is the BG image loaded?
-        if (  el.data('hasLoaded') ) {
-          self.syncControlLayout();
-          self.curLoaded++;
-          self.checkLoaded();
+        // is the image loaded?
+        if ( hasLoaded ) {
+          check();
         } else {
-          // its not a preloaded background
-          if ( el.is( 'div' ) ) {
-            el.on( 'iQ:imageLoaded', $.proxy(self.lockAndLoaded, self) );
-          } else {
-            // check if the inline images are cached
-            if ( !this.complete ) {
-              // not cached, listen for load event
-              el.onload = self.lockAndLoaded;
-            } else {
-              // cached, count it against the payload
-              self.syncControlLayout();
-              self.curLoaded++;
-              self.checkLoaded();
-            }
-          }
+          $el.on( iQEvent, check );
         }
       });
+    },
 
-      // now show the first sequence again
-      self.$sequence.eq(0).removeClass('visuallyhidden');
+    sequenceLoaded : function() {
+      var self = this;
+
+      // Fade in container
+      self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
+
+      // Hide loader
+      self.$container.find( '.load-indicator' ).addClass( 'hidden' );
+
+      self.syncControlLayout();
+
+      // Optionally setup autoplay
+      if ( self.options.autoplay ) {
+        self.startAnimation('left');
+      } else {
+        self.initBehaviors();
+      }
+
+      // if the user wants bar controls we need to populate the dom
+      if ( self.options.barcontrols && !self.options.autoplay ) {
+        self.createBarControl();
+      }
     },
 
     startAnimation: function(direction) {
@@ -454,6 +440,7 @@ define(function(require) {
             drag : function( event ) {
               var direction = event.gesture.direction;
 
+              // Only call if moved left or right
               if ( 'left' === direction || 'right' === direction ) {
                 self.touchMove( event );
               }
@@ -472,7 +459,7 @@ define(function(require) {
       // No touch events
       } else {
         // trigger UI indication (Desktop)
-        $( window ).on( 'scroll', function( event ) {
+        self.$win.on( 'scroll', function( event ) {
           self.onScroll( event );
         });
 
@@ -486,7 +473,7 @@ define(function(require) {
         });
 
         // track mousemove
-        $( self.$controls ).on( 'mousemove', function( event ) {
+        self.$controls.on( 'mousemove', function( event ) {
           self.mouseMove( event );
         });
       }
@@ -500,9 +487,7 @@ define(function(require) {
       }, 500);
 
       // reset the step buffer when the window changes size
-      $( window ).on( 'resize', function( event ) {
-        self.onResize( event );
-      });
+      Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
 
       // adjust controls to center if type is image
       if ( self.isImage ) {
@@ -516,24 +501,10 @@ define(function(require) {
 
     },
 
-    // easeSwipe: function( event ) {
-    //   var self = this;
-    //   // is the swipe greater than one movement
-    //   // where  (container.width / sequence.length-1) / 3 = one step
-    //   var assetWidth      = $( self.$sequence[self.curIndex] ).width(),
-    //       swipeDistance   = event.gesture.distance,
-    //       sequenceLength  = self.sequenceLength - 1,
-    //       stepSize        = ( assetWidth / sequenceLength ) / self.throttle,
-    //       shouldEase      = ( 0 < ( swipeDistance - stepSize ) ) ? ( swipeDistance - stepSize ) : false;
-    // },
-
     onResize: function() {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       self.syncControlLayout();
-      // if ( true === self.isImage ) {
-
-      // }
     },
 
     onScroll: function() {
@@ -542,10 +513,6 @@ define(function(require) {
       if ( !self.inMotion ) {
         self.inMotion = true;
         self.animateDragger();
-      }
-
-      if ( self.isImage ) {
-        self.syncControlLayout();
       }
     },
 

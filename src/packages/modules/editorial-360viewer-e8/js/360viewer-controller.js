@@ -39,16 +39,16 @@ define(function(require){
             opts = {};
 
         // since users have the ability to pass in true // false for some options we cannot simply
-        // check if (options) { do stuff }, since if they set the option to false it will affect the 
-        // overall functionality. Also we do not want to pass in options when the users avoid 
-        // adding them to the jade. 
+        // check if (options) { do stuff }, since if they set the option to false it will affect the
+        // overall functionality. Also we do not want to pass in options when the users avoid
+        // adding them to the jade.
         if (typeof data.sequenceAutoplay != 'undefined') { opts.autoplay = data.sequenceAutoplay; }
         if (typeof data.sequenceViewcontrols != 'undefined') { opts.viewcontrols = data.sequenceViewcontrols; }
         if (typeof data.sequenceBarcontrols != 'undefined') { opts.barcontrols = data.sequenceBarcontrols; }
         if (typeof data.sequenceLoop != 'undefined') { opts.loop = data.sequenceLoop; }
         if (data.sequenceAnimationSpeed != 'undefined') { opts.animationspeed = data.sequenceAnimationSpeed; }
         if (data.sequenceLabelLeft) { opts.labelLeft = data.sequenceLabelLeft; }
-        if (data.sequenceLabelRight) { opts.labelRight = data.sequenceLabelRight; }          
+        if (data.sequenceLabelRight) { opts.labelRight = data.sequenceLabelRight; }
 
         self.editorial360 = new SonySequence( el, opts);
       });
