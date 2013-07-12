@@ -137,20 +137,20 @@ define(function(require) {
           maxWidth = self.sliderControlWidth,
           sequenceLength = self.sequenceLength - 1,
           sequenceDepth = 0,
-          lastIndex = self.sequenceIndex;
+          lastIndex = self.curIndex;
 
       sequenceDepth = ( positon / maxWidth );
       // we need to determine if it's the 360 module or image sequence
       // why? Because an image sequence needs to go from start to finish with no loop,
       // a 360 module needs to loop back to the first index.
       if (self.is360) {
-        self.sequenceIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
+        self.curIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
       } else {
-        self.sequenceIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength - 1);
+        self.curIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength - 1);
       }
 
-      if ( self.sequenceIndex < 0 ) {
-        self.sequenceIndex = 0;
+      if ( self.curIndex < 0 ) {
+        self.curIndex = 0;
       }
 
       if ( !self.$sequence.eq( lastIndex ).length ) {
@@ -159,7 +159,7 @@ define(function(require) {
 
       // Show the current, hide the others
       self.$sequence
-        .eq( self.sequenceIndex )
+        .eq( self.curIndex )
         .removeClass( 'visuallyhidden' )
         .siblings()
         .addClass( 'visuallyhidden' );
@@ -187,7 +187,7 @@ define(function(require) {
     // get the demensions, will need to recalculate on resize
     sliderGetDimensions: function() {
       var self = this;
-      self.sliderControlWidth = (self.$sliderControl.width() - 20);
+      self.sliderControlWidth = (self.$sliderControl.width());
       return (self.sliderControlWidth);
     },
 
@@ -205,12 +205,19 @@ define(function(require) {
       // get the sldie value positions
       pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
-      pagePos = Math.max(-20, pagePos);
+      pagePos = Math.max(-24, pagePos);
 
       if (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
         ratio = pagePos / self.sliderControlWidth;
         value = self.sliderRatioToValue(ratio);
+
+        console.log(self.sliderControlWidth, pagePos);
+
+        //check if the slider is beyond its bounds
+        if (pagePos >= (self.sliderControlWidth-35) || pagePos <= -24) {
+          return false;
+        }
 
         //set the slider positon
         if (self.options.barcontrols) { self.setSliderPosition(pagePos); }
