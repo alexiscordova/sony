@@ -207,13 +207,11 @@ define(function(require) {
       pagePos = Math.min(self.sliderControlWidth, pagePos);
       pagePos = Math.max(-20, pagePos);
 
-      console.log('drag slider', self.pagePos, pagePos);
       if (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
         ratio = pagePos / self.sliderControlWidth;
         value = self.sliderRatioToValue(ratio);
 
-        console.log('move pagePos');
         //set the slider positon
         if (self.options.barcontrols) { self.setSliderPosition(pagePos); }
 
@@ -228,7 +226,6 @@ define(function(require) {
       var self = this;
 
       self.pagePos = 0;
-      console.log(self.pagePos);
       // find the handle so we can setup bindings
       self.$slideHandle = self.$sliderControl.find('.handle');
       self.$slideHandle.hammer();
