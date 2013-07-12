@@ -18,7 +18,7 @@
 // * loadSequence() needs to be slightly refactored so as not to cause so many style recalcs.
 // * Use the `.grab` and `.grabbing` utilitiy classes for cursors (the gmail cursor could be added as a fallback to that too)
 
-define(function(require){
+define(function(require) {
 
   'use strict';
 
@@ -98,16 +98,21 @@ define(function(require){
     checkLoaded: function() {
       var self = this;
 
-      if( self.sequenceLength === self.curLoaded ) {
+      if ( self.sequenceLength === self.curLoaded ) {
         log( 'all 360 assets loaded' );
         self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
         self.$container.find( '.load-indicator' ).addClass( 'hidden' );
         self.syncControlLayout();
 
         // if we have setup to autoplay
-        (self.options.autoplay) ? self.startAnimation('left') : self.initBehaviors();
+        if ( self.options.autoplay ) {
+          self.startAnimation('left');
+        } else {
+          self.initBehaviors();
+        }
+
         // if the user wants bar controls we need to populate the dom
-        if (self.options.barcontrols && !self.options.autoplay) {
+        if ( self.options.barcontrols && !self.options.autoplay ) {
           self.createBarControl();
         }
 
@@ -121,7 +126,7 @@ define(function(require){
     },
 
 
-    getSliderRange: function(){
+    getSliderRange: function() {
       var self = this,
           range = {};
 
@@ -164,7 +169,7 @@ define(function(require){
       if (self.is360) {
         self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
       } else {
-        self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength-1);
+        self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength - 1);
       }
 
       if (self.currIndex < 0) { self.currIndex = 0; }
@@ -257,7 +262,7 @@ define(function(require){
         drag : function( event ) {
           var direction = event.gesture.direction;
 
-          if( 'left' === direction || 'right' === direction ) {
+          if ( 'left' === direction || 'right' === direction ) {
             self.dragSlider( event );
           }
         },
@@ -297,8 +302,8 @@ define(function(require){
       ].join('\n');
 
       controlTmpl.fallback = [
-        "<div class='control-bar-container fallback'>",
-        "</div>"
+        '<div class="control-bar-container fallback">',
+        '</div>'
       ].join('\n');
 
       // do we need to display the fallback experience?
@@ -310,23 +315,23 @@ define(function(require){
         if (self.options.labelLeft && self.options.labelRight) {
 
           controlTmpl.labelLeft = [
-            "<li class='slider-label label-left l3' data-direction='left'>",
-              "<span class='label-container'>",
-                "<span class='nav-label'>",
+            '<li class="slider-label label-left l3" data-direction="left">',
+              '<span class="label-container">',
+                '<span class="nav-label">',
                   self.options.labelLeft,
-                "</span>",
-              "</span>",
-            "</li>"
+                '</span>',
+              '</span>',
+            '</li>'
           ].join('\n');
 
           controlTmpl.labelRight = [
-            "<li class='slider-label label-right l3' data-direction='right'>",
-              "<span class='label-container'>",
-                "<span class='nav-label'>",
+            '<li class="slider-label label-right l3" data-direction="right">',
+              '<span class="label-container">',
+                '<span class="nav-label">',
                   self.options.labelRight,
-                "</span>",
-              "</span>",
-            "</li>"
+                '</span>',
+              '</span>',
+            '</li>'
           ].join('\n');
 
         }
@@ -338,11 +343,11 @@ define(function(require){
 
         // the label container needs to be different if were a fallback
         if (self.options.labelLeft && self.options.labelRight) {
-          controlTmpl.labelLeft = "<span class='slider-label label-left l3' data-direction='left'>"+self.options.labelLeft+"</span>";
-          controlTmpl.labelRight = "<span class='slider-label label-right l3' data-direction='right'>"+self.options.labelRight+"</span>";
+          controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.options.labelLeft + '</span>';
+          controlTmpl.labelRight = '<span class="slider-label label-right l3" data-direction="right">' + self.options.labelRight + '</span>';
         }
       }
-                   
+
       // do we have labels that we can show?
       if (self.options.labelLeft && self.options.labelRight) {
         self.$sliderControlContainer.append(controlTmpl.labelRight)
@@ -380,17 +385,17 @@ define(function(require){
         self.$sequence.eq(index).addClass('visuallyhidden');
 
         // is the BG image loaded?
-        if(  el.data('hasLoaded') ) {
+        if (  el.data('hasLoaded') ) {
           self.syncControlLayout();
           self.curLoaded++;
           self.checkLoaded();
         } else {
           // its not a preloaded background
-          if( el.is( 'div' ) ) {
+          if ( el.is( 'div' ) ) {
             el.on( 'iQ:imageLoaded', $.proxy(self.lockAndLoaded, self) );
           } else {
             // check if the inline images are cached
-            if( false === this.complete ) {
+            if ( false === this.complete ) {
               // not cached, listen for load event
               el.onload = self.lockAndLoaded;
             } else {
@@ -419,7 +424,7 @@ define(function(require){
     initBehaviors: function() {
       var self = this;
 
-      if( true === Modernizr.touch ) {
+      if ( true === Modernizr.touch ) {
         // extend with touch controls
         self.$controls.hammer();
         var $viewportel = self.$container;
@@ -427,8 +432,8 @@ define(function(require){
         Viewport.add({
           element : $viewportel,
           threshold : '50%',
-          enter : function($viewportel) {
-            if( !self.inViewport ) {
+          enter : function() {
+            if ( !self.inViewport ) {
               self.inMotion = true;
               self.animateDragger();
               self.inViewport = true;
@@ -450,7 +455,7 @@ define(function(require){
             drag : function( event ) {
               var direction = event.gesture.direction;
 
-              if( 'left' == direction || 'right' == direction ) {
+              if ( 'left' === direction || 'right' === direction ) {
                 self.touchMove( event );
               }
             },
@@ -498,7 +503,7 @@ define(function(require){
       });
 
       // adjust controls to center if type is image
-      if( true === self.isImage ) {
+      if ( true === self.isImage ) {
         self.syncControlLayout();
       }
 
@@ -509,45 +514,45 @@ define(function(require){
 
     },
 
-    easeSwipe: function( event ) {
-      var self = this;
-      // is the swipe greater than one movement
-      // where  (container.width / sequence.length-1) / 3 = one step
-      var assetWidth      = $( self.$sequence[self.curIndex] ).width(),
-          swipeDistance   = event.gesture.distance,
-          sequenceLength  = sequence.length - 1,
-          stepSize        = ( assetWidth / sequenceLength ) / self.throttle,
-          shouldEase      = ( 0 < ( swipeDistance - stepSize ) ) ? ( swipeDistance - stepSize ) : false;
-    },
+    // easeSwipe: function( event ) {
+    //   var self = this;
+    //   // is the swipe greater than one movement
+    //   // where  (container.width / sequence.length-1) / 3 = one step
+    //   var assetWidth      = $( self.$sequence[self.curIndex] ).width(),
+    //       swipeDistance   = event.gesture.distance,
+    //       sequenceLength  = self.sequenceLength - 1,
+    //       stepSize        = ( assetWidth / sequenceLength ) / self.throttle,
+    //       shouldEase      = ( 0 < ( swipeDistance - stepSize ) ) ? ( swipeDistance - stepSize ) : false;
+    // },
 
-    onResize: function( event ) {
+    onResize: function() {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       self.syncControlLayout();
-      if( true === self.isImage ) {
+      // if ( true === self.isImage ) {
 
-      }
+      // }
     },
 
-    onScroll: function( event ) {
+    onScroll: function() {
       var self = this;
-      if( false === self.inMotion) {
+      if ( false === self.inMotion) {
         self.inMotion = true;
         self.animateDragger();
       }
-      if( true === self.isImage ) {
+      if ( true === self.isImage ) {
         self.syncControlLayout();
       }
     },
 
-    touchDown: function( event ) {
+    touchDown: function() {
       // Montana to Rice!
       var self = this;
       self.$body.addClass('unselectable');
       self.clicked = true;
     },
 
-    touchUp: function( event ) {
+    touchUp: function() {
       var self = this;
       self.$body.removeClass('unselectable');
       self.clicked = false;
@@ -564,12 +569,12 @@ define(function(require){
 
       self.mobileLog( 'direction ' + direction + '\n' + 'events fired: '+ self.touchEvents++ + '\n' + 'direction: ' + pageX );
 
-      if( Settings.isIOS ) {
-        if( 0 === self.moves % 2 ) {
+      if ( Settings.isIOS ) {
+        if ( 0 === self.moves % 2 ) {
           self.move( direction );
         }
-      } else if( Settings.isAndroid ) {
-        if( 0 === self.moves % 5 ) {
+      } else if ( Settings.isAndroid ) {
+        if ( 0 === self.moves % 5 ) {
           self.move( direction );
         }
       } else {
@@ -602,17 +607,17 @@ define(function(require){
       event.preventDefault();
 
       // set a default if not already set
-      if( null === self.lastTriggerX ) {
+      if ( null === self.lastTriggerX ) {
         self.lastTriggerX = self.lastX = event.pageX;
       }
 
-      if( event.pageX > ( self.lastTriggerX + self.dynamicBuffer ) ) {
+      if ( event.pageX > ( self.lastTriggerX + self.dynamicBuffer ) ) {
         // moving right
         self.movingLeft   = true;
         self.movingRight  = false;
         doMove = true;
         self.lastTriggerX = event.pageX;
-      } else if( event.pageX < ( self.lastTriggerX - self.dynamicBuffer ) ) {
+      } else if ( event.pageX < ( self.lastTriggerX - self.dynamicBuffer ) ) {
         // moving left
         self.movingLeft   = false;
         self.movingRight  = true;
@@ -621,8 +626,8 @@ define(function(require){
       }
 
       // shall we?
-      if( self.clicked && doMove ) {
-        var direction = self.movingLeft ? "left" : "right";
+      if ( self.clicked && doMove ) {
+        var direction = self.movingLeft ? 'left' : 'right';
         self.move( direction );
       }
 
@@ -634,7 +639,7 @@ define(function(require){
     },
 
     animateDragger: function( cycles ) {
-      if(Settings.isLTIE8){
+      if (Settings.isLTIE8) {
         return;
       }
       var self = this;
@@ -648,9 +653,9 @@ define(function(require){
       });
 
       $( self.$controlCenter ).animate({
-        marginLeft: "+26px",
-        marginRight: "+26px"
-      }, 499, function(event) {
+        marginLeft: '+26px',
+        marginRight: '+26px'
+      }, 499, function() {
         self.resetAnimation();
       });
 
@@ -668,8 +673,8 @@ define(function(require){
       });
 
       $( self.$controlCenter ).css( {
-        marginLeft : "18px",
-        marginRight : "18px"
+        marginLeft : '18px',
+        marginRight : '18px'
       });
 
       self.inMotion = false;
@@ -679,14 +684,14 @@ define(function(require){
       var self = this;
 
       // bind our click event handlers for labels
-      self.$sliderControlContainer.on('click.label-click', ".slider-label", function(e){
+      self.$sliderControlContainer.on('click.label-click', '.slider-label', function(e) {
         var $el = $(e.target).closest('.slider-label'),
             $labels = self.$sliderControlContainer.find('.slider-label'),
             data = $el.data(),
             direction = data.direction;
 
         // if its autoplaying we dont want to reset everything -- crazy
-        if(self.options.autoplay) {
+        if (self.options.autoplay) {
           return false;
         }
 
@@ -699,7 +704,7 @@ define(function(require){
         setTimeout(function() {
           $el.siblings().removeClass('active');
         }, 250);
-        
+
         // start the animation
         self.startAnimation(direction);
       });
@@ -714,11 +719,11 @@ define(function(require){
           pagePos;
 
       // gets the number of slide notches for the slider
-      slidePos = (self.curIndex * (self.sliderControlWidth / (self.sequenceLength-1)));
+      slidePos = (self.curIndex * (self.sliderControlWidth / (self.sequenceLength - 1)));
 
       switch( direction ) {
-        case "left":
-          if( self.curIndex === 0 ) {
+        case 'left':
+          if ( self.curIndex === 0 ) {
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               self.initBehaviors();
@@ -738,7 +743,7 @@ define(function(require){
             }
 
             // if we aren't looping or if were arent autoplaying set the curIndex to the lenght - 1 ??
-            self.curIndex = self.sequenceLength-1;
+            self.curIndex = self.sequenceLength - 1;
 
           } else {
             // keep iterating the curIndex down since were moving left
@@ -752,9 +757,9 @@ define(function(require){
           }
         break;
 
-        case "right":
+        case 'right':
           // we can assume we've done a loop
-          if( self.curIndex == self.sequenceLength-1 ) {
+          if ( self.curIndex === self.sequenceLength - 1 ) {
             self.animationLooped = true;
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
@@ -774,7 +779,7 @@ define(function(require){
             self.curIndex++;
             // we can assume we've done a loop
             if (self.options.barcontrols && !self.showFallback) { self.setSliderPosition(slidePos); }
-          }       
+          }
         break;
       }
 
@@ -787,7 +792,7 @@ define(function(require){
 
       // find by data index
       for( var i = 0; i < self.$sequence.length; i++ ) {
-        if( lastIndex == self.$sequence.eq(i).data( 'sequence-id' ) ) {
+        if ( lastIndex === self.$sequence.eq(i).data( 'sequence-id' ) ) {
           return self.$sequence.eq(i);
         }
       }
