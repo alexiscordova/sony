@@ -146,9 +146,60 @@ $transitionSpeed: 0.5s;
     width: 50%; 
     margin: 0 auto;
 
+    &.fallback {
+      margin: -4px 0 0;
+      width: 100%;
+      height: 68px;
+      text-align: center;
+
+      .label-container {
+        position: relative;
+        display: table;
+        height: 100%;
+        width: 100%;
+
+        .nav-label {
+          position: relative;
+          display: table-cell;
+          vertical-align: middle;
+          zoom: 1;
+        }
+      }
+
+      .slider-label {
+        display: inline-block;
+        position: relative;
+        margin: 0;
+        line-height: 16px;
+        height: 48px;
+        top: auto;
+        vertical-align: bottom;
+        @include box-sizing(content-box);
+        @include transition();
+
+        &.active {
+          border-top:4px solid $buttonBlue;
+          background: $gray80;
+          color: $gray20;
+        }
+
+        &.label-left {
+          text-align: center;
+          left: auto;
+        }
+
+        &.label-right {
+          text-align: center;
+          right: auto;
+        } 
+
+      } // end .slider-label
+    } // end &.fallback
+
     .slider-label {
       display: block;
       position: absolute;
+      cursor: pointer;
       text-transform: uppercase;
       color: $gray40;
       width: 150px;

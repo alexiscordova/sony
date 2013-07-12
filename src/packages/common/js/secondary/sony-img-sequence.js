@@ -1,4 +1,4 @@
-/*jshint debug:false */
+/*jshint debug:true*/
 
 // ------------ Sony Image Sequencer ------------
 // * **Module:** Cloned from the E360 jQuery plugin
@@ -45,6 +45,7 @@ define(function(require){
     self.$rightArrow    = self.$controls.find( '.right-arrow' );
     self.isImage        = $( self.$sequence[0] ).is( 'img' ) ? true : false;
     self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
+    self.showFallback   = ( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
     self.curIndex       = 0;
     self.movingLeft     = false;
     self.movingRight    = false;
@@ -267,9 +268,14 @@ define(function(require){
 
     },
 
+    appendLabels: function(fallback, tmpl) {
+
+    },
+
     createBarControl: function( cb ) {
       var self = this,
           controlTmpl,
+          fallback,
           $sliderControl;
 
       controlTmpl = {};
@@ -289,24 +295,64 @@ define(function(require){
         "</div>"
       ].join('\n');
 
-      // add our new controls to the container
-      self.$container.append(controlTmpl.slider);
-      self.$sliderControlContainer = self.$container.find('.control-bar-container');
-      self.$sliderControl = self.$container.find('.range-control');
+      controlTmpl.fallback = [
+        "<div class='control-bar-container fallback'>",
+        "</div>"
+      ].join('\n');
+
+      // do we need to display the fallback experience?
+      if (self.showFallback) {
+        self.$container.append(controlTmpl.fallback);
+        self.$sliderControlContainer = self.$container.find('.control-bar-container');
+
+        // the label container needs to be different if were a fallback
+        if (self.options.labelLeft && self.options.labelRight) {
+
+          controlTmpl.labelLeft = [
+            "<li class='slider-label label-left l3' data-direction='left'>",
+              "<span class='label-container'>",
+                "<span class='nav-label'>",
+                  self.options.labelLeft,
+                "</span>",
+              "</span>",
+            "</li>"
+          ].join('\n');
+
+          controlTmpl.labelRight = [
+            "<li class='slider-label label-right l3' data-direction='right'>",
+              "<span class='label-container'>",
+                "<span class='nav-label'>",
+                  self.options.labelRight,
+                "</span>",
+              "</span>",
+            "</li>"
+          ].join('\n');
+
+        }
+      } else {
+        // add our new controls to the container
+        self.$container.append(controlTmpl.slider);
+        self.$sliderControlContainer = self.$container.find('.control-bar-container');
+        self.$sliderControl = self.$container.find('.range-control');
+
+        // the label container needs to be different if were a fallback
+        if (self.options.labelLeft && self.options.labelRight) {
+          controlTmpl.labelLeft = "<span class='slider-label label-left l3' data-direction='left'>"+self.options.labelLeft+"</span>";
+          controlTmpl.labelRight = "<span class='slider-label label-right l3' data-direction='right'>"+self.options.labelRight+"</span>";
+        }
+      }
                    
+      // do we have labels that we can show?
       if (self.options.labelLeft && self.options.labelRight) {
-
-        var label = {};
-
-        label.left = "<span class='slider-label label-left l3' data-direction='left'>"+self.options.labelLeft+"</span>";
-        label.right = "<span class='slider-label label-right l3' data-direction='right'>"+self.options.labelRight+"</span>";
-
-        self.$sliderControlContainer.append(label.right)
-          .prepend(label.left);
+        self.$sliderControlContainer.append(controlTmpl.labelRight)
+          .prepend(controlTmpl.labelLeft);
       }
 
       // setup the bindings for the control slider
-      self.setupBarBindings();
+      if (self.$sliderControl) {
+        self.setupBarBindings();
+      }
+
       // we should get rid of the other controls
       self.$controls.remove();
 
@@ -633,7 +679,8 @@ define(function(require){
 
       // bind our click event handlers for labels
       self.$sliderControlContainer.on('click.label-click', ".slider-label", function(e){
-        var $el = $(e.target),
+        var $el = $(e.target).closest('.slider-label'),
+            $labels = self.$sliderControlContainer.find('.slider-label'),
             data = $el.data(),
             direction = data.direction;
 
@@ -646,6 +693,12 @@ define(function(require){
         self.options.autoplay = true;
         self.animationLooped = false;
 
+        // set the label to have an active class if clicked
+        $el.addClass('active');
+        setTimeout(function() {
+          $el.siblings().removeClass('active');
+        }, 250);
+        
         // start the animation
         self.startAnimation(direction);
       });
@@ -675,7 +728,7 @@ define(function(require){
                 self.createBarControl();
               }
 
-              if (self.options.barcontrols) { self.setSliderPosition(slidePos); }
+              if (self.options.barcontrols && !self.showFallback) { self.setSliderPosition(slidePos); }
 
               // set auto play to false since current index is now 0
               self.options.autoplay = false;
@@ -694,7 +747,7 @@ define(function(require){
             if (self.curIndex === 1) { self.animationLooped = true; }
 
             // if were animating we need to get the current slide index and compare it to the slider width, to get the position.
-            if (self.options.barcontrols && self.sliderLabelInitialized) { self.setSliderPosition(slidePos); }
+            if (self.options.barcontrols && self.sliderLabelInitialized && !self.showFallback) { self.setSliderPosition(slidePos); }
           }
         break;
 
@@ -720,7 +773,7 @@ define(function(require){
             self.curIndex++;
 
             // we can assume we've done a loop
-            if (self.options.barcontrols) { self.setSliderPosition(slidePos); }
+            if (self.options.barcontrols && !self.showFallback) { self.setSliderPosition(slidePos); }
           }       
         break;
       }
