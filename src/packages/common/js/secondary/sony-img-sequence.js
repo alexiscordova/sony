@@ -11,10 +11,7 @@
 //
 //      require('path/to/global/module') // self instantiation
 //
-//
-// *Refacting/improvement/performance Notes:*
-//
-// * Use the `.grab` and `.grabbing` utilitiy classes for cursors (the gmail cursor could be added as a fallback to that too)
+
 
 define(function(require) {
 
@@ -77,7 +74,7 @@ define(function(require) {
       var self = this;
       // lets start by hiding the controllers until things are loaded and fading down the image
       // to give users a nicer set of visual queues
-      self.$controls.addClass( 'hidden' );
+      self.$controls.addClass( 'hidden grab' );
       self.$container.addClass( 'dim-the-lights' );
 
       // if not, manage the payload by exposing a loader
@@ -558,7 +555,7 @@ define(function(require) {
     mouseDown: function( event ) {
       var self = this;
       event.preventDefault();
-      self.$controls.addClass( 'is-dragging' );
+      self.$controls.addClass( 'grabbing' );
       self.$body.addClass('unselectable');
       self.clicked = true;
     },
@@ -566,7 +563,7 @@ define(function(require) {
     mouseUp: function( event ) {
       var self = this;
       event.preventDefault();
-      self.$controls.removeClass( 'is-dragging' );
+      self.$controls.removeClass( 'grabbing' );
       self.$body.removeClass('unselectable');
       self.clicked = false;
     },

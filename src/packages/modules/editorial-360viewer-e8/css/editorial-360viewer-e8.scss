@@ -52,8 +52,6 @@ $transitionSpeed: 0.5s;
   }
 
   .controls {
-    cursor: move;
-    cursor: url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move;
     position: absolute;
     top: 0;
     left: 0;
@@ -91,20 +89,12 @@ $transitionSpeed: 0.5s;
       -ms-user-select: none;
       user-select: none;
     }
-
-    &.is-dragging {
-      cursor: move;
-      cursor: grabbing;
-      cursor: -webkit-grabbing;
-      cursor: -moz-grabbing;
-      cursor: url(https://mail.google.com/mail/images/2/closedhand.cur) 8 8, move;
-    }
   }
 
   .slider {
     margin: 0 auto;
     width: 50%;
-    
+
     .slider-label {
       display: block;
       position: absolute;
@@ -146,10 +136,10 @@ $transitionSpeed: 0.5s;
         font-size:0.9em;
         top:50%;
         left:50%;
-        margin:-21px 0 0 -21px;       
+        margin:-21px 0 0 -21px;
         @include border-radius(50%);
       }
-      
+
       &.hover,
       &:hover {
         @include transform( scale(1) translateZ(0) );
@@ -160,9 +150,9 @@ $transitionSpeed: 0.5s;
           @include transform( scale(1.07) translateZ(0) );
           @include transition(.1s ease-out);
         }
-  
+
       }
-    }    
+    }
   }
 
 }
