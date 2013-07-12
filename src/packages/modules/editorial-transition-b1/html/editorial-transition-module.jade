@@ -79,33 +79,50 @@ mixin boxclass(_layout)
 mixin boxlayout(_layout)
   layout = _layout ? _layout : data.layout
   classes = layout.style
-  .sequence-copy
-    .container
-      if layout
-        if layout.mobilealign
-          classes = classes + " " + layout.mobilealign
-        if layout.text == "left" || layout.text == "full"
-          .grid.no-grid-at-767(class = classes)
-            - span = "span" + layout.columns[0]
-            div(class = span)
-              +boxclass
-                block
-        else if layout.text == "right" || layout.text == "center"
-          if layout.columns
+  mode = layout.mode
+  if layout.mode == "editorial"
+    .sequence-copy.editorial-sequence
+      .container
+        if layout
+          if layout.mobilealign
+            classes = classes + " " + layout.mobilealign
+          if layout.text == "left" || layout.text == "full"
             .grid.no-grid-at-767(class = classes)
-              - span = "span" + layout.columns[1]
-              - offset =  "offset" + layout.columns[0]
-              div(class = span)(class = offset)
+              - span = "span" + layout.columns[0]
+              div(class = span)
                 +boxclass
                   block
+          else if layout.text == "right" || layout.text == "center"
+            if layout.columns
+              .grid.no-grid-at-767(class = classes)
+                - span = "span" + layout.columns[1]
+                - offset =  "offset" + layout.columns[0]
+                div(class = span)(class = offset)
+                  +boxclass
+                    block
+  else
+    .sequence-copy
+      .container
+        if layout
+          if layout.mobilealign
+            classes = classes + " " + layout.mobilealign
+          if layout.text == "left" || layout.text == "full"
+            .grid.no-grid-at-767(class = classes)
+              - span = "span" + layout.columns[0]
+              div(class = span)
+                +boxclass
+                  block
+          else if layout.text == "right" || layout.text == "center"
+            if layout.columns
+              .grid.no-grid-at-767(class = classes)
+                - span = "span" + layout.columns[1]
+                - offset =  "offset" + layout.columns[0]
+                div(class = span)(class = offset)
+                  +boxclass
+                    block
 
 +mainElement( editorialClasses )
   if data.sequenceConfig
-    if data.layout 
-      if data.layout.mode !== "full-inner"
-        +boxlayout
-          if data.copy
-            +copyblock(data.copy, "t3-bold", "t7", "p3")    
     div(class="sony-sequence container dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed, data-sequence-label-left=labelLeft, data-sequence-label-right=labelRight )
       .outer
         if data.background == "true"
@@ -127,10 +144,15 @@ mixin boxlayout(_layout)
                 noscript
                   img(src= imgData.noscriptsrc)
       if data.layout 
+        if data.layout.mode == "editorial"
+          +boxlayout
+            if data.copy
+              +copyblock(data.copy, "t2", "t7", "p1")    
         if data.layout.mode == "full-inner"
           +boxlayout
             if data.copy
-              +copyblock(data.copy, "t3-bold", "t7", "p3")    
+              +copyblock(data.copy, "t3", "t7", "p3")    
+                
       .controls.container.hidden
         .drag-controls(class=isDark)(class=bump)(class=lod)
           i.left-arrow.fonticon-10-chevron-reverse

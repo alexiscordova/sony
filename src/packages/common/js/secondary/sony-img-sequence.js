@@ -137,20 +137,20 @@ define(function(require) {
           maxWidth = self.sliderControlWidth,
           sequenceLength = self.sequenceLength - 1,
           sequenceDepth = 0,
-          lastIndex = self.currIndex;
+          lastIndex = self.sequenceIndex;
 
       sequenceDepth = ( positon / maxWidth );
       // we need to determine if it's the 360 module or image sequence
       // why? Because an image sequence needs to go from start to finish with no loop,
       // a 360 module needs to loop back to the first index.
       if (self.is360) {
-        self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
+        self.sequenceIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
       } else {
-        self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength - 1);
+        self.sequenceIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength - 1);
       }
 
-      if ( self.currIndex < 0 ) {
-        self.currIndex = 0;
+      if ( self.sequenceIndex < 0 ) {
+        self.sequenceIndex = 0;
       }
 
       if ( !self.$sequence.eq( lastIndex ).length ) {
@@ -159,7 +159,7 @@ define(function(require) {
 
       // Show the current, hide the others
       self.$sequence
-        .eq( self.currIndex )
+        .eq( self.sequenceIndex )
         .removeClass( 'visuallyhidden' )
         .siblings()
         .addClass( 'visuallyhidden' );
@@ -207,11 +207,13 @@ define(function(require) {
       pagePos = Math.min(self.sliderControlWidth, pagePos);
       pagePos = Math.max(-20, pagePos);
 
+      console.log('drag slider', self.pagePos, pagePos);
       if (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
         ratio = pagePos / self.sliderControlWidth;
         value = self.sliderRatioToValue(ratio);
 
+        console.log('move pagePos');
         //set the slider positon
         if (self.options.barcontrols) { self.setSliderPosition(pagePos); }
 
@@ -226,6 +228,7 @@ define(function(require) {
       var self = this;
 
       self.pagePos = 0;
+      console.log(self.pagePos);
       // find the handle so we can setup bindings
       self.$slideHandle = self.$sliderControl.find('.handle');
       self.$slideHandle.hammer();

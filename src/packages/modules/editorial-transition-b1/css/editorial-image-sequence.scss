@@ -50,7 +50,7 @@ $transitionSpeed: 0.5s;
 .sony-sequence {
   position: relative;
   padding: {
-    top: 50px;
+    top: 75px;
     bottom: 50px;
   }
 
@@ -63,6 +63,10 @@ $transitionSpeed: 0.5s;
     width: 100%;
     position: absolute;
     top: 100px;
+    
+    &.editorial-sequence {
+      top: 0;
+    }
 
     .box {
       position: relative;
@@ -133,8 +137,9 @@ $transitionSpeed: 0.5s;
 
   .control-bar-container {
     position: relative;
-    width: 50%;
+    width: 100%; 
     margin: 0 auto;
+    text-align: center;
 
     &.fallback {
       margin: -4px 0 0;
@@ -187,29 +192,27 @@ $transitionSpeed: 0.5s;
     } // end &.fallback
 
     .slider-label {
-      display: block;
-      position: absolute;
+      display: inline-block;
       cursor: pointer;
       text-transform: uppercase;
       color: $gray40;
-      width: 150px;
+      width: percentage(150/1040);
       top: -6px;
 
       &.label-left {
         text-align: right;
-        left: -150px;
       }
 
       &.label-right {
-        right: -150px;
+        text-align: left;
       }
-    }
+    }               
   }
 
   .slider {
-    width: percentage(912/1040);
-    margin: 0 percentage(64/1040);
-    @include clearfix();
+    width: percentage(500/1040);
+    margin: 0 24px;
+    display: inline-block;
   }
 
   .range-control {
