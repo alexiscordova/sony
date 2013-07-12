@@ -5,7 +5,7 @@
 // * **Version:** 0.0.1
 // * **Modified:** 04/19/2013
 // * **Author:** Kaleb White, Brian Kenny
-// * **Dependencies:** jQuery 1.7+, Boostrap, Modernizr, Enquire, hammerJS, viewport
+// * **Dependencies:** jQuery 1.7+, Boostrap, Enquire, hammerJS, viewport
 //
 // *Example Usage:*
 //
@@ -45,7 +45,7 @@ define(function(require) {
     self.$controlCenter = self.$controls.find( '.instructions' );
     self.$leftArrow     = self.$controls.find( '.left-arrow' );
     self.$rightArrow    = self.$controls.find( '.right-arrow' );
-    self.isImage        = self.$sequence.eq(0).is( 'img' ) ? true : false;
+    self.isImage        = self.$sequence.eq(0).is( 'img' );
     self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.sequenceLength ) / 3 );
     self.showFallback   = ( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
     self.curIndex       = 0;
@@ -121,14 +121,13 @@ define(function(require) {
 
     syncControlLayout: function() {
       var self = this;
-      var _assetWidth = $( self.$sequence[self.curIndex] ).width();
+      var _assetWidth = self.$sequence.eq( self.curIndex ).width();
       self.$controls.find( '.table-center' ).css( 'width', _assetWidth );
     },
 
 
     getSliderRange: function() {
-      var self = this,
-          range = {};
+      var range = {};
 
       range.min = 0;
       range.max = 1;
@@ -395,7 +394,7 @@ define(function(require) {
             el.on( 'iQ:imageLoaded', $.proxy(self.lockAndLoaded, self) );
           } else {
             // check if the inline images are cached
-            if ( false === this.complete ) {
+            if ( !this.complete ) {
               // not cached, listen for load event
               el.onload = self.lockAndLoaded;
             } else {
@@ -424,7 +423,7 @@ define(function(require) {
     initBehaviors: function() {
       var self = this;
 
-      if ( true === Modernizr.touch ) {
+      if ( Settings.hasTouchEvents ) {
         // extend with touch controls
         self.$controls.hammer();
         var $viewportel = self.$container;
@@ -464,27 +463,30 @@ define(function(require) {
             }
           });
 
-        } else if (self.options.barcontrols) {
-
-
         }
+        // else if (self.options.barcontrols) {
+
+
+        // }
+
+      // No touch events
       } else {
         // trigger UI indication (Desktop)
-        $( window ).bind( 'scroll', function( event ) {
+        $( window ).on( 'scroll', function( event ) {
           self.onScroll( event );
         });
 
         // setup controller interactions
-        self.$controls.bind( 'mousedown', function( event ) {
+        self.$controls.on( 'mousedown', function( event ) {
           self.mouseDown( event );
         });
 
-        self.$controls.bind( 'mouseup', function( event ) {
+        self.$controls.on( 'mouseup', function( event ) {
           self.mouseUp( event );
         });
 
         // track mousemove
-        $( self.$controls ).bind( 'mousemove', function( event ) {
+        $( self.$controls ).on( 'mousemove', function( event ) {
           self.mouseMove( event );
         });
       }
@@ -498,16 +500,16 @@ define(function(require) {
       }, 500);
 
       // reset the step buffer when the window changes size
-      $( window ).bind( 'resize', function( event ) {
+      $( window ).on( 'resize', function( event ) {
         self.onResize( event );
       });
 
       // adjust controls to center if type is image
-      if ( true === self.isImage ) {
+      if ( self.isImage ) {
         self.syncControlLayout();
       }
 
-      if (self.options.viewcontrols) {
+      if ( self.options.viewcontrols ) {
         // finally show controlls
         self.$controls.removeClass( 'hidden' );
       }
@@ -536,11 +538,13 @@ define(function(require) {
 
     onScroll: function() {
       var self = this;
-      if ( false === self.inMotion) {
+
+      if ( !self.inMotion ) {
         self.inMotion = true;
         self.animateDragger();
       }
-      if ( true === self.isImage ) {
+
+      if ( self.isImage ) {
         self.syncControlLayout();
       }
     },
@@ -638,21 +642,21 @@ define(function(require) {
       //$( '.e360debug' ).html( data.toString() + '\n' );
     },
 
-    animateDragger: function( cycles ) {
-      if (Settings.isLTIE8) {
+    animateDragger: function() {
+      if ( Settings.isLTIE8 ) {
         return;
       }
       var self = this;
 
-      $( self.$leftArrow ).animate({
+      self.$leftArrow.animate({
         opacity: 0
       });
 
-      $( self.$rightArrow ).animate({
+      self.$rightArrow.animate({
         opacity: 0
       });
 
-      $( self.$controlCenter ).animate({
+      self.$controlCenter.animate({
         marginLeft: '+26px',
         marginRight: '+26px'
       }, 499, function() {
@@ -664,15 +668,15 @@ define(function(require) {
     resetAnimation: function() {
       var self = this;
 
-      $( self.$leftArrow ).css( {
+      self.$leftArrow.css( {
         opacity: 1
       });
 
-      $( self.$rightArrow ).css( {
+      self.$rightArrow.css( {
         opacity: 1
       });
 
-      $( self.$controlCenter ).css( {
+      self.$controlCenter.css( {
         marginLeft : '18px',
         marginRight : '18px'
       });
@@ -816,8 +820,6 @@ define(function(require) {
   // Non override-able settings
   // --------------------------
   SonySequence.settings = {
-    isTouch: !!( 'ontouchstart' in window ),
-    isInitialized: false
   };
 
   return SonySequence;
