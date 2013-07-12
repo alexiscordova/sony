@@ -17,29 +17,30 @@ define(function(require){
 
   // provisions
   var $ = require( 'jquery' ),
-      iQ = require( 'iQ' ),
+      // iQ = require( 'iQ' ),
       Settings     = require( 'require/sony-global-settings' ),
-      SonySequence = require('secondary/index').sonySequence,
-      Favorites    = require('secondary/index').sonyFavorites,
-      hammer       = require( 'plugins/index' ).hammer;
+      SonySequence = require('secondary/index').sonySequence;
+      // Favorites    = require('secondary/index').sonyFavorites,
+      // hammer       = require( 'plugins/index' ).hammer;
 
 
   var sonySequence = {
-    'init': function() {
+    init: function() {
       if ( window.atob || Settings.isLTIE10 ) {
-        $( self.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
+        $( this.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
       }
 
       $.extend(this, {}, sonySequence.defaults, sonySequence.settings);
+
       $( '.sony-sequence' ).each( function( index, el ) {
-        var $el = $(this),
-            data = $el.data(), 
+        var $el = $(el),
+            data = $el.data(),
             opts = {};
 
         // since users have the ability to pass in true // false for some options we cannot simply
-        // check if (options) { do stuff }, since if they set the option to false it will affect the 
-        // overall functionality. Also we do not want to pass in options when the users avoid 
-        // adding them to the jade. 
+        // check if (options) { do stuff }, since if they set the option to false it will affect the
+        // overall functionality. Also we do not want to pass in options when the users avoid
+        // adding them to the jade.
         if (data.sequenceAutoplay != 'undefined') { opts.autoplay = data.sequenceAutoplay; }
         if (data.sequenceViewcontrols != 'undefined') { opts.viewcontrols = data.sequenceViewcontrols; }
         if (data.sequenceBarcontrols != 'undefined') { opts.barcontrols = data.sequenceBarcontrols; }
@@ -53,7 +54,7 @@ define(function(require){
     }
   };
 
-  var SonySequenceModule = function(element){
+  var SonySequenceModule = function(element) {
 
     var self = this;
 

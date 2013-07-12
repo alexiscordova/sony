@@ -16,6 +16,7 @@
 //
 // * pluck() would be faster if the image IDs were cached in an object instead of iterated through each time
 // * loadSequence() needs to be slightly refactored so as not to cause so many style recalcs.
+// * Use the `.grab` and `.grabbing` utilitiy classes for cursors (the gmail cursor could be added as a fallback to that too)
 
 define(function(require){
 
@@ -25,7 +26,8 @@ define(function(require){
   var $ = require( 'jquery' ),
       iQ = require( 'iQ' ),
       Settings     = require( 'require/sony-global-settings' ),
-      hammer       = require( 'plugins/index' ).hammer;
+      hammer       = require( 'plugins/index' ).hammer,
+      Viewport     = require( 'secondary/sony-viewport' );
 
 
   var SonySequence = function( element, options ) {
@@ -43,8 +45,8 @@ define(function(require){
     self.$controlCenter = self.$controls.find( '.instructions' );
     self.$leftArrow     = self.$controls.find( '.left-arrow' );
     self.$rightArrow    = self.$controls.find( '.right-arrow' );
-    self.isImage        = $( self.$sequence[0] ).is( 'img' ) ? true : false;
-    self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.$sequence.length ) / 3 );
+    self.isImage        = self.$sequence.eq(0).is( 'img' ) ? true : false;
+    self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.sequenceLength ) / 3 );
     self.curIndex       = 0;
     self.movingLeft     = false;
     self.movingRight    = false;
@@ -58,7 +60,7 @@ define(function(require){
     self.touchEvents    = 0;
     self.$win           = Settings.$window;
     self.$body          = Settings.$body;
-    self.is360          = $(element).hasClass('e360');
+    self.is360          = self.$container.hasClass('e360');
 
     self.init();
 
@@ -67,13 +69,12 @@ define(function(require){
   SonySequence.prototype = {
     constructor: SonySequence,
 
-    init : function( param ) {
+    init : function() {
       var self = this;
       // lets start by hiding the controllers until things are loaded and fading down the image
       // to give users a nicer set of visual queues
       self.$controls.addClass( 'hidden' );
       self.$container.addClass( 'dim-the-lights' );
-      self.viewport = require( 'secondary/index' ).sonyViewport;
 
       // if not, manage the payload by exposing a loader
       // since IE and iQ are not getting along we need to delay this a bit
@@ -96,7 +97,7 @@ define(function(require){
     checkLoaded: function() {
       var self = this;
 
-      if( self.sequenceLength == self.curLoaded ) {
+      if( self.sequenceLength === self.curLoaded ) {
         log( 'all 360 assets loaded' );
         self.$container.removeClass( 'dim-the-lights' ).addClass( 'light-em-up' );
         self.$container.find( '.load-indicator' ).addClass( 'hidden' );
@@ -255,7 +256,7 @@ define(function(require){
         drag : function( event ) {
           var direction = event.gesture.direction;
 
-          if( 'left' == direction || 'right' == direction ) {
+          if( 'left' === direction || 'right' === direction ) {
             self.dragSlider( event );
           }
         },
@@ -275,25 +276,25 @@ define(function(require){
       controlTmpl = {};
 
       controlTmpl.slider = [
-        "<div class='control-bar-container'>",
-          "<div class='control-bar slider range-control'>",
-            "<div class='handle'>",
-              "<span class='inner'>",
-                "<span class='icons'>",
-                  "<i class='fonticon-10-chevron-reverse'/>",
-                  "<i class='fonticon-10-chevron'/>",
-                "</span>",
-              "</span>",
-            "</div>",
-          "</div>",
-        "</div>"
+        '<div class="control-bar-container">',
+          '<div class="control-bar slider range-control">',
+            '<div class="handle">',
+              '<span class="inner">',
+                '<span class="icons">',
+                  '<i class="fonticon-10-chevron-reverse"/>',
+                  '<i class="fonticon-10-chevron"/>',
+                '</span>',
+              '</span>',
+            '</div>',
+          '</div>',
+        '</div>'
       ].join('\n');
 
       // add our new controls to the container
       self.$container.append(controlTmpl.slider);
       self.$sliderControlContainer = self.$container.find('.control-bar-container');
       self.$sliderControl = self.$container.find('.range-control');
-                   
+
       if (self.options.labelLeft && self.options.labelRight) {
 
         var label = {};
@@ -377,7 +378,7 @@ define(function(require){
         self.$controls.hammer();
         var $viewportel = self.$container;
 
-        self.viewport.add({
+        Viewport.add({
           element : $viewportel,
           threshold : '50%',
           enter : function($viewportel) {
@@ -535,7 +536,7 @@ define(function(require){
     mouseDown: function( event ) {
       var self = this;
       event.preventDefault();
-      $( self.$controls ).addClass( 'is-dragging' );
+      self.$controls.addClass( 'is-dragging' );
       self.$body.addClass('unselectable');
       self.clicked = true;
     },
@@ -543,7 +544,7 @@ define(function(require){
     mouseUp: function( event ) {
       var self = this;
       event.preventDefault();
-      $( self.$controls ).removeClass( 'is-dragging' );
+      self.$controls.removeClass( 'is-dragging' );
       self.$body.removeClass('unselectable');
       self.clicked = false;
     },
@@ -670,7 +671,7 @@ define(function(require){
               self.initBehaviors();
               clearInterval(self.animationInterval);
 
-              // if we have bar controls 
+              // if we have bar controls
               if (self.options.barcontrols && !self.sliderLabelInitialized) {
                 self.createBarControl();
               }
@@ -685,7 +686,7 @@ define(function(require){
 
             // if we aren't looping or if were arent autoplaying set the curIndex to the lenght - 1 ??
             self.curIndex = self.sequenceLength-1;
-            
+
           } else {
             // keep iterating the curIndex down since were moving left
             self.curIndex--;
@@ -701,13 +702,13 @@ define(function(require){
         case "right":
           // we can assume we've done a loop
           if( self.curIndex == self.sequenceLength-1 ) {
-            self.animationLooped = true; 
+            self.animationLooped = true;
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               clearInterval(self.animationInterval);
             }
 
-            self.animationLooped = true; 
+            self.animationLooped = true;
             self.options.autoplay = false;
 
             self.curIndex = ( self.sequenceLength -1 );
@@ -721,7 +722,7 @@ define(function(require){
 
             // we can assume we've done a loop
             if (self.options.barcontrols) { self.setSliderPosition(slidePos); }
-          }       
+          }
         break;
       }
 
