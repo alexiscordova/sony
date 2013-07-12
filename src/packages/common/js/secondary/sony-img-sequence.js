@@ -162,7 +162,7 @@ define(function(require) {
 
       // Show the current, hide the others
       self.$sequence
-        .eq( self.curIndex )
+        .eq( self.currIndex )
         .removeClass( 'visuallyhidden' )
         .siblings()
         .addClass( 'visuallyhidden' );
