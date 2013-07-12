@@ -3,9 +3,9 @@
 // ------------ Sony Image Sequencer ------------
 // * **Module:** Cloned from the E360 jQuery plugin
 // * **Version:** 0.0.1
-// * **Modified:** 04/19/2013
+// * **Modified:** 07/12/2013
 // * **Author:** Kaleb White, Brian Kenny
-// * **Dependencies:** jQuery 1.7+, Boostrap, Enquire, hammerJS, viewport
+// * **Dependencies:** jQuery 1.7+, hammerJS, Viewport
 //
 // *Example Usage:*
 //
@@ -14,7 +14,6 @@
 //
 // *Refacting/improvement/performance Notes:*
 //
-// * pluck() would be faster if the image IDs were cached in an object instead of iterated through each time
 // * Use the `.grab` and `.grabbing` utilitiy classes for cursors (the gmail cursor could be added as a fallback to that too)
 
 define(function(require) {
@@ -36,18 +35,9 @@ define(function(require) {
 
     self.options = $.extend({}, SonySequence.defaults, options);
 
-    // defaults
-    self.$container     = $( element );
-    self.$sequence      = self.$container.find('[data-sequence-id]');
-    self.sequenceLength = self.$sequence.length;
-    self.curLoaded      = 0;
-    self.$controls      = self.$container.find( '.controls' );
-    self.$controlCenter = self.$controls.find( '.instructions' );
-    self.$leftArrow     = self.$controls.find( '.left-arrow' );
-    self.$rightArrow    = self.$controls.find( '.right-arrow' );
-    self.isImage        = self.$sequence.eq(0).is( 'img' );
-    self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.sequenceLength ) / 3 );
+    // Settings
     self.showFallback   = ( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
+    self.curLoaded      = 0;
     self.curIndex       = 0;
     self.movingLeft     = false;
     self.movingRight    = false;
@@ -59,12 +49,25 @@ define(function(require) {
     self.inViewport     = false;
     self.moves          = 0;
     self.touchEvents    = 0;
+
+    // Cached jQuery objects
+    self.$container     = $( element );
+    self.$sequence      = self.$container.find('[data-sequence-id]');
+    self.sequenceLength = self.$sequence.length;
+    self.$controls      = self.$container.find( '.controls' );
+    self.$controlCenter = self.$controls.find( '.instructions' );
+    self.$leftArrow     = self.$controls.find( '.left-arrow' );
+    self.$rightArrow    = self.$controls.find( '.right-arrow' );
+    self.isImage        = self.$sequence.eq(0).is( 'img' );
     self.$win           = Settings.$window;
     self.$body          = Settings.$body;
+
+    // Calculations
+    self.dynamicBuffer  = Math.floor( ( self.$container.width() / self.sequenceLength ) / 3 );
     self.is360          = self.$container.hasClass('e360');
 
+    // Initialize
     self.init();
-
   };
 
   SonySequence.prototype = {
@@ -118,10 +121,7 @@ define(function(require) {
 
     sliderNearestValidValue: function(rawValue) {
       var self = this,
-          closest,
-          maxSteps,
-          range,
-          steps;
+          range;
 
       range = self.getSliderRange();
       rawValue = Math.min(range.max, rawValue);
@@ -152,20 +152,26 @@ define(function(require) {
         self.currIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength - 1);
       }
 
-      if (self.currIndex < 0) { self.currIndex = 0; }
-      if (!self.pluck( lastIndex )) { return; }
+      if ( self.currIndex < 0 ) {
+        self.currIndex = 0;
+      }
 
-      self.$sequence.addClass( 'visuallyhidden' );
-      self.pluck( self.currIndex ).removeClass( 'visuallyhidden' );
+      if ( !self.$sequence.eq( lastIndex ).length ) {
+        return;
+      }
+
+      // Show the current, hide the others
+      self.$sequence
+        .eq( self.curIndex )
+        .removeClass( 'visuallyhidden' )
+        .siblings()
+        .addClass( 'visuallyhidden' );
     },
 
     sliderRatioToValue: function(ratio) {
       var self = this,
-          idx,
           range,
-          rawValue,
-          step,
-          steps;
+          rawValue;
 
         range = self.getSliderRange();
         rawValue = ratio * (range.max - range.min) + range.min;
@@ -217,12 +223,10 @@ define(function(require) {
       }
 
       self.dragged = true;
-
     },
 
     setupBarBindings: function() {
-      var self = this,
-          $slideHandle;
+      var self = this;
 
       self.pagePos = 0;
       // find the handle so we can setup bindings
@@ -250,19 +254,15 @@ define(function(require) {
           self.touchMove( event );
         }
       });
-
-
     },
 
     appendLabels: function(fallback, tmpl) {
 
     },
 
-    createBarControl: function( cb ) {
+    createBarControl: function() {
       var self = this,
-          controlTmpl,
-          fallback,
-          $sliderControl;
+          controlTmpl;
 
       controlTmpl = {};
 
@@ -754,21 +754,12 @@ define(function(require) {
         break;
       }
 
-      self.$sequence.addClass( 'visuallyhidden' );
-      self.pluck( self.curIndex ).removeClass( 'visuallyhidden' );
-    },
-
-    pluck: function( lastIndex ) {
-      var self = this;
-
-      // find by data index
-      for( var i = 0; i < self.$sequence.length; i++ ) {
-        if ( lastIndex === self.$sequence.eq(i).data( 'sequence-id' ) ) {
-          return self.$sequence.eq(i);
-        }
-      }
-      // not found
-      return false;
+      // Show the current, hide the others
+      self.$sequence
+        .eq( self.curIndex )
+        .removeClass( 'visuallyhidden' )
+        .siblings()
+        .addClass( 'visuallyhidden' );
     }
   };
 
