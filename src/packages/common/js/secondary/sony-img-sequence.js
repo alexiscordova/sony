@@ -33,7 +33,7 @@ define(function(require) {
     self.options = $.extend({}, SonySequence.defaults, options);
 
     // Settings
-    self.showFallback   = ( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
+    self.showFallback   = !( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
     self.curLoaded      = 0;
     self.curIndex       = 0;
     self.movingLeft     = false;
@@ -302,23 +302,23 @@ define(function(require) {
         if (self.options.labelLeft && self.options.labelRight) {
 
           controlTmpl.labelLeft = [
-            '<li class="slider-label label-left l3" data-direction="left">',
+            '<div class="slider-label label-left l3 active" data-direction="left">',
               '<span class="label-container">',
                 '<span class="nav-label">',
                   self.options.labelLeft,
                 '</span>',
               '</span>',
-            '</li>'
+            '</div>'
           ].join('\n');
 
           controlTmpl.labelRight = [
-            '<li class="slider-label label-right l3" data-direction="right">',
+            '<div class="slider-label label-right l3" data-direction="right">',
               '<span class="label-container">',
                 '<span class="nav-label">',
                   self.options.labelRight,
                 '</span>',
               '</span>',
-            '</li>'
+            '</div>'
           ].join('\n');
 
         }
