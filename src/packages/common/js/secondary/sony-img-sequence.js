@@ -33,7 +33,7 @@ define(function(require) {
     self.options = $.extend({}, SonySequence.defaults, options);
 
     // Settings
-    self.showFallback   = !( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
+    self.showFallback   = ( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
     self.curLoaded      = 0;
     self.curIndex       = 0;
     self.movingLeft     = false;
