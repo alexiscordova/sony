@@ -6,15 +6,9 @@
 // * **Version:** 0.1
 // * **Modified:** 07/02/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.7+
+// * **Dependencies:** jQuery 1.7+, sony settings, sony environment, hammerJS, sony-paddles, sony-navdots, sony-timer
 //
-// This plugin is used to create flexible fades. Given that *#foo* is an element containing a
-// number of slides, hidden by *#foo-fade-wrapper*'s `overflow: hidden;` property, #foo will
-// become draggable with each slide being a snap-point for progression between the slides.
-// Additionally, your CSS should be such that the fade can have slides added to it
-// on either end without breaking; this allows for "infinite" fades.
-//
-// Refer to this Jade structure:
+// A carousel which fades the slides
 //
 //
 // *Example Usage:*
@@ -24,7 +18,6 @@ define(function(require) {
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr'),
       iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
       // Utilities = require('require/sony-global-utilities'),
@@ -55,20 +48,25 @@ define(function(require) {
 
       self.setVars();
       self.resetSlides( true );
+      self.initSlides();
 
       if ( self.totalSlides <= 1 ) {
         self.destroy();
         return;
       }
 
-      // Opacity has to be set to zero in old ie with filter
-      if ( !self.hasTransitions ) {
-        self.$slides.css('opacity', 0);
-      }
-
       self.setupGestures();
 
       self.gotoSlide( 0, true );
+
+      // Opacity has to be set to zero in old ie with filter
+      if ( !self.hasTransitions ) {
+        self.$slides
+          .eq(0)
+          .css('opacity', 1)
+          .siblings()
+          .css('opacity', 0);
+      }
 
       self.$el.addClass('sony-fade-active');
 
@@ -109,6 +107,35 @@ define(function(require) {
         index >= this.totalSlides ?
           0 :
           index;
+    },
+
+    initSlides: function() {
+      var self = this;
+
+      self.$slides.css( 'transitionDuration', self.animationSpeed + 'ms' );
+    },
+
+    resetSlides: function( isInit ) {
+      var self = this;
+
+      if ( !isInit ) {
+        // Remove the event because we're going to subscribe to it again
+        self.$slides.off('click.sonyfade');
+        self.updateSlides();
+      }
+
+      if ( self.paddles ) {
+        self.createPaddles();
+      }
+
+      if ( self.pagination ) {
+        self.createPagination();
+      }
+
+      // I don't know what this does...
+      self.$el.find('a').on('focus', function() {
+        self.gotoSlide(self.$slides.index($(this).closest(self.$slides)));
+      });
     },
 
     setupGestures: function() {
@@ -256,7 +283,7 @@ define(function(require) {
       var self = this,
           $wrapper = self.$paddleWrapper || self.$wrapper;
 
-      if ( Modernizr.touch || self.paddlesInit ) {
+      if ( Settings.hasTouchEvents || self.paddlesInit ) {
         return;
       }
 
@@ -278,37 +305,6 @@ define(function(require) {
       $wrapper.on('sonyPaddles:clickRight', function(e) {
         e.stopPropagation();
         self.next();
-      });
-    },
-
-    initSlides: function() {
-      var self = this;
-
-      self.$slides.css({
-        transitionDuration: self.animationSpeed
-      });
-    },
-
-    resetSlides: function( isInit ) {
-      var self = this;
-
-      if ( !isInit ) {
-        // Remove the event because we're going to subscribe to it again
-        self.$slides.off('click.sonyfade');
-        self.updateSlides();
-      }
-
-      if ( self.paddles ) {
-        self.createPaddles();
-      }
-
-      if ( self.pagination ) {
-        self.createPagination();
-      }
-
-      // I don't know what this does...
-      self.$el.find('a').on('focus', function() {
-        self.gotoSlide(self.$slides.index($(this).closest(self.$slides)));
       });
     },
 

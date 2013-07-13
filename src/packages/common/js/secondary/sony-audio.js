@@ -33,7 +33,7 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      sm = require('soundManager');
+      SoundManager = require('soundManager');
 
   // `SonyAudioController` prototype is the global sound player. All instances of `module` create an independent
   // instance of SonyAudio's API that interface back to the `SonyAudioController` object.
@@ -56,7 +56,7 @@ define(function(require){
       // and provide Flash fallbacks where either <audio> or MP3 audio
       // (in the case of Mozilla) is poorly supported.
 
-      sm.setup({
+      SoundManager.setup({
         flashVersion: 9,
         debugMode: false,
         debugFlash: false,
@@ -73,64 +73,64 @@ define(function(require){
   };
 
   var _controller,
-      _moduleCount = 0,
-      _currentModule;
+      _moduleCount = 0;
 
   var module = function (config) {
 
     _moduleCount = _moduleCount + 1;
 
-    var moduleId = 'sonyAudio-' + _moduleCount,
-        currentTime = 0,
-        currentSound,
-        onPause,
-        onPlay,
-        onFinish;
-
     if ( !_controller ) {
       _controller = new SonyAudioController();
     }
 
-    onPause = function() {
+    var moduleId = 'sonyAudio-' + _moduleCount,
+        currentTime = 0,
+        currentSound,
+        configDefaults,
+        initializeSource;
 
-      currentTime = this.position;
+    // Define defaults for configuration object (`config`).
 
-      if ( config.onpause ) {
-        config.onpause();
-      }
+    configDefaults = {
+      sources: {},
+      onpause: function() {},
+      onplay: function() {},
+      onfinish: function() {}
     };
 
-    onPlay = function() {
-      if ( config.onplay ) {
-        config.onplay();
-      }
+    // Extend `config` value over `configDefaults`
+
+    config = $.extend(true, configDefaults, config);
+
+    initializeSource = function(i) {
+      SoundManager.createSound({
+        id: moduleId + '-' + i,
+        url: config.sources[i],
+        autoLoad: true,
+        autoPlay: false,
+        onpause: function() {
+          currentTime = this.position;
+          config.onpause();
+        },
+        onplay: function() {
+          config.onplay();
+        },
+        onresume: function() {
+          config.onplay();
+        },
+        onfinish: function() {
+          currentTime = 0;
+          config.onfinish();
+        }
+      });
     };
 
-    onFinish = function() {
-
-      currentTime = 0;
-
-      if ( config.onfinish ) {
-        config.onfinish();
-      }
-    };
-
-    sm.onready(function(){
+    SoundManager.onready(function(){
       for ( var i in config.sources ) {
-
-        sm.createSound({
-          id: moduleId + '-' + i,
-          url: config.sources[i],
-          autoLoad: true,
-          autoPlay: false,
-          onpause: onPause,
-          onplay: onPlay,
-          onresume: onPlay,
-          onfinish: onFinish
-        });
+        initializeSource(i);
       }
 
-      currentSound = sm.getSoundById(moduleId + '-default');
+      currentSound = SoundManager.getSoundById(moduleId + '-default');
     });
 
     // Public API
@@ -148,7 +148,7 @@ define(function(require){
         var self = this;
 
         if ( source ) {
-          currentSound = sm.getSoundById(moduleId + '-' + source);
+          currentSound = SoundManager.getSoundById(moduleId + '-' + source);
         }
 
         self.pause();
@@ -165,7 +165,7 @@ define(function(require){
 
         var self = this;
 
-        sm.pauseAll();
+        SoundManager.pauseAll();
 
         return self;
       }
