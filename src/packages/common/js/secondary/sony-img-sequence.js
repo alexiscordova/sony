@@ -134,7 +134,7 @@ define(function(require) {
     sliderGotoFrame: function(positon) {
       var self = this,
           minWidth = 0,
-          maxWidth = self.sliderControlWidth,
+          maxWidth = (self.sliderControlWidth - 35),
           sequenceLength = self.sequenceLength - 1,
           sequenceDepth = 0,
           lastIndex = self.curIndex;
@@ -179,6 +179,11 @@ define(function(require) {
     setSliderPosition: function(position, isMin) {
        var self = this;
 
+      //check if the slider is beyond its bounds
+      if (position >= (self.sliderControlWidth-35) || position <= -24) {
+        return false;
+      }
+
        self.$slideHandle.css({
           left: position
        });
@@ -212,12 +217,10 @@ define(function(require) {
         ratio = pagePos / self.sliderControlWidth;
         value = self.sliderRatioToValue(ratio);
 
-        console.log(self.sliderControlWidth, pagePos);
-
         //check if the slider is beyond its bounds
-        if (pagePos >= (self.sliderControlWidth-35) || pagePos <= -24) {
-          return false;
-        }
+        //if (pagePos >= (self.sliderControlWidth-35) || pagePos <= -24) {
+          //return false;
+        //}
 
         //set the slider positon
         if (self.options.barcontrols) { self.setSliderPosition(pagePos); }
@@ -542,8 +545,6 @@ define(function(require) {
       event.preventDefault();
       event.gesture.preventDefault();
 
-      self.mobileLog( 'direction ' + direction + '\n' + 'events fired: '+ self.touchEvents++ + '\n' + 'direction: ' + pageX );
-
       if ( Settings.isIOS ) {
         if ( 0 === self.moves % 2 ) {
           self.move( direction );
@@ -609,10 +610,6 @@ define(function(require) {
       self.lastX = event.pageX;
     },
 
-    mobileLog: function( data, append ) {
-      //$( '.e360debug' ).html( data.toString() + '\n' );
-    },
-
     animateDragger: function() {
       if ( Settings.isLTIE8 ) {
         return;
@@ -670,6 +667,14 @@ define(function(require) {
           return false;
         }
 
+        if (direction === "left" && self.curIndex === 0) {
+          return false;
+        }
+
+        if (direction === "right" && self.curIndex >= (self.sequenceLength-1)) {
+          return false;
+        }
+
         // set it back to autoplay
         self.options.autoplay = true;
         self.animationLooped = false;
@@ -705,11 +710,12 @@ define(function(require) {
               clearInterval(self.animationInterval);
 
               // if we have bar controls
-              if (self.options.barcontrols && !self.sliderLabelInitialized) {
-                self.createBarControl();
-              }
+              if (self.options.barcontrols && !self.sliderLabelInitialized) { self.createBarControl(); }
 
-              if (self.options.barcontrols && !self.showFallback) { self.setSliderPosition(slidePos); }
+              // check if we have controls and not a fallback to set the slider position
+              if (self.options.barcontrols && !self.showFallback) { 
+                self.setSliderPosition(slidePos-23); 
+              }
 
               // set auto play to false since current index is now 0
               self.options.autoplay = false;
@@ -748,6 +754,13 @@ define(function(require) {
 
             // if its 360 or were looping set it back to original
             if (self.is360 || self.options.loop) { self.curIndex = 0; }
+
+            // if were on the last slide we can assume that the slide control
+            // should hit the very end of the slider
+            // check if we have controls and not a fallback to set the slider position
+            if (self.options.barcontrols && !self.showFallback) { 
+              self.setSliderPosition(self.sliderControlWidth-36); 
+            }
 
             return;
           } else {
