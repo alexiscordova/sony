@@ -150,7 +150,7 @@ define(function(require) {
         swipe: false,
         tap: false,
         touch: true,
-        transform: false,
+        transform: false
       });
       self.$el.on('dragstart.sonyfade', $.proxy( self.dragStart, self ));
       self.$el.on('dragend.sonyfade', $.proxy( self.dragEnd, self ));
