@@ -33,7 +33,7 @@ define(function(require) {
     self.options = $.extend({}, SonySequence.defaults, options);
 
     // Settings
-    self.showFallback   = !( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
+    self.showFallback   = ( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
     self.curLoaded      = 0;
     self.curIndex       = 0;
     self.movingLeft     = false;
@@ -223,7 +223,10 @@ define(function(require) {
         //}
 
         //set the slider positon
-        if (self.options.barcontrols) { self.setSliderPosition(pagePos); }
+        if (self.options.barcontrols) { 
+          self.$slideHandle.addClass('active');
+          self.setSliderPosition(pagePos); 
+        }
 
         //if ( pagePos <= 0 ) { pagePos = 0; }
         self.sliderGotoFrame(pagePos);
@@ -534,6 +537,10 @@ define(function(require) {
       var self = this;
       self.$body.removeClass('unselectable');
       self.clicked = false;
+
+      if (self.options.barcontrols) { 
+        self.$slideHandle.removeClass('active');
+      }
     },
 
     touchMove: function( event ) {

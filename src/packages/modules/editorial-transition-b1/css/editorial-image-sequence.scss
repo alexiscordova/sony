@@ -244,7 +244,7 @@ $transitionSpeed: 0.5s;
         @include border-radius(50%);
       }
 
-      &.hover,
+      &.active,
       &:hover {
         @include transform( scale(1) translateZ(0) );
         @include box-shadow(none);
@@ -254,10 +254,9 @@ $transitionSpeed: 0.5s;
           @include transform( scale(1.07) translateZ(0) );
           @include transition(.1s ease-out);
         }
-
-      }
-    }
-  }
+      } // end .inner
+    } // end .handle
+  } // end .range-control
 
 }
 
