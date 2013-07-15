@@ -31,31 +31,27 @@ mixin caption( caption )
   isSuperScript = stat.superscript != null ? stat.superscript : false
   statDescription = caption.description ? caption.description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
 
-  captionClasses = [ "caption" ]
-
-  if isSlideshowMode
-    - captionClasses.push( "container" )
-
-  div(class=captionClasses)
-    .media.caption-inner
-      div(class=[ "pull-left", "text-center", "stat-wrap", "js-even-col" ])
-        .table-center-wrap.v-wrap
-          .table-center
-            span.t1-light.stat.value !{ statValue }
-            if statUnit && isSuperScript
-              sup
+  .caption
+    div(class=isSlideshowMode ? "container" : false)
+      .media.caption-inner
+        div(class=[ "pull-left", "text-center", "stat-wrap", "js-even-col" ])
+          .table-center-wrap.v-wrap
+            .table-center
+              span.t1-light.stat.value !{ statValue }
+              if statUnit && isSuperScript
+                sup
+                  span.t1-light.stat.unit !{ statUnit }
+              else if statUnit
                 span.t1-light.stat.unit !{ statUnit }
-            else if statUnit
-              span.t1-light.stat.unit !{ statUnit }
-      .media-body.caption-body.table-center-wrap.js-even-col
-        .table-center
-          p.t5-light.text-dark !{ statDescription }
+        .media-body.caption-body.table-center-wrap.js-even-col
+          .table-center
+            p.t5-light.text-dark !{ statDescription }
 
 
 mixin copyGrid( data )
   copyStyle = data.style ? data.style : "dark-text-trans-box"
 
-  div(class=[ "grid", "no-grid-at-767", copyStyle ])
+  div(class=[ "grid", "no-grid-at-767", "relative", copyStyle ])
     .span6.box
       block
 

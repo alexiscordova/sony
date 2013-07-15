@@ -144,6 +144,7 @@ define(function(require) {
 
       self.fade = new Fade( self.$slideContainer, {
         slides: '.fs-slide',
+        paddlePosition: 'outset',
         animationSpeed: self.speed,
         crossfade: self.crossfade,
         $dotNavWrapper: self.$wrapper

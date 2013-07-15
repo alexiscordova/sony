@@ -141,9 +141,58 @@ define(function(require) {
     setupGestures: function() {
       var self = this;
 
-      self.$el.hammer();
-      self.$el.on('swipeleft.sonyfade', $.proxy( self.next, self ));
-      self.$el.on('swiperight.sonyfade', $.proxy( self.prev, self ));
+      self.$el.hammer({
+        drag: true,
+        drag_block_horizontal: true,
+        drag_lock_min_distance: 20,
+        hold: false,
+        release: true,
+        swipe: false,
+        tap: false,
+        touch: true,
+        transform: false
+      });
+      self.$el.on('dragstart.sonyfade', $.proxy( self.dragStart, self ));
+      self.$el.on('dragend.sonyfade', $.proxy( self.dragEnd, self ));
+      self.$el.on('release.sonyfade', $.proxy( self.release, self ));
+    },
+
+    // Stop animations that were ongoing when you started to drag.
+
+    dragStart: function() {
+
+      var self = this;
+
+      self.isDragging = true;
+    },
+
+    // Depending on how fast you were dragging, either proceed to an adjacent slide or
+    // reset position to the nearest one.
+
+    dragEnd: function(e) {
+
+      var self = this,
+          gesture = e.gesture;
+
+      self.isDragging = false;
+
+      if ( gesture && gesture.velocityX > self.dragVelocity ) {
+        if ( gesture.direction === 'right' ) {
+          self.prev();
+        } else if ( gesture.direction === 'left' ) {
+          self.next();
+        }
+      }
+    },
+
+    // Simply broadcast that the carousel was released, irregardless of if it was dragged,
+    // and transmit the carousel's current slide.
+
+    release: function() {
+
+      var self = this;
+
+      self.$el.trigger('SonyFade:released', self.currentSlide);
     },
 
     next: function() {
@@ -425,6 +474,8 @@ define(function(require) {
 
     // An array of durations correlating to each slide
     slideDurations: [],
+
+    dragVelocity: 0.5,
 
     // Create paddles.
     paddles: true,

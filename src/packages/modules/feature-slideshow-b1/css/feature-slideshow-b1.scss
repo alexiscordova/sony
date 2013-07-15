@@ -55,7 +55,7 @@ $editorialNavDotFromBtm: 60px;
 
 $copyBtmMargin: 50px;
 
-$editorialImgSize: 80%;
+$editorialImgSize: 600px;
 
 $DOT_SIZE: 16px;
 
@@ -64,6 +64,7 @@ $DOT_SIZE: 16px;
 
   .fs-backdrop {
     position: absolute;
+    z-index: 1;
     top: 0;
     right: 0;
     bottom: 0;
@@ -86,14 +87,14 @@ $DOT_SIZE: 16px;
 
   .fs-carousel-wrapper {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     height: $carouselHeight;
   }
 
   // Put copy grid above the carousel
   .copy-grid {
     position: relative;
-    z-index: 2;
+    z-index: 3;
   }
 
   .fs-carousel {
@@ -144,7 +145,6 @@ $DOT_SIZE: 16px;
     bottom: $navDotFromBtm + $DOT_SIZE + $captionFromNavDots;
     left: 0;
     right: 0;
-    margin: auto;
 
     // For fading in
     opacity: 1;
@@ -210,7 +210,7 @@ $DOT_SIZE: 16px;
 
   .fs-slide .iq-img {
     background-size: contain;
-    height: $editorialImgSize; // give room for static positioned captions
+    height: percentage( $editorialImgSize / $carouselHeight ); // give room for static positioned captions
   }
 
   // .fs-slide-inner has .container on it in editorial mode
@@ -248,6 +248,28 @@ $DOT_SIZE: 16px;
   .fs-carousel,
   .fs-carousel-slide {
     height: $carouselHeight;
+  }
+}
+
+.lt-ie8 .fs-slideshow {
+
+  // background image needs height
+  .fs-slide .iq-img {
+    height: $carouselHeight;
+  }
+}
+
+.lt-ie8 .fs-editorial {
+
+  .fs-slide .iq-img {
+    height: $editorialImgSize;
+  }
+
+  // Has container class. That combined with auto margins fail in IE7
+  .fs-slide-inner {
+    left: 50%;
+    right: auto;
+    margin-left: ( -980px / 2 );
   }
 }
 
