@@ -20,8 +20,11 @@
 //      Viewport.add({
 //        element: document.getElementById('some-wrapper'),
 //        threshold: '50%',
-//        callback: function( element ) {
+//        enter: function( element ) {
 //          console.log('the top of "element" is 50% in view');
+//        },
+//        leave: function() {
+//          console.log('bottom of element has left the viewport');
 //        }
 //      });
 //
