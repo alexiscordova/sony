@@ -133,12 +133,12 @@ $transitionSpeed: 0.5s;
       -ms-user-select: none;
       user-select: none;
     }
-  }
+  } // end .controls
 
   .control-bar-container {
     position: relative;
     width: 100%; 
-    margin: 0 auto;
+    margin: 0 auto;   
     text-align: center;
 
     &.fallback {
@@ -207,8 +207,8 @@ $transitionSpeed: 0.5s;
         margin: 0 0 0 -4px;
         text-align: left;
       }
-    }               
-  }
+    } // end .slider-label
+  } // end .control-bar-container 
 
   .slider {
     width: percentage(500/1040);
@@ -227,6 +227,7 @@ $transitionSpeed: 0.5s;
       width: 56px;
       height: 56px;
       @include box-shadow(none);
+      @include transition();
 
       .inner {
         color: #fff;
@@ -254,11 +255,10 @@ $transitionSpeed: 0.5s;
           @include transform( scale(1.07) translateZ(0) );
           @include transition(.1s ease-out);
         }
-      } // end .inner
+      } // end inner:hover, inner.active
     } // end .handle
   } // end .range-control
-
-}
+} // end .sony-sequence
 
 .csstransforms.touch {
   .sony-sequence {

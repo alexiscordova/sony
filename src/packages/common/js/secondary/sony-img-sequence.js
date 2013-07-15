@@ -33,7 +33,7 @@ define(function(require) {
     self.options = $.extend({}, SonySequence.defaults, options);
 
     // Settings
-    self.showFallback   = ( Settings.hasTouchEvents || Settings.isVita || Settings.isPS3 );
+    self.showFallback   = ( Settings.isSonyTabletP || Settings.isGoogleTV || Settings.isVita || Settings.isPS3 );
     self.curLoaded      = 0;
     self.curIndex       = 0;
     self.movingLeft     = false;
@@ -241,6 +241,8 @@ define(function(require) {
       self.pagePos = 0;
       // find the handle so we can setup bindings
       self.$slideHandle = self.$sliderControl.find('.handle');
+      self.$sliderControlContainer = self.$container.find('.control-bar-container');      
+      var hammer = new Hammer(self.$slideHandle.get(0) ,{prevent_default:true});
       self.$slideHandle.hammer();
 
       // get slider dimensions
@@ -255,7 +257,7 @@ define(function(require) {
         },
         drag : function( event ) {
           var direction = event.gesture.direction;
-
+          
           if ( 'left' === direction || 'right' === direction ) {
             self.dragSlider( event );
           }
