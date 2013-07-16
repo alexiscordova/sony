@@ -537,7 +537,7 @@ define(function(require) {
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       self.syncControlLayout();
       // only want to do this if we have a slider and lables
-      if (self.options.barcontrols && !self.sliderLabelInitialized) {
+      if (self.options.barcontrols && self.sliderLabelInitialized) {
         self.sliderGetDimensions();
         self.getSliderPosition();
       }
