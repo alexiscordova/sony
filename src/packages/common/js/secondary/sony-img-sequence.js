@@ -185,8 +185,23 @@ define(function(require) {
       }
 
        self.$slideHandle.css({
-          left: position
+          left: position + "%"
        });
+    },
+
+    // gets the slider positon called on resize to fix bugs with positioning
+    getSliderPosition: function() {
+      var self = this,
+      steps,
+      position,
+      percentagePosition;
+      
+      steps = (self.sliderControlWidth / (self.sequenceLength - 1));
+      position = (steps * self.curIndex);
+      percentagePosition = (position / (self.sliderControlWidth + 30)) * 100;
+
+      // resets the slider position 
+      self.setSliderPosition(percentagePosition);
     },
 
     // get the demensions, will need to recalculate on resize
@@ -199,6 +214,7 @@ define(function(require) {
     dragSlider: function(event, position) {
       var self = this,
           pagePos,
+          pagePosPercentage,
           ratio,
           value,
           data = {},
@@ -211,6 +227,8 @@ define(function(require) {
       pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
       pagePos = Math.max(-24, pagePos);
+      
+      pagePosPercentage = ( ( pagePos-30 ) / (self.sliderControlWidth) ) * 100;
 
       if (self.pagePos !== pagePos) {
         self.pagePos = pagePos;
@@ -218,14 +236,14 @@ define(function(require) {
         value = self.sliderRatioToValue(ratio);
 
         //check if the slider is beyond its bounds
-        //if (pagePos >= (self.sliderControlWidth-35) || pagePos <= -24) {
-          //return false;
-        //}
+        if (pagePos <= 0) {
+          return false;
+        }
 
         //set the slider positon
         if (self.options.barcontrols) { 
           self.$slideHandle.addClass('active');
-          self.setSliderPosition(pagePos); 
+          self.setSliderPosition(pagePosPercentage); 
         }
 
         //if ( pagePos <= 0 ) { pagePos = 0; }
@@ -451,6 +469,7 @@ define(function(require) {
             },
             drag : function( event ) {
               var direction = event.gesture.direction;
+              event.preventDefault();
 
               // Only call if moved left or right
               if ( 'left' === direction || 'right' === direction ) {
@@ -517,6 +536,11 @@ define(function(require) {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       self.syncControlLayout();
+      // only want to do this if we have a slider and lables
+      if (self.options.barcontrols && self.sliderLabelInitialized) {
+        self.sliderGetDimensions();
+        self.getSliderPosition();
+      }
     },
 
     onScroll: function() {
@@ -704,11 +728,13 @@ define(function(require) {
     move: function( direction ) {
       var self      = this,
           lastIndex = self.curIndex,
+          slidePosPercentage,
           slidePos,
           pagePos;
 
       // gets the number of slide notches for the slider
       slidePos = (self.curIndex * (self.sliderControlWidth / (self.sequenceLength - 1)));
+      slidePosPercentage = ( ( slidePos-30 ) / self.sliderControlWidth ) * 100;
 
       switch( direction ) {
         case 'left':
@@ -723,7 +749,7 @@ define(function(require) {
 
               // check if we have controls and not a fallback to set the slider position
               if (self.options.barcontrols && !self.showFallback) { 
-                self.setSliderPosition(slidePos-23); 
+                self.setSliderPosition(slidePosPercentage); 
               }
 
               // set auto play to false since current index is now 0
@@ -734,16 +760,18 @@ define(function(require) {
 
             // if we aren't looping or if were arent autoplaying set the curIndex to the lenght - 1 ??
             self.curIndex = self.sequenceLength - 1;
+            self.pagePos = self.curIndex;
 
           } else {
             // keep iterating the curIndex down since were moving left
             self.curIndex--;
+            self.pagePos = self.curIndex;
 
             // once the curIndex is 1 that means weve done a full loop (started from the sequence length)
             if (self.curIndex === 1) { self.animationLooped = true; }
 
             // if were animating we need to get the current slide index and compare it to the slider width, to get the position.
-            if (self.options.barcontrols && self.sliderLabelInitialized && !self.showFallback) { self.setSliderPosition(slidePos); }
+            if (self.options.barcontrols && self.sliderLabelInitialized && !self.showFallback) { self.setSliderPosition(slidePosPercentage); }
           }
         break;
 
@@ -760,6 +788,7 @@ define(function(require) {
             self.options.autoplay = false;
 
             self.curIndex = ( self.sequenceLength -1 );
+            self.pagePos = self.curIndex;
 
             // if its 360 or were looping set it back to original
             if (self.is360 || self.options.loop) { self.curIndex = 0; }
@@ -768,14 +797,15 @@ define(function(require) {
             // should hit the very end of the slider
             // check if we have controls and not a fallback to set the slider position
             if (self.options.barcontrols && !self.showFallback) { 
-              self.setSliderPosition(self.sliderControlWidth-36); 
+              self.setSliderPosition(slidePosPercentage-1); 
             }
 
             return;
           } else {
             self.curIndex++;
+            self.pagePos = self.curIndex;
             // we can assume we've done a loop
-            if (self.options.barcontrols && !self.showFallback) { self.setSliderPosition(slidePos); }
+            if (self.options.barcontrols && !self.showFallback) { self.setSliderPosition(slidePosPercentage); }
           }
         break;
       }
