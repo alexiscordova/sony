@@ -124,6 +124,8 @@ module.exports = function(grunt) {
       debug: ['../build/debug/'],
       deploy: ['../build/deploy/'],
       deployRequireJSTemp: ['../build/deploy-requirejs-temp/'],
+      unit_tests: ['../build/tests'],
+      unit_tests_post_copy: ['../build/tests/*.html'],
       docs: ['../docs/']
     },
 
@@ -208,6 +210,10 @@ module.exports = function(grunt) {
             mod = path.split('/')[2];
             arr.push({expand:true, cwd:path, src:['**'], dest:'../build/debug/js/modules/' + mod});
           });
+          grunt.file.expand('packages/modules/**/tests/').forEach(function(path){
+            mod = path.split('/')[2];
+            arr.push({expand:true, cwd:path, src:['*.js'], dest:'../build/debug/js/modules/' + mod + '/specs/'});
+          });
           return arr;
         }()
       },
@@ -224,6 +230,11 @@ module.exports = function(grunt) {
       rjs_deploy: {
         files: [
           {expand: true, cwd:'../build/deploy-requirejs-temp/js/',      src: ['**'], dest: '../build/deploy/js/'},
+        ]
+      },
+      unit_tests: {
+        files: [
+          {expand: true, cwd:'../build/debug/', src: ['**'], dest: '../build/tests/'},
         ]
       },
       docs:{
@@ -343,6 +354,12 @@ module.exports = function(grunt) {
         options:jadeconfig,
         files:[
           {expand:true, cwd:'packages/modules/', src:['**/demo/*.jade'], dest:'../build/deploy/', ext:'.html', flatten:true}
+        ]
+      },
+      unit_tests: {
+        options:jadeconfig,
+        files:[
+          {expand:true, cwd:'packages/modules/', src:['**/tests/*.jade'], dest:'../build/tests/', ext:'.html', flatten:true}
         ]
       }
     },
@@ -648,6 +665,7 @@ module.exports = function(grunt) {
       mod = path.split('/')[2];
       arr.push({expand:true, cwd:path, src:['**'], dest:'../build/'+ env +'/js/modules/' + mod})
     });
+
     grunt.config('copy.module_'+env+'.files', arr);
     grunt.task.run('copy:module_' + env);
 
@@ -666,6 +684,10 @@ module.exports = function(grunt) {
       grunt.task.run('requirejs_deploy');
       grunt.task.run('groundskeeper');
     }
+  });
+
+  grunt.registerTask('generateUnitTests', function(){
+    grunt.task.run(['clean:unit_tests', 'copy:unit_tests', 'clean:unit_tests_post_copy', 'jade:unit_tests'])
   });
 
   grunt.registerTask('w', function(module){

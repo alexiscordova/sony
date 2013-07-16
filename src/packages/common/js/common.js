@@ -11,7 +11,9 @@ requirejs.config({
     enquire: 'libs/enquire',
     iQ: 'libs/iq',
     jquery: 'libs/jquery',
-    soundManager: 'libs/soundmanager'
+    soundManager: 'libs/soundmanager',
+    jasmine: 'libs/jasmine',
+    'jasmine-html': 'libs/jasmine-html'
   },
 
   shim: {
@@ -31,7 +33,17 @@ requirejs.config({
 
     soundManager: {
       exports: 'soundManager'
+    },
+
+    jasmine: {
+      exports: 'jasmine'
+    },
+
+    'jasmine-html': {
+      deps: ['jasmine'],
+      exports: 'jasmine'
     }
+
   },
 
   // IE8 and 7 sometimes time out when set to 30sec
