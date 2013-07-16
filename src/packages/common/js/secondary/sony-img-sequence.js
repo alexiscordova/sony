@@ -536,8 +536,11 @@ define(function(require) {
       var self = this;
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       self.syncControlLayout();
-      self.sliderGetDimensions();
-      self.getSliderPosition();
+      // only want to do this if we have a slider and lables
+      if (self.options.barcontrols && !self.sliderLabelInitialized) {
+        self.sliderGetDimensions();
+        self.getSliderPosition();
+      }
     },
 
     onScroll: function() {
