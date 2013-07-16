@@ -35,17 +35,16 @@ define(function(require){
 
     constructor: SonyAudioPlayer,
 
+    // Initializes the module and sets the player to the first track.
+    // Returns an array of instances of itself, given multiple elements.
+
     init: function(element) {
 
       var self = this;
 
       self.$el = $(element);
 
-      if ( self.$el.length === 0 ) {
-
-        return null;
-
-      } else if ( self.$el.length > 1 ) {
+      if ( self.$el.length > 1 ) {
 
         var instances = [];
 
@@ -56,30 +55,18 @@ define(function(require){
         return instances;
       }
 
-      self.reset();
-
-      return self;
-    },
-
-    reset: function() {
-
-      var self = this;
-
-      self.$tracks = self.$el.find('.track');
-      self.$nav = self.$el.find('nav');
-
-      self.currentTrack = 0;
       self.setTrack(0);
 
       return self;
     },
 
-    // Get track at 0-based position `which`, and initialize the audio for that track.
+    // Gets track at 0-based position `which`, and initializes the audio for that track.
+    // Binds track to the nav and the API, and updates album art.
 
     setTrack: function(which) {
 
       var self = this,
-          $track = self.$tracks.eq(which),
+          $track = self.$el.find('.track').eq(which),
           $sources = $track.find('.source');
 
       // Create audio track with provided sources.
@@ -104,7 +91,7 @@ define(function(require){
       return self;
     },
 
-    // Return source list object from a provided set of `$sources`.
+    // Returns a source list object from a provided set of `$sources`.
 
     getSourceList: function($sources) {
 
@@ -121,7 +108,7 @@ define(function(require){
       return sourceList;
     },
 
-    // Bind the <nav> elements to the `track` object's API.
+    // Binds the <nav> elements to the `track` object's API.
 
     bindNav: function(track) {
 
@@ -140,7 +127,7 @@ define(function(require){
       return self;
     },
 
-    // Create an Event-driven API of custom events that can be triggered by
+    // Creates an Event-driven API of custom events that can be triggered by
     // modules that are using `SonyAudioPlayer` as a submodule.
     //
     // *Example Usage:*
@@ -162,7 +149,7 @@ define(function(require){
       return self;
     },
 
-    // Get track at 0-based position `which`, and set the active album art to the
+    // Gets track at 0-based position `which`, and sets the active album art to the
     // corresponding data object.
 
     setAlbumArt: function(which) {
@@ -170,7 +157,7 @@ define(function(require){
       var self = this;
 
       self.$el.css({
-        backgroundImage: 'url('+self.$tracks.eq(which).data('album-art')+')'
+        backgroundImage: 'url('+self.$el.find('.track').eq(which).data('album-art')+')'
       });
 
       return self;
