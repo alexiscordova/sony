@@ -189,6 +189,21 @@ define(function(require) {
        });
     },
 
+    // gets the slider positon called on resize to fix bugs with positioning
+    getSliderPosition: function() {
+      var self = this,
+      steps,
+      position,
+      percentagePosition;
+      
+      steps = (self.sliderControlWidth / (self.sequenceLength - 1));
+      position = (steps * self.curIndex);
+      percentagePosition = (position / (self.sliderControlWidth + 30)) * 100;
+
+      // resets the slider position 
+      self.setSliderPosition(percentagePosition);
+    },
+
     // get the demensions, will need to recalculate on resize
     sliderGetDimensions: function() {
       var self = this;
@@ -522,6 +537,7 @@ define(function(require) {
       self.dynamicBuffer = Math.floor( ( self.$container.width() / self.$sequence.length ) / self.throttle );
       self.syncControlLayout();
       self.sliderGetDimensions();
+      self.getSliderPosition();
     },
 
     onScroll: function() {
@@ -741,10 +757,12 @@ define(function(require) {
 
             // if we aren't looping or if were arent autoplaying set the curIndex to the lenght - 1 ??
             self.curIndex = self.sequenceLength - 1;
+            self.pagePos = self.curIndex;
 
           } else {
             // keep iterating the curIndex down since were moving left
             self.curIndex--;
+            self.pagePos = self.curIndex;
 
             // once the curIndex is 1 that means weve done a full loop (started from the sequence length)
             if (self.curIndex === 1) { self.animationLooped = true; }
@@ -767,6 +785,7 @@ define(function(require) {
             self.options.autoplay = false;
 
             self.curIndex = ( self.sequenceLength -1 );
+            self.pagePos = self.curIndex;
 
             // if its 360 or were looping set it back to original
             if (self.is360 || self.options.loop) { self.curIndex = 0; }
@@ -781,6 +800,7 @@ define(function(require) {
             return;
           } else {
             self.curIndex++;
+            self.pagePos = self.curIndex;
             // we can assume we've done a loop
             if (self.options.barcontrols && !self.showFallback) { self.setSliderPosition(slidePosPercentage); }
           }
