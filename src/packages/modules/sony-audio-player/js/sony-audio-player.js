@@ -19,37 +19,59 @@ define(function(require){
       Modernizr = require('modernizr'),
       SonyAudio = require('secondary/index').sonyAudio;
 
-  var module = {
-    'init': function() {
-      $('.sony-audio-player').each(function(){
-        new SonyAudioPlayer(this);
-      });
-    }
-  };
-
   var SonyAudioPlayer = function(element){
 
-    var self = this;
+    var self = this,
+        init;
 
-    self.$el = $(element);
-    self.$tracks = self.$el.find('.track');
-    self.$nav = self.$el.find('nav');
-
-    self.init();
+    init = self.init(element);
 
     log('SONY : SonyAudioPlayer : Initialized');
+
+    return init;
   };
 
   SonyAudioPlayer.prototype = {
 
     constructor: SonyAudioPlayer,
 
-    init: function() {
+    init: function(element) {
 
       var self = this;
 
+      self.$el = $(element);
+
+      if ( self.$el.length === 0 ) {
+
+        return null;
+
+      } else if ( self.$el.length > 1 ) {
+
+        var instances = [];
+
+        self.$el.each(function(){
+          instances.push(new SonyAudioPlayer(this));
+        });
+
+        return instances;
+      }
+
+      self.reset();
+
+      return self;
+    },
+
+    reset: function() {
+
+      var self = this;
+
+      self.$tracks = self.$el.find('.track');
+      self.$nav = self.$el.find('nav');
+
       self.currentTrack = 0;
       self.setTrack(0);
+
+      return self;
     },
 
     // Get track at 0-based position `which`, and initialize the audio for that track.
@@ -58,21 +80,12 @@ define(function(require){
 
       var self = this,
           $track = self.$tracks.eq(which),
-          $sources = $track.find('.source'),
-          sourceList = {};
-
-      $sources.each(function(a,b){
-
-        var key = $(this).text(),
-            value = $(this).find('a').attr('href');
-
-        sourceList[key] = value;
-      });
+          $sources = $track.find('.source');
 
       // Create audio track with provided sources.
 
       var track = new SonyAudio({
-        sources: sourceList,
+        sources: self.getSourceList($sources),
         onpause: function() {
           self.$el.removeClass('playing').addClass('paused');
         },
@@ -91,6 +104,23 @@ define(function(require){
       return self;
     },
 
+    // Return source list object from a provided set of `$sources`.
+
+    getSourceList: function($sources) {
+
+      var sourceList = {};
+
+      $sources.each(function(a,b){
+
+        var key = $(this).text(),
+            value = $(this).find('a').attr('href');
+
+        sourceList[key] = value;
+      });
+
+      return sourceList;
+    },
+
     // Bind the <nav> elements to the `track` object's API.
 
     bindNav: function(track) {
@@ -106,6 +136,8 @@ define(function(require){
         e.preventDefault();
         track.pause();
       });
+
+      return self;
     },
 
     // Create an Event-driven API of custom events that can be triggered by
@@ -126,6 +158,8 @@ define(function(require){
       self.$el.on('SonyAudioPlayer:play', function(e, setting){
         track.play(setting);
       });
+
+      return self;
     },
 
     // Get track at 0-based position `which`, and set the active album art to the
@@ -138,9 +172,11 @@ define(function(require){
       self.$el.css({
         backgroundImage: 'url('+self.$tracks.eq(which).data('album-art')+')'
       });
+
+      return self;
     }
   };
 
-  return module;
+  return SonyAudioPlayer;
 
 });
