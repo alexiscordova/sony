@@ -1,13 +1,12 @@
 
+// Sony Audio Player (SonyAudioPlayer) Index
+// -----------------------------------------
+
 define(function(require){
 
   var SonyAudioPlayer = require('modules/sony-audio-player/sony-audio-player');
 
-  // Initialize Modules that don't require additional configuration.
-  SonyAudioPlayer.init();
+  var $elements = $('.sony-audio-player');
 
-  // Return up a level if desired.
-  return {
-    SonyAudioPlayer: SonyAudioPlayer
-  };
+  new SonyAudioPlayer($elements);
 });
