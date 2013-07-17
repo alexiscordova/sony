@@ -171,6 +171,7 @@ $transitionSpeed: 0.5s;
         vertical-align: bottom;
         @include box-sizing(content-box);
         @include transition();
+        @include ie7-inline-block();
 
         &.active {
           border-top:4px solid $buttonBlue;
@@ -198,6 +199,7 @@ $transitionSpeed: 0.5s;
       color: $gray40;
       width: percentage(175/1040);
       top: -6px;
+      @include ie7-inline-block();
 
       &.label-left {
         text-align: right;
@@ -211,9 +213,10 @@ $transitionSpeed: 0.5s;
   } // end .control-bar-container 
 
   .slider {
+    display: inline-block;
     width: percentage(500/1040);
     margin: 0 24px;
-    display: inline-block;
+    @include ie7-inline-block();
   }
 
   .range-control {
@@ -267,6 +270,31 @@ $transitionSpeed: 0.5s;
         @include transform( scale(1) translateZ(0) );
         @include box-shadow(none);
       }
+    }
+  }
+}
+
+.no-borderradius {
+  .sony-sequence {
+    .range-control {
+      height: 6px;
+      .handle {
+        margin-top: -31px;
+        height: 62px;
+        width: 62px;
+        border: none;
+        background:url('../../img/editorial-dual-viewer-e9/scrubber.png');
+        .inner {visibility:hidden;}
+      }
+    }
+  }
+}
+
+// IE7
+.lt-ie8 {
+  .sony-sequence {
+    .range-control {
+      vertical-align: middle;
     }
   }
 }
