@@ -210,10 +210,6 @@ module.exports = function(grunt) {
             mod = path.split('/')[2];
             arr.push({expand:true, cwd:path, src:['**'], dest:'../build/debug/js/modules/' + mod});
           });
-          grunt.file.expand('packages/modules/**/tests/').forEach(function(path){
-            mod = path.split('/')[2];
-            arr.push({expand:true, cwd:path, src:['*.js'], dest:'../build/debug/js/modules/' + mod + '/specs/'});
-          });
           return arr;
         }()
       },
@@ -555,7 +551,7 @@ module.exports = function(grunt) {
     grunt.task.run(['copy:common_deploy', 'requirejs', 'copy:rjs_deploy', 'clean:deployRequireJSTemp']);
   });
 
-  grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages_debug', 'pages_deploy']);
+  grunt.registerTask('all', ['clean', 'debug', 'deploy', 'docs', 'pages_debug', 'pages_deploy', 'generate-jasmine-runners']);
 
   //******************************************************************************
   //all of the following can be called with --deploy otherwise they assume --debug
@@ -666,6 +662,11 @@ module.exports = function(grunt) {
       arr.push({expand:true, cwd:path, src:['**'], dest:'../build/'+ env +'/js/modules/' + mod})
     });
 
+    grunt.file.expand('packages/modules/'+module+'/tests/').forEach(function(path){
+      mod = path.split('/')[2];
+      arr.push({expand:true, cwd:path, src:['*.js'], dest:'../build/debug/js/modules/' + mod + '/specs/'});
+    });
+
     grunt.config('copy.module_'+env+'.files', arr);
     grunt.task.run('copy:module_' + env);
 
@@ -686,7 +687,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('generateUnitTests', function(){
+  grunt.registerTask('generate-jasmine-runners', function(){
     grunt.task.run(['clean:unit_tests', 'copy:unit_tests', 'clean:unit_tests_post_copy', 'jade:unit_tests'])
   });
 
