@@ -31,6 +31,14 @@ if data.sequenceConfig
 if data.hotspotConfig 
   - hotspots = data.hotspotConfig.hotspots ? data.hotspotConfig.hotspots : ''  
             
+
+mixin slidelabels
+  if data.sequence
+    div(class="label-data visuallyhidden")
+      for labelData, i in data.sequence
+        if labelData.label
+          i(data-label = labelData.label, data-id = i )
+
 mixin copyblock(_copy, _title, _subtitle, _body)
   copyobject = _copy ? _copy : data
   titleclass = _title ? _title : "t2"
@@ -123,7 +131,7 @@ mixin boxlayout(_layout)
 
 +mainElement( editorialClasses )
   if data.sequenceConfig
-    div(class="sony-sequence container dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed, data-sequence-label-left=labelLeft, data-sequence-label-right=labelRight )
+    div(class="sony-sequence container dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed )
       .outer
         if data.background == "true"
           .loading.load-indicator.text-center
@@ -153,6 +161,7 @@ mixin boxlayout(_layout)
             if data.copy
               +copyblock(data.copy, "t3", "t7", "p3")    
                 
+      +slidelabels
       .controls.container.hidden
         .drag-controls(class=isDark)(class=bump)(class=lod)
           i.left-arrow.fonticon-10-chevron-reverse

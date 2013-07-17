@@ -286,15 +286,35 @@ define(function(require) {
       });
     },
 
-    appendLabels: function(fallback, tmpl) {
+    getLabels: function() {
+      var self = this,
+          $labelContainer,
+          labelArr = [],
+          labels;
 
+      $labelContainer = self.$container.find('.label-data');
+      labels = $labelContainer.find('i');
+      
+      // push our new items into the object.currLabels
+      for(var _i=0;_i < labels.length;_i++) {
+        var obj = { 
+          id: $(labels[_i]).data('id'),
+          name: $(labels[_i]).data('label')
+        };
+        // push the label attributes into the object
+        labelArr.push(obj);
+      }
+
+      // remove the labels since we cached the data
+      $labelContainer.remove();
+
+      return labelArr;
     },
 
     createBarControl: function() {
       var self = this,
-          controlTmpl;
-
-      controlTmpl = {};
+          controlTmpl = {},
+          labels;
 
       controlTmpl.slider = [
         '<div class="control-bar-container">',
@@ -316,19 +336,27 @@ define(function(require) {
         '</div>'
       ].join('\n');
 
+      // gets the label data and lenght 
+      labels = self.getLabels();
+
+        //if (self.options.labelLeft && self.options.labelRight) {
+          //controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.options.labelLeft + '</span>';
+          //controlTmpl.labelRight = '<span class="slider-label label-right l3" data-direction="right">' + self.options.labelRight + '</span>';
+        //}
+      
       // do we need to display the fallback experience?
       if (self.showFallback) {
         self.$container.append(controlTmpl.fallback);
         self.$sliderControlContainer = self.$container.find('.control-bar-container');
 
         // the label container needs to be different if were a fallback
-        if (self.options.labelLeft && self.options.labelRight) {
-
+        if (labels.length == 2) {
+          
           controlTmpl.labelLeft = [
             '<div class="slider-label label-left l3 active" data-direction="left">',
               '<span class="label-container">',
                 '<span class="nav-label">',
-                  self.options.labelLeft,
+                  labels[0].name,
                 '</span>',
               '</span>',
             '</div>'
@@ -338,7 +366,7 @@ define(function(require) {
             '<div class="slider-label label-right l3" data-direction="right">',
               '<span class="label-container">',
                 '<span class="nav-label">',
-                  self.options.labelRight,
+                  labels[1].name,
                 '</span>',
               '</span>',
             '</div>'
@@ -350,12 +378,6 @@ define(function(require) {
         self.$container.append(controlTmpl.slider);
         self.$sliderControlContainer = self.$container.find('.control-bar-container');
         self.$sliderControl = self.$container.find('.range-control');
-
-        // the label container needs to be different if were a fallback
-        if (self.options.labelLeft && self.options.labelRight) {
-          controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.options.labelLeft + '</span>';
-          controlTmpl.labelRight = '<span class="slider-label label-right l3" data-direction="right">' + self.options.labelRight + '</span>';
-        }
       }
 
       // do we have labels that we can show?
@@ -826,9 +848,7 @@ define(function(require) {
     viewcontrols: true,
     barcontrols: false,
     loop: true,
-    speed: 100,
-    labelLeft: 'Left',
-    labelRight: 'Right'
+    speed: 100
   };
 
   // Non override-able settings
