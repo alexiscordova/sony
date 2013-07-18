@@ -1,0 +1,23 @@
+include ../../../common/html/jade-helpers.jade
+
+doctype 5
+include ../../../common/html/ieconditionals.html
+
+head
+  title Sony Audio Player Test Runner
+  link(rel="stylesheet")(type="text/css")(href="css/jasmine.css")
+  include ../../../common/html/head.jade
+
+body
+
+  .container
+    h4= 'Sony Audio Player Test Runner'
+
+  .container
+    .grid
+      .span12
+        +partial("sony-audio-player/html/sony-audio-player.jade", "packages/modules/sony-audio-player/demo/data/demo.json")
+
+  include ../../../common/html/foot-testing.jade
+</html>
+
