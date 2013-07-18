@@ -192,6 +192,36 @@ $transitionSpeed: 0.5s;
       } // end .slider-label
     } // end &.fallback
 
+    &.multi-label {
+
+      .slider {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .label-container {
+        position: relative;
+        width: percentage(500/1040);
+        margin: 0 auto;
+        @include clearfix();
+      }
+
+      .slider-label {
+        top: 25px;
+        position: absolute;
+        width: auto;
+
+        &.label-left {
+          left: 0;
+          text-align: left;
+        }      
+        &.label-right {
+          right: 0;
+          text-align: right;
+        }      
+      } // end .slider-label
+    } // end .multi-label
+    
     .slider-label {
       display: inline-block;
       cursor: pointer;

@@ -263,9 +263,6 @@ define(function(require) {
       var hammer = new Hammer(self.$slideHandle.get(0) ,{prevent_default:true});
       self.$slideHandle.hammer();
 
-      // get slider dimensions
-      self.sliderGetDimensions();
-
       self.$slideHandle.on({
         touch : function( event ) {
           self.touchDown( event );
@@ -314,6 +311,7 @@ define(function(require) {
     createBarControl: function() {
       var self = this,
           controlTmpl = {},
+          tmplObj,
           labels;
 
       controlTmpl.slider = [
@@ -337,26 +335,22 @@ define(function(require) {
       ].join('\n');
 
       // gets the label data and lenght 
-      labels = self.getLabels();
+      self.labels = self.getLabels();
 
-        //if (self.options.labelLeft && self.options.labelRight) {
-          //controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.options.labelLeft + '</span>';
-          //controlTmpl.labelRight = '<span class="slider-label label-right l3" data-direction="right">' + self.options.labelRight + '</span>';
-        //}
-      
       // do we need to display the fallback experience?
       if (self.showFallback) {
         self.$container.append(controlTmpl.fallback);
         self.$sliderControlContainer = self.$container.find('.control-bar-container');
 
         // the label container needs to be different if were a fallback
-        if (labels.length == 2) {
+        // if we have only two labels the markup changes sligtly
+        if (self.labels.length == 2) {
           
           controlTmpl.labelLeft = [
             '<div class="slider-label label-left l3 active" data-direction="left">',
               '<span class="label-container">',
                 '<span class="nav-label">',
-                  labels[0].name,
+                  self.labels[0].name,
                 '</span>',
               '</span>',
             '</div>'
@@ -366,24 +360,66 @@ define(function(require) {
             '<div class="slider-label label-right l3" data-direction="right">',
               '<span class="label-container">',
                 '<span class="nav-label">',
-                  labels[1].name,
+                  self.labels[1].name,
                 '</span>',
               '</span>',
             '</div>'
           ].join('\n');
 
+        } else if(self.labels.length > 2) {
+          console.log('TODO: MAKE FALLBACK LABEL MARKUP FOR MORE THAN 2 LABELS');
         }
       } else {
         // add our new controls to the container
         self.$container.append(controlTmpl.slider);
+        
+        // define our slider globals
         self.$sliderControlContainer = self.$container.find('.control-bar-container');
         self.$sliderControl = self.$container.find('.range-control');
+
+        // get slider dimensions
+        self.sliderGetDimensions();
+
+        if (self.labels.length == 2) {
+          console.log('append that label!');
+          controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.labels[0].name + '</span>';
+          controlTmpl.labelRight = '<span class="slider-label label-right l3" data-direction="right">' + self.labels[1].name + '</span>';
+        } else if(self.labels.length > 2) {
+          // add the new labels to controlTmpl
+          controlTmpl.labels = [];
+          for (var _i = 0; _i < self.labels.length; _i++) {
+            // we have different templates for the first and last labels
+            if (self.labels[_i].id === 0) {
+              tmplObj = '<span class="slider-label label-left l3" data-direction="left">' + self.labels[_i].name + '</span>';
+            } else if (self.labels[_i].id == self.sequenceLength-1) {
+              tmplObj = '<span class="slider-label label-right l3" data-direction="right">' + self.labels[_i].name + '</span>';
+            } else {
+              // we should get the percentage of the label to position it?
+              var labelPos = (self.labels[_i].id * (self.sliderControlWidth / (self.sequenceLength - 1)));
+              var labelPosPercentage = ( ( labelPos-30 ) / self.sliderControlWidth ) * 100;
+
+              tmplObj = '<span class="slider-label label-int l3" data-direction='+ _i +' style=" left:' + labelPosPercentage + '%; " >' + self.labels[_i].name + '</span>';
+            }
+            // push them into a cached object
+            controlTmpl.labels.push(tmplObj);
+          }
+        }
+
       }
 
       // do we have labels that we can show?
-      if (self.options.labelLeft && self.options.labelRight) {
+      if (self.labels.length == 2) {
         self.$sliderControlContainer.append(controlTmpl.labelRight)
           .prepend(controlTmpl.labelLeft);
+      } else if(self.labels.length > 2) {
+        var labelContainer = '<div class="label-container"></div>',
+            $labelContainer;
+
+        self.$sliderControlContainer.addClass('multi-label')
+          .append(labelContainer);
+
+        $labelContainer = $('.label-container');
+        $labelContainer.append(controlTmpl.labels);
       }
 
       // setup the bindings for the control slider
