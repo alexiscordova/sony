@@ -31,6 +31,8 @@ if data.sequenceConfig
 if data.hotspotConfig 
   - hotspots = data.hotspotConfig.hotspots ? data.hotspotConfig.hotspots : ''  
             
+if data.variation && data.variation.background
+  - editorialClasses.push( data.variation.background )
 
 mixin slidelabels
   if data.sequence
