@@ -80,13 +80,18 @@ isSlideshowMode = data.mode && data.mode != "editorial"
 mode = data.mode ? data.mode : "slideshow"
 mode = "fs-" + mode
 
+mainElementClasses = [ mode, "fs-module" ]
+
 crossfade = data.crossfade ? data.crossfade : false
 threshold = data.threshold ? data.threshold : false
 delay = data.delay ? data.delay : false
 speed = data.speed ? data.speed : false
 
+if data.variation && data.variation.background
+  - mainElementClasses.push( data.variation.background )
+
 //- Main section wrapper for slides
-+mainElement( [ "fs-module", mode ] )
++mainElement( mainElementClasses )
   if data.backdrop
     +iQBackgroundImage( data.backdrop, 'update-always fs-backdrop' )
   .container.copy-grid
