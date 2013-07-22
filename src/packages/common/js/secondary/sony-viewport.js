@@ -118,7 +118,15 @@ define(function(require) {
     },
 
     bindEvents : function() {
-      var self = this;
+      var self = this,
+          refresh;
+
+      // Updates offsets after a zero timeout
+      refresh = function() {
+        setTimeout(function refreshWithDelay() {
+          self.onResize();
+        }, 0);
+      };
 
       // Listen for global resize
       Environment.on('global:resizeDebounced.viewport', $.proxy( self.onResize, self ));
@@ -127,11 +135,10 @@ define(function(require) {
       Settings.$window.on('scroll.viewport', $.throttle( self.throttleTime, $.proxy( self.onScroll, self ) ));
 
       // When the universal nav is opened or closed, the trigger point needs adjustment along with scrollspy
-      Settings.$document.on('universal-nav-open-finished.viewport universal-nav-close-finished.viewport', function uNavChanged() {
-        setTimeout(function refreshWithDelay() {
-          self.onResize();
-        }, 0);
-      });
+      Settings.$document.on('universal-nav-open-finished.viewport universal-nav-close-finished.viewport', refresh );
+
+      // Images loading can create more space on the page and invalidate the offsets
+      $('.iq-img').on('imageLoaded.viewport', $.debounce( 500, refresh ) );
 
       self.hasActiveHandlers = true;
     },
@@ -140,6 +147,9 @@ define(function(require) {
       Environment.off('.viewport');
       Settings.$window.off('.viewport');
       Settings.$document.off('.viewport');
+
+      // Unbind from all images
+      $('.iq-img').off('.viewport');
 
       this.hasActiveHandlers = false;
     },
