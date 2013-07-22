@@ -370,11 +370,15 @@ define(function(require) {
 
           // Save current class name to re apply it when this breakpoint no longer matches
           $p.data( 'className', p.className );
-          $link.data( 'className', link.className );
+
+          // we don't want to assume links are present so check if they exist
+          if ($link.length) {
+            $link.data( 'className', link.className );
+            link.className = 'lt4';
+          }
 
           // Switch class to `.p4`
           p.className = 'p4';
-          link.className = 'lt4';
         });
       },
 
