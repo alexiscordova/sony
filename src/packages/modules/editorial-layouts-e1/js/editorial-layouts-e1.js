@@ -394,7 +394,10 @@ define(function(require) {
 
           // Revert class name back to what it was before
           p.className = pClassName;
-          link.className = linkClassName;
+
+          if ($link.length) {
+            link.className = linkClassName;
+          }
         });
       },
 
