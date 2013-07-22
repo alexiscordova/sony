@@ -381,7 +381,6 @@ define(function(require) {
         self.sliderGetDimensions();
 
         if (self.labels.length == 2) {
-          console.log('append that label!');
           controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.labels[0].name + '</span>';
           controlTmpl.labelRight = '<span class="slider-label label-right l3" data-direction="right">' + self.labels[1].name + '</span>';
         } else if(self.labels.length > 2) {
