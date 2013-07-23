@@ -397,7 +397,7 @@ define(function(require) {
               var labelPos = (self.labels[_i].id * (self.sliderControlWidth / (self.sequenceLength - 1)));
               var labelPosPercentage = ( ( labelPos-30 ) / self.sliderControlWidth ) * 100;
 
-              tmplObj = '<span class="slider-label label-int l3" data-direction='+ _i +' style=" left:' + labelPosPercentage + '%; " >' + self.labels[_i].name + '</span>';
+              tmplObj = '<span class="slider-label label-int l3" data-direction='+ self.labels[_i].id +' style=" left:' + labelPosPercentage + '%; " >' + self.labels[_i].name + '</span>';
             }
             // push them into a cached object
             controlTmpl.labels.push(tmplObj);
@@ -785,6 +785,7 @@ define(function(require) {
     move: function( direction ) {
       var self      = this,
           lastIndex = self.curIndex,
+          isInt,
           slidePosPercentage,
           slidePos,
           pagePos;
@@ -793,7 +794,40 @@ define(function(require) {
       slidePos = (self.curIndex * (self.sliderControlWidth / (self.sequenceLength - 1)));
       slidePosPercentage = ( ( slidePos-30 ) / self.sliderControlWidth ) * 100;
 
-      switch( direction ) {
+      switch( (!isNaN(direction) || direction) ) {
+        case true:
+
+          // set auto play to false since current index is now 0
+          self.options.autoplay = false;
+
+          if (self.curIndex < direction) {
+            self.curIndex++;
+            self.pagePos = self.curIndex;
+          } else if (self.curIndex > direction) { 
+            self.curIndex--;
+            self.pagePos = self.curIndex;
+          }
+
+          // if were on the last slide we can assume that the slide control
+          // should hit the very end of the slider
+          // check if we have controls and not a fallback to set the slider position
+          if (self.options.barcontrols && !self.showFallback) { 
+            self.setSliderPosition(slidePosPercentage); 
+          }
+
+          // weve reached our destination
+          if (self.curIndex == direction) {
+            // close the method
+            // a bit janky but we should let it run once more before clearing
+            // the interval, this is because its setting the proper slider
+            // position before clearing the interval
+            setTimeout(function() {
+              clearInterval(self.animationInterval);
+            }, self.options.animationspeed);
+          }
+
+        break;
+
         case 'left':
           if ( self.curIndex === 0 ) {
 
