@@ -1,0 +1,22 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('carousel-sequence-b2')
++includeJavascriptModule('carousel-sequence-b2')
+
+moduleClasses = [ 'carousel-sequence' ]
+
++mainElement( moduleClasses )
+  .container
+    .grid
+      .loading.is-asset.load-indicator.text-center
+        img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+      if data.sequence
+        each imgData, i in data.sequence
+          img = imgData.image
+          imgClasses = [ "iq-img", "no-fade" ]
+
+          if i
+            -imgClasses.push( "visuallyhidden" )
+
+          img(id=false, class=imgClasses, alt=img.alt, data-sequence-id=i, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
+          noscript
+            img(src=img.noscriptsrc)
