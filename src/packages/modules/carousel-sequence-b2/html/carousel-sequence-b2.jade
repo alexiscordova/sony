@@ -2,21 +2,34 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('carousel-sequence-b2')
 +includeJavascriptModule('carousel-sequence-b2')
 
-moduleClasses = [ 'carousel-sequence' ]
+moduleClasses = [ "carousel-sequence", "relative" ]
+
+stops = []
+sequenceLength = data.sequence && data.sequence.length ? data.sequence.length : 0
+
+
+//- Get stops array. The first and last images will always be stops
+if data.sequence
+  each sq, i in data.sequence
+    if sq.stop || i == 0 || i == sequenceLength - 1
+      - stops.push( i )
+
 
 +mainElement( moduleClasses )
-  .container
-    .grid
-      .loading.is-asset.load-indicator.text-center
-        img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
-      if data.sequence
-        each imgData, i in data.sequence
-          img = imgData.image
-          imgClasses = [ "iq-img", "no-fade" ]
+  div(class="cs-inner", data-stops=JSON.stringify( stops ))
+    .container
+      .grid
+        .loading.is-asset.load-indicator.text-center
+          img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+        if data.sequence
+          each imgData, i in data.sequence
+            img = imgData.image ? imgData.image : {}
 
-          if i
-            -imgClasses.push( "visuallyhidden" )
+            imgClasses = [ "iq-img", "no-fade" ]
 
-          img(id=false, class=imgClasses, alt=img.alt, data-sequence-id=i, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
-          noscript
-            img(src=img.noscriptsrc)
+            if i
+              -imgClasses.push( "visuallyhidden" )
+
+            img(id=false, class=imgClasses, alt=img.alt, data-sequence-id=i, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
+            noscript
+              img(src=img.noscriptsrc)

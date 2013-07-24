@@ -44,7 +44,8 @@ define(function(require) {
       self.setVars();
 
       self.sequence = new SonySequence( self.$el, {
-        loop: false,
+        animationspeed: 500,
+        loop: true,
         viewcontrols: false
       });
 
@@ -56,6 +57,14 @@ define(function(require) {
     setVars : function() {
       var self = this,
           data;
+
+      self.$inner = self.$el.find( '.cs-inner' );
+      data = self.$inner.data();
+      self.stops = data.stops;
+      self.totalStops = self.stops.length;
+      self.currentStop = 0;
+
+      console.log('stops:', self.stops);
 
       return self;
     },
@@ -91,16 +100,29 @@ define(function(require) {
 
     },
 
+    getStop : function( index ) {
+      return index < 0 ?
+        this.totalStops - 1 :
+        index >= this.totalStops ?
+          0 :
+          index;
+    },
+
+    gotoStop : function( index ) {
+      var self = this,
+          stop = self.getStop( index );
+
+      self.currentStop = stop;
+      console.log( 'goto:', stop, 'which is index:', self.stops[ stop ] );
+      self.sequence.startAnimation( self.stops[ stop ] );
+    },
+
     prev : function() {
-      var self = this;
-      console.log('right');
-      self.sequence.startAnimation( 0 );
+      return this.gotoStop( this.currentStop - 1 );
     },
 
     next : function() {
-      var self = this;
-      console.log('left');
-      self.sequence.startAnimation( 8 );
+      return this.gotoStop( this.currentStop + 1 );
     }
   };
 
