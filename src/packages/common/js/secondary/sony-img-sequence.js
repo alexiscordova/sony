@@ -194,12 +194,21 @@ define(function(require) {
       var self = this,
       steps,
       position,
-      percentagePosition;
+      percentagePosition,
+      sliderPercentageMin,
+      sliderPercentageMax;
       
       steps = (self.sliderControlWidth / (self.sequenceLength - 1));
       position = (steps * self.curIndex);
       percentagePosition = (position / (self.sliderControlWidth + 30)) * 100;
+      sliderPercentageMax = ((self.sliderControlWidth - 30) / self.sliderControlWidth) * 100;
+      sliderPercentageMin = ((self.sliderControlWidth - (self.sliderControlWidth + 30)) / (self.sliderControlWidth + 30)) * 100;
 
+      if (self.curIndex >= self.sequenceLength && percentagePosition > sliderPercentageMax) {
+        percentagePosition = sliderPercentageMax;
+      } else if (self.curIndex <= 0 && percentagePosition > sliderPercentageMin) {
+        percentagePosition = sliderPercentageMin;
+      }
       // resets the slider position 
       self.setSliderPosition(percentagePosition);
     },
