@@ -267,7 +267,10 @@ $transitionSpeed: 0.5s;
       width: 56px;
       height: 56px;
       @include box-shadow(none);
-      @include transition();
+
+      &.transition {
+        @include transition();
+      }
 
       .inner {
         color: #fff;

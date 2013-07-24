@@ -179,10 +179,11 @@ define(function(require) {
     setSliderPosition: function(position, isMin) {
        var self = this;
 
-      //check if the slider is beyond its bounds
-      if (position >= (self.sliderControlWidth-35) || position <= -24) {
-        return false;
-      }
+       //check if the slider is beyond its bounds
+       if (position >= (self.sliderControlWidth-35) || position <= -24) {
+         console.log(self.sliderControlWidth, position);
+         return false;
+       }
 
        self.$slideHandle.css({
           left: position + "%"
@@ -231,7 +232,6 @@ define(function(require) {
           direction = event.gesture.direction ? event.gesture.direction : 'left',
           eventX = page.pageX ? page.pageX : 0;
 
-
       // get the sldie value positions
       pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
@@ -248,7 +248,7 @@ define(function(require) {
         if (pagePos <= 0) {
           return false;
         }
-
+        
         //set the slider positon
         if (self.options.barcontrols) { 
           self.$slideHandle.addClass('active');
@@ -495,6 +495,10 @@ define(function(require) {
 
     startAnimation: function(direction) {
       var self = this;
+
+      if ( self.options.barcontrols ) {
+        self.$slideHandle.addClass('transition');
+      }
 
       self.animationInterval = setInterval(function() {
         self.move( direction );
@@ -832,6 +836,7 @@ define(function(require) {
             // position before clearing the interval
             setTimeout(function() {
               clearInterval(self.animationInterval);
+              if (self.options.barcontrols) { self.$slideHandle.removeClass('transition'); }
             }, self.options.animationspeed);
           }
 
@@ -845,7 +850,10 @@ define(function(require) {
               clearInterval(self.animationInterval);
 
               // if we have bar controls
-              if (self.options.barcontrols && !self.sliderLabelInitialized) { self.createBarControl(); }
+              if (self.options.barcontrols && !self.sliderLabelInitialized) { 
+                self.createBarControl(); 
+                self.$slideHandle.removeClass('transition'); 
+              }
 
               // check if we have controls and not a fallback to set the slider position
               if (self.options.barcontrols && !self.showFallback) { 
@@ -882,6 +890,7 @@ define(function(require) {
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               clearInterval(self.animationInterval);
+              if (self.options.barcontrols && !self.sliderLabelInitialized) { self.$slideHandle.removeClass('transition'); }
             }
 
             self.animationLooped = true;
