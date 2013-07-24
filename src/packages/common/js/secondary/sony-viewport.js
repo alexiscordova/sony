@@ -53,7 +53,7 @@ define(function(require) {
     // The whole point is to have a callback function.
     // Don't do anything if it's not given
     if ( !$.isFunction( self.enter ) ) {
-      throw 'Viewport.add :: No `enter` function provided in Viewport options.';
+      throw new TypeError('Viewport.add :: No `enter` function provided in Viewport options.');
     }
 
     // Threshold can be a percentage. Parse it.

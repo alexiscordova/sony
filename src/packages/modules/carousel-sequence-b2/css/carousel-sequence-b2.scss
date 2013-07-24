@@ -1,12 +1,95 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+@mixin background-cover() {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
 .carousel-sequence {
 
+  .cs-cover {
+    z-index: 3; // above the sequence (.cs-inner)
+    @include fill-parent();
+  }
+
+  &.is-sequence-visible .cs-cover {
+    z-index: 1;
+  }
+
+  .cs-backdrop,
+  .cs-cover-img {
+    z-index: 1;
+    @include fill-parent();
+    @include background-cover();
+  }
+
+  // Position above backdrop and cover image
+  // Needs z-index set because of IE7
+  .cs-cover-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .title {
+    margin-top: 16%;
+    margin-bottom: 0;
+  }
+
+  .cta {
+    margin-top: 10%;
+    margin-bottom: 0;
+  }
+
+  .cs-sequence {
+
+  }
+
+  .cs-inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  .controls {
+    z-index: 4;
+    @include fill-parent();
+  }
+
+  .pagination-paddles {
+    z-index: 5;
+  }
+
   .loading {
-    position: absolute;
-    top: 50%;
-    padding-left: 50%;
-    margin: -30px 0 0 -30px;
+    @include center-hv( 68px, 62px );
+  }
+
+  // Default styling
+  .btn-circle {
+    @include square( px-em( 40 ) );
+    padding: 0;
+    border-radius: 50%;
+    background: $btnSpecialBackground;
+
+    &:hover {
+      background: $btnSpecialBackgroundHover;
+    }
+    &.active,
+    &:active {
+      background: $btnSpecialBackgroundActive;
+    }
+    // &.disabled:hover,
+    // &[disabled]:hover {
+    //   background: $btnSpecialBackground;
+    // }
+  }
+
+  // Styling needed for carousel sequence
+  .btn-circle {
+    margin-left: 1em;
+  }
+
+  .btn-circle i {
+    -webkit-font-smoothing: antialiased;
   }
 }

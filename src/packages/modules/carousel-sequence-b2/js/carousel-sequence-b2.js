@@ -18,6 +18,7 @@ define(function(require) {
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       Environment = require('require/sony-global-environment'),
+      Settings = require('require/sony-global-settings'),
       SonySequence = require('secondary/index').sonySequence,
       sonyPaddles = require('secondary/index').sonyPaddles;
 
@@ -46,7 +47,7 @@ define(function(require) {
       self.sequence = new SonySequence( self.$el, {
         animationspeed: 500,
         loop: true,
-        viewcontrols: false
+        viewcontrols: true
       });
 
       self.createPaddles();
@@ -58,6 +59,8 @@ define(function(require) {
       var self = this,
           data;
 
+      self.$btnTrigger = self.$el.find( '.js-cta' );
+      self.$cover = self.$el.find( '.cs-cover' );
       self.$inner = self.$el.find( '.cs-inner' );
       data = self.$inner.data();
       self.stops = data.stops;
@@ -74,11 +77,17 @@ define(function(require) {
 
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+
+      // Show sequence when the CTA button is clicked
+      self.$btnTrigger.on( 'click', $.proxy( self.onCTAClick, self ) );
+
+      // Place the cover behind the sequence when it has been hidden
+      self.$cover.on( Settings.transEndEventName, $.proxy( self.onCoverTransitionEnd, self ) );
     },
 
     createPaddles : function() {
       var self = this,
-          $wrapper = self.$el;
+          $wrapper = self.$inner;
 
       $wrapper.sonyPaddles();
 
@@ -98,6 +107,34 @@ define(function(require) {
 
     onResize : function() {
 
+    },
+
+    onCTAClick : function() {
+      var self = this;
+
+      self.$inner.removeClass('invisible');
+      self.$cover.removeClass('in');
+    },
+
+    onCoverTransitionEnd : function( evt ) {
+      var self = this,
+          cover = self.$cover[ 0 ],
+          target = evt.target;
+
+      // A transition event has bubbled up to the cover
+      // this is not the event the cover is looking for, so exit
+      if ( cover !== target ) {
+        return;
+      }
+
+      // Only want to listen for this event once
+      self.$cover.off( Settings.transEndEventName );
+
+      // Add state to module
+      self.$el.addClass( 'is-sequence-visible' );
+
+      // Hide cover after it faded out (avoid browser painting it)
+      self.$cover.addClass('invisible');
     },
 
     getStop : function( index ) {

@@ -16,9 +16,11 @@ if data.sequence
 
 
 +mainElement( moduleClasses )
-  div(class="cs-inner", data-stops=JSON.stringify( stops ))
+  if data.backdrop
+    +iQBackgroundImage( data.backdrop, 'update-always cs-backdrop' )
+  div(class="cs-inner invisible", data-stops=JSON.stringify( stops ))
     .container
-      .grid
+      .grid.cs-squence
         .loading.is-asset.load-indicator.text-center
           img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
         if data.sequence
@@ -33,3 +35,15 @@ if data.sequence
             img(id=false, class=imgClasses, alt=img.alt, data-sequence-id=i, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
             noscript
               img(src=img.noscriptsrc)
+
+    .controls.grab
+  .cs-cover.fade.in
+    if data.img
+      +iQBackgroundImage( data.img, 'update-always cs-cover-img' )
+    .container.cs-cover-content
+      .grid.text-center
+        h2.t2.title !{ data.title }
+        p.t5-light.cta
+          | !{ data.cta }
+          button.js-cta.btn.btn-circle
+            i.fonticon-10-chevron
