@@ -158,8 +158,12 @@ define(function(require) {
       }
 
       // Show the current, hide the others
-      self.$sequence
-        .eq( self.curIndex )
+      self.showCurrentFrame();
+    },
+
+    showCurrentFrame: function() {
+      this.$sequence
+        .eq( this.curIndex )
         .removeClass( 'visuallyhidden' )
         .siblings()
         .addClass( 'visuallyhidden' );
@@ -927,11 +931,7 @@ define(function(require) {
       }
 
       // Show the current, hide the others
-      self.$sequence
-        .eq( self.curIndex )
-        .removeClass( 'visuallyhidden' )
-        .siblings()
-        .addClass( 'visuallyhidden' );
+      self.showCurrentFrame();
     }
   };
 
