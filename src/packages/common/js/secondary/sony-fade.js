@@ -406,6 +406,9 @@ define(function(require) {
         self.timer.clear();
       }
 
+      // Clear reference to timer
+      self.timer = null;
+
       self.isPlaying = false;
     },
 
