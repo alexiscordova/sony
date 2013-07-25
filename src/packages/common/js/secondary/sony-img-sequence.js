@@ -812,14 +812,21 @@ define(function(require) {
 
           // set auto play to false since current index is now 0
           self.options.autoplay = false;
+          //console.log(direction, self.curIndex, self.sequenceLength-1, (self.curIndex > direction && direction === 0 && self.options.loop && self.curIndex >= self.sequenceLength-1) );
 
-          if (self.curIndex < direction) {
+          if (self.curIndex > direction && direction === 0 && self.options.loop && self.curIndex >= self.sequenceLength-1) {
+            console.log("the current index is: " + self.curIndex + ". the destined slides is: " + direction + "");
+            // we need a case for if the curIndex is the lenght of the sequence yet the direction is 0. 
+            // We need to simply set the curIndex to 0 and not iterate through it. 
+            ( direction !== 0 ) ? self.curIndex++ : self.curIndex = 0;
+            self.pagePos = self.curIndex;
+          } else if (self.curIndex < direction) {
             self.curIndex++;
             self.pagePos = self.curIndex;
           } else if (self.curIndex > direction) { 
             self.curIndex--;
             self.pagePos = self.curIndex;
-          }
+          } 
 
           // if were on the last slide we can assume that the slide control
           // should hit the very end of the slider
