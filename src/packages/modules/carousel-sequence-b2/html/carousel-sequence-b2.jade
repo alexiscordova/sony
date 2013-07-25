@@ -20,7 +20,7 @@ if data.sequence
     +iQBackgroundImage( data.backdrop, 'update-always cs-backdrop' )
   div(class="cs-inner invisible", data-stops=JSON.stringify( stops ))
     .container
-      .grid.cs-squence
+      .grid
         .loading.is-asset.load-indicator.text-center
           img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
         if data.sequence
@@ -29,14 +29,21 @@ if data.sequence
 
             imgClasses = [ "iq-img", "no-fade" ]
 
-            if i
+            if i > 0
               -imgClasses.push( "visuallyhidden" )
 
             img(id=false, class=imgClasses, alt=img.alt, data-sequence-id=i, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
             noscript
               img(src=img.noscriptsrc)
 
-    .controls.grab
+    .dial-wrap
+      a.js-reset.btn-reset(href="#")
+        i.fonticon-10-circlearrow.reset-icon
+      span.dial-counter.text-center
+        span.js-stop-number 1
+        span !{ "/" + stops.length }
+      input.dial(data-width=40, data-height=40, data-thickness=0.3, data-bgcolor="red", data-fgcolor="#bada55")
+
   .cs-cover.fade.in
     if data.img
       +iQBackgroundImage( data.img, 'update-always cs-cover-img' )

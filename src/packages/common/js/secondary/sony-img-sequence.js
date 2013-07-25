@@ -158,8 +158,12 @@ define(function(require) {
       }
 
       // Show the current, hide the others
-      self.$sequence
-        .eq( self.curIndex )
+      self.showCurrentFrame();
+    },
+
+    showCurrentFrame: function() {
+      this.$sequence
+        .eq( this.curIndex )
         .removeClass( 'visuallyhidden' )
         .siblings()
         .addClass( 'visuallyhidden' );
@@ -197,7 +201,7 @@ define(function(require) {
       percentagePosition,
       sliderPercentageMin,
       sliderPercentageMax;
-      
+
       steps = (self.sliderControlWidth / (self.sequenceLength - 1));
       position = (steps * self.curIndex);
       percentagePosition = (position / (self.sliderControlWidth + 30)) * 100;
@@ -209,7 +213,7 @@ define(function(require) {
       } else if (self.curIndex <= 0 && percentagePosition > sliderPercentageMin) {
         percentagePosition = sliderPercentageMin;
       }
-      // resets the slider position 
+      // resets the slider position
       self.setSliderPosition(percentagePosition);
     },
 
@@ -235,7 +239,7 @@ define(function(require) {
       pagePos = eventX - self.$sliderControl.offset().left;
       pagePos = Math.min(self.sliderControlWidth, pagePos);
       pagePos = Math.max(-24, pagePos);
-      
+
       pagePosPercentage = ( ( pagePos-30 ) / (self.sliderControlWidth) ) * 100;
 
       if (self.pagePos !== pagePos) {
@@ -247,11 +251,11 @@ define(function(require) {
         if (pagePos <= 0) {
           return false;
         }
-        
+
         //set the slider positon
-        if (self.options.barcontrols) { 
+        if (self.options.barcontrols) {
           self.$slideHandle.addClass('active');
-          self.setSliderPosition(pagePosPercentage); 
+          self.setSliderPosition(pagePosPercentage);
         }
 
         //if ( pagePos <= 0 ) { pagePos = 0; }
@@ -267,7 +271,7 @@ define(function(require) {
       self.pagePos = 0;
       // find the handle so we can setup bindings
       self.$slideHandle = self.$sliderControl.find('.handle');
-      self.$sliderControlContainer = self.$container.find('.control-bar-container');      
+      self.$sliderControlContainer = self.$container.find('.control-bar-container');
       var hammer = new Hammer(self.$slideHandle.get(0) ,{prevent_default:true});
       self.$slideHandle.hammer();
 
@@ -280,7 +284,7 @@ define(function(require) {
         },
         drag : function( event ) {
           var direction = event.gesture.direction;
-          
+
           if ( 'left' === direction || 'right' === direction ) {
             self.dragSlider( event );
           }
@@ -299,7 +303,7 @@ define(function(require) {
 
       $labelContainer = self.$container.find('.label-data');
       labels = $labelContainer.find('i');
-      
+
       // push our new items into the object.currLabels
       for(var _i=0;_i < labels.length;_i++) {
         var $el = $(labels[_i]),
@@ -346,7 +350,7 @@ define(function(require) {
         '</div>'
       ].join('\n');
 
-      // gets the label data and lenght 
+      // gets the label data and lenght
       self.labels = self.getLabels();
 
       // do we need to display the fallback experience?
@@ -357,7 +361,7 @@ define(function(require) {
         // the label container needs to be different if were a fallback
         // if we have only two labels the markup changes sligtly
         if (self.labels.length == 2) {
-          
+
           controlTmpl.labelLeft = [
             '<div class="slider-label label-left l3 active" data-direction="left">',
               '<span class="label-container">',
@@ -384,7 +388,7 @@ define(function(require) {
       } else {
         // add our new controls to the container
         self.$container.append(controlTmpl.slider);
-        
+
         // define our slider globals
         self.$sliderControlContainer = self.$container.find('.control-bar-container');
         self.$sliderControl = self.$container.find('.range-control');
@@ -637,7 +641,7 @@ define(function(require) {
       self.$body.removeClass('unselectable');
       self.clicked = false;
 
-      if (self.options.barcontrols) { 
+      if (self.options.barcontrols) {
         self.$slideHandle.removeClass('active');
       }
     },
@@ -825,16 +829,16 @@ define(function(require) {
           } else if (self.curIndex < direction) {
             self.curIndex++;
             self.pagePos = self.curIndex;
-          } else if (self.curIndex > direction) { 
+          } else if (self.curIndex > direction) {
             self.curIndex--;
             self.pagePos = self.curIndex;
-          } 
+          }
 
           // if were on the last slide we can assume that the slide control
           // should hit the very end of the slider
           // check if we have controls and not a fallback to set the slider position
-          if (self.options.barcontrols && !self.showFallback) { 
-            self.setSliderPosition(slidePosPercentage); 
+          if (self.options.barcontrols && !self.showFallback) {
+            self.setSliderPosition(slidePosPercentage);
           }
 
           // weve reached our destination
@@ -862,14 +866,14 @@ define(function(require) {
               self.isAnimating = false;
 
               // if we have bar controls
-              if (self.options.barcontrols && !self.sliderLabelInitialized) { 
-                self.createBarControl(); 
-                self.$slideHandle.removeClass('transition'); 
+              if (self.options.barcontrols && !self.sliderLabelInitialized) {
+                self.createBarControl();
+                self.$slideHandle.removeClass('transition');
               }
 
               // check if we have controls and not a fallback to set the slider position
-              if (self.options.barcontrols && !self.showFallback) { 
-                self.setSliderPosition(slidePosPercentage); 
+              if (self.options.barcontrols && !self.showFallback) {
+                self.setSliderPosition(slidePosPercentage);
               }
 
               // set auto play to false since current index is now 0
@@ -934,11 +938,7 @@ define(function(require) {
       }
 
       // Show the current, hide the others
-      self.$sequence
-        .eq( self.curIndex )
-        .removeClass( 'visuallyhidden' )
-        .siblings()
-        .addClass( 'visuallyhidden' );
+      self.showCurrentFrame();
     }
   };
 

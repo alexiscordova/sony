@@ -7,13 +7,22 @@
   background-position: center center;
 }
 
+$dialSize: 40px;
+
 .carousel-sequence {
 
+  // Loader
+  .loading {
+    @include center-hv( 68px, 62px );
+  }
+
+  // Cover with title & CTA
   .cs-cover {
     z-index: 3; // above the sequence (.cs-inner)
     @include fill-parent();
   }
 
+  // Put the cover behind the sequence when the sequence is visible
   &.is-sequence-visible .cs-cover {
     z-index: 1;
   }
@@ -37,33 +46,75 @@
     margin-bottom: 0;
   }
 
+  // Call to action which starts the animation
   .cta {
     margin-top: 10%;
     margin-bottom: 0;
   }
 
-  .cs-sequence {
-
-  }
-
+  // Wrapper for sequence. Includes dail
   .cs-inner {
     position: relative;
     z-index: 2;
   }
 
-  .controls {
-    z-index: 4;
-    @include fill-parent();
+
+  // Dial & Reset
+  // -----------------
+  .dial-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    @include square( $dialSize );
+    margin-left: -( $dialSize / 2 );
+    line-height: .8;
+
+    input {
+      padding: 0;
+      margin: 0;
+      border: 0;
+      height: 0;
+      width: 0;
+    }
   }
 
-  .pagination-paddles {
-    z-index: 5;
+  .btn-reset {
+    @include xy( 0, 0 );
   }
 
-  .loading {
-    @include center-hv( 68px, 62px );
+  .reset-icon {
+    font-size: $dialSize;
+    color: $btnSpecialBackground;
   }
 
+  .dial-counter {
+    position: absolute;
+    top: ($dialSize / 2) - 6px;
+    left: 0;
+    width: $dialSize;
+  }
+
+  .btn-reset {
+    display: none;
+  }
+
+  // Dial States
+  // ---------------
+  &.is-last-stop {
+
+    .btn-reset {
+      display: block;
+    }
+
+    .simpleknob,
+    .dial-counter {
+      display: none !important; // override inline styles set by simpleknob
+    }
+  }
+
+
+  // Button
+  // --------------
   // Default styling
   .btn-circle {
     @include square( px-em( 40 ) );
