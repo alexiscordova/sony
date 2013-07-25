@@ -39,7 +39,12 @@ mixin slidelabels
     div(class="label-data visuallyhidden")
       for labelData, i in data.sequence
         if labelData.label
-          i(data-label = labelData.label, data-id = i )
+          if labelData.label.type == "icon"
+            i(data-type = labelData.label.type, data-label = labelData.label.content, data-id = i )
+          else if labelData.label.type == "text"
+            i(data-type = labelData.label.type, data-label = labelData.label.content, data-id = i )
+          else 
+            i(data-label = labelData.label.content, data-id = i )
 
 mixin copyblock(_copy, _title, _subtitle, _body)
   copyobject = _copy ? _copy : data

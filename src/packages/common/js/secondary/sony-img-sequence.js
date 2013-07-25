@@ -181,7 +181,6 @@ define(function(require) {
 
        //check if the slider is beyond its bounds
        if (position >= (self.sliderControlWidth-35) || position <= -24) {
-         console.log(self.sliderControlWidth, position);
          return false;
        }
 
@@ -303,9 +302,13 @@ define(function(require) {
       
       // push our new items into the object.currLabels
       for(var _i=0;_i < labels.length;_i++) {
+        var $el = $(labels[_i]),
+            elData = $el.data();
+
         var obj = { 
-          id: $(labels[_i]).data('id'),
-          name: $(labels[_i]).data('label')
+          id: elData.id,
+          type: elData.type,
+          name: elData.label
         };
         // push the label attributes into the object
         labelArr.push(obj);
@@ -396,18 +399,17 @@ define(function(require) {
           // add the new labels to controlTmpl
           controlTmpl.labels = [];
           for (var _i = 0; _i < self.labels.length; _i++) {
-            // we have different templates for the first and last labels
-            if (self.labels[_i].id === 0) {
-              tmplObj = '<span class="slider-label label-left l3" data-direction="left">' + self.labels[_i].name + '</span>';
-            } else if (self.labels[_i].id == self.sequenceLength-1) {
-              tmplObj = '<span class="slider-label label-right l3" data-direction="right">' + self.labels[_i].name + '</span>';
-            } else {
-              // we should get the percentage of the label to position it?
-              var labelPos = (self.labels[_i].id * (self.sliderControlWidth / (self.sequenceLength - 1)));
-              var labelPosPercentage = ( ( labelPos-30 ) / self.sliderControlWidth ) * 100;
+            var currLabel = self.labels[_i];
+            // we should get the percentage of the label to position it?
+            var labelPos = (currLabel.id * (self.sliderControlWidth / (self.sequenceLength - 1)));
+            var labelPosPercentage = ( ( labelPos-30 ) / self.sliderControlWidth ) * 100;
 
-              tmplObj = '<span class="slider-label label-int l3" data-direction='+ self.labels[_i].id +' style=" left:' + labelPosPercentage + '%; " >' + self.labels[_i].name + '</span>';
+            if (currLabel.type == 'icon') {
+              tmplObj = '<i class="slider-label label-int l3 '+self.labels[_i].name+'" data-direction='+ currLabel.id +' style=" left:' + labelPosPercentage + '%; " ></i>';
+            } else {
+              tmplObj = '<span class="slider-label label-int l3" data-direction='+ currLabel.id +' style=" left:' + labelPosPercentage + '%; " >' + self.labels[_i].name + '</span>';
             }
+
             // push them into a cached object
             controlTmpl.labels.push(tmplObj);
           }
@@ -500,6 +502,7 @@ define(function(require) {
         self.$slideHandle.addClass('transition');
       }
 
+      self.isAnimating = true;
       self.animationInterval = setInterval(function() {
         self.move( direction );
       }, self.options.animationspeed);
@@ -815,7 +818,6 @@ define(function(require) {
           //console.log(direction, self.curIndex, self.sequenceLength-1, (self.curIndex > direction && direction === 0 && self.options.loop && self.curIndex >= self.sequenceLength-1) );
 
           if (self.curIndex > direction && direction === 0 && self.options.loop && self.curIndex >= self.sequenceLength-1) {
-            console.log("the current index is: " + self.curIndex + ". the destined slides is: " + direction + "");
             // we need a case for if the curIndex is the lenght of the sequence yet the direction is 0. 
             // We need to simply set the curIndex to 0 and not iterate through it. 
             ( direction !== 0 ) ? self.curIndex++ : self.curIndex = 0;
@@ -836,13 +838,15 @@ define(function(require) {
           }
 
           // weve reached our destination
-          if (self.curIndex == direction) {
+          if (self.curIndex == direction && self.isAnimating) {
             // close the method
             // a bit janky but we should let it run once more before clearing
             // the interval, this is because its setting the proper slider
             // position before clearing the interval
+            self.isAnimating = false;
             setTimeout(function() {
               clearInterval(self.animationInterval);
+              self.$win.trigger('sony-sequence-complete');        
               if (self.options.barcontrols) { self.$slideHandle.removeClass('transition'); }
             }, self.options.animationspeed);
           }
@@ -855,6 +859,7 @@ define(function(require) {
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               self.initBehaviors();
               clearInterval(self.animationInterval);
+              self.isAnimating = false;
 
               // if we have bar controls
               if (self.options.barcontrols && !self.sliderLabelInitialized) { 
@@ -897,6 +902,7 @@ define(function(require) {
 
             if (self.options.autoplay && self.animationLooped && !self.options.loop) {
               clearInterval(self.animationInterval);
+              self.isAnimating = false;
               if (self.options.barcontrols && !self.sliderLabelInitialized) { self.$slideHandle.removeClass('transition'); }
             }
 
@@ -914,6 +920,7 @@ define(function(require) {
             // check if we have controls and not a fallback to set the slider position
             if (self.options.barcontrols && !self.showFallback) { 
               self.setSliderPosition(slidePosPercentage-1); 
+              self.$slideHandle.removeClass('transition'); 
             }
 
             return;
