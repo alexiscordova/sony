@@ -850,7 +850,7 @@ define(function(require) {
             self.isAnimating = false;
             setTimeout(function() {
               clearInterval(self.animationInterval);
-              self.$win.trigger('sony-sequence-complete');        
+              self.$container.trigger('SonyImgSeqeunce:stop-sequence', self.curIndex);
               if (self.options.barcontrols) { self.$slideHandle.removeClass('transition'); }
             }, self.options.animationspeed);
           }
