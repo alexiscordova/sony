@@ -8,20 +8,22 @@ define(function (require) {
     jquerySimpleScroll: require('secondary/jquery.simplescroll'),
     sonyAudio: require('secondary/sony-audio'),
     sonyDraggable: require('secondary/sony-draggable'),
+    sonyDial: require('secondary/sony-dial'),
     sonyCarousel: require('secondary/sony-carousel'),
     sonyCarouselFade: require('secondary/sony-carousel-fade'),
     sonyEvenHeights: require('secondary/sony-evenheights'),
-    sonyNavigationDots: require('secondary/sony-navigationdots'),
+    sonyFavorites: require('secondary/sony-favorites'),
     sonyModal: require('secondary/sony-modal'),
+    sonyNavigationDots: require('secondary/sony-navigationdots'),
     sonyPaddles: require('secondary/sony-paddles'),
+    sonySequence: require('secondary/sony-img-sequence'),
     sonyScroller: require('secondary/sony-scroller'),
     sonyStickyHeaders: require('secondary/sony-stickyheaders'),
     sonyStickyNav: require('secondary/sony-stickynav'),
     sonyStickyTabs: require('secondary/sony-stickytabs'),
     sonyTab: require('secondary/sony-tab'),
-    sonyFavorites: require('secondary/sony-favorites'),
+    sonyTimer: require('secondary/sony-timer'),
     sonyViewport: require('secondary/sony-viewport'),
-    sonyVideo: require('secondary/sony-video'),
-    sonySequence: require('secondary/sony-img-sequence')
+    sonyVideo: require('secondary/sony-video')
   };
 });

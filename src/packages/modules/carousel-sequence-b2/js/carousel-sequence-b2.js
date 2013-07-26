@@ -1,7 +1,7 @@
-// Feature Slideshow
+// Carousel Sequence
 // ------------
 //
-// * **Module:** Feature Slideshow
+// * **Module:** Carousel Sequence
 // * **Version:** 1.0
 // * **Modified:** 06/24/2013
 // * **Author:** Glen Cheney
@@ -20,10 +20,9 @@ define(function(require) {
       Environment = require('require/sony-global-environment'),
       Settings = require('require/sony-global-settings'),
       SonySequence = require('secondary/index').sonySequence,
-      Timer = require('secondary/sony-timer'),
-      Viewport = require('secondary/sony-viewport'),
-      sonyPaddles = require('secondary/index').sonyPaddles,
-      Dial = require('modules/carousel-sequence-b2/sony-dial');
+      Timer = require('secondary/index').sonyTimer,
+      Viewport = require('secondary/index').sonyViewport,
+      Dial = require('secondary/index').sonyDial;
 
   var CarouselSequence = function( element ) {
     var self = this;
@@ -54,8 +53,7 @@ define(function(require) {
         loop: true
       });
 
-      self.createPaddles();
-      self.createKnob();
+      self.createDial();
       self.subscribeToEvents();
       self.onResize();
     },
@@ -94,28 +92,7 @@ define(function(require) {
       self.$cover.on( Settings.transEndEventName, $.proxy( self.onCoverTransitionEnd, self ) );
     },
 
-    createPaddles : function() {
-      var self = this,
-          $wrapper = self.$inner;
-
-      $wrapper.sonyPaddles();
-
-      // Show paddles by default
-      $wrapper.sonyPaddles('showPaddle', 'both');
-
-      $wrapper.on('sonyPaddles:clickLeft', function(e) {
-        e.stopPropagation();
-        self.prev();
-      });
-
-      $wrapper.on('sonyPaddles:clickRight', function(e) {
-        e.stopPropagation();
-        // self.next();
-        self.$el.trigger('SonySequence:stop-sequence');
-      });
-    },
-
-    createKnob : function() {
+    createDial : function() {
       var self = this;
 
       self.dial = new Dial({
@@ -182,7 +159,9 @@ define(function(require) {
       self.$cover.addClass('invisible');
 
       // Autoplay. Kicks off dial timer animation and queues the sequence
-      self.startTimer();
+      setTimeout(function() {
+        self.startTimer();
+      }, 0);
     },
 
     showReset : function() {

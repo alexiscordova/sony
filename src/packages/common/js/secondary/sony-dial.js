@@ -4,7 +4,27 @@
 // * **Version:** 1.0
 // * **Author:** Glen Cheney
 // * **Created:** 2013-07-25
-// * **Dependencies:** jQuery, simpleknob
+// * **Dependencies:** jQuery, [simpleknob](jquery.simpleknob.html)
+//
+// *Notes:*
+//
+// This dial module is intended to be used as an animated timer. It uses the SimpleKnob
+// jQuery plugin as a base and extends that with `start`, `stop`, `pause`, and `resume`
+// methods to animate the dial. At the moment, It _requires_ the `&lt;input&gt;` to be
+// on the page already with the data-* attributes for the knob.
+//
+// *Example Usage:*
+//
+//       var dial = new Dial({
+//         element: self.$dial,
+//         length: self.restLength
+//       });
+//
+// *Options:*
+//
+// * `element` is a DOM element (or an element wrapped with jQuery)
+// * `length` is the length of the timer
+//
 
 
 define(function( require ) {
@@ -20,7 +40,6 @@ define(function( require ) {
 
     self.init();
   };
-
 
   Dial.prototype = {
 
@@ -87,8 +106,6 @@ define(function( require ) {
           elapsed = now - self.timerStarted,
           percentageElapsed = elapsed / self.length,
           integerElapsed = Math.ceil( percentageElapsed * 100 );
-
-      console.log( integerElapsed );
 
       // Don't need to continue if the knob has passed 100%
       if ( integerElapsed > 100 ) {
