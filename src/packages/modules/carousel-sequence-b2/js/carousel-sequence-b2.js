@@ -68,6 +68,7 @@ define(function(require) {
       self.$reset = self.$el.find( '.js-reset' );
       self.$cover = self.$el.find( '.cs-cover' );
       self.$inner = self.$el.find( '.cs-inner' );
+      self.$stopContent = self.$el.find( '.stop-content [data-stop]');
       data = self.$inner.data();
       self.stops = data.stops;
       self.totalStops = self.stops.length;
@@ -99,6 +100,8 @@ define(function(require) {
         element: self.$dial,
         length: self.restLength
       });
+
+      self.updateDisplayCount();
     },
 
     onResize : function() {
@@ -170,6 +173,25 @@ define(function(require) {
       self.$el.addClass( 'is-last-stop' );
     },
 
+    showStopContent : function() {
+      var self = this;
+
+      self.$stopContent
+        .eq( self.currentStop )
+        .removeClass( 'hidden' );
+    },
+
+    hideStopContent : function() {
+      var self = this;
+      self.$stopContent.each(function() {
+        var $content = $( this );
+
+        if ( !$content.hasClass( 'hidden' ) ) {
+          $content.addClass( 'hidden' );
+        }
+      });
+    },
+
     getStop : function( index ) {
       return index < 0 ?
         this.totalStops - 1 :
@@ -185,6 +207,10 @@ define(function(require) {
 
       self.currentStop = stop;
       console.log( 'goto:', stop, 'which is index:', stopIndex );
+
+      // Update the counter inside the knob
+      self.updateDisplayCount();
+      self.hideStopContent();
 
       if ( noAnimation ) {
         self.sequence.sliderGotoFrame( stopIndex );
@@ -209,6 +235,8 @@ define(function(require) {
 
       // Immidiately starts the dial animation
       self.dial.start();
+
+      self.showStopContent();
     },
 
     pause : function() {
@@ -247,9 +275,6 @@ define(function(require) {
 
       // Stop dial
       self.dial.stop();
-
-      // Update the counter inside the knob
-      self.updateDisplayCount();
 
       // At the last stop, show ending CTA
       if ( isLastStop ) {
