@@ -1,5 +1,6 @@
 # Feature Slideshow
 
+The feature slideshow is a slideshow which fades between slides. It uses sony-fade.js which does nearly everything. Caption sizes are set dynamically with javascript because of the currently limited availability of flexbox. The backdrop image is optional. `crossfade`, `delay`, and `speed` can all set from the json configuration. The crossfade value is a number between zero and one. A crossfade of 1.0 means that both images will fade at the same time. A crossfade of zero means the previous slide will wait until the next slide has completely faded in before it fades out.
 
 
 ## Document Overview
@@ -7,52 +8,16 @@
 Each module will include this document, which contains an ordered list of the files required for the module. This manifest will be split into two sections - files in document HEAD & TAIL files (those loaded at the bottom of the file). While, CSS files will all be in the document HEAD, the two section convention will be followed for consistency. Paths should be relative to the base folder, where this file is. The CSS and JS files themselves should be un-minified development versions. Tasks like minification and SCSS compilation will be handled at build time by the platform team.
 
 
-== DEPLOY HEAD files ==
-
-* styles.css
-	*../../../../build/deploy/css/responsive.css
-
-* styles.css
-	*../../../../build/deploy/css/responsive.css
-
-* responsive.css
-	*../../../../build/deploy/css/responsive.css
-
-* all.css
-	*../../../../build/deploy/css/modules/all.css
-
-* feature-slideshow.css
-	*../../../../build/deploy/css/modules/feature-slideshow.css
-
-* responsive.css
-	*../../../../build/deploy/css/responsive-modules.css
-== DEPLOY TAIL files ==
-
-* jquery.min.js
-	*http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js
-
-* modernizr-2.6.2.min.js
-	*../../../../build/deploy/js/libs/modernizr-2.6.2.min.js
-
-* plugins.min.js
-	*../../../../build/deploy/js/plugins.min.js
-
-* require.min.js
-	*../../../../build/deploy/js/require.min.js
-
-* secondary.min.js
-	*../../../../build/deploy/js/secondary.min.js
-
-* defer.min.js
-	*../../../../build/deploy/js/defer.min.js
-
 == Related Source ==
 
-* feature-slideshow.js
-	*../../../js/bundle/defer/feature-slideshow.js
+* feature-slideshow-b1-x00.jade
+  * html/feature-slideshow-b1-x00.jade
 
-* feature-slideshow.scss
-	*../../../css/scss/modules/feature-slideshow.scss
+* feature-slideshow-b1-x00.js
+  * js/feature-slideshow-b1-x00.js
+
+* feature-slideshow-b1-x00.scss
+  * css/feature-slideshow-b1-x00.scss
 
 
 ### Example JSON File(s)
@@ -60,39 +25,15 @@ Each module will include this document, which contains an ordered list of the fi
 
 ==JSON files==
 
-* full-left-75-D-L-example1.json
-	*../../../../src/packages/modules/feature-slideshow/demo/data/full-left-75-D-L-example1.json
+* feature-slideshow-default.json
+  * demo/data/feature-slideshow-default.json
 
-* medialeft-66-D-L-example1.json
-	*../../../../src/packages/modules/feature-slideshow/demo/data/medialeft-66-D-L-example1.json
-
-* mediaright-66-D-L-example1.json
-	*../../../../src/packages/modules/feature-slideshow/demo/data/mediaright-66-D-L-example1.json
+* feature-slideshow-editorial.json
+  * demo/data/feature-slideshow-editorial.json
 
 
 ### Submodule Information ReadMe
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Each submodule is a slide. The slide should have a `caption` and `img` property. The `img` is a standard image object. The `caption` has a `stat` and a `description`.
 
 
