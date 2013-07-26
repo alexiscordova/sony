@@ -49,8 +49,7 @@ define(function(require) {
       self.setVars();
 
       self.sequence = new SonySequence( self.$el, {
-        animationspeed: self.animationspeed,
-        loop: true
+        animationspeed: self.animationspeed
       });
 
       self.createDial();
@@ -68,7 +67,7 @@ define(function(require) {
       self.$reset = self.$el.find( '.js-reset' );
       self.$cover = self.$el.find( '.cs-cover' );
       self.$inner = self.$el.find( '.cs-inner' );
-      self.$stopContent = self.$el.find( '.stop-content [data-stop]');
+      self.$stopContent = self.$el.find( '[data-stop]');
       data = self.$inner.data();
       self.stops = data.stops;
       self.totalStops = self.stops.length;
@@ -137,7 +136,14 @@ define(function(require) {
 
       evt.preventDefault();
 
+      // Go to first img
       self.gotoStop( 0, true );
+
+      // Hide reset button
+      self.$el.removeClass( 'is-last-stop' );
+
+      // Start timers
+      self.startTimer();
     },
 
     onCoverTransitionEnd : function( evt ) {
@@ -178,7 +184,8 @@ define(function(require) {
 
       self.$stopContent
         .eq( self.currentStop )
-        .removeClass( 'hidden' );
+        .removeClass( self.hiddenContentClass )
+        .addClass( self.activeContentClass );
     },
 
     hideStopContent : function() {
@@ -186,8 +193,12 @@ define(function(require) {
       self.$stopContent.each(function() {
         var $content = $( this );
 
-        if ( !$content.hasClass( 'hidden' ) ) {
-          $content.addClass( 'hidden' );
+        if ( !$content.hasClass( self.hiddenContentClass ) ) {
+          $content.addClass( self.hiddenContentClass );
+        }
+
+        if ( $content.hasClass( self.activeContentClass ) ) {
+          $content.removeClass( self.activeContentClass );
         }
       });
     },
@@ -214,6 +225,7 @@ define(function(require) {
 
       if ( noAnimation ) {
         self.sequence.sliderGotoFrame( stopIndex );
+
       } else {
         self.sequence.startAnimation( stopIndex );
       }
@@ -298,6 +310,8 @@ define(function(require) {
   };
 
   CarouselSequence.settings = {
+    hiddenContentClass: 'invisible',
+    activeContentClass: 'active',
     animationspeed: 100,
     currentStop: 0,
     isSequenceVisible: false,

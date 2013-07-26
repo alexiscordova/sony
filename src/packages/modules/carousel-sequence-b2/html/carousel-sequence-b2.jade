@@ -15,60 +15,70 @@ if data.sequence
       - stops.push( i )
 
 
-+mainElement( moduleClasses )
-  if data.backdrop
-    +iQBackgroundImage( data.backdrop, 'update-always cs-backdrop' )
-  div(class="cs-inner invisible", data-stops=JSON.stringify( stops ))
-    .container
-      .grid.relative
-        .loading.is-asset.load-indicator.text-center
-          img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
-        if data.sequence
-          div
-            each imgData, i in data.sequence
-              img = imgData.image ? imgData.image : {}
+mixin sequence()
+  .loading.is-asset.load-indicator.text-center
+    img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+  if data.sequence
+    div
+      each imgData, i in data.sequence
+        img = imgData.image ? imgData.image : {}
 
-              imgClasses = [ "iq-img", "no-fade" ]
+        imgClasses = [ "iq-img", "no-fade" ]
 
-              if i > 0
-                -imgClasses.push( "visuallyhidden" )
+        if i > 0
+          -imgClasses.push( "visuallyhidden" )
 
-              img(id=false, class=imgClasses, alt=img.alt, data-sequence-id=i, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
-              noscript
-                img(src=img.noscriptsrc)
-          .stop-content
-            each stopIndex, i in stops
-              stop = data.sequence[ stopIndex ]
-              title = stop.title
-              bodyCopy = stop.body
-              coords = stop.coords ? stop.coords : [ 0, 0 ]
-              textAlignment = stop.textAlign ? stop.textAlign : "left"
-              boxClasses = [ "span5", "box", "text-" + textAlignment, "fadeeee" ]
-              extraStyle = ""
-
-              if stop.align == "center"
-                - coords[ 0 ] = 0;
-                - extraStyle = "right:0;"
-
-              if i == 0
-                - boxClasses.push( "innnnn", "active" )
-              else
-                - boxClasses.push( "hidden" )
-
-              div(class=boxClasses, data-stop=i, data-stop-index=stopIndex, style="left:#{ coords[ 0 ] };top:#{ coords[ 1 ] };#{extraStyle}")
-                .stop-copy
-                  h2.t3-bold !{ title }
-                  p.p3 !{ bodyCopy }
+        img(id=false, class=imgClasses, alt=img.alt, data-sequence-id=i, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
+        noscript
+          img(src=img.noscriptsrc)
 
 
-    .dial-wrap
-      a.js-reset.btn-reset(href="#")
-        i.fonticon-10-circlearrow.reset-icon
-      span.dial-counter.text-center
-        span.js-stop-number 1
-        span !{ "/" + stops.length }
-      input.dial(data-width=40, data-height=40, data-thickness=0.3, data-bgcolor="red", data-fgcolor="#bada55")
+mixin stopContent()
+  each stopIndex, i in stops
+    stop = data.sequence[ stopIndex ]
+    title = stop.title
+    bodyCopy = stop.body
+    coords = stop.coords ? stop.coords : [ 0, 0 ]
+    textAlignment = stop.textAlign ? stop.textAlign : "left"
+    boxClasses = [ "span5", "box", "text-" + textAlignment ]
+    extraStyle = ""
 
+    if stop.align == "center"
+      - coords[ 0 ] = 0;
+      - extraStyle = "right:0;"
+    else if stop.align == "right"
+      - coords[ 0 ] = "auto"
+      - extraStyle = "right:0;"
+    else if stop.align == "bottom"
+      - coords[ 1 ] = "auto"
+      - extraStyle = "bottom:0;"
+    else if stop.align == "bottom-right"
+      - coords[ 0 ] = "auto"
+      - coords[ 1 ] = "auto"
+      - extraStyle = "right:0;bottom:0;"
+
+    if i == 0
+      - boxClasses.push( "active" )
+    else
+      - boxClasses.push( "invisible" )
+
+    div(class=boxClasses, data-stop, style="left:#{ coords[ 0 ] };top:#{ coords[ 1 ] };#{extraStyle}")
+      .stop-copy
+        h2.t3-bold !{ title }
+        p.p3 !{ bodyCopy }
+
+
+mixin dial()
+  .dial-wrap
+    a.js-reset.btn-reset(href="#")
+      i.fonticon-10-circlearrow.reset-icon
+    span.dial-counter.text-center
+      span.js-stop-number 1
+      span !{ "/" + stops.length }
+    input.dial(data-width=40, data-height=40, data-thickness=0.3, data-bgcolor="red", data-fgcolor="#bada55")
+
+
+mixin cover()
   .cs-cover.fade.in
     if data.img
       +iQBackgroundImage( data.img, 'update-always cs-cover-img' )
@@ -79,3 +89,20 @@ if data.sequence
           | !{ data.cta }
           button.js-cta.btn.btn-circle
             i.fonticon-10-chevron
+
+
++mainElement( moduleClasses )
+  if data.backdrop
+    +iQBackgroundImage( data.backdrop, 'update-always cs-backdrop' )
+  div(class="cs-inner invisible", data-stops=JSON.stringify( stops ))
+    .container
+      .grid.no-grid-at-767.relative
+        +stopContent()
+        +sequence()
+    +dial()
+  +cover()
+
+
+
+
+
