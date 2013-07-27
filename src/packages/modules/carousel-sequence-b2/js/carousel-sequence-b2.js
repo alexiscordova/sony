@@ -49,6 +49,7 @@ define(function(require) {
       self.setVars();
 
       self.sequence = new SonySequence( self.$el, {
+        loop: true,
         animationspeed: self.animationspeed
       });
 
@@ -223,12 +224,7 @@ define(function(require) {
       self.updateDisplayCount();
       self.hideStopContent();
 
-      if ( noAnimation ) {
-        self.sequence.sliderGotoFrame( stopIndex );
-
-      } else {
-        self.sequence.startAnimation( stopIndex );
-      }
+      self.sequence.startAnimation( stopIndex );
     },
 
     prev : function() {
