@@ -18,14 +18,13 @@ define(function (require) {
     sonyPaddles: require('secondary/sony-paddles'),
     sonySequence: require('secondary/sony-img-sequence'),
     sonyScroller: require('secondary/sony-scroller'),
+    sonySliderControl: require('secondary/sony-slider-control'),
     sonyStickyHeaders: require('secondary/sony-stickyheaders'),
     sonyStickyNav: require('secondary/sony-stickynav'),
     sonyStickyTabs: require('secondary/sony-stickytabs'),
     sonyTab: require('secondary/sony-tab'),
     sonyTimer: require('secondary/sony-timer'),
     sonyViewport: require('secondary/sony-viewport'),
-    sonyVideo: require('secondary/sony-video'),
-    sonySequence: require('secondary/sony-img-sequence'),
-    sonySliderControl: require('secondary/sony-slider-control')
+    sonyVideo: require('secondary/sony-video')
   };
 });

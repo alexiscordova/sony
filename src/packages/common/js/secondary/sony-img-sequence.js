@@ -627,15 +627,6 @@ define(function(require) {
       self.clicked = true;
     },
 
-    touchUp: function() {
-      var self = this;
-      self.$body.removeClass('unselectable');
-      self.clicked = false;
-
-      if (self.options.barcontrols) {
-        self.$slideHandle.removeClass('active');
-      }
-    },
 
     touchMove: function( event ) {
       var self      = this,
