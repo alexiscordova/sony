@@ -1,7 +1,7 @@
-// Feature Slideshow
+// Carousel Sequence
 // ------------
 //
-// * **Module:** Feature Slideshow
+// * **Module:** Carousel Sequence
 // * **Version:** 1.0
 // * **Modified:** 06/24/2013
 // * **Author:** Glen Cheney
@@ -20,10 +20,9 @@ define(function(require) {
       Environment = require('require/sony-global-environment'),
       Settings = require('require/sony-global-settings'),
       SonySequence = require('secondary/index').sonySequence,
-      Timer = require('secondary/sony-timer'),
-      Viewport = require('secondary/sony-viewport'),
-      SimpleKnob = require('secondary/jquery.simpleknob'),
-      sonyPaddles = require('secondary/index').sonyPaddles;
+      Timer = require('secondary/index').sonyTimer,
+      Viewport = require('secondary/index').sonyViewport,
+      Dial = require('secondary/index').sonyDial;
 
   var CarouselSequence = function( element ) {
     var self = this;
@@ -50,12 +49,10 @@ define(function(require) {
       self.setVars();
 
       self.sequence = new SonySequence( self.$el, {
-        animationspeed: self.animationspeed,
-        loop: true
+        animationspeed: self.animationspeed
       });
 
-      self.createPaddles();
-      self.createKnob();
+      self.createDial();
       self.subscribeToEvents();
       self.onResize();
     },
@@ -70,6 +67,7 @@ define(function(require) {
       self.$reset = self.$el.find( '.js-reset' );
       self.$cover = self.$el.find( '.cs-cover' );
       self.$inner = self.$el.find( '.cs-inner' );
+      self.$stopContent = self.$el.find( '[data-stop]');
       data = self.$inner.data();
       self.stops = data.stops;
       self.totalStops = self.stops.length;
@@ -94,34 +92,15 @@ define(function(require) {
       self.$cover.on( Settings.transEndEventName, $.proxy( self.onCoverTransitionEnd, self ) );
     },
 
-    createPaddles : function() {
-      var self = this,
-          $wrapper = self.$inner;
-
-      $wrapper.sonyPaddles();
-
-      // Show paddles by default
-      $wrapper.sonyPaddles('showPaddle', 'both');
-
-      $wrapper.on('sonyPaddles:clickLeft', function(e) {
-        e.stopPropagation();
-        self.prev();
-      });
-
-      $wrapper.on('sonyPaddles:clickRight', function(e) {
-        e.stopPropagation();
-        // self.next();
-        self.$el.trigger('reststop.sequence');
-      });
-    },
-
-    createKnob : function() {
+    createDial : function() {
       var self = this;
 
-      self.$dial.simpleKnob();
+      self.dial = new Dial({
+        element: self.$dial,
+        length: self.restLength
+      });
 
-      // So dumb that knob doesn't add any hooks to its element >:(
-      self.$dial.parent().addClass('simpleknob');
+      self.updateDisplayCount();
     },
 
     onResize : function() {
@@ -138,13 +117,11 @@ define(function(require) {
         threshold: '50%',
         enter: function() {
           if ( self.isSequenceVisible ) {
-            console.log('play');
-            self.play();
+            self.resume();
           }
         },
         leave: function() {
           if ( self.isSequenceVisible ) {
-            console.log('pause');
             self.pause();
           }
         }
@@ -159,7 +136,14 @@ define(function(require) {
 
       evt.preventDefault();
 
+      // Go to first img
       self.gotoStop( 0, true );
+
+      // Hide reset button
+      self.$el.removeClass( 'is-last-stop' );
+
+      // Start timers
+      self.startTimer();
     },
 
     onCoverTransitionEnd : function( evt ) {
@@ -183,14 +167,40 @@ define(function(require) {
       // Hide cover after it faded out (avoid browser painting it)
       self.$cover.addClass('invisible');
 
-      // Autoplay
-      self.play();
+      // Autoplay. Kicks off dial timer animation and queues the sequence
+      setTimeout(function() {
+        self.startTimer();
+      }, 0);
     },
 
     showReset : function() {
       var self = this;
 
       self.$el.addClass( 'is-last-stop' );
+    },
+
+    showStopContent : function() {
+      var self = this;
+
+      self.$stopContent
+        .eq( self.currentStop )
+        .removeClass( self.hiddenContentClass )
+        .addClass( self.activeContentClass );
+    },
+
+    hideStopContent : function() {
+      var self = this;
+      self.$stopContent.each(function() {
+        var $content = $( this );
+
+        if ( !$content.hasClass( self.hiddenContentClass ) ) {
+          $content.addClass( self.hiddenContentClass );
+        }
+
+        if ( $content.hasClass( self.activeContentClass ) ) {
+          $content.removeClass( self.activeContentClass );
+        }
+      });
     },
 
     getStop : function( index ) {
@@ -209,8 +219,13 @@ define(function(require) {
       self.currentStop = stop;
       console.log( 'goto:', stop, 'which is index:', stopIndex );
 
+      // Update the counter inside the knob
+      self.updateDisplayCount();
+      self.hideStopContent();
+
       if ( noAnimation ) {
         self.sequence.sliderGotoFrame( stopIndex );
+
       } else {
         self.sequence.startAnimation( stopIndex );
       }
@@ -224,20 +239,40 @@ define(function(require) {
       return this.gotoStop( this.currentStop + 1 );
     },
 
-    // Starts a continuous loop
-    play : function() {
+    startTimer : function() {
       var self = this;
 
-      // If a current timer exists, resume it
-      if ( self.timer && self.timer.isPaused ) {
-        self.timer.resume();
+      // Sets a timer to execute in `restLength` milliseconds
+      self.timer = new Timer( $.proxy( self.loop, self ), self.restLength );
 
-      // Otherwise start a new timer
-      } else if ( !self.isPlaying ) {
-        self.startTimer();
+      // Immidiately starts the dial animation
+      self.dial.start();
+
+      self.showStopContent();
+    },
+
+    pause : function() {
+      var self = this;
+
+      if ( self.timer ) {
+        self.timer.pause();
       }
 
-      self.isPlaying = true;
+      if ( self.dial.isRunning ) {
+        self.dial.pause();
+      }
+    },
+
+    resume : function() {
+      var self = this;
+
+      if ( self.timer && self.timer.isPaused ) {
+        self.timer.resume();
+      }
+
+      if ( self.dial.isPaused ) {
+        self.dial.resume();
+      }
     },
 
     loop : function() {
@@ -251,11 +286,7 @@ define(function(require) {
       self.timer = null;
 
       // Stop dial
-      self.isKnobRunning = false;
-      cancelAnimationFrame( self.dialID );
-
-      // Update the counter inside the knob
-      self.updateDisplayCount();
+      self.dial.stop();
 
       // At the last stop, show ending CTA
       if ( isLastStop ) {
@@ -267,79 +298,7 @@ define(function(require) {
         self.next();
 
         // When the next slide has faded in, start a new timer
-        self.$el.one('reststop.sequence', $.proxy( self.startTimer, self ));
-      }
-    },
-
-    pause : function() {
-      var self = this;
-
-      if ( self.timer ) {
-        self.timer.pause();
-      }
-
-      if ( self.isKnobRunning ) {
-        self.pauseDial();
-      }
-
-      self.isPlaying = false;
-    },
-
-    pauseDial : function() {
-      var self = this;
-
-      self.isKnobRunning = false;
-      cancelAnimationFrame( self.dialID );
-
-
-    },
-
-    stop : function() {
-      var self = this;
-
-      if ( self.timer ) {
-        self.timer.clear();
-      }
-
-      self.timer = null;
-
-      self.isPlaying = false;
-    },
-
-    startTimer : function() {
-      var self = this;
-
-      self.timer = new Timer( $.proxy( self.loop, self ), self.restLength );
-
-      self.timerStarted = $.now();
-
-      self.isKnobRunning = true;
-      self.dialLoop();
-    },
-
-    dialLoop : function() {
-      var self = this,
-          now = $.now(),
-          elapsed = now - self.timerStarted,
-          percentageElapsed = elapsed / self.restLength,
-          integerElapsed = Math.round( percentageElapsed * 100 );
-
-      // Cap at 100
-      integerElapsed = Math.min( 100, integerElapsed );
-
-      // As long as the last and current values are different, update the knob display
-      if ( self.lastKnobValue !== integerElapsed ) {
-        // Update input value and trigger the knob to update
-        console.log('update knob:', integerElapsed);
-        self.$dial.val( integerElapsed ).trigger('change');
-      }
-
-      // Save this value
-      self.lastKnobValue = integerElapsed;
-
-      // Loop again (if the timer hasn't expired)
-      if ( self.isKnobRunning ) {
-        self.dialID = requestAnimationFrame( $.proxy( self.dialLoop, self ) );
+        self.$el.one('SonySequence:stop-sequence', $.proxy( self.startTimer, self ));
       }
     },
 
@@ -351,11 +310,10 @@ define(function(require) {
   };
 
   CarouselSequence.settings = {
+    hiddenContentClass: 'invisible',
+    activeContentClass: 'active',
     animationspeed: 100,
     currentStop: 0,
-    dialID: 0,
-    isKnobRunning: true,
-    isPlaying: false,
     isSequenceVisible: false,
     restLength: 3000
   };

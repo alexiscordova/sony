@@ -59,6 +59,30 @@ $dialSize: 40px;
   }
 
 
+  // Stop Content
+  // -----------------
+  .stop-content {
+    z-index: 2;
+    @include fill-parent();
+  }
+
+  // Needs more specificity to override grid margin-left
+  .grid .box {
+    position: absolute;
+    z-index: 1;
+    float: none; // Boxes are positioned absolute, they don't need floats
+    margin: 0 auto;
+  }
+
+  .box.active {
+    z-index: 2;
+  }
+
+  .stop-copy {
+    width: 100%;
+  }
+
+
   // Dial & Reset
   // -----------------
   .dial-wrap {
