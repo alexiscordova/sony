@@ -22,6 +22,7 @@ define(function (require) {
     sonyFavorites: require('secondary/sony-favorites'),
     sonyViewport: require('secondary/sony-viewport'),
     sonyVideo: require('secondary/sony-video'),
-    sonySequence: require('secondary/sony-img-sequence')
+    sonySequence: require('secondary/sony-img-sequence'),
+    sonySliderControl: require('secondary/sony-slider-control')
   };
 });

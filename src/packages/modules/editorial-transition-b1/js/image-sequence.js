@@ -19,7 +19,8 @@ define(function(require){
   var $ = require( 'jquery' ),
       // iQ = require( 'iQ' ),
       Settings     = require( 'require/sony-global-settings' ),
-      SonySequence = require('secondary/index').sonySequence;
+      SonySequence = require('secondary/index').sonySequence,
+      SonySliderControl = require('secondary/index').sonySliderControl;
       // Favorites    = require('secondary/index').sonyFavorites,
       // hammer       = require( 'plugins/index' ).hammer;
 
@@ -50,6 +51,7 @@ define(function(require){
         if (data.sequenceLabelRight) { opts.labelRight = data.sequenceLabelRight; }
 
         new SonySequence($el, opts);
+        new SonySliderControl($el, opts);
       });
     }
   };

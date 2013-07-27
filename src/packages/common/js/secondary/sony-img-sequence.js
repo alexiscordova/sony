@@ -217,13 +217,6 @@ define(function(require) {
       self.setSliderPosition(percentagePosition);
     },
 
-    // get the demensions, will need to recalculate on resize
-    sliderGetDimensions: function() {
-      var self = this;
-      self.sliderControlWidth = (self.$sliderControl.width());
-      return (self.sliderControlWidth);
-    },
-
     dragSlider: function(event, position) {
       var self = this,
           pagePos,
@@ -387,14 +380,13 @@ define(function(require) {
         }
       } else {
         // add our new controls to the container
-        self.$container.append(controlTmpl.slider);
+        //self.$container.append(controlTmpl.slider);
 
         // define our slider globals
         self.$sliderControlContainer = self.$container.find('.control-bar-container');
         self.$sliderControl = self.$container.find('.range-control');
 
         // get slider dimensions
-        self.sliderGetDimensions();
 
         if (self.labels.length == 2) {
           controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.labels[0].name + '</span>';
@@ -495,7 +487,7 @@ define(function(require) {
 
       // if the user wants bar controls we need to populate the dom
       if ( self.options.barcontrols && !self.options.autoplay ) {
-        self.createBarControl();
+        //self.createBarControl();
       }
     },
 
@@ -615,7 +607,6 @@ define(function(require) {
       self.syncControlLayout();
       // only want to do this if we have a slider and lables
       if (self.options.barcontrols && self.sliderLabelInitialized) {
-        self.sliderGetDimensions();
         self.getSliderPosition();
       }
     },
