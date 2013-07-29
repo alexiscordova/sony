@@ -2,7 +2,7 @@
 define(function(require){
 
   var $ = require('jquery');
-  var CarouselSequence = require('modules/carousel-sequence-b2/carousel-sequence-b2');
+  var CarouselSequence = require('modules/story-sequence-b2-x00/story-sequence-b2-x00');
 
   // Initialize Modules that don't require additional configuration.
   $('.carousel-sequence').each(function() {
