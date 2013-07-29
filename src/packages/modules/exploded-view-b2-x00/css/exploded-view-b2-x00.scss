@@ -1,6 +1,83 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+$exploded-bg-max-width: 1188px;
+$exploded-view-max-pieces: 9;
+$exploded-piece-width: 170px;
+$exploded-piece-height: 170px;
+$exploded-offset-top: 221px;
+$exploded-offset-right: 150px;
+$exploded-step-distance: 50px;
+
 .exploded-view {
+
+  .container {
+    max-width: $exploded-bg-max-width;
+  }
+
+  .submodule > .image-module {
+    height: 600px;
+    @include background-size(auto 600px);
+    background-repeat: no-repeat;
+    background-position: right top;
+  }
+
+  &.full-inner {
+    position: relative;
+  }
+
+  .inner {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    .grid,
+    .grid > div,
+    .table-center-wrap {
+      height: 100%;
+    }
+
+  }
+
+  .intro {
+
+    h2, p {
+      color: white;
+    }
+
+  }
+
+  .pieces {
+    height: $exploded-piece-height;
+    position: relative;
+    top: $exploded-offset-top;
+    margin-right: $exploded-offset-right;
+  }
+
+  .piece {
+    width: $exploded-piece-width;
+    height: $exploded-piece-height;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-position: 0 0;
+  }
+
+  @for $i from 0 through $exploded-view-max-pieces {
+    .piece-#{$i} {
+      background-position-x: -$exploded-piece-width * $i;
+      z-index: $exploded-view-max-pieces - $i;
+
+      @if $i != 0 { 
+        @if $i != $exploded-view-max-pieces {
+        //&.exploded {
+          right: ($exploded-view-max-pieces - $i - 1) * 8%; //$exploded-step-distance;
+        //}
+        }
+      }
+    }
+  }
 
 }

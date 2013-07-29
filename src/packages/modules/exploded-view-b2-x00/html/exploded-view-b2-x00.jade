@@ -2,11 +2,35 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('exploded-view-b2-x00')
 +includeJavascriptModule('exploded-view-b2-x00')
 
-moduleClasses = [ "exploded-view" ]
+mixin submodule( submodule )
+  +partial( submodule.type, submodule.data, true )
+
+mixin center
+  .table-center-wrap
+    .table-center
+      block
+
+moduleClasses = [ "exploded-view", "full-inner" ]
 
 +mainElement( moduleClasses )
-
+  
   .container
+    if data.submodules
+      .submodule
+        +submodule( data.submodules[0] )
+
+  .container.inner.pieces-container
+    .pieces
+        - for ( var i = 0; i < data.animation.numberDesktopPieces; i++ ) {
+          +iQBackgroundImage( data.animation.imgPieces, "piece piece-" + i )
+        - }
+
+  .container.inner
     .grid
-      h1= data.title
+      .span4.offset1
+        +center
+          .intro
+            h2 #{data.title}
+            p #{data.body}
+        
 
