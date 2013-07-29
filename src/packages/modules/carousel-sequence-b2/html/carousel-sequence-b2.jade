@@ -19,7 +19,7 @@ mixin sequence()
   .loading.is-asset.load-indicator.text-center
     img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
   if data.sequence
-    div
+    .ss-sequence.text-center
       each imgData, i in data.sequence
         img = imgData.image ? imgData.image : {}
 
@@ -62,7 +62,7 @@ mixin stopContent()
     else
       - boxClasses.push( "invisible" )
 
-    div(class=boxClasses, data-stop, style="left:#{ coords[ 0 ] };top:#{ coords[ 1 ] };#{extraStyle}")
+    div(class=boxClasses, data-stop="", style="left:#{ coords[ 0 ] };top:#{ coords[ 1 ] };#{extraStyle}")
       .stop-copy
         h2.t3-bold !{ title }
         p.p3 !{ bodyCopy }

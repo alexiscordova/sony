@@ -5,32 +5,42 @@
 
 @media (max-width: px-em( 767 ) ) {
 
+  $dialSize: 40px;
+
   .carousel-sequence {
     height: 420px;
+
+    // Don't need an IE7 fallback because inside media query
+    .cs-inner,
+    .cs-inner > .container,
+    .cs-inner > .container > .grid {
+      height: inherit;
+    }
 
     .grid .box {
       position: absolute;
       text-align: center;
       min-height: 0;
-      // height: 150px;
     }
 
     .box.active {
       position: static;
     }
 
-    // Utilitiy class is being overridden
-    // .box.visuallyhidden {
-    //   margin: -1px;
-    //   position: absolute;
-    //   width: 1px;
-    // }
+    .ss-sequence {
+      position: absolute;
+      bottom: $dialSize;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+
   }
 }
 
 @media (max-width: px-em( 479 ) ) {
 
   .carousel-sequence {
-    height: 400px;
+    height: 360px;
   }
 }
