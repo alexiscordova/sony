@@ -1,7 +1,7 @@
-// Carousel Sequence
+// Story Sequence
 // ------------
 //
-// * **Module:** Carousel Sequence
+// * **Module:** Story Sequence
 // * **Version:** 1.0
 // * **Modified:** 06/24/2013
 // * **Author:** Glen Cheney
@@ -9,7 +9,7 @@
 //
 // *Example Usage:*
 //
-//      new CarouselSequence( $('.carousel-sequence')[0] );
+//      new StorySequence( $('.carousel-sequence')[0] );
 
 define(function(require) {
 
@@ -24,24 +24,24 @@ define(function(require) {
       Viewport = require('secondary/index').sonyViewport,
       Dial = require('secondary/index').sonyDial;
 
-  var CarouselSequence = function( element ) {
+  var StorySequence = function( element ) {
     var self = this;
 
     // Set base element
     self.element = element;
     self.$el = $( element );
 
-    $.extend( self, CarouselSequence.settings );
+    $.extend( self, StorySequence.settings );
 
     // Inits the module
     self.init();
 
-    self.$el.data( 'carouselSequence', self );
+    self.$el.data( 'storySequence', self );
 
-    log('SONY : CarouselSequence : Initialized');
+    log('SONY : StorySequence : Initialized');
   };
 
-  CarouselSequence.prototype = {
+  StorySequence.prototype = {
 
     init : function() {
       var self = this;
@@ -66,8 +66,8 @@ define(function(require) {
       self.$btnTrigger = self.$el.find( '.js-cta' );
       self.$stopNumber = self.$el.find( '.js-stop-number' );
       self.$reset = self.$el.find( '.js-reset' );
-      self.$cover = self.$el.find( '.cs-cover' );
-      self.$inner = self.$el.find( '.cs-inner' );
+      self.$cover = self.$el.find( '.js-cover' );
+      self.$inner = self.$el.find( '.js-sequence-inner' );
       self.$stopContent = self.$el.find( '[data-stop]');
       data = self.$inner.data();
       self.stops = data.stops;
@@ -316,7 +316,7 @@ define(function(require) {
     }
   };
 
-  CarouselSequence.settings = {
+  StorySequence.settings = {
     hiddenContentClass: 'invisible',
     activeContentClass: 'active',
     animationspeed: 100,
@@ -325,5 +325,5 @@ define(function(require) {
     restLength: 3000
   };
 
-  return CarouselSequence;
+  return StorySequence;
  });
