@@ -1,7 +1,7 @@
 
 define(function(require){
 
-  var ExplodedView = require('modules/exploded-view-b2/exploded-view-b2');
+  var ExplodedView = require('modules/exploded-view-b2-x00/exploded-view-b2-x00');
 
   // Initialize Modules that don't require additional configuration.
   ExplodedView.init();
