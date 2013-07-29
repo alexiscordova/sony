@@ -44,13 +44,18 @@ define(function( require ) {
   Dial.prototype = {
 
     init : function() {
-      var self = this;
+      var self = this,
+          canvas = document.createElement( 'canvas' ),
+          hasCanvas = canvas.getContext && canvas.getContext('2d');
 
       self.$el = $( self.element );
-      self.$el.simpleKnob();
 
-      // So dumb that knob doesn't add any hooks to its element >:(
-      self.$el.parent().addClass('simpleknob');
+      if ( hasCanvas ) {
+        self.$el.simpleKnob();
+
+        // So dumb that knob doesn't add any hooks to its element >:(
+        self.$el.parent().addClass('simpleknob');
+      }
     },
 
     set : function( value ) {

@@ -73,8 +73,6 @@ define(function(require) {
       self.stops = data.stops;
       self.totalStops = self.stops.length;
 
-      console.log('stops:', self.stops);
-
       return self;
     },
 
@@ -130,6 +128,14 @@ define(function(require) {
 
       self.$inner.removeClass('invisible');
       self.$cover.removeClass('in');
+
+      // There is a transitionend event on the cover,
+      // which triggers the `showSequence` function.
+      // If the browser doesn't have transitions, the sequence should
+      // be shown immediately
+      if ( !Modernizr.csstransitions ) {
+        self.showSequence();
+      }
     },
 
     onResetClick : function( evt ) {
@@ -160,6 +166,12 @@ define(function(require) {
 
       // Only want to listen for this event once
       self.$cover.off( Settings.transEndEventName );
+
+      self.showSequence();
+    },
+
+    showSequence : function() {
+      var self = this;
 
       // Add state to module
       self.$el.addClass( 'is-sequence-visible' );
@@ -218,7 +230,6 @@ define(function(require) {
           stopIndex = self.stops[ stop ];
 
       self.currentStop = stop;
-      console.log( 'goto:', stop, 'which is index:', stopIndex );
 
       // Update the counter inside the knob
       self.updateDisplayCount();
