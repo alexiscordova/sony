@@ -1,8 +1,8 @@
 include ../../../common/html/jade-helpers.jade
-+includeCSS('carousel-sequence-b2')
-+includeJavascriptModule('carousel-sequence-b2')
++includeCSS('story-sequence-b2-x00')
++includeJavascriptModule('story-sequence-b2-x00')
 
-moduleClasses = [ "carousel-sequence", "relative" ]
+moduleClasses = [ "story-sequence", "relative" ]
 
 stops = []
 sequenceLength = data.sequence && data.sequence.length ? data.sequence.length : 0
@@ -19,7 +19,7 @@ mixin sequence()
   .loading.is-asset.load-indicator.text-center
     img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
   if data.sequence
-    div
+    .ss-sequence.text-center
       each imgData, i in data.sequence
         img = imgData.image ? imgData.image : {}
 
@@ -62,7 +62,7 @@ mixin stopContent()
     else
       - boxClasses.push( "invisible" )
 
-    div(class=boxClasses, data-stop, style="left:#{ coords[ 0 ] };top:#{ coords[ 1 ] };#{extraStyle}")
+    div(class=boxClasses, data-stop="", style="left:#{ coords[ 0 ] };top:#{ coords[ 1 ] };#{extraStyle}")
       .stop-copy
         h2.t3-bold !{ title }
         p.p3 !{ bodyCopy }
@@ -79,10 +79,10 @@ mixin dial()
 
 
 mixin cover()
-  .cs-cover.fade.in
+  .ss-cover.js-cover.fade.in
     if data.img
-      +iQBackgroundImage( data.img, 'update-always cs-cover-img' )
-    .container.cs-cover-content
+      +iQBackgroundImage( data.img, 'update-always ss-cover-img' )
+    .container.ss-cover-content
       .grid.text-center
         h2.t2.title !{ data.title }
         p.t5-light.cta
@@ -93,8 +93,8 @@ mixin cover()
 
 +mainElement( moduleClasses )
   if data.backdrop
-    +iQBackgroundImage( data.backdrop, 'update-always cs-backdrop' )
-  div(class="cs-inner invisible", data-stops=JSON.stringify( stops ))
+    +iQBackgroundImage( data.backdrop, 'update-always ss-backdrop' )
+  div(class="ss-inner js-sequence-inner invisible", data-stops=JSON.stringify( stops ))
     .container
       .grid.no-grid-at-767.relative
         +stopContent()

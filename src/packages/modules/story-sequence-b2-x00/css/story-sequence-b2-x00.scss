@@ -9,7 +9,7 @@
 
 $dialSize: 40px;
 
-.carousel-sequence {
+.story-sequence {
 
   // Loader
   .loading {
@@ -17,18 +17,18 @@ $dialSize: 40px;
   }
 
   // Cover with title & CTA
-  .cs-cover {
-    z-index: 3; // above the sequence (.cs-inner)
+  .ss-cover {
+    z-index: 3; // above the sequence (.ss-inner)
     @include fill-parent();
   }
 
   // Put the cover behind the sequence when the sequence is visible
-  &.is-sequence-visible .cs-cover {
+  &.is-sequence-visible .ss-cover {
     z-index: 1;
   }
 
-  .cs-backdrop,
-  .cs-cover-img {
+  .ss-backdrop,
+  .ss-cover-img {
     z-index: 1;
     @include fill-parent();
     @include background-cover();
@@ -36,7 +36,7 @@ $dialSize: 40px;
 
   // Position above backdrop and cover image
   // Needs z-index set because of IE7
-  .cs-cover-content {
+  .ss-cover-content {
     position: relative;
     z-index: 2;
   }
@@ -53,7 +53,7 @@ $dialSize: 40px;
   }
 
   // Wrapper for sequence. Includes dail
-  .cs-inner {
+  .ss-inner {
     position: relative;
     z-index: 2;
   }
