@@ -2,10 +2,38 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-compare-b2-x00')
 +includeJavascriptModule('editorial-compare-b2-x00')
 
-+mainElement( ['editorial-compare-module'] )
+moduleClasses = [ "editorial-compare" ]
+
++mainElement( moduleClasses )
 
   .container
     .grid
-      h2.t2.editorial-compare-title= data.title
-      p.editorial-compare-body-copy= data.bodyCopy
+      h1= data.title
+    .grid
+      .span4 
+        .test
+        p Column 1
+      .span4 
+        .test
+        p Column 2
+      .span4 
+        .test
+        p Column 3
 
+    .grid
+      .span12
+        .compare-carousel
+          .sony-carousel-wrapper
+            .sony-carousel
+              .sony-carousel-slide
+                .container
+                  .grid
+                    .sony-carousel-children.span4 Slide 1
+              .sony-carousel-slide
+                .container
+                  .grid
+                    .sony-carousel-children.span4 Slide 2
+              .sony-carousel-slide
+                .container
+                  .grid
+                    .sony-carousel-children.span4 Slide 3

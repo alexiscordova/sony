@@ -11,7 +11,7 @@
 //
 // *Example Usage:*
 //
-//      new EditorialCompare( $('.demo-module')[0] )
+//      new EditorialCompare( $('.editorial-compare')[0] )
 //
 //
 
@@ -27,14 +27,15 @@ define(function(require) {
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
-      Environment = require('require/sony-global-environment');
+      Environment = require('require/sony-global-environment'),
+      sonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     init: function() {
-      var $module = $('.demo-module');
+      var $module = $('.editorial-compare');
 
       if ( $module.length ) {
-        new Demo( $module[0] );
+        new EditorialCompare( $module[0] );
       }
     }
   };
@@ -57,8 +58,8 @@ define(function(require) {
     init: function() {
       var self = this;
 
-      // Probably set some variables here
-
+      self.initialized = false;
+      self.$carousel = self.$el.find( '.sony-carousel' );
 
       if ( Modernizr.mediaqueries ) {
         // These can be chained, like below
@@ -82,6 +83,37 @@ define(function(require) {
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
 
+      self.initialized = true;
+
+    },
+
+    initCarousel : function() {
+      var self = this;
+
+      // Initialize a new sony carousel.
+      self.$carousel.sonyCarousel({
+        wrapper: '.sony-carousel-wrapper',
+        slides: '.sony-carousel-slide',
+        pagination: true,
+        paddles: true,
+        paddlePosition: 'outset'
+      });
+    },
+
+    updateCarousel : function() {
+      var self = this;
+
+      log('TODO: update carousel');
+    },
+
+    // Make sure that initCarousel is only called when the class hasn't finished initializing.
+    fixCarousel : function() {
+      if( !this.initialized ) {
+        this.initCarousel();
+      }
+      else {
+        this.updateCarousel();
+      }
     },
 
     // Stubbed method. You don't have to use this
@@ -89,9 +121,13 @@ define(function(require) {
       var self = this,
           wasMobile = self.isMobile;
 
+      log('SONY : EditorialCompare : Setup Desktop');
+
       if ( wasMobile ) {
 
       }
+
+      self.fixCarousel();
 
       self.isDesktop = true;
       self.isMobile = false;
@@ -102,9 +138,13 @@ define(function(require) {
       var self = this,
           wasDesktop = self.isDesktop;
 
+      log('SONY : EditorialCompare : Setup Mobile');
+
       if ( wasDesktop ) {
 
       }
+
+      self.fixCarousel();
 
       self.isDesktop = false;
       self.isMobile = true;
