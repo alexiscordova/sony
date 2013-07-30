@@ -103,16 +103,23 @@ $dialSize: 60px;
   }
 
   .btn-reset {
-    @include xy( 0, 0 );
+    @include fill-parent();
+    background-color: $btnSpecialBackground;
+    border-radius: 50%;
   }
 
-  .btn-reset:hover i {
-    color: purple;
+  // Hide hovers from touch
+  .no-touch & .btn-reset:hover {
+    background-color: $themeGreen;
   }
 
   .reset-icon {
-    font-size: $dialSize;
-    color: $btnSpecialBackground;
+    font-size: $dialSize / 2;
+    color: $white;
+  }
+
+  .no-touch & .btn-reset:hover i {
+    color: $themePurple;
   }
 
   .dial-counter {
