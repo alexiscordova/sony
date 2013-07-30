@@ -4,11 +4,15 @@ include ../../../common/html/jade-helpers.jade
 
 div.sony-audio-player
 
+  div.active-track
+
   ul.tracks
 
     each track in data.tracks
       if track.sources && track.sources.default
-        li.track(data-album-art=track.albumArt)
+
+        li.track(data-active-art=track.albumActiveArt)
+          img(src=track.albumArt)
           ul.id3
             each item, label in track.id3
               li(class=label)

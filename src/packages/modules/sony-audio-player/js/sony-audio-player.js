@@ -55,6 +55,7 @@ define(function(require){
         return instances;
       }
 
+      self.bindNav();
       self.setTrack(0);
 
       return self;
@@ -84,7 +85,6 @@ define(function(require){
         }
       });
 
-      self.bindNav(track);
       self.bindModuleAPI(track);
       self.setAlbumArt(which);
 
@@ -110,18 +110,18 @@ define(function(require){
 
     // Binds the <nav> elements to the `track` object's API.
 
-    bindNav: function(track) {
+    bindNav: function() {
 
       var self = this;
 
       self.$el.on('click', '.play', function(e) {
         e.preventDefault();
-        track.play();
+        self.$el.trigger('SonyAudioPlayer:play');
       });
 
       self.$el.on('click', '.pause', function(e) {
         e.preventDefault();
-        track.pause();
+        self.$el.trigger('SonyAudioPlayer:pause');
       });
 
       return self;
@@ -144,6 +144,12 @@ define(function(require){
 
       self.$el.on('SonyAudioPlayer:play', function(e, setting){
         track.play(setting);
+        self.createScrubber();
+      });
+
+      self.$el.on('SonyAudioPlayer:pause', function(e){
+        track.pause();
+        self.removeScrubber();
       });
 
       return self;
@@ -154,11 +160,29 @@ define(function(require){
 
     setAlbumArt: function(which) {
 
+      var self = this,
+          $activeTrack = self.$el.find('.active-track'),
+          $newAlbumArt = self.$el.find('.track').eq(which).find('img');
+
+      $activeTrack.empty().append($newAlbumArt.clone());
+
+      return self;
+    },
+
+    // Creates a scrubber overlay for the track, if `data-scrubber` is defined.
+
+    createScrubber: function() {
+
       var self = this;
 
-      self.$el.css({
-        backgroundImage: 'url('+self.$el.find('.track').eq(which).data('album-art')+')'
-      });
+      return self;
+    },
+
+    // Remove the scrubber for the track, if it exists.
+
+    removeScrubber: function() {
+
+      var self = this;
 
       return self;
     }
