@@ -4,7 +4,8 @@ include ../../../common/html/jade-helpers.jade
 
 moduleClasses = [ "editorial-compare" ]
 
-mixin columnElement(color)
+mixin columnElement(color, image)
+  +iQImage(image)
   .swatches
     .swatch-blue
     .swatch-black
@@ -38,8 +39,8 @@ mixin columnElement(color)
           .container
             .slimgrid
               .span4.sony-carousel-slide-children
-                +columnElement('green')
+                +columnElement('green', data.image_1)
               .span4.sony-carousel-slide-children
-                +columnElement('red')
+                +columnElement('red', data.image_2)
               .span4.sony-carousel-slide-children
-                +columnElement('lemon')
+                +columnElement('lemon', data.image_3)
