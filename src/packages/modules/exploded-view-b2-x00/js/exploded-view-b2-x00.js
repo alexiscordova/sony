@@ -57,8 +57,25 @@ define(function(require) {
     init: function() {
       var self = this;
 
-      // Probably set some variables here
+      self.setVars();
 
+      // Probably set some variables here
+      self.$el.on( 'click', 'a.explode', function( event ) {
+        event.preventDefault();
+        log('Exploding');
+        if(self.expanded) {
+          $('.piece', self.$el).removeClass('exploded');
+          $('.explode', self.$el).removeClass('open');
+          $('.intro', self.$el).show();
+          self.expanded = false;
+        }
+        else {
+          $('.explode', self.$el).addClass('open');
+          $('.piece', self.$el).addClass('exploded');
+          $('.intro', self.$el).hide();
+          self.expanded = true;
+        }
+      } );
 
       if ( Modernizr.mediaqueries ) {
         // These can be chained, like below
@@ -82,6 +99,11 @@ define(function(require) {
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
 
+    },
+
+    setVars : function() {
+      var self = this;
+      self.expanded = false;
     },
 
     // Stubbed method. You don't have to use this

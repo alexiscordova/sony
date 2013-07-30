@@ -65,6 +65,16 @@ $exploded-step-distance: 50px;
     background-position: 0 0;
   }
 
+  .explode {
+    position: absolute;
+    right: $exploded-offset-right - 48px;
+    top: ($exploded-piece-height / 2) - 22px;
+    z-index: $exploded-view-max-pieces + 1;
+    &.open {
+      right: $exploded-view-max-pieces * 8%;
+    }
+  }
+
   @for $i from 0 through $exploded-view-max-pieces {
     .piece-#{$i} {
       background-position-x: -$exploded-piece-width * $i;
@@ -72,9 +82,9 @@ $exploded-step-distance: 50px;
 
       @if $i != 0 { 
         @if $i != $exploded-view-max-pieces {
-        //&.exploded {
-          right: ($exploded-view-max-pieces - $i - 1) * 8%; //$exploded-step-distance;
-        //}
+          &.exploded {
+            right: ($exploded-view-max-pieces - $i - 1) * 8%; //$exploded-step-distance;
+          }
         }
       }
     }
