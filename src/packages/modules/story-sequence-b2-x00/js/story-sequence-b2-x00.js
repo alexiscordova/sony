@@ -55,7 +55,6 @@ define(function(require) {
 
       self.createDial();
       self.subscribeToEvents();
-      self.onResize();
     },
 
     setVars : function() {
@@ -95,6 +94,13 @@ define(function(require) {
       var self = this;
 
       self.dial = new Dial({
+        knob: {
+          width: 60,
+          height: 60,
+          thickness: 0.2,
+          bgColor: "#d2d2db",
+          fgColor: "#504d56",
+        },
         element: self.$dial,
         length: self.restLength
       });
