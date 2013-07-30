@@ -83,8 +83,18 @@ define(function(require) {
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
 
+      self.fadeIn();
+
       self.initialized = true;
 
+    },
+
+    fadeIn : function() {
+      var self = this;
+
+      setTimeout( function() {
+        self.$el.find('.carousel-container').addClass( 'in' );
+      }, 0 );
     },
 
     initCarousel : function() {
