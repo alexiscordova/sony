@@ -20,16 +20,14 @@ mixin featureSlide( data )
     div(class=innerClasses)
       if data.img
         +iQBackgroundImage( data.img )
-      +caption( data.caption )
+      +caption( data )
 
 
-mixin caption( caption )
-  caption = caption ? caption : {}
-  stat = caption.stat ? caption.stat : {}
-  statValue = stat.value ? stat.value : "0.00"
-  statUnit = stat.unit ? stat.unit : false
-  isSuperScript = stat.superscript != null ? stat.superscript : false
-  statDescription = caption.description ? caption.description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
+mixin caption( data )
+  statValue = data.caption_stat_value ? data.caption_stat_value : "0.00"
+  statUnit = data.caption_stat_unit ? data.caption_stat_unit : false
+  isSuperScript = data.caption_stat_superscript != null ? data.caption_stat_superscript : false
+  statDescription = data.caption_description ? data.caption_description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
 
   .caption
     div(class=isSlideshowMode ? "container" : false)
