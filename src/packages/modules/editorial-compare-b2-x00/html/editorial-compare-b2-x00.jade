@@ -4,6 +4,25 @@ include ../../../common/html/jade-helpers.jade
 
 moduleClasses = [ "editorial-compare" ]
 
+mixin columnElement(color)
+  .swatches
+    .swatch-blue
+    .swatch-black
+    div(class = "swatch-#{color}")
+  ul.benefits
+    li
+      i.fonticon-30-support(aria-hidden="true")
+      h5.t7 Benefit
+      p Lorem ipsum dolor sit amet
+    li
+      i.fonticon-30-wifi(aria-hidden="true")
+      h5.t7 Benefit
+      p Lorem ipsum dolor sit amet
+    li
+      i.fonticon-30-bluetooth(aria-hidden="true")
+      h5.t7 Benefit
+      p Lorem ipsum dolor sit amet
+
 +mainElement( moduleClasses )
 
   .container
@@ -11,76 +30,15 @@ moduleClasses = [ "editorial-compare" ]
       .span10.offset1.center
         h1= data.title
         p.p2= data.bodyCopy
-    .grid
-      .span4 
-        .swatches
-          .swatch-blue
-          .swatch-black
-          .swatch-green
-        ul.benefits
-          li
-            i.fonticon-30-support(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
-          li
-            i.fonticon-30-wifi(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
-          li
-            i.fonticon-30-bluetooth(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
-      .span4 
-        .swatches
-          .swatch-blue
-          .swatch-black
-          .swatch-green
-        ul.benefits
-          li
-            i.fonticon-30-support(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
-          li
-            i.fonticon-30-wifi(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
-          li
-            i.fonticon-30-bluetooth(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
-      .span4 
-        .swatches
-          .swatch-blue
-          .swatch-black
-          .swatch-green
-        ul.benefits
-          li
-            i.fonticon-30-support(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
-          li
-            i.fonticon-30-wifi(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
-          li
-            i.fonticon-30-bluetooth(aria-hidden="true")
-            h5.t7 Benefit
-            p Lorem ipsum dolor sit amet
 
-    .grid
-      .span12
-        .compare-carousel
-          .sony-carousel-wrapper
-            .sony-carousel
-              .sony-carousel-slide
-                .container
-                  .grid
-                    .sony-carousel-children.span4 Slide 1
-              .sony-carousel-slide
-                .container
-                  .grid
-                    .sony-carousel-children.span4 Slide 2
-              .sony-carousel-slide
-                .container
-                  .grid
-                    .sony-carousel-children.span4 Slide 3
+  .sony-carousel-wrapper
+    .sony-carousel
+      .sony-carousel-slide
+        .container
+          .slimgrid
+            .span4.sony-carousel-slide-children
+              +columnElement('green')
+            .span4.sony-carousel-slide-children
+              +columnElement('red')
+            .span4.sony-carousel-slide-children
+              +columnElement('lemon')
