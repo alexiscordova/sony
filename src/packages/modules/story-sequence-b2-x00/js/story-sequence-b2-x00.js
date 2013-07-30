@@ -80,7 +80,7 @@ define(function(require) {
       var self = this;
 
       // Listen for global resize
-      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      // Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
 
       // Show sequence when the CTA button is clicked
       self.$btnTrigger.on( 'click', $.proxy( self.onCTAClick, self ) );
@@ -102,9 +102,9 @@ define(function(require) {
       self.updateDisplayCount();
     },
 
-    onResize : function() {
+    // onResize : function() {
 
-    },
+    // },
 
     onCTAClick : function() {
       var self = this;
