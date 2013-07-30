@@ -17,55 +17,195 @@ define(function(require){
 
   // provisions
   var $ = require( 'jquery' ),
-      // iQ = require( 'iQ' ),
-      Settings     = require( 'require/sony-global-settings' ),
-      SonySequence = require('secondary/index').sonySequence,
+      Settings          = require( 'require/sony-global-settings' ),
+      Environment       = require( 'require/sony-global-environment' ),
+      SonySequence      = require('secondary/index').sonySequence,
       SonySliderControl = require('secondary/index').sonySliderControl;
-      // Favorites    = require('secondary/index').sonyFavorites,
-      // hammer       = require( 'plugins/index' ).hammer;
 
 
-  var sonySequence = {
-    init: function() {
-      if ( window.atob || Settings.isLTIE10 ) {
-        $( this.$controls ).find( '.table-center-wrap' ).addClass( 'ltie' );
-      }
-
-      $.extend(this, {}, sonySequence.defaults, sonySequence.settings);
-
-      $( '.sony-sequence' ).each( function( index, el ) {
-        var $el = $(el),
-            data = $el.data(),
-            opts = {};
-
-        // since users have the ability to pass in true // false for some options we cannot simply
-        // check if (options) { do stuff }, since if they set the option to false it will affect the
-        // overall functionality. Also we do not want to pass in options when the users avoid
-        // adding them to the jade.
-        if (data.sequenceAutoplay != 'undefined') { opts.autoplay = data.sequenceAutoplay; }
-        if (data.sequenceViewcontrols != 'undefined') { opts.viewcontrols = data.sequenceViewcontrols; }
-        if (data.sequenceBarcontrols != 'undefined') { opts.barcontrols = data.sequenceBarcontrols; }
-        if (data.sequenceLoop != 'undefined') { opts.loop = data.sequenceLoop; }
-        if (data.sequenceAnimationSpeed != 'undefined') { opts.animationspeed = data.sequenceAnimationSpeed; }
-        if (data.sequenceLabelLeft) { opts.labelLeft = data.sequenceLabelLeft; }
-        if (data.sequenceLabelRight) { opts.labelRight = data.sequenceLabelRight; }
-
-        new SonySequence($el, opts);
-        new SonySliderControl($el, opts);
-      });
-    }
-  };
-
-  var SonySequenceModule = function(element) {
-
+  var EditorialTransition = function(element) {
     var self = this;
 
     self.$el = $(element);
     self.init();
 
-    log('SONY : SonySequence : Initialized');
+    log('SONY : EditorialTransition : Initialized');
   };
 
-  return sonySequence;
+  EditorialTransition.prototype = {
+    init: function() {
+      var self = this;
+
+      // initialize the sequence 
+      self.sequence = new SonySequence( self.$el, {
+        loop: false,
+        speed: 100
+      });
+      // initialize the slider
+      self.slider = new SonySliderControl( self.$el, {} );
+
+      // initalize bindings
+      var domReady = function() {
+        self.initBindings();
+      };
+
+      $(domReady);
+    },
+
+    initBindings: function() {
+      var self = this,
+          $labels;
+
+      console.log('-- INITIALIZED BINDINGS FOR MODULE --');
+
+      self.$el.on('click.label-click', '.slider-label', function(e) {
+        var $el = $(e.target).closest('.slider-label'),
+            $labels = self.$el.find('.slider-label'),
+            sliderProperties,
+            data = $el.data(),
+            direction = data.direction;
+
+        sliderProperties = self.getSliderPositionByIndex(direction);
+        self.sequence.startAnimation( direction );
+        self.slider.animateSliderToPosition( sliderProperties );
+      });
+
+      // going to attach a listener to sliderDrag which 
+      // will return back values to go to certain frame.
+      // --
+      // * will return back a position object where the slider is positioned to the rail.
+      self.$el.on('SonySliderControl:slider-drag', function(e, sliderPosition){
+        self.sliderPosition = sliderPosition;
+        self.handleSliderDrag();
+      });
+
+      Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
+      
+    },
+
+    
+    onResize: function() {
+      console.log('resize!');
+      this.getSliderPosition();
+    },
+
+    sliderNearestValidValue: function(rawValue) {
+      var self = this,
+          range;
+
+      range = self.getSliderRange();
+      rawValue = Math.min(range.max, rawValue);
+      rawValue = Math.max(range.min, rawValue);
+
+      if (self.options.steps) {
+        return;
+      } else {
+        return rawValue;
+      }
+    },
+
+    sliderGotoFrame: function(positon) {
+      var self = this,
+          minWidth = 0,
+          maxWidth = (self.slider.sliderControlWidth - 35),
+          sequenceLength = self.sequence.sequenceLength - 1,
+          sequenceDepth = 0,
+          lastIndex = self.curIndex;
+
+      sequenceDepth = ( positon / maxWidth );
+      //// we need to determine if it's the 360 module or image sequence
+      //// why? Because an image sequence needs to go from start to finish with no loop,
+      //// a 360 module needs to loop back to the first index.
+      self.curIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequence.sequenceLength - 1);
+      
+      console.log('-- HANDLE SLIDE HANDLE MOVE --',self.curIndex, positon, self.slider.sliderControlWidth);
+
+      if ( self.curIndex < 0 ) {
+        self.curIndex = 0;
+      }
+
+      // Show the current, hide the others
+      self.sequence.move( self.curIndex );
+    },
+    
+    sliderRatioToValue: function(ratio) {
+      var range,
+          rawValue;
+
+      range = self.getSliderRange();
+      rawValue = ratio * (range.max - range.min) + range.min;
+
+      return this.sliderNearestValidValue(rawValue);
+    },
+
+        
+    // gets the slider positon called on resize to fix bugs with positioning
+    getSliderPosition: function() {
+      var self = this,
+          steps,
+          position,
+          sliderPercentageMin,
+          sliderPercentageMax,
+          sliderProperties = {};
+
+      // we dont want to animate a bug fix ;)
+      sliderProperties.sequenceAnimationSpeed = 0;
+
+      steps = (self.slider.sliderControlWidth / (self.sequence.sequenceLength - 1));
+      sliderProperties.position = (steps * self.sequence.curIndex);
+      sliderProperties.positionPercentage = (sliderProperties.position / (self.slider.sliderControlWidth + 30)) * 100;
+      sliderPercentageMax = ((self.slider.sliderControlWidth - 30) / self.slider.sliderControlWidth) * 100;
+      sliderPercentageMin = ((self.slider.sliderControlWidth - (self.slider.sliderControlWidth + 30)) / (self.slider.sliderControlWidth + 30)) * 100;
+
+      if (self.sequence.curIndex >= (self.sequence.sequenceLength - 1) || sliderProperties.positionPercentage > sliderPercentageMax) {
+        sliderProperties.positionPercentage = sliderPercentageMax;
+      } else if (self.curIndex <= 0 && sliderProperties.positionPercentage > sliderPercentageMin) {
+        sliderProperties.positionPercentage = sliderPercentageMin;
+      }
+      
+      // resets the slider position
+      self.slider.animateSliderToPosition( sliderProperties );
+    }, 
+      
+    
+    getSliderPositionByIndex: function(direction) {
+      var self = this,
+          distanceFromDirection,
+          sliderPercentageMin,
+          sliderPercentageMax,
+          sliderProperties = {};
+
+      // calculate the distance the slider will be traveling
+      distanceFromDirection = Math.abs(self.sequence.curIndex - direction);
+      sliderPercentageMax = ((self.slider.sliderControlWidth - 30) / self.slider.sliderControlWidth) * 100;
+      sliderPercentageMin = ((self.slider.sliderControlWidth - (self.slider.sliderControlWidth + 30)) / (self.slider.sliderControlWidth + 30)) * 100;
+
+      sliderProperties.position = ((self.slider.sliderControlWidth / self.sequence.sequenceLength - 1) * direction);
+      // the slider will need to be able to reach a negative value, yet hit 100%. 
+      // thus we may need to check the slider width and exaggerate its values.
+      // for example: if the slider direction is at 0, 0/560 will always be 0. 
+      sliderProperties.positionPercentage = Math.floor(( (((self.slider.sliderControlWidth+30) / self.sequence.sequenceLength - 1) * direction) / (self.slider.sliderControlWidth+30)) * 100);
+      self.slider.options.speed ? sliderProperties.sequenceAnimationSpeed = (self.slider.options.speed * distanceFromDirection) : sliderProperties.sequenceAnimationSpeed = (100 * distanceFromDirection); 
+
+      if (direction >= (self.sequence.sequenceLength - 1) || sliderProperties.positionPercentage > sliderPercentageMax) {
+        sliderProperties.positionPercentage = sliderPercentageMax;
+      } else if (self.curIndex <= 0 && sliderProperties.positionPercentage > sliderPercentageMin) {
+        sliderProperties.positionPercentage = sliderPercentageMin;
+      }
+
+      console.log(sliderProperties, sliderPercentageMax);
+     
+      // hand over the properties!
+      return sliderProperties;
+    },
+
+    handleSliderDrag: function() {
+      var pagePos;
+
+      this.sliderGotoFrame(this.sliderPosition.positon);
+    }
+  };
+
+  return EditorialTransition;
 
 });

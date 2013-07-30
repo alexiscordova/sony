@@ -34,7 +34,6 @@ define(function(require) {
       Viewport     = require( 'secondary/sony-viewport' );
 
 
-
   var SonySliderControl = function( element, options ) {
 
     var self = this;
@@ -69,7 +68,14 @@ define(function(require) {
       function domReady(){
         self.getSliderData();
         self.initalizeSliderBindings();
+        // reset the step buffer when the window changes size
+        Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
       }
+    },
+
+    onResize: function() {
+      console.log('resize!');
+      this.sliderGetDimensions();
     },
 
     getLabels: function() {
@@ -127,8 +133,8 @@ define(function(require) {
       this.controlTemplate.labels = [];
 
       if (this.labels.length == 2) {
-        controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.labels[0].name + '</span>';
-        controlTmpl.labelRight = '<span class="slider-label label-right l3" data-direction="right">' + self.labels[1].name + '</span>';
+        this.controlTemplate.labelLeft = '<span class="slider-label label-left l3" data-direction="'+ 0 +'">' + this.labels[0].name + '</span>';
+        this.controlTemplate.labelRight = '<span class="slider-label label-right l3" data-direction="'+ this.sequenceLength +' ">' + this.labels[1].name + '</span>';
       } else if(this.labels.length > 2) {
         // add the new labels to controlTmpl
         for (var _i = 0; _i < this.labels.length; _i++) {
@@ -171,6 +177,7 @@ define(function(require) {
 
         $labelContainer = $('.label-container');
         $labelContainer.append(this.controlTemplate.labels);
+        console.log('-- SONY SLIDER CONTROL LABELS --');
       }
     },
 
@@ -223,6 +230,13 @@ define(function(require) {
        });
     },
     
+    animateSliderToPosition: function( sliderProps ) {
+
+      this.$slideHandle.animate({
+       left: sliderProps.positionPercentage + '%'
+      }, sliderProps.sequenceAnimationSpeed);
+
+    },
 
     dragSlider: function(event, position) {
       var pagePos,
@@ -248,13 +262,13 @@ define(function(require) {
         }
 
         //set the slider positon
-        if (this.options.barcontrols) {
-          this.$slideHandle.addClass('active');
-          this.setSliderPosition(pagePosPercentage);
-        }
+        this.$slideHandle.addClass('active');
+        this.setSliderPosition(pagePosPercentage);
 
-        //if ( pagePos <= 0 ) { pagePos = 0; }
-        //this.sliderGotoFrame(pagePos);
+        data.positionPercentage = pagePosPercentage;
+        data.positon = pagePos;
+
+        this.$el.trigger('SonySliderControl:slider-drag', data);
       }
 
       this.dragged = true;
@@ -291,7 +305,6 @@ define(function(require) {
         },
         drag : function( event ) {
           var direction = event.gesture.direction;
-
           if ( 'left' === direction || 'right' === direction ) {
             self.dragSlider( event );
           }
@@ -300,6 +313,11 @@ define(function(require) {
           self.touchMove( event );
         }
       });
+
+
+      self.sliderLabelInitialized = true;   
+
+      console.log('-- INITIALIZED BINDINGS --');
     }
   };
     
