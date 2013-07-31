@@ -76,7 +76,11 @@ define(function(require) {
     },
 
     onResize: function() {
-      this.sliderGetDimensions();
+      var self = this;
+
+      self.sliderGetDimensions();
+      // destroy the labels and recreate them to their new positions
+      self.destroyLabels( $.proxy(self.createSliderLabels, self) );
     },
 
     getLabels: function() {
@@ -128,6 +132,14 @@ define(function(require) {
       
     },
 
+    destroyLabels: function( cb ) {
+      // we need to destroy the labels and call the callback at the end when
+      // they're killed.
+      this.$sliderControlContainer.find('.slider-label').remove();
+
+      if (cb && typeof(cb) == "function") {cb();}
+    },
+
     // creates the slider labels 
     createSliderLabels: function() {
       var labelTemplate;
@@ -141,7 +153,7 @@ define(function(require) {
         for (var _i = 0; _i < this.labels.length; _i++) {
           var currentLabel = this.labels[_i];
           // we should get the percentage of the label to position it?
-          var labelPostion = {};
+          var labelPosition = {};
           // we need to give a class to the labels to determine width 
           // and text direction
           if (_i === 0 || _i === (this.labels.length - 1) ) {            
@@ -158,9 +170,22 @@ define(function(require) {
             currentLabel.class = 'text-middle';
           }
           
-          labelPostion.px = (currentLabel.id * (this.sliderControlWidth / (this.sequenceLength - 1)));
-          labelPostion.percetnage = ( labelPostion.px / (this.sliderControlWidth + 10) ) * 100;
-                  
+          labelPosition.sliderControlWidth = this.sliderControlWidth;
+          labelPosition.distanceBetween = (this.sliderControlWidth / (this.sequenceLength));
+          labelPosition.distanceForNotch = (labelPosition.distanceBetween / 2);
+          // if the position is the last or the first we don't want to give it
+          // positioning compensating the middle ground of where a notch
+          // should be. It will alwyas be the min or the max, never a middle
+          // ground
+          // see: (http://cl.ly/image/2Z1p2f3Y2K0n)
+          if (_i === 0 || _i === (this.labels.length -1)) {
+            labelPosition.px = (currentLabel.id * (this.sliderControlWidth / (this.sequenceLength - 1)));
+            labelPosition.percetnage = ( labelPosition.px / (this.sliderControlWidth + 10) ) * 100;
+          } else {
+            labelPosition.px = (currentLabel.id * labelPosition.distanceBetween) + (labelPosition.distanceForNotch);
+            labelPosition.percetnage = ( labelPosition.px / (this.sliderControlWidth + 10) ) * 100;
+          }
+          
           if (this.showFallback) {
             if (currentLabel.type == 'icon') {
               labelTemplate = [
@@ -186,7 +211,7 @@ define(function(require) {
           } else {
             if (currentLabel.type == 'icon') {
               labelTemplate = [
-                '<div class="slider-label label-int l3 '+ currentLabel.class +'" data-direction="'+ currentLabel.id +'" style="left:' + labelPostion.percetnage + '%;">',
+                '<div class="slider-label label-int l3 '+ currentLabel.class +'" data-direction="'+ currentLabel.id +'" style="left:' + labelPosition.percetnage + '%;">',
                   '<div class="label-item-container">',
                     '<span class="notch" ></span>',
                     '<i class="l3 '+ currentLabel.name +'" ></i>',
@@ -195,7 +220,7 @@ define(function(require) {
               ].join('\n');
             } else {
               labelTemplate = [
-                '<span class="slider-label label-int l3 '+ currentLabel.class +'" data-direction='+ currentLabel.id +' style=" left:' + labelPostion.percetnage + '%; " >',
+                '<span class="slider-label label-int l3 '+ currentLabel.class +'" data-direction='+ currentLabel.id +' style=" left:' + labelPosition.percetnage + '%; " >',
                   '<div class="label-item-container">',
                     '<span class="notch" ></span>',
                     '<span class="label-text">',
@@ -207,10 +232,16 @@ define(function(require) {
             }
           }
 
+          //log(" -- ADDING LABEL -- "+currentLabel.id+" properties", labelPosition);
           // push them into a cached object
           this.controlTemplate.labels.push(labelTemplate);
         }
       }
+
+      // save it to the namespace
+      //this.labelProperties = {};
+      //this.labelProperties.positioning = labelPosition;
+      //this.labelPosition.attributes = currentLabel;
 
       // check for how many labels we have
       // if there are only two labels toss the labels on the left and right of the slier
@@ -231,7 +262,7 @@ define(function(require) {
         if (this.showFallback) {
           $('.slider-label').eq(0).addClass('active');
         }
-        console.log('-- SONY SLIDER CONTROL LABELS --');
+        //log('-- SONY SLIDER CONTROL LABELS --');
       }
     },
 
@@ -262,7 +293,7 @@ define(function(require) {
       if (this.showFallback) {
         this.$el.append(this.controlTemplate.fallbackSlider);
         this.$sliderControlContainer = this.$el.find('.control-bar-container');
-        console.log('TODO: MAKE FALLBACK LABEL MARKUP FOR MORE THAN 2 LABELS');
+        //log('TODO: MAKE FALLBACK LABEL MARKUP FOR MORE THAN 2 LABELS');
       } else {
         // add our new controls to the container
         this.$el.append(this.controlTemplate.slider);
@@ -287,7 +318,7 @@ define(function(require) {
     animateSliderToPosition: function( sliderProps ) {
 
       this.$slideHandle.animate({
-       left: sliderProps.positionPercentage + '%'
+       left: sliderProps.sliderPositionPercentage + '%'
       }, sliderProps.sequenceAnimationSpeed);
 
     },
@@ -304,7 +335,6 @@ define(function(require) {
       pagePos = eventX - this.$sliderControl.offset().left;
       pagePos = Math.min(this.sliderControlWidth, pagePos);
       pagePos = Math.max(-24, pagePos);
-      console.log(pagePos);
 
       pagePosPercentage = ( ( pagePos-30 ) / (this.sliderControlWidth) ) * 100;
 
@@ -313,7 +343,6 @@ define(function(require) {
 
         //check if the slider is beyond its bounds
         if (pagePos <= 0) {
-          console.log('cant slide out of the track!');
           return false;
         }
 
@@ -373,7 +402,6 @@ define(function(require) {
 
       self.sliderLabelInitialized = true;   
 
-      console.log('-- INITIALIZED BINDINGS --');
     }
   };
     
