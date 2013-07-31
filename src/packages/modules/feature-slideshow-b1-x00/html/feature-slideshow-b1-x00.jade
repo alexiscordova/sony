@@ -82,7 +82,6 @@ mainElementClasses = [ mode, "fs-module" ]
 
 crossfade = data.crossfade ? data.crossfade : false
 threshold = data.threshold ? data.threshold : false
-delay = data.delay ? data.delay : false
 speed = data.speed ? data.speed : false
 
 if data.variation && data.variation.background
@@ -95,7 +94,7 @@ if data.variation && data.variation.background
   .container.copy-grid
     +copyBlock( data )
   .fs-carousel-wrapper.sony-fade-wrapper
-    .fs-carousel.sony-fade(data-crossfade=crossfade, data-delay=delay, data-threshold=threshold, data-speed=speed)
+    .fs-carousel.sony-fade(data-crossfade=crossfade, data-threshold=threshold, data-speed=speed)
       +featureSlides( data )
 
 

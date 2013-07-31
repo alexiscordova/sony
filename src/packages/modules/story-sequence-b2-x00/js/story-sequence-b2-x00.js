@@ -5,11 +5,15 @@
 // * **Version:** 1.0
 // * **Modified:** 06/24/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.9.1+, Modernizr
+// * **Dependencies:** jQuery 1.9.1+, Modernizr,
+//    [SonySequence](../secondary/sony-img-sequence.html),
+//    [Timer](../secondary/sony-timer.html),
+//    [Viewport](../secondary/sony-viewport.html),
+//    [Dial](../secondary/sony-dial.html)
 //
 // *Example Usage:*
 //
-//      new StorySequence( $('.carousel-sequence')[0] );
+//      new StorySequence( $('.story-sequence')[0] );
 
 define(function(require) {
 
