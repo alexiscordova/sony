@@ -59,6 +59,22 @@ define(function(require) {
 
       self.setVars();
 
+      self.$el.on('mouseenter', 'a.explode', function( event ) {
+        log('Teasing');
+        if(!self.teasing && !self.expanded) {
+          self.teasing = true;
+          $('.piece', self.$el).addClass('tease');
+        }
+      });
+
+      self.$el.on('mouseleave', 'a.explode', function( event ) {
+        log('Leave Teasing');
+        if(self.teasing && !self.expanded) {
+          $('.piece', self.$el).removeClass('tease');
+          self.teasing = false;
+        }
+      });
+
       // Probably set some variables here
       self.$el.on( 'click', 'a.explode', function( event ) {
         event.preventDefault();
@@ -66,13 +82,16 @@ define(function(require) {
         if(self.expanded) {
           $('.piece', self.$el).removeClass('exploded');
           $('.explode', self.$el).removeClass('open');
-          $('.intro', self.$el).show();
+          //$('.intro', self.$el).show();
+          $('.intro', self.$el).removeClass('out');
           self.expanded = false;
         }
         else {
           $('.explode', self.$el).addClass('open');
-          $('.piece', self.$el).addClass('exploded');
-          $('.intro', self.$el).hide();
+          $('.piece', self.$el).addClass('exploded').removeClass('tease');
+          //$('.intro', self.$el).hide();
+          $('.intro', self.$el).addClass('out');
+
           self.expanded = true;
         }
       } );
@@ -104,6 +123,7 @@ define(function(require) {
     setVars : function() {
       var self = this;
       self.expanded = false;
+      self.teasing = false;
     },
 
     // Stubbed method. You don't have to use this

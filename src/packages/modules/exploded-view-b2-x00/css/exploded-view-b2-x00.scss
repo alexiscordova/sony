@@ -1,18 +1,23 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-$exploded-bg-max-width: 1188px;
-$exploded-view-max-pieces: 9;
-$exploded-piece-width: 170px;
-$exploded-piece-height: 170px;
-$exploded-offset-top: 221px;
-$exploded-offset-right: 150px;
-$exploded-step-distance: 50px;
+$bgMaxWidth: 1188px;
+$maxPieces: 9;
+$pieceWidth: 170px;
+$pieceHeight: 170px;
+$piecesOffsetTop: 221px;
+$piecesOffsetRight: 150px;
+
+// The distance between each piece in the exploded state
+$pieceExplosionStep: 8%;
+
+// The distance between each piece in the tease state
+$pieceTeaseStep: 1%;
 
 .exploded-view {
 
   .container {
-    max-width: $exploded-bg-max-width;
+    max-width: $bgMaxWidth;
   }
 
   .submodule > .image-module {
@@ -49,41 +54,77 @@ $exploded-step-distance: 50px;
 
   }
 
+  .csstransitions & .intro {
+    opacity: 1;
+    @include transition( opacity $transitionSuperslow $easeNormal );
+
+    &.out {
+      opacity: 0;
+    }
+  }
+
   .pieces {
-    height: $exploded-piece-height;
+    height: $pieceHeight;
     position: relative;
-    top: $exploded-offset-top;
-    margin-right: $exploded-offset-right;
+    top: $piecesOffsetTop;
+    margin-right: $piecesOffsetRight;
   }
 
   .piece {
-    width: $exploded-piece-width;
-    height: $exploded-piece-height;
+    width: $pieceWidth;
+    height: $pieceHeight;
     position: absolute;
     top: 0;
     right: 0;
     background-position: 0 0;
+
+    // The transition properties used when collapsing the exploded elements (both from tease and exploded)
+    @include transition( right $transitionSuperslow $easeOutQuad );
+
+    &.tease {
+      // The transition properties used when teasing expansion of the exploded elements
+      @include transition( right $transitionNormal $easeOutQuad );
+    }
+
+    &.exploded {
+      // The transition properties used when expanding the exploded elements
+      @include transition( right $transitionSuperslow $easeOutQuad );
+    }
+
   }
 
   .explode {
     position: absolute;
-    right: $exploded-offset-right - 48px;
-    top: ($exploded-piece-height / 2) - 22px;
-    z-index: $exploded-view-max-pieces + 1;
+    right: $piecesOffsetRight - 48px;
+    top: ($pieceHeight / 2) - 22px;
+    z-index: $maxPieces + 1;
+    background: $buttonOrange;
+    color: #fff;
+    width: 100px;
+    height: 30px;
+    text-align: right;
+    &:hover {
+      text-align: left;
+    }
+    @include transition( right $transitionSuperslow $easeOutQuad );
     &.open {
-      right: $exploded-view-max-pieces * 8%;
+      text-align: left;
+      right: $maxPieces * $pieceExplosionStep;
     }
   }
 
-  @for $i from 0 through $exploded-view-max-pieces {
+  @for $i from 0 through $maxPieces {
     .piece-#{$i} {
-      background-position-x: -$exploded-piece-width * $i;
-      z-index: $exploded-view-max-pieces - $i;
+      background-position-x: -$pieceWidth * $i;
+      z-index: $maxPieces - $i;
 
       @if $i != 0 { 
-        @if $i != $exploded-view-max-pieces {
+        @if $i != $maxPieces {
+          &.tease {
+            right: ($maxPieces - $i - 1) * $pieceTeaseStep;
+          }
           &.exploded {
-            right: ($exploded-view-max-pieces - $i - 1) * 8%; //$exploded-step-distance;
+            right: ($maxPieces - $i - 1) * $pieceExplosionStep;
           }
         }
       }

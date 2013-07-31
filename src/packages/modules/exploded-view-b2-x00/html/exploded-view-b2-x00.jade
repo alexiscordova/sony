@@ -21,7 +21,7 @@ moduleClasses = [ "exploded-view", "full-inner" ]
 
   .container.inner.pieces-container
     .pieces
-      a.explode.btn(href="#") Explode
+      a.explode(href="#") Explode
       - for ( var i = 0; i < data.animation.numberDesktopPieces; i++ ) {
         +iQBackgroundImage( data.animation.imgPieces, "piece piece-" + i )
       - }
