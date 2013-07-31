@@ -17,6 +17,7 @@ define(function(require){
 
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
+      SonyDraggable = require('secondary/index').sonyDraggable,
       SonyAudio = require('secondary/index').sonyAudio;
 
   var SonyAudioPlayer = function(element){
@@ -173,7 +174,22 @@ define(function(require){
 
     createScrubber: function() {
 
-      var self = this;
+      var self = this,
+          $containment = self.$el.find('.sap-hit-area'),
+          $scrubber = $containment.find('.scrubber'),
+          bounds = {};
+
+      bounds.x = {'min': 0, 'max': 100};
+
+      $containment.addClass('active');
+
+      $scrubber.sonyDraggable({
+        'axis': 'x',
+        'unit': '%',
+        'containment': $containment,
+        'drag': function(){},
+        'bounds': bounds
+      });
 
       return self;
     },
@@ -182,7 +198,12 @@ define(function(require){
 
     removeScrubber: function() {
 
-      var self = this;
+      var self = this,
+          $containment = self.$el.find('.sap-hit-area');
+
+      $containment.removeClass('active');
+
+      $containment.find('.scrubber').sonyDraggable('destroy');
 
       return self;
     }
