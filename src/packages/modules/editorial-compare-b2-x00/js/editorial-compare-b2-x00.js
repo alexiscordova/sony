@@ -80,9 +80,6 @@ define(function(require) {
         self.setupDesktop();
       }
 
-      // Listen for global resize
-      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
-
       self.fadeIn();
 
       self.initialized = true;
@@ -107,8 +104,7 @@ define(function(require) {
         wrapper: '.sony-carousel-wrapper',
         slides: '.sony-carousel-slide',
         pagination: true,
-        paddles: true,
-        paddlePosition: 'outset'
+        paddles: false
       });
 
     },
@@ -175,7 +171,7 @@ define(function(require) {
 
       for( ; i < numSlides; i++ ) {
         slide = doc.createElement( 'div' );
-        slide.className = 'sony-carousel-slide';
+        slide.className = 'sony-carousel-slide slide-' + i;
         container = doc.createElement( 'div' );
         slimgrid = doc.createElement( 'div' );
         slimgrid.className = 'slimgrid';
@@ -196,12 +192,8 @@ define(function(require) {
         .empty()
         .append( frag );
 
-    },
-
-    // Stubbed method. You don't have to use this
-    onResize : function() {
-      var self = this;
     }
+
   };
 
   // Options that could be customized per module instance

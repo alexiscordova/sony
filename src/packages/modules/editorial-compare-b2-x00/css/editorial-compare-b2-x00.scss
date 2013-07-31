@@ -1,6 +1,9 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+$numColumns: 3;
+$imgVerticalOffset: 10%;
+
 .editorial-compare {
 
   // Fade in to hide slide rearrangement
@@ -15,6 +18,29 @@
 
   .sony-carousel-wrapper {
     height: auto;
+  }
+
+  .sony-carousel-slide-children {
+
+    img {
+      position: relative;
+      max-width: 150%;
+      margin-left: -25%;
+    }
+
+    // Apply an image offset and z-index to the images in the columns
+    // so that images to the left are lower and in front of images
+    // to the right
+    @for $i from 0 through $numColumns {
+      &.column-#{$i} {
+        img {
+          z-index: $numColumns - $i;
+          margin-bottom: $i * $imgVerticalOffset;
+          margin-top: ($numColumns - $i) * $imgVerticalOffset;
+        }
+      }
+    }
+
   }
 
   .center {

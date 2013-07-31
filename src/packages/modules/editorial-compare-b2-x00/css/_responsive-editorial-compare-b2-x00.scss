@@ -1,10 +1,69 @@
 
-@media (max-width: px-em( 767 ) ) {
-  .editorial-compare-module {
+$numColumns: 3;
+$imgVerticalOffset: 10%;
 
-    // Remove this, it's just an example
-    .editorial-compare-title {
-      color: $themePurple;
+@media (max-width: px-em( 767 ) ) {
+  .editorial-compare {
+
+    .sony-carousel-slide {
+
+      // Apply a position relative and z-index to the numbered slides so that
+      // the images to the left are in front of images to the right after
+      // the markup changes that occur for mobile
+      @for $i from 0 through $numColumns {
+        &.slide-#{$i} {
+          position: relative;
+          z-index: $numColumns - $i;
+        }
+      }
+      
     }
+
+    .sony-carousel-slide-children {
+
+      // Images fit within the bounds of the columns with no overlapping.
+      img {
+        max-width: 100%;
+        margin-left: 0;
+      }
+
+      // No overlapping images at this size since the single column carousel is applied
+      // but the layout is too wide for the overlapping to look good. So no image
+      // margins are required for offsetting the images vertically.
+      @for $i from 0 through $numColumns {
+        &.column-#{$i} {
+          img {
+            margin-bottom: 0;
+            margin-top: 0;
+          }
+        }
+      }
+
+    }
+
+  }
+}
+
+@media (max-width: px-em( 481 ) ) {
+  .editorial-compare {
+
+    .sony-carousel-slide-children {
+      img {
+        max-width: 150%;
+        margin-left: -25%;
+      }
+
+      // Apply the image offset again to the images on mobile (same as desktop)
+      @for $i from 0 through $numColumns {
+        &.column-#{$i} {
+          img {
+            margin-bottom: $i * $imgVerticalOffset;
+            margin-top: ($numColumns - $i) * $imgVerticalOffset;
+          }
+        }
+      }
+
+    }
+
   }
 }
