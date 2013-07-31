@@ -2,6 +2,10 @@
 @import "../../../common/css/_base/mixins";
 
 $transitionSpeed: 0.5s;
+$miniWindowWidth : 500;
+$miniItemWidth: 105;
+$itemWidth: 255;
+$windowWidth: 1100;
 
 .fs-spacing {
   height: 250px;
@@ -148,6 +152,81 @@ $transitionSpeed: 0.5s;
     margin: 0 auto;   
     text-align: center;
 
+
+    &.multi-label {
+
+      .slider {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .label-container {
+        position: relative;
+        width: percentage(500/1040);
+        margin: 0 auto;
+        @include clearfix();
+      }
+
+      .label-item-container {
+        position: relative;
+      }
+
+      .notch {            
+        position: absolute;
+        top: -36px;
+        left: -3px;
+        display: block;
+        width: 16px;
+        height: 16px;
+        background: $gray50;
+        @include border-radius(50%);
+      }
+
+      .label-text {
+        position: absolute;
+        top: 0;
+        width: 75px;
+        text-align: center;
+
+      }
+
+      .slider-label {
+        top: 25px;
+        position: absolute;
+        width: auto;
+
+        &.text-right {
+          .label-text {
+            right: 0;
+            text-align: right;
+          }
+        }
+
+        &.text-left {
+          .label-text {
+            left: 0;
+            text-align: left;
+          }
+        }
+
+        &.text-middle {
+          .label-text {
+            left: -35px;
+          }
+        }
+        
+        &.label-left {
+          left: 0;
+          text-align: left;
+        }      
+        &.label-right {
+          right: 0;
+          text-align: right;
+        }      
+      } // end .slider-label
+    } // end &.multi-label
+
+    
     &.fallback {
       margin: -4px 0 0;
       width: 100%;
@@ -174,6 +253,7 @@ $transitionSpeed: 0.5s;
         margin: 0;
         line-height: 16px;
         height: 48px;
+        padding:10px percentage(10/$windowWidth);
         top: auto;
         vertical-align: bottom;
         @include box-sizing(content-box);
@@ -184,6 +264,15 @@ $transitionSpeed: 0.5s;
           border-top:4px solid $buttonBlue;
           background: $gray80;
           color: $gray20;
+
+          .gray & {
+            background: $white;
+          }
+        }
+
+        &.icon-mode {
+          width: auto;
+          padding: 0 percentage(10/$miniItemWidth);         
         }
 
         &.label-left {
@@ -197,37 +286,7 @@ $transitionSpeed: 0.5s;
         }
 
       } // end .slider-label
-    } // end &.fallback
-
-    &.multi-label {
-
-      .slider {
-        display: block;
-        margin: 0 auto;
-      }
-
-      .label-container {
-        position: relative;
-        width: percentage(500/1040);
-        margin: 0 auto;
-        @include clearfix();
-      }
-
-      .slider-label {
-        top: 25px;
-        position: absolute;
-        width: auto;
-
-        &.label-left {
-          left: 0;
-          text-align: left;
-        }      
-        &.label-right {
-          right: 0;
-          text-align: right;
-        }      
-      } // end .slider-label
-    } // end .multi-label
+    } // end &.fallback     
     
     .slider-label {
       display: inline-block;

@@ -65,27 +65,44 @@ define(function(require){
             data = $el.data(),
             direction = data.direction;
 
-        sliderProperties = self.getSliderPositionByIndex(direction);
+        // if it's animating don't do anything!
+        if (self.isAnimating) { return; }
+
+        self.isAnimating = true;
         self.sequence.startAnimation( direction );
-        self.slider.animateSliderToPosition( sliderProperties );
+
+        if (self.slider.showFallback) {
+          $el.addClass('active');
+          setTimeout(function(){
+            $el.siblings().removeClass('active');
+          }, 100);
+        } else {
+          sliderProperties = self.getSliderPositionByIndex(direction);
+          self.slider.animateSliderToPosition( sliderProperties );
+        }
       });
 
       // going to attach a listener to sliderDrag which 
       // will return back values to go to certain frame.
       // --
       // * will return back a position object where the slider is positioned to the rail.
-      self.$el.on('SonySliderControl:slider-drag', function(e, sliderPosition){
-        self.sliderPosition = sliderPosition;
-        self.handleSliderDrag();
+      if (!self.slider.showFallback) {
+        self.$el.on('SonySliderControl:slider-drag', function(e, sliderPosition){
+          self.sliderPosition = sliderPosition;
+          self.handleSliderDrag();
+        });
+        Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
+      }
+
+      self.$el.on('SonySequence:stop-sequence', function(){ 
+        // we're done animating so we can set isAnimating to false
+        self.isAnimating = false;
       });
 
-      Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
-      
     },
 
     
     onResize: function() {
-      console.log('resize!');
       this.getSliderPosition();
     },
 
@@ -118,8 +135,6 @@ define(function(require){
       //// a 360 module needs to loop back to the first index.
       self.curIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequence.sequenceLength - 1);
       
-      console.log('-- HANDLE SLIDE HANDLE MOVE --',self.curIndex, positon, self.slider.sliderControlWidth);
-
       if ( self.curIndex < 0 ) {
         self.curIndex = 0;
       }
@@ -159,7 +174,7 @@ define(function(require){
 
       if (self.sequence.curIndex >= (self.sequence.sequenceLength - 1) || sliderProperties.positionPercentage > sliderPercentageMax) {
         sliderProperties.positionPercentage = sliderPercentageMax;
-      } else if (self.curIndex <= 0 && sliderProperties.positionPercentage > sliderPercentageMin) {
+      } else if (self.sequence.curIndex <= 0 && sliderProperties.positionPercentage > sliderPercentageMin) {
         sliderProperties.positionPercentage = sliderPercentageMin;
       }
       
@@ -180,11 +195,12 @@ define(function(require){
       sliderPercentageMax = ((self.slider.sliderControlWidth - 30) / self.slider.sliderControlWidth) * 100;
       sliderPercentageMin = ((self.slider.sliderControlWidth - (self.slider.sliderControlWidth + 30)) / (self.slider.sliderControlWidth + 30)) * 100;
 
-      sliderProperties.position = ((self.slider.sliderControlWidth / self.sequence.sequenceLength - 1) * direction);
+      // if the direction is 0 we need to simply tell the slider that it should run to -24
+      (direction <= 0) ? sliderProperties.position = -24 : sliderProperties.position = ((self.slider.sliderControlWidth / self.sequence.sequenceLength - 1) * direction);
       // the slider will need to be able to reach a negative value, yet hit 100%. 
       // thus we may need to check the slider width and exaggerate its values.
       // for example: if the slider direction is at 0, 0/560 will always be 0. 
-      sliderProperties.positionPercentage = Math.floor(( (((self.slider.sliderControlWidth+30) / self.sequence.sequenceLength - 1) * direction) / (self.slider.sliderControlWidth+30)) * 100);
+      sliderProperties.positionPercentage = Math.floor(( sliderProperties.position / (self.slider.sliderControlWidth+30)) * 100);
       self.slider.options.speed ? sliderProperties.sequenceAnimationSpeed = (self.slider.options.speed * distanceFromDirection) : sliderProperties.sequenceAnimationSpeed = (100 * distanceFromDirection); 
 
       if (direction >= (self.sequence.sequenceLength - 1) || sliderProperties.positionPercentage > sliderPercentageMax) {
@@ -202,6 +218,7 @@ define(function(require){
     handleSliderDrag: function() {
       var pagePos;
 
+      console.log('-- HANDLE SLIDE HANDLE MOVE --',this.sliderPosition);      
       this.sliderGotoFrame(this.sliderPosition.positon);
     }
   };

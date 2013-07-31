@@ -67,14 +67,15 @@ define(function(require) {
       // domReady!
       function domReady(){
         self.getSliderData();
-        self.initalizeSliderBindings();
-        // reset the step buffer when the window changes size
-        Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
+        if (!self.showFallback) {
+          self.initalizeSliderBindings();
+          // reset the step buffer when the window changes size
+          Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
+        }
       }
     },
 
     onResize: function() {
-      console.log('resize!');
       this.sliderGetDimensions();
     },
 
@@ -141,19 +142,69 @@ define(function(require) {
           var currentLabel = this.labels[_i];
           // we should get the percentage of the label to position it?
           var labelPostion = {};
-
-          // TODO: fix issue with text-align
-          // - if an item is the first, it needs to be text-align: left;
-          // - if an item is not the first nor the last, it needs to be text-align: center;
-          // - if an item is the last in the loop, it needs to be text-align: right;
+          // we need to give a class to the labels to determine width 
+          // and text direction
+          if (_i === 0 || _i === (this.labels.length - 1) ) {            
+            // this is the first or the last label
+            if (_i === 0) {
+              // the first label
+              currentLabel.class = 'text-right';
+            } else {
+              // the last label
+              currentLabel.class = 'text-left';
+            }
+          } else {
+            // any label in between 0 and the last label
+            currentLabel.class = 'text-middle';
+          }
           
           labelPostion.px = (currentLabel.id * (this.sliderControlWidth / (this.sequenceLength - 1)));
-          labelPostion.percetnage = ( ( labelPostion.px-30 ) / this.sliderControlWidth ) * 100;
-                         
-          if (currentLabel.type == 'icon') {
-            labelTemplate = '<i class="slider-label label-int l3 '+ currentLabel.name +'" data-direction='+ currentLabel.id +' style=" left:' + labelPostion.percetnage + '%; " ></i>';
+          labelPostion.percetnage = ( labelPostion.px / (this.sliderControlWidth + 10) ) * 100;
+                  
+          if (this.showFallback) {
+            if (currentLabel.type == 'icon') {
+              labelTemplate = [
+                '<div class="slider-label label-int l3 icon-mode" data-direction="'+ currentLabel.id +'">',
+                  '<span class="label-item-container">',
+                    '<span class="nav-label">',
+                      '<i class="l3 '+ currentLabel.name +'" ></i>',
+                    '</span>',
+                  '</span>',
+                '</div>'
+              ].join('\n');
+            } else {
+              labelTemplate = [
+                '<div class="slider-label label-int l3" data-direction="'+ currentLabel.id +'">',
+                  '<span class="label-item-container">',
+                    '<span class="nav-label">',
+                      currentLabel.name,
+                    '</span>',
+                  '</span>',
+                '</div>'
+              ].join('\n');
+            }
           } else {
-            labelTemplate = '<span class="slider-label label-int l3" data-direction='+ currentLabel.id +' style=" left:' + labelPostion.percetnage + '%; " >' + currentLabel.name + '</span>';
+            if (currentLabel.type == 'icon') {
+              labelTemplate = [
+                '<div class="slider-label label-int l3 '+ currentLabel.class +'" data-direction="'+ currentLabel.id +'" style="left:' + labelPostion.percetnage + '%;">',
+                  '<div class="label-item-container">',
+                    '<span class="notch" ></span>',
+                    '<i class="l3 '+ currentLabel.name +'" ></i>',
+                  '</div>',
+                '</div>'
+              ].join('\n');
+            } else {
+              labelTemplate = [
+                '<span class="slider-label label-int l3 '+ currentLabel.class +'" data-direction='+ currentLabel.id +' style=" left:' + labelPostion.percetnage + '%; " >',
+                  '<div class="label-item-container">',
+                    '<span class="notch" ></span>',
+                    '<span class="label-text">',
+                      currentLabel.name,
+                    '</span>',
+                  '</div>',
+                '</span>'
+              ].join('\n');
+            }
           }
 
           // push them into a cached object
@@ -177,6 +228,9 @@ define(function(require) {
 
         $labelContainer = $('.label-container');
         $labelContainer.append(this.controlTemplate.labels);
+        if (this.showFallback) {
+          $('.slider-label').eq(0).addClass('active');
+        }
         console.log('-- SONY SLIDER CONTROL LABELS --');
       }
     },
@@ -205,7 +259,7 @@ define(function(require) {
       ].join('\n');
 
       // do we need to display the fallback experience?
-      if (self.showFallback) {
+      if (this.showFallback) {
         this.$el.append(this.controlTemplate.fallbackSlider);
         this.$sliderControlContainer = this.$el.find('.control-bar-container');
         console.log('TODO: MAKE FALLBACK LABEL MARKUP FOR MORE THAN 2 LABELS');
@@ -250,6 +304,7 @@ define(function(require) {
       pagePos = eventX - this.$sliderControl.offset().left;
       pagePos = Math.min(this.sliderControlWidth, pagePos);
       pagePos = Math.max(-24, pagePos);
+      console.log(pagePos);
 
       pagePosPercentage = ( ( pagePos-30 ) / (this.sliderControlWidth) ) * 100;
 
@@ -258,6 +313,7 @@ define(function(require) {
 
         //check if the slider is beyond its bounds
         if (pagePos <= 0) {
+          console.log('cant slide out of the track!');
           return false;
         }
 
