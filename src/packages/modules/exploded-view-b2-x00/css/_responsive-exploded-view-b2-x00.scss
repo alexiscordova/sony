@@ -5,6 +5,8 @@
   $pieceHeight: 85px;
   $maxPieces: 6;
   $maxDesktopPieces: 9;
+  $buttonDiameter: 48px;
+  $buttonHoverShift: 12px;
 
   // The distance between each piece in the exploded state
   $pieceExplosionStep: 8%;
@@ -50,6 +52,11 @@
       right: 0;
       height: auto;
       border: 0;
+      padding: 20px;
+
+      h3, p {
+        color: $gray20;
+      }
     }
 
     .piece {
@@ -57,9 +64,26 @@
       height: $pieceHeight;
     }
 
-    .explode {
-      top: ($pieceHeight / 2) - 15px;
+    .cta {
+      top: ($pieceHeight / 2) - ($buttonDiameter / 2);
       right: 50px;
+
+      width: $buttonDiameter + $buttonHoverShift;
+      height: $buttonDiameter;
+
+      i {
+
+        width: $buttonDiameter;
+        height: $buttonDiameter;
+        @include border-radius($buttonDiameter / 2);
+        @include background-clip(padding-box);
+        border: solid 6px rgba(0,0,0,0.2);
+
+        font-size: 1em;
+        line-height: 1em;
+        padding-top: 7px;
+      }
+
     }
 
     @for $i from 0 through $maxPieces - 1 {
