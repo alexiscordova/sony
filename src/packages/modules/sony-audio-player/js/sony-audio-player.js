@@ -216,12 +216,20 @@ define(function(require) {
 
       $containment.addClass('active');
 
-      $scrubber.sonyDraggable({
-        'axis': 'x',
-        'unit': '%',
-        'containment': $containment,
-        'drag': $.proxy(self.onScrubberDrag, self),
-        'bounds': bounds
+      self.$el.trigger('SonyAudioPlayer:getDuration', function(duration) {
+        self.$el.trigger('SonyAudioPlayer:getPosition', function(position) {
+
+          $scrubber.sonyDraggable({
+            'axis': 'x',
+            'unit': '%',
+            'containment': $containment,
+            'drag': $.proxy(self.onScrubberDrag, self),
+            'bounds': bounds
+          });
+
+          $scrubber.sonyDraggable('setPositions', {x: position / duration * 100});
+
+        });
       });
 
       return self;
