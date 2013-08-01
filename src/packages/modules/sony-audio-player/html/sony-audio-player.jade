@@ -4,7 +4,10 @@ include ../../../common/html/jade-helpers.jade
 
 div.sony-audio-player
 
-  div.sap-hit-area
+  .sony-audio-loading
+    img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+
+  .sap-hit-area
     .scrubber
       span.handle(title="Alternate between images.")
         span.inner
@@ -12,7 +15,7 @@ div.sony-audio-player
             i.fonticon-10-chevron-reverse
             i.fonticon-10-chevron
 
-  div.active-track
+  .active-track
 
   ul.tracks
 

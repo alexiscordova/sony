@@ -74,16 +74,20 @@ define(function(require) {
 
       var track = new SonyAudio({
         sources: self.getSourceList($sources),
+        oninit: function() {
+          self.$el.removeClass('playing paused').addClass('loading');
+          self.$el.trigger('SonyAudioPlayer:isLoading');
+        },
         onpause: function() {
-          self.$el.removeClass('playing').addClass('paused');
+          self.$el.removeClass('playing loading').addClass('paused');
           self.$el.trigger('SonyAudioPlayer:isPaused');
         },
         onplay: function() {
-          self.$el.removeClass('paused').addClass('playing');
+          self.$el.removeClass('paused loading').addClass('playing');
           self.$el.trigger('SonyAudioPlayer:isPlaying');
         },
         onfinish: function() {
-          self.$el.removeClass('playing').addClass('paused');
+          self.$el.removeClass('playing loading').addClass('paused');
           self.$el.trigger('SonyAudioPlayer:isPaused');
         }
       });
@@ -174,6 +178,10 @@ define(function(require) {
     bindModuleResponse: function() {
 
       var self = this;
+
+      self.$el.on('SonyAudioPlayer:isLoading', function(e) {
+
+      });
 
       self.$el.on('SonyAudioPlayer:isPlaying', function(e) {
         self.createScrubber();

@@ -57,7 +57,6 @@ define(function(require){
       // (in the case of Mozilla) is poorly supported.
 
       SoundManager.setup({
-        flashVersion: 9,
         debugMode: false,
         debugFlash: false,
         url: 'swf',
@@ -93,6 +92,7 @@ define(function(require){
 
     configDefaults = {
       sources: {},
+      oninit: function() {},
       onpause: function() {},
       onplay: function() {},
       onfinish: function() {}
@@ -106,7 +106,7 @@ define(function(require){
       SoundManager.createSound({
         id: moduleId + '-' + i,
         url: config.sources[i],
-        autoLoad: true,
+        autoLoad: false,
         autoPlay: false,
         onpause: function() {
           currentTime = this.position;
@@ -149,6 +149,24 @@ define(function(require){
 
         if ( source ) {
           currentSound = SoundManager.getSoundById(moduleId + '-' + source);
+        }
+
+        // Wait until track is ready to play before attempting to play.
+
+        if ( currentSound.readyState !== 3 ) {
+
+          currentSound.load();
+
+          config.oninit();
+
+          self.initInterval = setInterval(function(){
+            if ( currentSound.readyState === 3 ) {
+              self.play(source);
+              clearInterval(self.initInterval);
+            }
+          }, 500);
+
+          return self;
         }
 
         self.pause();
