@@ -141,7 +141,7 @@ define(function(require){
       // `Audio.play()`: Play the sound.
       //
       // * `source`: the key string corresponding to one of the audio sources.
-      //             If not specified, plays the previously loaded source.
+      //     If not specified, plays the previously loaded source.
 
       play: function(source) {
 
@@ -159,13 +159,44 @@ define(function(require){
       },
 
       // `Audio.pause()`: Pause all sound. To prevent audio collisions, all audio is stopped when
-      //                  this method is called.
+      //     this method is called.
 
       pause: function() {
 
         var self = this;
 
         SoundManager.pauseAll();
+
+        return self;
+      },
+
+      // `Audio.getPosition()`: Return the current track's position, in ms.
+
+      getPosition: function() {
+
+        var self = this;
+
+        return currentSound.position;
+      },
+
+      // `Audio.getPosition()`: Return the current track's duration, in ms.
+
+      getDuration: function() {
+
+        var self = this;
+
+        return currentSound.duration;
+      },
+
+      // `Audio.setPosition()`: Set the current track's position, in ms.
+      //
+      // * `newPosition`: integer position to set track to, in ms.
+
+      setPosition: function(newPosition) {
+
+        var self = this;
+
+        currentSound.setPosition(newPosition);
 
         return self;
       }

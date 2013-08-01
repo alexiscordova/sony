@@ -154,6 +154,18 @@ define(function(require) {
         track.pause();
       });
 
+      self.$el.on('SonyAudioPlayer:getPosition', function(e, cb) {
+        cb(track.getPosition());
+      });
+
+      self.$el.on('SonyAudioPlayer:getDuration', function(e, cb) {
+        cb(track.getDuration());
+      });
+
+      self.$el.on('SonyAudioPlayer:setPosition', function(e, newPosition) {
+        track.setPosition(newPosition);
+      });
+
       return self;
     },
 
@@ -223,7 +235,9 @@ define(function(require) {
       var self = this,
           newLeft = e.position.left;
 
-      // Do stuff here.
+      self.$el.trigger('SonyAudioPlayer:getDuration', function(duration) {
+        self.$el.trigger('SonyAudioPlayer:setPosition', newLeft / 100 * duration);
+      });
 
       return self;
     },
