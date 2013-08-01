@@ -20,6 +20,9 @@ moduleClasses = [ "exploded-view", "full-inner" ]
         +submodule( data.submodules[0] )
 
   .container.inner.pieces-container
+    .callout
+      h3= data.callout_title
+      p.p4= data.callout_body
     .pieces
       a.explode(href="#") Explode
       - for ( var i = 0; i < data.animation.numberDesktopPieces; i++ ) {
@@ -31,7 +34,7 @@ moduleClasses = [ "exploded-view", "full-inner" ]
       .span4.offset1
         +center
           .intro
-            h2 #{data.title}
-            p #{data.body}
+            h2= data.title
+            p= data.body
         
 

@@ -80,17 +80,19 @@ define(function(require) {
         event.preventDefault();
         log('Exploding');
         if(self.expanded) {
-          $('.piece', self.$el).removeClass('exploded');
-          $('.explode', self.$el).removeClass('open');
+          $('.callout', self.$el).removeClass( 'in' );
+          $('.piece', self.$el).removeClass( 'exploded' );
+          $('.explode', self.$el).removeClass( 'open' );
           //$('.intro', self.$el).show();
-          $('.intro', self.$el).removeClass('out');
+          $('.intro', self.$el).removeClass( 'out' );
           self.expanded = false;
         }
         else {
-          $('.explode', self.$el).addClass('open');
-          $('.piece', self.$el).addClass('exploded').removeClass('tease');
+          $('.explode', self.$el).addClass( 'open' );
+          $('.piece', self.$el).addClass( 'exploded' ).removeClass( 'tease' );
+          $('.callout', self.$el).addClass( 'in' );
           //$('.intro', self.$el).hide();
-          $('.intro', self.$el).addClass('out');
+          $('.intro', self.$el).addClass( 'out' );
 
           self.expanded = true;
         }

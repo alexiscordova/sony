@@ -3,6 +3,7 @@
 
 $bgMaxWidth: 1188px;
 $maxPieces: 9;
+$calloutPieceNumber: 2;
 $pieceWidth: 170px;
 $pieceHeight: 170px;
 $piecesOffsetTop: 221px;
@@ -68,6 +69,29 @@ $pieceTeaseStep: 1%;
     position: relative;
     top: $piecesOffsetTop;
     margin-right: $piecesOffsetRight;
+  }
+
+  .callout {
+    z-index: $maxPieces;
+    width: 270px;
+    height: 320px;
+    text-align: right;
+    position: absolute;
+    right: $calloutPieceNumber * $pieceExplosionStep;
+    top: 70px;
+    margin-right: $piecesOffsetRight + ( $pieceWidth / 2 );
+    padding-right: 20px;
+    border-right: solid 2px #f00;
+
+  }
+
+  .csstransitions & .callout {
+    opacity: 0;
+    @include transition( opacity $transitionSuperslow $easeNormal $transitionSuperslow );
+
+    &.in {
+      opacity: 1;
+    }
   }
 
   .piece {
