@@ -8,6 +8,11 @@ $pieceWidth: 170px;
 $pieceHeight: 170px;
 $piecesOffsetTop: 221px;
 $piecesOffsetRight: 150px;
+$buttonDiameter: 96px;
+$buttonHoverShift: 48px;
+$easeInCubic: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+$easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeInOutCubic: cubic-bezier(0.645, 0.045, 0.355, 1.000);
 
 // The distance between each piece in the exploded state
 $pieceExplosionStep: 8%;
@@ -50,12 +55,29 @@ $pieceTeaseStep: 1%;
   .box {
 
     padding: 50px;
-    //padding:56px 52px 50px 52px;
-    //background: $gray10;
 
-    //h2, p {
-    //  color: white;
-    //}
+  }
+
+  .detail {
+
+    opacity: 0;
+    @include transition( opacity $transitionSuperslow $easeNormal );
+
+    &.in {
+      opacity: 1;
+    }
+
+    .box {
+      width: 100%;
+      height: auto;
+      position: absolute;
+      bottom: 0;
+      padding: 40px 20px;
+    }
+    
+    .grid {
+      height: auto;
+    }
 
   }
 
@@ -76,29 +98,36 @@ $pieceTeaseStep: 1%;
   }
 
   .callout {
+
     z-index: $maxPieces;
     width: 270px;
-    height: 320px;
+    height: 240px;
     text-align: right;
     position: absolute;
     right: $calloutPieceNumber * $pieceExplosionStep;
     top: 70px;
-    margin-right: $piecesOffsetRight + ( $pieceWidth / 2 );
+    margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 10px;
     padding-right: 20px;
-    border-right: solid 2px #f00;
+    border-right: solid 2px $themeRed;
+
+    h3, p {
+      color: #fff;
+    }
 
   }
 
   .csstransitions & .callout {
     opacity: 0;
-    @include transition( opacity $transitionSuperslow $easeNormal $transitionSuperslow );
+    @include transition( opacity $transitionSuperslow $easeNormal );
 
     &.in {
       opacity: 1;
     }
+
   }
 
   .piece {
+
     width: $pieceWidth;
     height: $pieceHeight;
     position: absolute;
@@ -106,38 +135,109 @@ $pieceTeaseStep: 1%;
     right: 0;
     background-position: 0 0;
 
-    // The transition properties used when collapsing the exploded elements (both from tease and exploded)
-    @include transition( right $transitionSuperslow $easeOutQuad );
-
-    &.tease {
-      // The transition properties used when teasing expansion of the exploded elements
-      @include transition( right $transitionNormal $easeOutQuad );
-    }
+    // The transition properties used when collapsing the exploded elements
+    @include transition( right 0.8s $easeInCubic );
 
     &.exploded {
       // The transition properties used when expanding the exploded elements
-      @include transition( right $transitionSuperslow $easeOutQuad );
+      @include transition( right 0.8s $easeOutQuart );//$easeOutCubic );//cubic-bezier(0.165, 0.840, 0.440, 1.000) );
+    }
+
+    &.quick {
+      // The transition properties used to do quick expand or collapse of the elements
+      @include transition( none ); // right $transitionFaster $easeInOutCubic );
     }
 
   }
 
-  .explode {
+  .cta {
     position: absolute;
-    right: $piecesOffsetRight - 48px;
-    top: ($pieceHeight / 2) - 22px;
+    right: $piecesOffsetRight - ($buttonDiameter / 2) + 20px;
+    top: ($pieceHeight / 2) - ($buttonDiameter / 2);
     z-index: $maxPieces + 1;
-    background: $buttonOrange;
-    color: #fff;
-    width: 100px;
-    height: 30px;
-    text-align: right;
-    &:hover {
-      text-align: left;
+
+    width: $buttonDiameter + $buttonHoverShift;
+    height: $buttonDiameter;
+
+    opacity: 1;
+
+    i {
+      position: absolute;
+      right: 0;
+      background: $buttonOrange;
+      color: #fff;
+
+      width: $buttonDiameter;
+      height: $buttonDiameter;
+      @include border-radius($buttonDiameter / 2);
+      @include background-clip(padding-box);
+      border: solid 12px rgba(0,0,0,0.2);
+
+      font-size: 2em;
+      // TODO: need a better way to get the icons centered in the circle than this and the padding below
+      line-height: 1.9em;
+      text-align: center;
+
+      &.fonticon-10-chevron-reverse {
+        display: block;
+        padding-right: 6px;
+      }
+      &.fonticon-10-chevron {
+        display: none;
+        padding-left: 6px;
+      }
+
     }
-    @include transition( right $transitionSuperslow $easeOutQuad );
+
+    &:active {
+      i {
+        // background: $buttonOrangeActive;
+      }
+    }
+
     &.open {
-      text-align: left;
+      width: $buttonDiameter;
       right: $maxPieces * $pieceExplosionStep;
+      i {
+        background-color: $gray40;
+
+        &.fonticon-10-chevron-reverse {
+          display: none;
+        }
+        &.fonticon-10-chevron {
+          display: block;
+        }
+
+      }
+      /*
+      &:hover {
+        i {
+          right: 0;
+        }
+      }
+      */
+    }
+
+    @include transition( opacity $transitionSlower $easeOutQuad );
+    &.out {
+      opacity: 0;
+    }
+
+  }
+
+  .no-touch & .cta {
+    &:hover {
+      i {
+        right: $buttonHoverShift;
+        // background: $buttonOrangeHover;
+      }
+    }
+    &.open {
+      &:hover {
+        i {
+          right: 0;
+        }
+      }
     }
   }
 

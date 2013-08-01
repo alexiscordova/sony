@@ -59,42 +59,52 @@ define(function(require) {
 
       self.setVars();
 
-      self.$el.on('mouseenter', 'a.explode', function( event ) {
-        log('Teasing');
-        if(!self.teasing && !self.expanded) {
-          self.teasing = true;
-          $('.piece', self.$el).addClass('tease');
-        }
-      });
+      if( !self.hasTouch ) {
 
-      self.$el.on('mouseleave', 'a.explode', function( event ) {
-        log('Leave Teasing');
-        if(self.teasing && !self.expanded) {
-          $('.piece', self.$el).removeClass('tease');
-          self.teasing = false;
-        }
-      });
+        self.$el.on( 'mouseenter', 'a.cta', function( event ) {
+          log( 'Teasing' );
+          if( !self.isTeasing && !self.isExpanded ) {
+            self.isTeasing = true;
+            $( '.piece', self.$el ).addClass( 'quick' ).addClass( 'tease' );
+          }
+        });
+
+        self.$el.on( 'mouseleave', 'a.cta', function( event ) {
+          log( 'Leave Teasing' );
+          if( self.isTeasing && !self.isExpanded ) {
+            $( '.piece', self.$el ).removeClass( 'tease' );
+            self.isTeasing = false;
+          }
+        });
+
+      }
 
       // Probably set some variables here
-      self.$el.on( 'click', 'a.explode', function( event ) {
+      self.$el.on( 'click', 'a.cta', function( event ) {
+
         event.preventDefault();
-        log('Exploding');
-        if(self.expanded) {
-          $('.callout', self.$el).removeClass( 'in' );
-          $('.piece', self.$el).removeClass( 'exploded' );
-          $('.explode', self.$el).removeClass( 'open' );
-          //$('.intro', self.$el).show();
-          $('.intro', self.$el).removeClass( 'out' );
-          self.expanded = false;
+
+        if( self.isExpanded ) {
+          $( '.callout', self.$el ).removeClass( 'in' );
+          $( '.detail', self.$el ).removeClass( 'in' );
+          $( '.piece', self.$el ).removeClass( 'exploded' );
+          $( '.cta', self.$el ).addClass( 'out' );
+          setTimeout( function() {
+            $( '.intro', self.$el ).removeClass( 'out' );
+            $( '.cta', self.$el ).removeClass( 'open' ).removeClass( 'out' );
+          }, 900);
+          self.isExpanded = false;
         }
         else {
-          $('.explode', self.$el).addClass( 'open' );
-          $('.piece', self.$el).addClass( 'exploded' ).removeClass( 'tease' );
-          $('.callout', self.$el).addClass( 'in' );
-          //$('.intro', self.$el).hide();
-          $('.intro', self.$el).addClass( 'out' );
-
-          self.expanded = true;
+          $( '.cta', self.$el ).addClass( 'out' );
+          setTimeout( function() {
+            $( '.cta', self.$el ).addClass( 'open' ).removeClass( 'out' );
+            $( '.detail', self.$el ).addClass( 'in' );
+            $( '.callout', self.$el ).addClass( 'in' );
+          }, 800);
+          $( '.piece', self.$el ).removeClass( 'quick' ).addClass( 'exploded' ).removeClass( 'tease' );
+          $( '.intro', self.$el ).addClass( 'out' );
+          self.isExpanded = true;
         }
       } );
 
@@ -124,8 +134,13 @@ define(function(require) {
 
     setVars : function() {
       var self = this;
-      self.expanded = false;
-      self.teasing = false;
+
+      self.isExpanded = false;
+      self.isTeasing = false;
+
+      // Modernizr vars
+      self.hasTouch = Modernizr.touch;
+
     },
 
     // Stubbed method. You don't have to use this
