@@ -208,6 +208,25 @@ define(function(require){
 
     });
 
+    describe("The onScrubberDrag method", function() {
+
+      it("Responds to drag events from the scrubber, updating the playhead to the current position", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var eventData = {
+          'position': {
+            'left': 10
+          }
+        };
+
+        var result = SAP.onScrubberDrag(eventData);
+
+        expect(result.constructor).toBe(SonyAudioPlayer);
+      });
+
+    });
+
     describe("The removeScrubber method", function() {
 
       it("Remove the scrubber for the track, if it exists", function() {

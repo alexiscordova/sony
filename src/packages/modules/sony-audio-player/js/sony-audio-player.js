@@ -208,9 +208,22 @@ define(function(require) {
         'axis': 'x',
         'unit': '%',
         'containment': $containment,
-        'drag': function() {},
+        'drag': $.proxy(self.onScrubberDrag, self),
         'bounds': bounds
       });
+
+      return self;
+    },
+
+    // Responds to drag events from the scrubber, updating the playhead to
+    // the current position.
+
+    onScrubberDrag: function(e) {
+
+      var self = this,
+          newLeft = e.position.left;
+
+      // Do stuff here.
 
       return self;
     },
