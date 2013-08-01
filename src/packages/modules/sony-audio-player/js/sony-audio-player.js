@@ -240,11 +240,20 @@ define(function(require) {
         });
       });
 
+      $scrubber.off('sonyDraggable:dragStart').on('sonyDraggable:dragStart', function(){
+        self.clearScrubberInterval();
+      });
+
+      $scrubber.off('sonyDraggable:dragEnd').on('sonyDraggable:dragEnd', function(){
+        self.createScrubberInterval();
+      });
+
+      self.createScrubberInterval();
+
       return self;
     },
 
-    // Responds to drag events from the scrubber, updating the playhead to
-    // the current position.
+    // Responds to drag events from the scrubber, updating the playhead to the current position.
 
     onScrubberDrag: function(e) {
 
@@ -254,6 +263,42 @@ define(function(require) {
       self.$el.trigger('SonyAudioPlayer:getDuration', function(duration) {
         self.$el.trigger('SonyAudioPlayer:setPosition', newLeft / 100 * duration);
       });
+
+      return self;
+    },
+
+    // Creates a new interval to periodically update the scrubber.
+    // Returns false if interval already exists.
+
+    createScrubberInterval: function() {
+
+      var self = this,
+        $scrubber = self.$el.find('.scrubber');
+
+      if ( self.scrubberInterval ) {
+        return false;
+      }
+
+      self.scrubberInterval = setInterval(function(){
+
+        self.$el.trigger('SonyAudioPlayer:getDuration', function(duration) {
+          self.$el.trigger('SonyAudioPlayer:getPosition', function(position) {
+            $scrubber.sonyDraggable('setPositions', { x: position / duration * 100 }, true);
+          });
+        });
+
+      }, 250);
+
+      return self;
+    },
+
+    // Clears and nullifies the interval created by `self.createScrubberInterval`.
+
+    clearScrubberInterval: function() {
+
+      var self = this;
+
+      self.scrubberInterval = clearInterval(self.scrubberInterval);
 
       return self;
     },
@@ -268,6 +313,8 @@ define(function(require) {
       $containment.removeClass('active');
 
       $containment.find('.scrubber').sonyDraggable('destroy');
+
+      self.clearScrubberInterval();
 
       return self;
     }

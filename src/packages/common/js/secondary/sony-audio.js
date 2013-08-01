@@ -84,7 +84,7 @@ define(function(require){
 
     var moduleId = 'sonyAudio-' + _moduleCount,
         currentTime = 0,
-        currentSound,
+        currentSound = {},
         configDefaults,
         initializeSource;
 
@@ -213,6 +213,10 @@ define(function(require){
       setPosition: function(newPosition) {
 
         var self = this;
+
+        if ( !currentSound.setPosition ) {
+          return false;
+        }
 
         currentSound.setPosition(newPosition);
 

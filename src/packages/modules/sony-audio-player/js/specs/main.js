@@ -227,6 +227,47 @@ define(function(require){
 
     });
 
+    describe("The createScrubberInterval method", function() {
+
+      it("Creates a new interval to periodically update the scrubber", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var firstResult = SAP.createScrubberInterval();
+
+        expect(firstResult.constructor).toBe(SonyAudioPlayer);
+      });
+
+      it("Returns false if interval already exists", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var firstResult = SAP.createScrubberInterval();
+        var secondResult = SAP.createScrubberInterval();
+
+        expect(secondResult).toBe(false);
+      });
+
+    });
+
+    describe("The clearScrubberInterval method", function() {
+
+      it("Clears and nullifies the interval created by `self.createScrubberInterval`", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var firstResult = SAP.clearScrubberInterval();
+
+        SAP.createScrubberInterval();
+
+        var secondResult = SAP.clearScrubberInterval();
+
+        expect(firstResult.constructor).toBe(SonyAudioPlayer);
+        expect(secondResult.constructor).toBe(SonyAudioPlayer);
+      });
+
+    });
+
     describe("The removeScrubber method", function() {
 
       it("Remove the scrubber for the track, if it exists", function() {
