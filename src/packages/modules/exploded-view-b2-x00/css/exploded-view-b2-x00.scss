@@ -53,9 +53,7 @@ $pieceTeaseStep: 1%;
   }
 
   .box {
-
     padding: 50px;
-
   }
 
   .detail {
@@ -126,30 +124,6 @@ $pieceTeaseStep: 1%;
 
   }
 
-  .piece {
-
-    width: $pieceWidth;
-    height: $pieceHeight;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-position: 0 0;
-
-    // The transition properties used when collapsing the exploded elements
-    @include transition( right 0.8s $easeInCubic );
-
-    &.exploded {
-      // The transition properties used when expanding the exploded elements
-      @include transition( right 0.8s $easeOutQuart );//$easeOutCubic );//cubic-bezier(0.165, 0.840, 0.440, 1.000) );
-    }
-
-    &.quick {
-      // The transition properties used to do quick expand or collapse of the elements
-      @include transition( none ); // right $transitionFaster $easeInOutCubic );
-    }
-
-  }
-
   .cta {
     position: absolute;
     right: $piecesOffsetRight - ($buttonDiameter / 2) + 20px;
@@ -189,12 +163,6 @@ $pieceTeaseStep: 1%;
 
     }
 
-    &:active {
-      i {
-        // background: $buttonOrangeActive;
-      }
-    }
-
     &.open {
       width: $buttonDiameter;
       right: $maxPieces * $pieceExplosionStep;
@@ -209,13 +177,6 @@ $pieceTeaseStep: 1%;
         }
 
       }
-      /*
-      &:hover {
-        i {
-          right: 0;
-        }
-      }
-      */
     }
 
     @include transition( opacity $transitionSlower $easeOutQuad );
@@ -229,16 +190,41 @@ $pieceTeaseStep: 1%;
     &:hover {
       i {
         right: $buttonHoverShift;
-        // background: $buttonOrangeHover;
+        background-color: $buttonOrangeHover;
       }
     }
     &.open {
       &:hover {
         i {
           right: 0;
+          background-color: $gray50;
         }
       }
     }
+  }
+
+  .piece {
+
+    width: $pieceWidth;
+    height: $pieceHeight;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-position: 0 0;
+
+    // The transition properties used when collapsing the exploded elements
+    @include transition( right 0.8s $easeInCubic );
+
+    &.exploded {
+      // The transition properties used when expanding the exploded elements
+      @include transition( right 0.8s $easeOutQuart );
+    }
+
+    &.quick {
+      // The transition properties used to do quick expand or collapse of the elements
+      @include transition( none );
+    }
+
   }
 
   @for $i from 0 through $maxPieces - 1 {
