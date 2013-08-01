@@ -1,4 +1,3 @@
-
 // Sony Audio Player (SonyAudioPlayer) Module
 // --------------------------------------------
 //
@@ -11,19 +10,19 @@
 // This module provides a UI interface for controlling an instance of the
 // global `SonyAudio` module.
 
-define(function(require){
+define(function(require) {
 
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr'),
-      SonyDraggable = require('secondary/index').sonyDraggable,
-      SonyAudio = require('secondary/index').sonyAudio;
+    Modernizr = require('modernizr'),
+    SonyDraggable = require('secondary/index').sonyDraggable,
+    SonyAudio = require('secondary/index').sonyAudio;
 
-  var SonyAudioPlayer = function(element){
+  var SonyAudioPlayer = function(element) {
 
     var self = this,
-        init;
+      init;
 
     init = self.init(element);
 
@@ -45,11 +44,11 @@ define(function(require){
 
       self.$el = $(element);
 
-      if ( self.$el.length > 1 ) {
+      if (self.$el.length > 1) {
 
         var instances = [];
 
-        self.$el.each(function(){
+        self.$el.each(function() {
           instances.push(new SonyAudioPlayer(this));
         });
 
@@ -68,8 +67,8 @@ define(function(require){
     setTrack: function(which) {
 
       var self = this,
-          $track = self.$el.find('.track').eq(which),
-          $sources = $track.find('.source');
+        $track = self.$el.find('.track').eq(which),
+        $sources = $track.find('.source');
 
       // Create audio track with provided sources.
 
@@ -77,17 +76,21 @@ define(function(require){
         sources: self.getSourceList($sources),
         onpause: function() {
           self.$el.removeClass('playing').addClass('paused');
+          self.$el.trigger('SonyAudioPlayer:isPaused');
         },
         onplay: function() {
           self.$el.removeClass('paused').addClass('playing');
+          self.$el.trigger('SonyAudioPlayer:isPlaying');
         },
         onfinish: function() {
           self.$el.removeClass('playing').addClass('paused');
+          self.$el.trigger('SonyAudioPlayer:isPaused');
         }
       });
 
-      self.bindModuleAPI(track);
-      self.setAlbumArt(which);
+      self.bindModuleAPI(track)
+        .bindModuleResponse()
+        .setAlbumArt(which);
 
       return self;
     },
@@ -98,10 +101,10 @@ define(function(require){
 
       var sourceList = {};
 
-      $sources.each(function(a,b){
+      $sources.each(function(a, b) {
 
         var key = $(this).text(),
-            value = $(this).find('a').attr('href');
+          value = $(this).find('a').attr('href');
 
         sourceList[key] = value;
       });
@@ -143,13 +146,28 @@ define(function(require){
 
       var self = this;
 
-      self.$el.on('SonyAudioPlayer:play', function(e, setting){
+      self.$el.on('SonyAudioPlayer:play', function(e, setting) {
         track.play(setting);
+      });
+
+      self.$el.on('SonyAudioPlayer:pause', function(e) {
+        track.pause();
+      });
+
+      return self;
+    },
+
+    // Listens for custom events and calls the appropriate UI methods in response.
+
+    bindModuleResponse: function() {
+
+      var self = this;
+
+      self.$el.on('SonyAudioPlayer:isPlaying', function(e) {
         self.createScrubber();
       });
 
-      self.$el.on('SonyAudioPlayer:pause', function(e){
-        track.pause();
+      self.$el.on('SonyAudioPlayer:isPaused', function(e) {
         self.removeScrubber();
       });
 
@@ -162,8 +180,8 @@ define(function(require){
     setAlbumArt: function(which) {
 
       var self = this,
-          $activeTrack = self.$el.find('.active-track'),
-          $newAlbumArt = self.$el.find('.track').eq(which).find('img');
+        $activeTrack = self.$el.find('.active-track'),
+        $newAlbumArt = self.$el.find('.track').eq(which).find('img');
 
       $activeTrack.empty().append($newAlbumArt.clone());
 
@@ -175,11 +193,14 @@ define(function(require){
     createScrubber: function() {
 
       var self = this,
-          $containment = self.$el.find('.sap-hit-area'),
-          $scrubber = $containment.find('.scrubber'),
-          bounds = {};
+        $containment = self.$el.find('.sap-hit-area'),
+        $scrubber = $containment.find('.scrubber'),
+        bounds = {};
 
-      bounds.x = {'min': 0, 'max': 100};
+      bounds.x = {
+        'min': 0,
+        'max': 100
+      };
 
       $containment.addClass('active');
 
@@ -187,7 +208,7 @@ define(function(require){
         'axis': 'x',
         'unit': '%',
         'containment': $containment,
-        'drag': function(){},
+        'drag': function() {},
         'bounds': bounds
       });
 
@@ -199,7 +220,7 @@ define(function(require){
     removeScrubber: function() {
 
       var self = this,
-          $containment = self.$el.find('.sap-hit-area');
+        $containment = self.$el.find('.sap-hit-area');
 
       $containment.removeClass('active');
 

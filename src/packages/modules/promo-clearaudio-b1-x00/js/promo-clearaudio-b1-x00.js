@@ -38,6 +38,7 @@ define(function(require) {
       var self = this;
 
       self.bindAudioControls();
+      self.bindAudioResponse();
 
       return self;
     },
@@ -49,19 +50,29 @@ define(function(require) {
         $clearAudioNav = self.$el.find('.clearaudio-player-controls');
 
       $clearAudioNav.on('click', '.clearaudio-play', function(e) {
-
         e.preventDefault();
-
-        self.$el.addClass('playing');
         $sonyAudioPlayer.trigger('SonyAudioPlayer:play');
       });
 
       $clearAudioNav.on('click', '.clearaudio-pause', function(e) {
-
         e.preventDefault();
-
-        self.$el.removeClass('playing');
         $sonyAudioPlayer.trigger('SonyAudioPlayer:pause');
+      });
+
+      return self;
+    },
+
+    bindAudioResponse: function() {
+
+      var self = this,
+        $sonyAudioPlayer = self.$el.find('.sony-audio-player');
+
+      $sonyAudioPlayer.on('SonyAudioPlayer:isPaused', function(){
+        self.$el.removeClass('playing');
+      });
+
+      $sonyAudioPlayer.on('SonyAudioPlayer:isPlaying', function(){
+        self.$el.addClass('playing');
       });
 
       return self;

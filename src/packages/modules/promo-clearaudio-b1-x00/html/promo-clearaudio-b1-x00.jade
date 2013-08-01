@@ -5,9 +5,17 @@ include ../../../common/html/jade-helpers.jade
 section.promo-clearaudio
   .container
     .grid
-      .span9
-        .FPO(style="background-color: pink; height: 400px;") Laptop Image + Audio Animation to go here, need assets.
-      .span3.clearaudio-player
+      .span7.offset1.clearaudio-info
+        h2.t2 Hear the difference
+        p.p1 Experience Soul Shaking Clarity in a laptop. ClearAudio+ mode gives you effortlessly robust sound. With one simple operation, you’ll hear music, movies and games in high quality Sony audio.
+        a.lt1(href="#") Learn More
+        .promo-clearaudio-laptop.iq-img(data-src-desktop=data.laptopImage.srcDesktop, data-src-tablet=data.laptopImage.srcTablet, data-src-phone=data.laptopImage.srcPhone, data-src-desktop-highres=data.laptopImage.srcDesktopHighRes, data-src-tablet-highres=data.laptopImage.srcTabletHighRes, data-src-phone-highres=data.laptopImage.srcPhoneHighRes)
+          .waves
+            .wave-1.iq-img(data-src-desktop=data.waveImages[0].srcDesktop, data-src-tablet=data.waveImages[0].srcTablet, data-src-phone=data.waveImages[0].srcPhone, data-src-desktop-highres=data.waveImages[0].srcDesktopHighRes, data-src-tablet-highres=data.waveImages[0].srcTabletHighRes, data-src-phone-highres=data.waveImages[0].srcPhoneHighRes)
+            .wave-2.iq-img(data-src-desktop=data.waveImages[1].srcDesktop, data-src-tablet=data.waveImages[1].srcTablet, data-src-phone=data.waveImages[1].srcPhone, data-src-desktop-highres=data.waveImages[1].srcDesktopHighRes, data-src-tablet-highres=data.waveImages[1].srcTabletHighRes, data-src-phone-highres=data.waveImages[1].srcPhoneHighRes)
+            .wave-3.iq-img(data-src-desktop=data.waveImages[2].srcDesktop, data-src-tablet=data.waveImages[2].srcTablet, data-src-phone=data.waveImages[2].srcPhone, data-src-desktop-highres=data.waveImages[2].srcDesktopHighRes, data-src-tablet-highres=data.waveImages[2].srcTabletHighRes, data-src-phone-highres=data.waveImages[2].srcPhoneHighRes)
+
+      .span4.clearaudio-player
 
         +sonyAudioPlayer(data.sonyAudioPlayerData);
 
@@ -18,5 +26,3 @@ section.promo-clearaudio
             span Pause
 
   +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/modules/promo-clearaudio-b1-x00/demo/data/e1-data.json')
-
-

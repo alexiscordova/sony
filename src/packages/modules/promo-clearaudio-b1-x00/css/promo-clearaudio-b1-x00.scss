@@ -2,7 +2,15 @@
 @import "../../../common/css/_base/mixins";
 
 .promo-clearaudio {
+  position: relative;
   background-color: #f1f5f9;
+
+  .container {
+    padding-top: 100px;
+  }
+
+  .clearaudio-info {
+  }
 
   .sony-audio-player {
 
@@ -30,4 +38,96 @@
       }
     }
   }
+}
+
+.promo-clearaudio-laptop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 560px;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: contain;
+
+  .waves {
+    > div {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: top left;
+      background-size: contain;
+      opacity: 0;
+    }
+
+    .playing & {
+      .wave-1 {
+        -webkit-animation: promo-clearaudio-waves-1 2s infinite;
+        animation: promo-clearaudio-waves-1 2s infinite;
+      }
+      .wave-2 {
+        -webkit-animation: promo-clearaudio-waves-2 2s infinite;
+        animation: promo-clearaudio-waves-2 2s infinite;
+      }
+      .wave-3 {
+        -webkit-animation: promo-clearaudio-waves-3 2s infinite;
+        animation: promo-clearaudio-waves-3 2s infinite;
+      }
+    }
+  }
+}
+
+// Webkit
+
+@-webkit-keyframes promo-clearaudio-waves-1 {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  50%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@-webkit-keyframes promo-clearaudio-waves-2 {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@-webkit-keyframes promo-clearaudio-waves-3 {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 0; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+// Standards
+
+@keyframes promo-clearaudio-waves-1 {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  50%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes promo-clearaudio-waves-2 {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes promo-clearaudio-waves-3 {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 0; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
 }
