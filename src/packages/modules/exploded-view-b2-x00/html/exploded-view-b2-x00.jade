@@ -14,12 +14,12 @@ moduleClasses = [ "exploded-view", "full-inner" ]
 
 +mainElement( moduleClasses )
   
-  .container
+  .container.full-bleed
     if data.submodules
       .submodule
         +submodule( data.submodules[0] )
 
-  .container.inner.pieces-container
+  .container.full-bleed.inner.pieces-container
     .callout
       h3= data.callout_title
       p.p4= data.callout_body
@@ -29,11 +29,11 @@ moduleClasses = [ "exploded-view", "full-inner" ]
         +iQBackgroundImage( data.animation.imgPieces, "piece piece-" + i )
       - }
 
-  .container.inner
-    .grid
-      .span4.offset1
+  .container.full-bleed.inner.light-text-dark-box.force-mobile-bg.top
+    .grid.no-grid-at-767
+      .span5.offset1
         +center
-          .intro
+          .intro.box
             h2= data.title
             p= data.body
         

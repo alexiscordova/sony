@@ -47,15 +47,19 @@ $pieceTeaseStep: 1%;
 
   }
 
-  .intro {
+  .box {
 
-    h2, p {
-      color: white;
-    }
+    padding: 50px;
+    //padding:56px 52px 50px 52px;
+    //background: $gray10;
+
+    //h2, p {
+    //  color: white;
+    //}
 
   }
 
-  .csstransitions & .intro {
+  .csstransitions & .box {
     opacity: 1;
     @include transition( opacity $transitionSuperslow $easeNormal );
 
@@ -137,7 +141,7 @@ $pieceTeaseStep: 1%;
     }
   }
 
-  @for $i from 0 through $maxPieces {
+  @for $i from 0 through $maxPieces - 1 {
     .piece-#{$i} {
       background-position-x: -$pieceWidth * $i;
       z-index: $maxPieces - $i;
