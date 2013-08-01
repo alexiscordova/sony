@@ -201,9 +201,20 @@ define(function(require) {
 
       var self = this,
         $activeTrack = self.$el.find('.active-track'),
-        $newAlbumArt = self.$el.find('.track').eq(which).find('img');
+        $newTrack = self.$el.find('.track').eq(which),
+        $newAlbumArt = $newTrack.find('img'),
+        regularSource = $newAlbumArt.attr('src'),
+        activeSource = $newTrack.data('active-art');
 
       $activeTrack.empty().append($newAlbumArt.clone());
+
+      self.$el.on('SonyAudioPlayer:isPlaying', function(e) {
+        $activeTrack.find('img').attr('src', activeSource);
+      });
+
+      self.$el.on('SonyAudioPlayer:isPaused', function(e) {
+        $activeTrack.find('img').attr('src', regularSource);
+      });
 
       return self;
     },
