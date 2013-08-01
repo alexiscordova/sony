@@ -23,8 +23,8 @@ $imgVerticalOffset: 10%;
 
       // Images fit within the bounds of the columns with no overlapping.
       img {
+      	display: block;
         max-width: 100%;
-        margin-left: 0;
       }
 
       // No overlapping images at this size since the single column carousel is applied
@@ -33,8 +33,10 @@ $imgVerticalOffset: 10%;
       @for $i from 0 through $numColumns {
         &.column-#{$i} {
           img {
-            margin-bottom: 0;
             margin-top: 0;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 0;
           }
         }
       }
@@ -44,26 +46,3 @@ $imgVerticalOffset: 10%;
   }
 }
 
-@media (max-width: px-em( 481 ) ) {
-  .editorial-compare {
-
-    .sony-carousel-slide-children {
-      img {
-        max-width: 150%;
-        margin-left: -25%;
-      }
-
-      // Apply the image offset again to the images on mobile (same as desktop)
-      @for $i from 0 through $numColumns {
-        &.column-#{$i} {
-          img {
-            margin-bottom: $i * $imgVerticalOffset;
-            margin-top: ($numColumns - $i) * $imgVerticalOffset;
-          }
-        }
-      }
-
-    }
-
-  }
-}

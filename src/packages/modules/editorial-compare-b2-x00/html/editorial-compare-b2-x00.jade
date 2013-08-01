@@ -2,27 +2,22 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-compare-b2-x00')
 +includeJavascriptModule('editorial-compare-b2-x00')
 
-moduleClasses = [ "editorial-compare" ]
+moduleClasses = [ "editorial-compare" ]  
 
 mixin columnElement(color, image)
   +iQImage(image)
   .swatches
-    .swatch-blue
-    .swatch-black
-    div(class = "swatch-#{color}")
+    .swatch-blue.mini-swatch
+    .swatch-black.mini-swatch
+    div.mini-swatch(class = "swatch-#{color}")
   ul.benefits
-    li
-      i.fonticon-30-support(aria-hidden="true")
-      h5.t7 Benefit
-      p Lorem ipsum dolor sit amet
-    li
-      i.fonticon-30-wifi(aria-hidden="true")
-      h5.t7 Benefit
-      p Lorem ipsum dolor sit amet
-    li
-      i.fonticon-30-bluetooth(aria-hidden="true")
-      h5.t7 Benefit
-      p Lorem ipsum dolor sit amet
+    each icon in image.icons
+      li
+        i(class="#{icon.icon} icon-#{icon.color}")(aria-hidden="true")
+        h5.t7=icon.label
+        p=icon.desc
+    
+ 
 
 +mainElement( moduleClasses )
 
