@@ -1,0 +1,114 @@
+
+@media (max-width: px-em( 767 ) ) {
+
+  $pieceWidth: 85px;
+  $pieceHeight: 85px;
+  $maxPieces: 6;
+  $maxDesktopPieces: 9;
+  $buttonDiameter: 48px;
+  $buttonHoverShift: 12px;
+
+  // The distance between each piece in the exploded state
+  $pieceExplosionStep: 8%;
+
+  // The distance between each piece in the tease state
+  $pieceTeaseStep: 1%;
+
+  .exploded-view {
+
+    .bottom {
+      .table-center {
+        vertical-align: bottom;
+      }
+    }
+
+    .top {
+      .table-center {
+        vertical-align: top;
+      }
+    }
+
+    .table-center-wrap {
+      width: 100%;
+    }
+
+    .no-grid-at-767 {
+      width: 100%;
+    }
+
+    .box {
+      padding: 20px;
+    }
+
+    .pieces {
+      height: $pieceHeight;
+      margin-right: 75px;
+      top: 261px;
+    }
+
+    .callout {
+      margin-right: 0;
+      top: 0;
+      right: 0;
+      height: auto;
+      border: 0;
+      padding: 20px;
+
+      h3, p {
+        color: $gray20;
+      }
+    }
+
+    .piece {
+      width: $pieceWidth;
+      height: $pieceHeight;
+    }
+
+    .cta {
+      top: ($pieceHeight / 2) - ($buttonDiameter / 2);
+      right: 50px;
+
+      width: $buttonDiameter + $buttonHoverShift;
+      height: $buttonDiameter;
+
+      i {
+
+        width: $buttonDiameter;
+        height: $buttonDiameter;
+        @include border-radius($buttonDiameter / 2);
+        @include background-clip(padding-box);
+        border: solid 6px rgba(0,0,0,0.2);
+
+        font-size: 1em;
+        line-height: 1em;
+        padding-top: 7px;
+      }
+
+    }
+
+    @for $i from 0 through $maxPieces - 1 {
+      .piece-#{$i} {
+        background-position-x: -$pieceWidth * $i;
+        z-index: $maxPieces - $i;
+
+        @if $i != 0 { 
+          @if $i != $maxPieces {
+            &.tease {
+              right: ($maxPieces - $i - 1) * $pieceTeaseStep;
+            }
+            &.exploded {
+              right: ($maxPieces - $i - 1) * $pieceExplosionStep;
+            }
+          }
+        }
+      }
+    }
+
+    @for $i from $maxPieces through $maxDesktopPieces {
+      .piece-#{$i} {
+        display: none;
+      }
+    }
+
+  }
+}
