@@ -2,7 +2,7 @@ define(function(require){
 
   // Initialize Modules that don't require additional configuration.
   var $ = require('jquery');
-  var EditorialTransition = require('modules/editorial-transition-b1/image-sequence');
+  var EditorialTransition = require('modules/editorial-transition-b1-x00/image-sequence');
 
   $( '.sony-sequence' ).each( function( index, el ) {
     var $el = $(el),
@@ -24,7 +24,7 @@ define(function(require){
     new EditorialTransition($el, opts);
     //new SonySliderControl($el, opts);
 
-  });  
+  });
 
   // Return up a level if desired.
   return {

@@ -12,15 +12,6 @@
 //      require('path/to/global/module') // self instantiation
 //
 
-
-// === MODULE TODO === 
-// 1. Get called from secondary module or plugin
-// 2. Pass options into the sequence slider
-// 3. parse $el and options
-// 4. call methods externally with values
-// 5. work?
-// === 
-
 define(function(require) {
 
   'use strict';

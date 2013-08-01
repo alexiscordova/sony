@@ -1,18 +1,18 @@
 include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-image-sequence')
-+includeJavascriptModule('editorial-transition-b1')
++includeJavascriptModule('editorial-transition-b1-x00')
 
 if data.layout
   editorialClasses = [ "editorial", data.layout.mode ]
   if data.layout.background
     - editorialClasses.push( data.layout.background )
-  
+
 - image = data.sequence[0].image ? data.sequence[0].image : null
 - extraclass = image.classes ? image.classes : ""
 - id = data.id ? data.id : "e360-instance"
 - startId = id+"-0"
 
-if data.layout 
+if data.layout
   - isDark = data.layout.dark ? "dark" : "light"
   - multiModule = data.layout.multiModule ? data.layout.multiModule : ""
   - bump = (multiModule == "true") ? "multiModule" : ""
@@ -28,9 +28,9 @@ if data.sequenceConfig
   - labelLeft = data.sequenceConfig.labelLeft ? data.sequenceConfig.labelLeft : ''
   - labelRight = data.sequenceConfig.labelRight ? data.sequenceConfig.labelRight : ''
 
-if data.hotspotConfig 
-  - hotspots = data.hotspotConfig.hotspots ? data.hotspotConfig.hotspots : ''  
-            
+if data.hotspotConfig
+  - hotspots = data.hotspotConfig.hotspots ? data.hotspotConfig.hotspots : ''
+
 if data.variation && data.variation.background
   - editorialClasses.push( data.variation.background )
 
@@ -43,7 +43,7 @@ mixin slidelabels
             i(data-type = labelData.label.type, data-label = labelData.label.content, data-id = i )
           else if labelData.label.type == "text"
             i(data-type = labelData.label.type, data-label = labelData.label.content, data-id = i )
-          else 
+          else
             i(data-label = labelData.label.content, data-id = i )
 
 mixin copyblock(_copy, _title, _subtitle, _body)
@@ -85,12 +85,12 @@ mixin center
   .table-center-wrap
     .table-center
       block
-  
+
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
   .box(class = layout.alignment)
     block
-  
+
 mixin boxlayout(_layout)
   layout = _layout ? _layout : data.layout
   classes = layout.style
@@ -158,23 +158,23 @@ mixin boxlayout(_layout)
               img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
                 noscript
                   img(src= imgData.noscriptsrc)
-      if data.layout 
+      if data.layout
         if data.layout.mode == "editorial"
           +boxlayout
             if data.copy
-              +copyblock(data.copy, "t2", "t7", "p2")    
+              +copyblock(data.copy, "t2", "t7", "p2")
         if data.layout.mode == "full-inner"
           +boxlayout
             if data.copy
-              +copyblock(data.copy, "t3", "t7", "p3")    
-                
+              +copyblock(data.copy, "t3", "t7", "p3")
+
       +slidelabels
       .controls.container.hidden
         .drag-controls(class=isDark)(class=bump)(class=lod)
           i.left-arrow.fonticon-10-chevron-reverse
           span.instructions.l3(class=isDark)(class=lod) DRAG
           i.right-arrow.fonticon-10-chevron
-      
+
   else
     div(class="sony-sequence container dim-the-lights", id=id)
       .outer
