@@ -8,7 +8,9 @@ $pieceWidth: 170px;
 $pieceHeight: 170px;
 $piecesOffsetTop: 221px;
 $piecesOffsetRight: 150px;
-$buttonDiameter: 96px;
+$buttonInnerDiameter: 72px;
+$buttonBorder: 12px;
+$buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
 $buttonHoverShift: 48px;
 $easeInCubic: cubic-bezier(0.550, 0.055, 0.675, 0.190);
 $easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
@@ -126,26 +128,42 @@ $pieceTeaseStep: 1%;
 
   .cta {
     position: absolute;
-    right: $piecesOffsetRight - ($buttonDiameter / 2) + 20px;
-    top: ($pieceHeight / 2) - ($buttonDiameter / 2);
+    right: $piecesOffsetRight - ($buttonOuterDiameter / 2) + 20px;
+    top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
     z-index: $maxPieces + 1;
 
-    width: $buttonDiameter + $buttonHoverShift;
-    height: $buttonDiameter;
+    width: $buttonOuterDiameter + $buttonHoverShift;
+    height: $buttonOuterDiameter;
 
     opacity: 1;
 
-    i {
+    .circle-btn {
       position: absolute;
       right: 0;
+
+      width: $buttonOuterDiameter;
+      height: $buttonOuterDiameter;
+      @include border-radius( $buttonOuterDiameter / 2 );
+      background: rgba(0,0,0,0.2);
+
+      &.expand {
+        display: block;
+      }
+
+      &.collapse {
+        display: none;
+      }
+    }
+
+    i {
+
       background: $buttonOrange;
       color: #fff;
 
-      width: $buttonDiameter;
-      height: $buttonDiameter;
-      @include border-radius($buttonDiameter / 2);
-      @include background-clip(padding-box);
-      border: solid 12px rgba(0,0,0,0.2);
+      width: $buttonInnerDiameter;
+      height: $buttonInnerDiameter;
+      @include border-radius($buttonInnerDiameter / 2);
+      margin: $buttonBorder;
 
       font-size: 2em;
       // TODO: need a better way to get the icons centered in the circle than this and the padding below
@@ -153,26 +171,26 @@ $pieceTeaseStep: 1%;
       text-align: center;
 
       &.fonticon-10-chevron-reverse {
-        display: block;
         padding-right: 6px;
       }
       &.fonticon-10-chevron {
-        display: none;
         padding-left: 6px;
       }
 
     }
 
     &.open {
-      width: $buttonDiameter;
+      width: $buttonOuterDiameter;
       right: $maxPieces * $pieceExplosionStep;
-      i {
-        background-color: $gray40;
+      .circle-btn {
+        i {
+          background-color: $gray40;
+        }
 
-        &.fonticon-10-chevron-reverse {
+        &.expand {
           display: none;
         }
-        &.fonticon-10-chevron {
+        &.collapse {
           display: block;
         }
 
@@ -188,16 +206,20 @@ $pieceTeaseStep: 1%;
 
   .no-touch & .cta {
     &:hover {
-      i {
+      .circle-btn {
         right: $buttonHoverShift;
-        background-color: $buttonOrangeHover;
+        i {
+          background-color: $buttonOrangeHover;
+        }
       }
     }
     &.open {
       &:hover {
-        i {
+        .circle-btn {
           right: 0;
-          background-color: $gray50;
+          i {
+            background-color: $gray50;
+          }
         }
       }
     }

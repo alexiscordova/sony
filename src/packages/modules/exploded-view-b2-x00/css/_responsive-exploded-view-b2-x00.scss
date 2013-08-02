@@ -5,7 +5,10 @@
   $pieceHeight: 85px;
   $maxPieces: 6;
   $maxDesktopPieces: 9;
-  $buttonDiameter: 48px;
+  $buttonInnerDiameter: 36px;
+  $buttonBorder: 6px;
+  $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
+
   $buttonHoverShift: 12px;
 
   // The distance between each piece in the exploded state
@@ -65,19 +68,29 @@
     }
 
     .cta {
-      top: ($pieceHeight / 2) - ($buttonDiameter / 2);
+      top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
       right: 50px;
 
-      width: $buttonDiameter + $buttonHoverShift;
-      height: $buttonDiameter;
+      width: $buttonOuterDiameter + $buttonHoverShift;
+      height: $buttonOuterDiameter;
+
+      .circle-btn {
+
+        width: $buttonOuterDiameter;
+        height: $buttonOuterDiameter;
+        @include border-radius($buttonOuterDiameter / 2);
+
+      }
 
       i {
 
-        width: $buttonDiameter;
-        height: $buttonDiameter;
-        @include border-radius($buttonDiameter / 2);
-        @include background-clip(padding-box);
-        border: solid 6px rgba(0,0,0,0.2);
+        width: $buttonInnerDiameter;
+        height: $buttonInnerDiameter;
+        @include border-radius($buttonInnerDiameter / 2);
+        margin: $buttonBorder;
+        
+        //@include background-clip(padding-box);
+        //border: solid 6px rgba(0,0,0,0.2);
 
         font-size: 1em;
         line-height: 1em;

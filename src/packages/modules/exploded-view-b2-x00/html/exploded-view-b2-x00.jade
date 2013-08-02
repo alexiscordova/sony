@@ -38,8 +38,10 @@ moduleClasses = [ "exploded-view", "full-inner" ]
       p.p4= data.callout_body
     .pieces
       a.cta.no-hover-transition(href="#")
-        i.fonticon-10-chevron-reverse
-        i.fonticon-10-chevron
+        .circle-btn.expand
+          i.fonticon-10-chevron-reverse
+        .circle-btn.collapse
+          i.fonticon-10-chevron
       - for ( var i = 0; i < data.animation.numberDesktopPieces; i++ ) {
         +iQBackgroundImage( data.animation.imgPieces, "piece piece-" + i )
       - }
