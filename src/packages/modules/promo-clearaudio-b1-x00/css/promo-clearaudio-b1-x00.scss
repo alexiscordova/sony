@@ -10,6 +10,8 @@
   }
 
   .clearaudio-info {
+    position: relative;
+    z-index: 1;
   }
 
   .sony-audio-player {
@@ -20,10 +22,13 @@
   }
 
   .clearaudio-player-controls {
+    position: relative;
     background: $white;
     text-align: center;
+    z-index: 1;
 
     a {
+      color: $black;
       display: block;
       padding: 24px 0;
     }
@@ -96,6 +101,7 @@
   background-repeat: no-repeat;
   background-position: top left;
   background-size: contain;
+  z-index: 0;
 
   .waves {
     > div {
