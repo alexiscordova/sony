@@ -58,6 +58,14 @@ $windowWidth: 1100;
   position: absolute;
 }
 
+.sequence-note-container {
+  .sequence-notes .note {
+    position: absolute;
+    z-index: 100;
+  }
+
+}
+
 .sony-sequence {
   position: relative;
   padding: {
@@ -74,7 +82,7 @@ $windowWidth: 1100;
     width: 100%;
     position: absolute;
     top: 100px;
-    
+
     &.editorial-sequence {
       top: 0;
     }
@@ -148,8 +156,8 @@ $windowWidth: 1100;
 
   .control-bar-container {
     position: relative;
-    width: 100%; 
-    margin: 0 auto;   
+    width: 100%;
+    margin: 0 auto;
     text-align: center;
 
 
@@ -178,7 +186,7 @@ $windowWidth: 1100;
         }
       }
 
-      .notch {            
+      .notch {
         position: absolute;
         top: -36px;
         left: -3px;
@@ -221,19 +229,19 @@ $windowWidth: 1100;
             left: -35px;
           }
         }
-        
+
         &.label-left {
           left: 0;
           text-align: left;
-        }      
+        }
         &.label-right {
           right: 0;
           text-align: right;
-        }      
+        }
       } // end .slider-label
     } // end &.multi-label
 
-    
+
     &.fallback {
       margin: -4px 0 0;
       width: 100%;
@@ -279,7 +287,7 @@ $windowWidth: 1100;
 
         &.icon-mode {
           width: auto;
-          padding: 0 percentage(10/$miniItemWidth);         
+          padding: 0 percentage(10/$miniItemWidth);
         }
 
         &.label-left {
@@ -293,8 +301,8 @@ $windowWidth: 1100;
         }
 
       } // end .slider-label
-    } // end &.fallback     
-    
+    } // end &.fallback
+
     .slider-label {
       display: inline-block;
       cursor: pointer;
@@ -313,7 +321,7 @@ $windowWidth: 1100;
         text-align: left;
       }
     } // end .slider-label
-  } // end .control-bar-container 
+  } // end .control-bar-container
 
   .slider {
     display: inline-block;

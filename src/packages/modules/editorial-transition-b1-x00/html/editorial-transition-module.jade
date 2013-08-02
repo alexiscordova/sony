@@ -91,6 +91,33 @@ mixin boxclass(_layout)
   .box(class = layout.alignment)
     block
 
+
+
+mixin sequenceNotes(_data, _sequenceId)
+  - containerClass = 'visuallyhidden sequence-notes sequence-'+_sequenceId
+  div(class= containerClass, data-id=_sequenceId)
+    for note, _j in _data
+      if note.pointer 
+        - noteClass = 'note has-pointer direction-'+note.pointer
+        - noteDataX = note.coords[0] 
+        - noteDataY = note.coords[1]
+
+        div(class=noteClass, data-x=noteDataX, data-y=noteDataY)
+          span.pointer
+          if note.headline 
+            p.t2 !{note.headline}
+          if note.subhead
+            p.t7 !{note.subhead}
+      else
+        - noteClass = 'note'
+        div(class = noteClass, data-x=noteDataX, data-y=noteDataY)
+          if note.headline 
+            p.t2 !{note.headline}
+          if note.subhead
+            p.t7 !{note.subhead}
+
+  
+      
 mixin boxlayout(_layout)
   layout = _layout ? _layout : data.layout
   classes = layout.style
@@ -139,6 +166,11 @@ mixin boxlayout(_layout)
 +mainElement( editorialClasses )
   if data.sequenceConfig
     div(class="sony-sequence container dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed )
+      if data.sequence
+        .sequence-note-container
+          - for imgData, i in data.sequence
+            if imgData.notes
+              +sequenceNotes(imgData.notes, i)
       .outer
         if data.background == "true"
           .loading.load-indicator.text-center

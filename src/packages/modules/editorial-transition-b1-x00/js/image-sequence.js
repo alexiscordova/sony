@@ -27,6 +27,8 @@ define(function(require){
     var self = this;
 
     self.$el = $(element);
+    self.idleTimer = 0;
+
     self.init();
 
   };
@@ -35,17 +37,20 @@ define(function(require){
     init: function() {
       var self = this;
 
-      // initialize the sequence 
+      // initialize the sequence
       self.sequence = new SonySequence( self.$el, {
         loop: false,
         speed: 100
       });
       // initialize the slider
       self.slider = new SonySliderControl( self.$el, {} );
+      self.$sequenceNoteContainer = self.$el.find('.sequence-note-container');
+      self.$sequenceNotes = self.$sequenceNoteContainer.find('.sequence-notes');
 
       // initalize bindings
       var domReady = function() {
         self.initBindings();
+        self.initSliderTimer();
       };
 
       $(domReady);
@@ -76,10 +81,18 @@ define(function(require){
         } else {
           sliderProperties = self.getSliderPositionByIndex(direction);
           self.slider.animateSliderToPosition( sliderProperties );
+          self.hideSequenceNotes();
+
+          // run a setTimout after the animation is done + 250 ms
+          // to check for if we have notes on the sequence
+          setTimeout(function() {
+            self.showNotes = true; 
+            self.placeSequenceNote();
+          }, sliderProperties.sequenceAnimationSpeed+250);
         }
       });
 
-      // going to attach a listener to sliderDrag which 
+      // going to attach a listener to sliderDrag which
       // will return back values to go to certain frame.
       // --
       // * will return back a position object where the slider is positioned to the rail.
@@ -91,14 +104,14 @@ define(function(require){
         Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
       }
 
-      self.$el.on('SonySequence:stop-sequence', function(){ 
+      self.$el.on('SonySequence:stop-sequence', function(){
         // we're done animating so we can set isAnimating to false
         self.isAnimating = false;
       });
 
     },
 
-    
+
     onResize: function() {
       this.getSliderPosition();
     },
@@ -131,7 +144,7 @@ define(function(require){
       //// why? Because an image sequence needs to go from start to finish with no loop,
       //// a 360 module needs to loop back to the first index.
       self.curIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequence.sequenceLength - 1);
-      
+
       if ( self.curIndex < 0 ) {
         self.curIndex = 0;
       }
@@ -139,7 +152,7 @@ define(function(require){
       // Show the current, hide the others
       self.sequence.move( self.curIndex );
     },
-    
+
     sliderRatioToValue: function(ratio) {
       var range,
           rawValue;
@@ -150,7 +163,7 @@ define(function(require){
       return this.sliderNearestValidValue(rawValue);
     },
 
-        
+
     // gets the slider positon called on resize to fix bugs with positioning
     getSliderPosition: function() {
       var self = this,
@@ -174,12 +187,12 @@ define(function(require){
       } else if (self.sequence.curIndex <= 0 || sliderProperties.positionPercentage > sliderPercentageMin) {
         sliderProperties.sliderPositionPercentage = sliderPercentageMin;
       }
-      
+
       // resets the slider position
       self.slider.animateSliderToPosition( sliderProperties );
-    }, 
-      
-    
+    },
+
+
     getSliderPositionByIndex: function(direction) {
       var self = this,
           distanceFromDirection,
@@ -203,11 +216,11 @@ define(function(require){
         sliderProperties.sliderPosition = (sliderProperties.sequenceWidth * direction) + ((sliderProperties.sequenceWidth / 2) - 12);
       }
 
-      // the slider will need to be able to reach a negative value, yet hit 100%. 
+      // the slider will need to be able to reach a negative value, yet hit 100%.
       // thus we may need to check the slider width and exaggerate its values.
-      // for example: if the slider direction is at 0, 0/560 will always be 0. 
+      // for example: if the slider direction is at 0, 0/560 will always be 0.
       sliderProperties.sliderPositionPercentage = Math.floor(( sliderProperties.sliderPosition / (self.slider.sliderControlWidth+30)) * 100);
-      self.slider.options.speed ? sliderProperties.sequenceAnimationSpeed = (self.slider.options.speed * sliderProperties.distanceFromDirection) : sliderProperties.sequenceAnimationSpeed = (100 * sliderProperties.distanceFromDirection); 
+      self.slider.options.speed ? sliderProperties.sequenceAnimationSpeed = (self.slider.options.speed * sliderProperties.distanceFromDirection) : sliderProperties.sequenceAnimationSpeed = (100 * sliderProperties.distanceFromDirection);
 
       if (direction >= (self.sequence.sequenceLength - 1) || sliderProperties.positionPercentage > sliderPercentageMax) {
         sliderProperties.sliderPositionPercentage = sliderPercentageMax;
@@ -219,10 +232,122 @@ define(function(require){
       return sliderProperties;
     },
 
-    handleSliderDrag: function() {
-      var pagePos;
 
-      this.sliderGotoFrame(this.sliderPosition.positon);
+    getSequenceNotes: function() {
+      var self = this;
+
+      // loop through our sequence notes and see which one has our current
+      // index!
+      for (var _i = 0; _i < self.$sequenceNotes.length; _i++) {
+        var $el = self.$sequenceNotes.eq(_i),
+            sequenceProperties = {},
+            elData = $el.data();
+
+        // once we have our sequence notes lets close the method
+        if (elData.id === self.sequence.curIndex) {
+          console.log(elData.id, self.sequence.curIndex);
+          sequenceProperties.el = $el;
+          sequenceProperties.notes = [];
+          sequenceProperties.notes.el = sequenceProperties.el.find('.note');
+
+          // we need to go throught the notes and throw them into an object to
+          // access later
+          for (var _j = 0; _j < sequenceProperties.notes.el.length; _j++) {
+            var $noteEl = sequenceProperties.notes.el.eq([_j]),
+                note,
+                noteData = $noteEl.data();
+
+            note = {
+              el: sequenceProperties.notes.el.eq([_j]),
+              x: noteData.x,
+              y: noteData.y,
+            };
+
+            sequenceProperties.notes.push(note);
+          }
+
+          return sequenceProperties;
+        }
+      }
+    },
+
+    hideSequenceNotes: function() {
+      var self = this;
+
+      self.$sequenceNotes.addClass('visuallyhidden');
+      
+    },
+
+    positionSequence: function( sequence ) {
+      console.log(sequence);
+
+      for (var _i = 0; _i < sequence.notes.length; _i++) {
+        var currSequence = sequence.notes[_i];
+
+        // position the notes!
+        currSequence.el.css({
+          'left' : currSequence.x,
+          'top' : currSequence.x,
+        });
+
+      }
+
+    },
+
+    placeSequenceNote: function() {
+      var self = this,
+          currentSequence;
+
+      // if we have already shown the notes
+      if (self.showNotes === false) { return false; }
+
+      // TODO:
+      // a. check if sequence has notes
+      // b. find the note properties (x and y)
+      // c. place notes on the view if available
+      // d. attach listeners for then browser is resized
+      // e. when slider drag is intialized again destroy the notes
+
+      currentSequence = self.getSequenceNotes();
+
+      // we have sequence notes so we can display them
+      if (currentSequence) {
+        var $currentSequence = currentSequence.el;
+
+        $currentSequence.removeClass('visuallyhidden')
+          .siblings().addClass('visuallyhidden');
+
+        self.positionSequence(currentSequence);
+      }
+          
+      // weve shown the goods already
+      self.showNotes = false;
+    },
+
+    incrementeTimer: function() {
+      var self = this;
+
+      self.idleTimer = self.idleTimer + 1;
+      if (self.idleTimer > 1) {
+        self.placeSequenceNote();
+      }
+    },
+
+    initSliderTimer: function(){
+      var self = this;
+
+      self.idleCounter = setInterval($.proxy(self.incrementeTimer, self), 500);
+
+    },
+
+    handleSliderDrag: function() {
+      var self = this;
+
+      self.idleTimer = 0;
+      self.showNotes = true;
+
+      self.hideSequenceNotes();
+      self.sliderGotoFrame(self.sliderPosition.positon);
     }
   };
 
