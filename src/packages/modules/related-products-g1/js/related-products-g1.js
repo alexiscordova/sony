@@ -3,8 +3,8 @@
 //
 // * **Class:** RelatedProducts
 // * **Version:** 1.0
-// * **Modified:** 02/22/2013
-// * **Author:** Tyler Madison, Glen Cheney, George Pantazis
+// * **Modified:** 08/02/2013
+// * **Author:** Tyler Madison, Glen Cheney, George Pantazis, Telly Koosis
 // * **Dependencies:** jQuery 1.7+ , Modernizr
 //
 // *Notes:*
@@ -33,8 +33,6 @@ define(function(require) {
 
   var module = {
     init: function() {
-
-
       var $rpInstances = $('.related-products').relatedProducts(),
       hasInittedTabs = false,
       iterator = 0;
@@ -78,6 +76,7 @@ define(function(require) {
               $oldPanel = $currentPanel;
 
             e.preventDefault();
+
             $tab.addClass('active').siblings().removeClass('active');
 
             // Clicked the same tab
@@ -124,10 +123,8 @@ define(function(require) {
           iterator = 0;
         }
 
-
       });
     }
-
   };
 
   //Related Products Definition
@@ -142,7 +139,6 @@ define(function(require) {
 
     self.LANDSCAPE_BREAKPOINT = 980;
     self.MOBILE_BREAKPOINT = 568;
-
     self.MAX_WIDTH_FOR_IE = 910;
 
     //Cache common jQuery objects
@@ -192,7 +188,6 @@ define(function(require) {
     self.handleStartPosition = null;
     self.dragThreshold = 50;
 
-
     //
     self.useCSS3Transitions = Modernizr.csstransitions; //Detect if we can use CSS3 transitions
     self.hasMediaQueries = Modernizr.mediaqueries;
@@ -212,7 +207,6 @@ define(function(require) {
     self.isTabletMode = false;
     self.breakPointChanged = false;
     self.accelerationPos = 0;
-
 
     //Startup
     self.init();
@@ -274,12 +268,11 @@ define(function(require) {
           self.createPaddles();
         }
 
-      if(self.$slides.length > 1){
-        self.$container.on(self.downEvent, function(e) {
-          self.onDragStart(e);
-        });
-      }
-
+        if(self.$slides.length > 1){
+          self.$container.on(self.downEvent, function(e) {
+            self.onDragStart(e);
+          });
+        }
       } else {
         self.$pagination = $({});
       }
@@ -299,7 +292,6 @@ define(function(require) {
           return false;
         };
       }
-
     },
 
     initAnimationProps: function() {
@@ -332,7 +324,6 @@ define(function(require) {
         self.xProp = 'left';
         self.yProp = 'top';
       }
-
     },
 
     //Setup events
@@ -360,7 +351,6 @@ define(function(require) {
     //Store gallery items orginal parent slide for teardown and rebuild
     storeGalleryItemParentSlides: function() {
       var self = this;
-
       self.$galleryItems.each(function() {
         var $item = $(this);
         $item.data('slide', $item.parent());
@@ -370,30 +360,35 @@ define(function(require) {
     //Set up outbound links to not interfere with dragging between slides
     setupLinkClicks: function() {
       var self = this;
+
       self.$galleryItems.on(self.tapOrClick(), function(e) {
         var $item = $(this),
-          destination = $item.attr('href'),
+          destination = $item.hasClass("plate") ? $item.find("a").eq(0).attr('href') : $item.attr('href'), // if item is a plate, look for first <a> child (according to style guide there shoudl only ever be one)
           point, distanceMoved;
 
-        if (self.hasTouch) {
-          point = e.originalEvent.touches[0] || {
-            pageX: 0
-          };
-        } else {
-          point = e;
-        }
-
-        // To prevent drags from being misinterpreted as clicks, we only redirect the user
-        // if their interaction time and movements are below certain thresholds.
-
-        if (self.startInteractionTime && self.startInteractionPointX) {
-
-          distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
-
-          if ((new Date().getTime()) - self.startInteractionTime < 250 && distanceMoved < 25) {
-            window.location = destination;
+          if (self.hasTouch) {
+            point = e.originalEvent.touches[0] || {
+              pageX: 0
+            };
+          } else {
+            point = e;
           }
-        }
+
+          // To prevent drags from being misinterpreted as clicks, we only redirect the user
+          // if their interaction time and movements are below certain thresholds.
+          if (self.startInteractionTime && self.startInteractionPointX) {
+
+            distanceMoved = Math.abs(point.pageX - self.startInteractionPointX);
+
+            if ((new Date().getTime()) - self.startInteractionTime < 250 && distanceMoved < 25) {
+
+              // if destination isn't undefined.
+              if(destination){
+                window.location = destination;
+              }
+
+            }
+          }
       });
 
       self.$galleryItems.on(self.tapOrClick(), function(e) {
@@ -461,7 +456,6 @@ define(function(require) {
 
         return column;
       };
-
     },
 
     setupResizeListener: function() {
@@ -720,10 +714,7 @@ define(function(require) {
 
       self.onPaddleNavUpdate();
       self.ev.on('rpOnUpdateNav', $.proxy(self.onPaddleNavUpdate, self));
-
     },
-
-
 
     onPaddleNavUpdate: function() {
       var self = this;
@@ -742,7 +733,6 @@ define(function(require) {
       }
 
       iQ.update();
-
     },
 
     togglePaddles: function(turnOn) {
@@ -753,8 +743,6 @@ define(function(require) {
       } else {
         self.$el.find('.pagination-paddles').hide();
       }
-
-
     },
 
     createShuffle: function() {
@@ -773,7 +761,6 @@ define(function(require) {
       }).first().data('shuffle');
 
       self.toggleShuffles();
-
     },
 
     //Stops processing of jQuery.shuffle instances that are not currently active
@@ -927,7 +914,6 @@ define(function(require) {
         self.$shuffleContainers.shuffle('sort', {});
         self.sorted = false;
       }
-
     },
 
     checkForBreakpoints: function() {
@@ -1114,7 +1100,6 @@ define(function(require) {
       //do we need this in ALL modes?
 
       self.setNameHeights(self.$shuffleContainers);
-
     },
 
     setGrabCursor: function() {
@@ -1249,7 +1234,6 @@ define(function(require) {
           self.dragRelease(e, false);
         });
       }
-
     },
 
     renderMovement: function(point, isThumbs) {
@@ -1424,7 +1408,6 @@ define(function(require) {
         //return to current
         returnToCurrent(true, v0);
       }
-
     },
 
     dragMove: function(e, isThumbs) {
@@ -1676,7 +1659,6 @@ define(function(require) {
         }
 
       });
-
     },
 
     disableShuffle: function() {
@@ -1741,7 +1723,6 @@ define(function(require) {
           left: (spaceAvail / 4) - (parseInt(self.$leftPaddle.width(), 10)) + 35 + px
         });
       }
-
     },
 
     updateTiles: function() {
@@ -1774,8 +1755,7 @@ define(function(require) {
 
         if (slideVariation !== '3up') {
 
-
-/*          if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
+          /* if (slideVariation === '4up' && self.isTabletMode && tileHeight > 204 && self.$win.width() < 769) {
             tileHeight = $slide.find('.gallery-item.plate').first().height();
           }*/
 
@@ -1841,8 +1821,6 @@ define(function(require) {
           self.updateSliderSize();
         }, 250);
       }
-
-
     },
 
     checkTileHeights: function() {
@@ -1857,7 +1835,6 @@ define(function(require) {
       prodImg.find('img').css({
         'max-height': newHeight
       });
-
     },
 
     animateTiles: function() {
@@ -1915,7 +1892,6 @@ define(function(require) {
           self.$pagination.stop(true, true).fadeIn(250);
         }
       }
-
     },
 
     initMobileBreakpoint: function() {
@@ -2010,7 +1986,6 @@ define(function(require) {
         }, 250);
 
       }, 100);
-
     },
 
     onScrollerEnd: function() {
@@ -2018,7 +1993,6 @@ define(function(require) {
 
       iQ.update();
       self.checkTileHeights();
-
     },
 
     setNameHeights: function($container) {
@@ -2076,9 +2050,6 @@ define(function(require) {
     minSlideOffset: 10,
     navigationControl: 'bullets'
   };
-
-
-
 
   return module;
 
