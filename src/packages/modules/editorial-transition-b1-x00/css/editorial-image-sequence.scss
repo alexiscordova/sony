@@ -58,6 +58,78 @@ $windowWidth: 1100;
   position: absolute;
 }
 
+.sequence-note-container {
+  .note {
+    position: absolute;
+    z-index: 100;
+
+
+    &.direction-right {
+
+      .pointer {
+        width: 30px;
+        &:before {
+          top: -2px;
+          left: 30px;
+        }
+      } 
+    } // end &.direction-right
+    
+    &.direction-left {
+
+      .pointer {
+        width: 30px;
+        &:before {
+          top: -2px;
+          left: 0;
+        }
+      } 
+    } // end &.direction-left
+     
+    &.direction-down {
+
+      .pointer {
+        height: 30px;
+        &:before {
+          top: 30px;
+          left: -2px;
+        }
+      } 
+    } // end &.direction-down
+     
+    &.direction-up {
+
+      .pointer {
+        height: 30px;
+        &:before {
+          top: 0;
+          left: -2px;
+        }
+      } 
+    } // end &.direction-up
+                               
+  } // end .note
+
+
+  .pointer {
+    display: block;
+    background: $buttonOrange;
+    width: 1px;
+    height: 1px;
+
+    &:before {
+      content: "";
+      position: relative;
+      display: block;
+      background: $buttonOrange;
+      height: 5px;
+      width: 5px;
+      @include border-radius(50%);
+    }
+  }
+
+} // end .sequence-note-container
+
 .sony-sequence {
   position: relative;
   padding: {
@@ -74,7 +146,7 @@ $windowWidth: 1100;
     width: 100%;
     position: absolute;
     top: 100px;
-    
+
     &.editorial-sequence {
       top: 0;
     }
@@ -148,8 +220,8 @@ $windowWidth: 1100;
 
   .control-bar-container {
     position: relative;
-    width: 100%; 
-    margin: 0 auto;   
+    width: 100%;
+    margin: 0 auto;
     text-align: center;
 
 
@@ -178,7 +250,7 @@ $windowWidth: 1100;
         }
       }
 
-      .notch {            
+      .notch {
         position: absolute;
         top: -36px;
         left: -3px;
@@ -221,19 +293,19 @@ $windowWidth: 1100;
             left: -35px;
           }
         }
-        
+
         &.label-left {
           left: 0;
           text-align: left;
-        }      
+        }
         &.label-right {
           right: 0;
           text-align: right;
-        }      
+        }
       } // end .slider-label
     } // end &.multi-label
 
-    
+
     &.fallback {
       margin: -4px 0 0;
       width: 100%;
@@ -279,7 +351,7 @@ $windowWidth: 1100;
 
         &.icon-mode {
           width: auto;
-          padding: 0 percentage(10/$miniItemWidth);         
+          padding: 0 percentage(10/$miniItemWidth);
         }
 
         &.label-left {
@@ -293,8 +365,8 @@ $windowWidth: 1100;
         }
 
       } // end .slider-label
-    } // end &.fallback     
-    
+    } // end &.fallback
+
     .slider-label {
       display: inline-block;
       cursor: pointer;
@@ -313,7 +385,7 @@ $windowWidth: 1100;
         text-align: left;
       }
     } // end .slider-label
-  } // end .control-bar-container 
+  } // end .control-bar-container
 
   .slider {
     display: inline-block;

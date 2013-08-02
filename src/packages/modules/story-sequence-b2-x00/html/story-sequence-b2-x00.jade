@@ -40,7 +40,7 @@ mixin stopContent()
     bodyCopy = stop.body
     coords = stop.coords ? stop.coords : [ 0, 0 ]
     textAlignment = stop.textAlign ? stop.textAlign : "left"
-    boxClasses = [ "span5", "box", "text-" + textAlignment ]
+    boxClasses = [ "span5", "box", "text-" + textAlignment, "fade" ]
     extraStyle = ""
 
     if stop.align == "center"
@@ -58,14 +58,13 @@ mixin stopContent()
       - extraStyle = "right:0;bottom:0;"
 
     if i == 0
-      - boxClasses.push( "active" )
-    else
-      - boxClasses.push( "invisible" )
+      - boxClasses.push( "active in" )
 
     div(class=boxClasses, data-stop="", style="left:#{ coords[ 0 ] };top:#{ coords[ 1 ] };#{extraStyle}")
       .stop-copy
-        h2.t3-bold !{ title }
-        p.p3 !{ bodyCopy }
+        h2.t3-bold.title !{ title }
+        if bodyCopy
+          p.p3 !{ bodyCopy }
 
 
 mixin dial()
@@ -95,7 +94,7 @@ mixin cover()
   if data.backdrop
     +iQBackgroundImage( data.backdrop, 'update-always ss-backdrop' )
   div(class="ss-inner js-sequence-inner invisible", data-stops=JSON.stringify( stops ))
-    .container
+    .container.relative.ss-inner-container
       .grid.no-grid-at-767.relative
         +stopContent()
         +sequence()

@@ -102,8 +102,8 @@ define(function(require) {
           width: 60,
           height: 60,
           thickness: 0.2,
-          bgColor: "#d2d2db",
-          fgColor: "#504d56",
+          bgColor: '#d2d2db',
+          fgColor: '#504d56',
         },
         element: self.$dial,
         length: self.restLength
@@ -202,23 +202,20 @@ define(function(require) {
       self.$el.addClass( 'is-last-stop' );
     },
 
+    // Add active and visible classes to current stop content
     showStopContent : function() {
       var self = this;
 
       self.$stopContent
         .eq( self.currentStop )
-        .removeClass( self.hiddenContentClass )
         .addClass( self.activeContentClass );
     },
 
+    // Remove active and visible classes from all content
     hideStopContent : function() {
       var self = this;
       self.$stopContent.each(function() {
         var $content = $( this );
-
-        if ( !$content.hasClass( self.hiddenContentClass ) ) {
-          $content.addClass( self.hiddenContentClass );
-        }
 
         if ( $content.hasClass( self.activeContentClass ) ) {
           $content.removeClass( self.activeContentClass );
@@ -234,7 +231,7 @@ define(function(require) {
           index;
     },
 
-    gotoStop : function( index, noAnimation ) {
+    gotoStop : function( index ) {
       var self = this,
           stop = self.getStop( index ),
           stopIndex = self.stops[ stop ];
@@ -327,8 +324,7 @@ define(function(require) {
   };
 
   StorySequence.settings = {
-    hiddenContentClass: 'invisible',
-    activeContentClass: 'active',
+    activeContentClass: 'active in',
     animationspeed: 100,
     currentStop: 0,
     isSequenceVisible: false,
