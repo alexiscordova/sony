@@ -2,7 +2,7 @@
 @import "../../../common/css/_base/mixins";
 
 $numColumns: 3;
-$imgVerticalOffset: 0;
+$imgVerticalOffset: 8%;
 
 .editorial-compare {
 
@@ -26,19 +26,41 @@ $imgVerticalOffset: 0;
 
   .sony-carousel-slide-children {
     position: relative;
-
-    img {
+  
+    .device {
       position: relative;
-      max-width: 155%;
       margin-left: -33%;
+      width: 155%;
     }
+
+      .inches {
+        color: #fff;
+        font-size: 2em;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+          left: 0;
+          right: 0;
+          top: 43%;
+        text-align: center;
+
+        span {
+          font-size: .5em;
+        }
+      }
+
+      img {
+        max-width: 155%;
+        width: 100%;
+      }
 
     // Apply an image offset and z-index to the images in the columns
     // so that images to the left are lower and in front of images
     // to the right
     @for $i from 0 through $numColumns {
       &.column-#{$i} {
-        img {
+        .device {
           z-index: $numColumns - $i;
           margin-bottom: $i * $imgVerticalOffset;
           margin-top: ($numColumns - $i) * $imgVerticalOffset;

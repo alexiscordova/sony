@@ -5,7 +5,10 @@ include ../../../common/html/jade-helpers.jade
 moduleClasses = [ "editorial-compare" ]  
 
 mixin columnElement(color, image)
-  +iQImage(image)
+  div.device
+    +iQImage(image)
+    p.inches=image.inches
+      span in
   .swatches
     .swatch-blue.mini-swatch
     .swatch-black.mini-swatch
