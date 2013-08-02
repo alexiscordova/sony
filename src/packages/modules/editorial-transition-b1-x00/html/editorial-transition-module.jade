@@ -105,16 +105,16 @@ mixin sequenceNotes(_data, _sequenceId)
         div(class=noteClass, data-x=noteDataX, data-y=noteDataY)
           span.pointer
           if note.headline 
-            p.t2 !{note.headline}
+            p.p2 !{note.headline}
           if note.subhead
-            p.t7 !{note.subhead}
+            p.p5 !{note.subhead}
       else
         - noteClass = 'note'
         div(class = noteClass, data-x=noteDataX, data-y=noteDataY)
           if note.headline 
-            p.t2 !{note.headline}
+            p.p2 !{note.headline}
           if note.subhead
-            p.t7 !{note.subhead}
+            p.p5 !{note.subhead}
 
   
       

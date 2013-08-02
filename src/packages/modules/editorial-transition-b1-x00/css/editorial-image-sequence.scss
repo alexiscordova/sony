@@ -59,12 +59,76 @@ $windowWidth: 1100;
 }
 
 .sequence-note-container {
-  .sequence-notes .note {
+  .note {
     position: absolute;
     z-index: 100;
+
+
+    &.direction-right {
+
+      .pointer {
+        width: 30px;
+        &:before {
+          top: -2px;
+          left: 30px;
+        }
+      } 
+    } // end &.direction-right
+    
+    &.direction-left {
+
+      .pointer {
+        width: 30px;
+        &:before {
+          top: -2px;
+          left: 0;
+        }
+      } 
+    } // end &.direction-left
+     
+    &.direction-down {
+
+      .pointer {
+        height: 30px;
+        &:before {
+          top: 30px;
+          left: -2px;
+        }
+      } 
+    } // end &.direction-down
+     
+    &.direction-up {
+
+      .pointer {
+        height: 30px;
+        &:before {
+          top: 0;
+          left: -2px;
+        }
+      } 
+    } // end &.direction-up
+                               
+  } // end .note
+
+
+  .pointer {
+    display: block;
+    background: $buttonOrange;
+    width: 1px;
+    height: 1px;
+
+    &:before {
+      content: "";
+      position: relative;
+      display: block;
+      background: $buttonOrange;
+      height: 5px;
+      width: 5px;
+      @include border-radius(50%);
+    }
   }
 
-}
+} // end .sequence-note-container
 
 .sony-sequence {
   position: relative;
