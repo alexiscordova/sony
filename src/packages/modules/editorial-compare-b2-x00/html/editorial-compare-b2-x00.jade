@@ -1,0 +1,44 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('editorial-compare-b2-x00')
++includeJavascriptModule('editorial-compare-b2-x00')
+
+moduleClasses = [ "editorial-compare" ]  
+
+mixin columnElement(color, image)
+  div.device
+    +iQImage(image)
+    p.inches=image.inches
+      span in
+  .swatches
+    .swatch-blue.mini-swatch
+    .swatch-black.mini-swatch
+    div.mini-swatch(class = "swatch-#{color}")
+  ul.benefits
+    each icon in image.icons
+      li
+        i(class="#{icon.icon} icon-#{icon.color}")(aria-hidden="true")
+        h5.t7=icon.label
+        p=icon.desc
+    
+ 
+
++mainElement( moduleClasses )
+
+  .container
+    .grid
+      .span10.offset1.center
+        h1= data.title
+        p.p2= data.bodyCopy
+
+  .carousel-container
+    .sony-carousel-wrapper
+      .sony-carousel
+        .sony-carousel-slide
+          .container
+            .slimgrid
+              .span4.sony-carousel-slide-children.column-0
+                +columnElement('green', data.image_1)
+              .span4.sony-carousel-slide-children.column-1
+                +columnElement('red', data.image_2)
+              .span4.sony-carousel-slide-children.column-2
+                +columnElement('lemon', data.image_3)

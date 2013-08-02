@@ -1,0 +1,128 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$numColumns: 3;
+$imgVerticalOffset: 8%;
+
+.editorial-compare {
+
+  .slimgrid {
+    max-width: 1020px;
+  }
+
+  // Fade in to hide slide rearrangement
+  .csstransitions & .carousel-container {
+    opacity: 0;
+    @include transition( opacity $transitionFast $easeNormal );
+
+    &.in {
+      opacity: 1;
+    }
+  }
+
+  .sony-carousel-wrapper {
+    height: auto;
+  }
+
+  .sony-carousel-slide-children {
+    position: relative;
+  
+    .device {
+      position: relative;
+      margin-left: -33%;
+      width: 155%;
+    }
+
+      .inches {
+        color: #fff;
+        font-size: 2em;
+        font-weight: bold;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+          left: 0;
+          right: 0;
+          top: 43%;
+        text-align: center;
+
+        span {
+          font-size: .5em;
+        }
+      }
+
+      img {
+        max-width: 155%;
+        width: 100%;
+      }
+
+    // Apply an image offset and z-index to the images in the columns
+    // so that images to the left are lower and in front of images
+    // to the right
+    @for $i from 0 through $numColumns {
+      &.column-#{$i} {
+        .device {
+          z-index: $numColumns - $i;
+          margin-bottom: $i * $imgVerticalOffset;
+          margin-top: ($numColumns - $i) * $imgVerticalOffset;
+        }
+      }
+    }
+
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .swatches {
+
+    margin-bottom: 10px;
+
+    div {
+      margin-right: 10px;
+    }
+
+  }
+
+  .benefits {
+
+    border-top: solid 1px $gray60;
+    margin: 0;
+    padding-top: 20px;
+
+    li {
+      position: relative;
+      padding-top: 10px;
+
+      i {
+        position: absolute;
+        left: 0;
+        top: 10px;
+        font-size: 3em;
+
+        &.icon-orange {
+          color: #ef715b;
+        }
+
+        &.icon-green {
+          color: #c2db66;
+        }
+
+        &.icon-blue {
+          color: #60d0e8;
+        }
+      }
+
+      h5, p {
+        margin-left: 60px;
+      }
+
+      h5 {
+        margin-bottom: 0;
+      }
+
+    }
+
+  }
+
+}

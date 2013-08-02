@@ -3,12 +3,7 @@
 
 .sony-audio-player {
   position: relative;
-  height: 300px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
   overflow: hidden;
-
   &.playing {
     nav .play {
       display: none;
@@ -17,7 +12,6 @@
       display: block;
     }
   }
-
   &.paused {
     nav .play {
       display: block;
@@ -26,26 +20,123 @@
       display: none;
     }
   }
-
+  .active-track {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    background: $gray80;
+  }
+  .sap-hit-area {
+    @include transition(opacity 0.1s);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    opacity: 0;
+    // This is all copied from the EDV and needs to be globalized / mixinized.
+    .scrubber {
+      position: absolute;
+      margin-left: -1px;
+      width: 2px;
+      min-height: 100%;
+      bottom: -24px;
+      background-color: $gray60;
+      z-index: 3;
+      color: $white;
+      .handle {
+        position: absolute;
+        bottom: 25%;
+        margin-top: -43px;
+        left: -30px;
+        width: 62px;
+        height: 62px;
+        background: rgba($gray30, 0.5);
+        cursor: pointer;
+        @include border-radius(50%);
+        @include transition(0.1s);
+        .inner {
+          position: absolute;
+          width: 46px;
+          height: 46px;
+          line-height: 40px;
+          background: $buttonOrange;
+          display: block;
+          text-align: center;
+          font-size: 0.9em;
+          top: 50%;
+          left: 50%;
+          margin: -23px 0 0 -23px;
+          @include border-radius(50%);
+          @include transition(0.1s ease-out);
+          .icons {
+            width: 100%;
+            height: 100%;
+            display: block;
+            i {
+              display: inline-block;
+              margin: 0;
+              -webkit-font-smoothing: antialiased;
+              @include transition(0.1s ease-out);
+            }
+          }
+        }
+      }
+      &:hover .handle {
+        .inner {
+          @include scale(1.07);
+          background: $buttonOrangeHover;
+        }
+      }
+      &.dragging .handle {
+        .inner {
+          @include scale(1.07);
+          background: $gray30;
+        }
+      }
+    }
+    &.active {
+      opacity: 1;
+      z-index: 3;
+    }
+  }
   .tracks {
     display: none;
   }
-
   nav {
     position: absolute;
     left: 0;
     bottom: 0;
-
+    z-index: 4;
     .play {
       display: block;
     }
-
     .pause {
       display: none;
     }
-
     select {
       display: none;
     }
+  }
+}
+.sony-audio-loading {
+  position: absolute;
+  display: none;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+
+  img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -31px 0 0 -34px;
+  }
+
+  .loading & {
+    display: block;
   }
 }

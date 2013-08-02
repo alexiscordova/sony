@@ -281,7 +281,7 @@ define(function(require){
     // Optionally, provide an override argument in the form of `{x: 0, y: 0}`
     // to overwrite the scrubber's current position.
 
-    'setPositions': function(overridePosition){
+    'setPositions': function(overridePosition, noDragEvents){
 
       var self = this,
           newX, newY,
@@ -325,12 +325,14 @@ define(function(require){
         });
       }
 
-      self.drag({
-        'position': {
-          'left': outputX,
-          'top': outputY
-        }
-      });
+      if (!noDragEvents) {
+        self.drag({
+          'position': {
+            'left': outputX,
+            'top': outputY
+          }
+        });
+      }
     },
 
     // Caches important dimensions and positions.

@@ -76,7 +76,7 @@ mixin copyblock(_copy, _title, _subtitle, _body)
   linkclass = data.mode == "full" ? "lt2" : "lt3"
   .copy
     if copyobject.icon
-      i(class=copyobject.icon)
+      i.editorial-icon(class=copyobject.icon)
     if copyobject.title
       h2(class = titleclass) !{copyobject.title}
     if copyobject.subtitle

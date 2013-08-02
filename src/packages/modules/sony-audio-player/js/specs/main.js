@@ -31,18 +31,20 @@ define(function(require){
       soundManager.pauseAll();
     });
 
-    it("Initializes the module and sets the player to the first track.", function() {
+    it("Initializes the module and sets the player to the first track", function() {
 
+      spyOn(SonyAudioPlayer.prototype, 'bindNav');
       spyOn(SonyAudioPlayer.prototype, 'setTrack');
 
       SAP = new SonyAudioPlayer($tester);
 
       expect(SAP.constructor).toBe(SonyAudioPlayer);
+      expect(SonyAudioPlayer.prototype.bindNav).toHaveBeenCalled();
       expect(SonyAudioPlayer.prototype.setTrack).toHaveBeenCalled();
       expect(SonyAudioPlayer.prototype.setTrack).toHaveBeenCalledWith(0);
     });
 
-    it("Returns an array of instances of itself, given multiple elements.", function() {
+    it("Returns an array of instances of itself, given multiple elements", function() {
 
       $sap.clone().appendTo('body');
       $sap.clone().appendTo('body');
@@ -63,7 +65,7 @@ define(function(require){
 
     describe("The setTrack method", function() {
 
-      it("Gets track at 0-based position `which`, and initializes the audio for that track.", function() {
+      it("Gets track at 0-based position `which`, and initializes the audio for that track", function() {
 
         SAP = new SonyAudioPlayer($tester);
 
@@ -71,18 +73,18 @@ define(function(require){
 
       });
 
-      it("Binds track to the nav and the API, and updates album art.", function() {
+      it("Binds track to the nav and the API, and updates album art", function() {
 
         SAP = new SonyAudioPlayer($tester);
 
-        spyOn(SonyAudioPlayer.prototype, 'bindNav');
-        spyOn(SonyAudioPlayer.prototype, 'bindModuleAPI');
-        spyOn(SonyAudioPlayer.prototype, 'setAlbumArt');
+        spyOn(SonyAudioPlayer.prototype, 'bindModuleAPI').andCallThrough();
+        spyOn(SonyAudioPlayer.prototype, 'bindModuleResponse').andCallThrough();
+        spyOn(SonyAudioPlayer.prototype, 'setAlbumArt').andCallThrough();
 
         var testResult = SAP.setTrack(0);
 
-        expect(SonyAudioPlayer.prototype.bindNav).toHaveBeenCalled();
         expect(SonyAudioPlayer.prototype.bindModuleAPI).toHaveBeenCalled();
+        expect(SonyAudioPlayer.prototype.bindModuleResponse).toHaveBeenCalled();
         expect(SonyAudioPlayer.prototype.setAlbumArt).toHaveBeenCalled();
         expect(SonyAudioPlayer.prototype.setAlbumArt).toHaveBeenCalledWith(0);
 
@@ -93,7 +95,7 @@ define(function(require){
 
     describe("The getSourceList method", function() {
 
-      it("Returns a source list object from a provided set of `$sources`.", function() {
+      it("Returns a source list object from a provided set of `$sources`", function() {
 
         var $source1 = $('<div><a href="#foo1">bar1</a></div>'),
             $source2 = $('<div><a href="#foo2">bar2</a></div>'),
@@ -118,7 +120,7 @@ define(function(require){
     describe("The bindNav method", function() {
 
 
-      it("Binds the <nav> elements to the `track` object's API.", function() {
+      it("Binds the <nav> elements to the `track` object's API", function() {
 
         SAP = new SonyAudioPlayer($tester);
 
@@ -145,7 +147,7 @@ define(function(require){
 
     describe("The bindModuleAPI method", function() {
 
-      it("Create an Event-driven API of custom events that can be triggered by modules that are using `SonyAudioPlayer` as a submodule.", function() {
+      it("Create an Event-driven API of custom events that can be triggered by modules that are using `SonyAudioPlayer` as a submodule", function() {
 
         SAP = new SonyAudioPlayer($tester);
 
@@ -157,9 +159,27 @@ define(function(require){
 
     });
 
+    describe("The bindModuleResponse method", function() {
+
+      it("Listens for custom events and calls the appropriate UI methods in response", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        spyOn(SonyAudioPlayer.prototype, 'createScrubber');
+        spyOn(SonyAudioPlayer.prototype, 'removeScrubber');
+
+        $tester.trigger('SonyAudioPlayer:isPlaying');
+        $tester.trigger('SonyAudioPlayer:isPaused');
+
+        expect(SonyAudioPlayer.prototype.createScrubber).toHaveBeenCalled();
+        expect(SonyAudioPlayer.prototype.removeScrubber).toHaveBeenCalled();
+      });
+
+    });
+
     describe("The setAlbumArt method", function() {
 
-      it("Gets track at 0-based position `which`, and sets the active album art to the corresponding data object.", function() {
+      it("Gets track at 0-based position `which`, and sets the active album art to the corresponding data object", function() {
 
         SAP = new SonyAudioPlayer($tester);
 
@@ -171,6 +191,92 @@ define(function(require){
 
         expect(testResult).toMatch(expectedResult);
 
+      });
+
+    });
+
+    describe("The createScrubber method", function() {
+
+      it("Creates a scrubber overlay for the track, if `data-scrubber` is defined", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var result = SAP.createScrubber();
+
+        expect(result.constructor).toBe(SonyAudioPlayer);
+      });
+
+    });
+
+    describe("The onScrubberDrag method", function() {
+
+      it("Responds to drag events from the scrubber, updating the playhead to the current position", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var eventData = {
+          'position': {
+            'left': 10
+          }
+        };
+
+        var result = SAP.onScrubberDrag(eventData);
+
+        expect(result.constructor).toBe(SonyAudioPlayer);
+      });
+
+    });
+
+    describe("The createScrubberInterval method", function() {
+
+      it("Creates a new interval to periodically update the scrubber", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var firstResult = SAP.createScrubberInterval();
+
+        expect(firstResult.constructor).toBe(SonyAudioPlayer);
+      });
+
+      it("Returns false if interval already exists", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var firstResult = SAP.createScrubberInterval();
+        var secondResult = SAP.createScrubberInterval();
+
+        expect(secondResult).toBe(false);
+      });
+
+    });
+
+    describe("The clearScrubberInterval method", function() {
+
+      it("Clears and nullifies the interval created by `self.createScrubberInterval`", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var firstResult = SAP.clearScrubberInterval();
+
+        SAP.createScrubberInterval();
+
+        var secondResult = SAP.clearScrubberInterval();
+
+        expect(firstResult.constructor).toBe(SonyAudioPlayer);
+        expect(secondResult.constructor).toBe(SonyAudioPlayer);
+      });
+
+    });
+
+    describe("The removeScrubber method", function() {
+
+      it("Remove the scrubber for the track, if it exists", function() {
+
+        SAP = new SonyAudioPlayer($tester);
+
+        var result = SAP.removeScrubber();
+
+        expect(result.constructor).toBe(SonyAudioPlayer);
       });
 
     });

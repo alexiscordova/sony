@@ -2,7 +2,17 @@
 @import "../../../common/css/_base/mixins";
 
 .promo-clearaudio {
+  position: relative;
   background-color: #f1f5f9;
+
+  .container {
+    padding-top: 100px;
+  }
+
+  .clearaudio-info {
+    position: relative;
+    z-index: 1;
+  }
 
   .sony-audio-player {
 
@@ -11,35 +21,166 @@
     }
   }
 
-  .clear-audio-controls {
+  .clearaudio-player-controls {
+    position: relative;
+    background: $white;
+    text-align: center;
+    z-index: 1;
 
-    .activate {
-
+    a {
+      color: $black;
+      display: block;
+      padding: 24px 0;
     }
 
-    .toggle-clear-audio {
+    span {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      margin: 0 0 0 10px;
+      border-radius: 20px;
+      background: $buttonOrange;
+      color: $white;
+    }
+
+    i {
+      position: relative;
+      left: 1px;
+      top: -3px;
+    }
+
+    .clearaudio-pause {
       display: none;
     }
   }
 
-  &.demo-active {
+  &.playing {
 
-    .sony-audio-player {
+    .clearaudio-player-controls {
 
-      nav {
-        display: block;
-      }
-    }
-
-    .clear-audio-controls {
-
-      .activate {
+      .clearaudio-play {
         display: none;
       }
 
-      .toggle-clear-audio {
+      .clearaudio-pause {
         display: block;
       }
     }
   }
+
+  .editorial.tout {
+    padding-top: 0;
+
+    .grid > div {
+      &:nth-of-type(1) {
+        .editorial-icon {
+          color: $secondarySlate;
+        }
+      }
+      &:nth-of-type(2) {
+        .editorial-icon {
+          color: $secondaryEggplant;
+        }
+      }
+      &:nth-of-type(3) {
+        .editorial-icon {
+          color: $secondarySlateDark;
+        }
+      }
+    }
+  }
+}
+
+.promo-clearaudio-laptop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70%;
+  height: 604px;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: contain;
+  z-index: 0;
+
+  .waves {
+    > div {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: top left;
+      background-size: contain;
+      opacity: 0;
+    }
+
+    .playing & {
+      .wave-1 {
+        -webkit-animation: promo-clearaudio-waves-1 2s infinite;
+        animation: promo-clearaudio-waves-1 2s infinite;
+      }
+      .wave-2 {
+        -webkit-animation: promo-clearaudio-waves-2 2s infinite;
+        animation: promo-clearaudio-waves-2 2s infinite;
+      }
+      .wave-3 {
+        -webkit-animation: promo-clearaudio-waves-3 2s infinite;
+        animation: promo-clearaudio-waves-3 2s infinite;
+      }
+    }
+  }
+}
+
+// Webkit
+
+@-webkit-keyframes promo-clearaudio-waves-1 {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  50%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@-webkit-keyframes promo-clearaudio-waves-2 {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@-webkit-keyframes promo-clearaudio-waves-3 {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 0; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+// Standards
+
+@keyframes promo-clearaudio-waves-1 {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  50%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes promo-clearaudio-waves-2 {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 1; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes promo-clearaudio-waves-3 {
+  0%   { opacity: 0; }
+  25%  { opacity: 0; }
+  50%  { opacity: 0; }
+  75%  { opacity: 1; }
+  100% { opacity: 0; }
 }
