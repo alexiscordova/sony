@@ -1,0 +1,56 @@
+
+$numColumns: 3;
+$imgVerticalOffset: 10%;
+
+@media (max-width: px-em( 767 ) ) {
+  .editorial-compare {
+
+    .sony-carousel-slide {
+
+      // Apply a position relative and z-index to the numbered slides so that
+      // the images to the left are in front of images to the right after
+      // the markup changes that occur for mobile
+      @for $i from 0 through $numColumns {
+        &.slide-#{$i} {
+          position: relative;
+          z-index: $numColumns - $i;
+        }
+      }
+      
+    }
+
+    .sony-carousel-slide-children {
+
+      // Images fit within the bounds of the columns with no overlapping.
+      img,
+      .device {
+        display: block;
+        max-width: 100%;
+      }
+
+      // No overlapping images at this size since the single column carousel is applied
+      // but the layout is too wide for the overlapping to look good. So no image
+      // margins are required for offsetting the images vertically.
+      @for $i from 0 through $numColumns {
+        &.column-#{$i} {
+          .device {
+            margin-top: 0;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 0;
+          }
+        }
+      }
+
+    }
+
+  }
+}
+
+@media (max-width: px-em( 481 ) ) {
+  .editorial-compare {
+    .sony-carousel-slide-children .inches {
+      top: 35%;
+    }
+  }
+}

@@ -5,7 +5,8 @@
 // * **Version:** 1.0
 // * **Modified:** 06/24/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.9.1+, Modernizr
+// * **Dependencies:** jQuery 1.9.1+, Modernizr, Sony Environment,
+//    [Fade](../secondary/sony-fade.html)
 //
 // *Example Usage:*
 //
@@ -64,7 +65,6 @@ define(function(require) {
       // Properties based on data-* attributes
       data = self.$slideContainer.data();
       self.threshold = data.threshold || '50%';
-      self.delay = data.delay || 200;
       self.crossfade = data.crossfade || undefined;
       self.speed = data.speed || 300;
 

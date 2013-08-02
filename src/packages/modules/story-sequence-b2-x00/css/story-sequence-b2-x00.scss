@@ -7,7 +7,7 @@
   background-position: center center;
 }
 
-$dialSize: 40px;
+$dialSize: 60px;
 
 .story-sequence {
 
@@ -103,19 +103,31 @@ $dialSize: 40px;
   }
 
   .btn-reset {
-    @include xy( 0, 0 );
+    @include fill-parent();
+    background-color: $btnSpecialBackground;
+    border-radius: 50%;
+  }
+
+  // Hide hovers from touch
+  .no-touch & .btn-reset:hover {
+    background-color: $themeGreen;
   }
 
   .reset-icon {
-    font-size: $dialSize;
-    color: $btnSpecialBackground;
+    font-size: $dialSize / 2;
+    color: $white;
+  }
+
+  .no-touch & .btn-reset:hover i {
+    color: $themePurple;
   }
 
   .dial-counter {
     position: absolute;
-    top: ($dialSize / 2) - 6px;
+    top: 19px;
     left: 0;
     width: $dialSize;
+    margin: 0;
   }
 
   .btn-reset {

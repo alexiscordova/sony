@@ -116,68 +116,12 @@ define(function(require) {
       return range;
     },
 
-    sliderNearestValidValue: function(rawValue) {
-      var self = this,
-          range;
-
-      range = self.getSliderRange();
-      rawValue = Math.min(range.max, rawValue);
-      rawValue = Math.max(range.min, rawValue);
-
-      if (self.options.steps) {
-        return;
-      } else {
-        return rawValue;
-      }
-    },
-
-    sliderGotoFrame: function(positon) {
-      var self = this,
-          minWidth = 0,
-          maxWidth = (self.sliderControlWidth - 35),
-          sequenceLength = self.sequenceLength - 1,
-          sequenceDepth = 0,
-          lastIndex = self.curIndex;
-
-      sequenceDepth = ( positon / maxWidth );
-      // we need to determine if it's the 360 module or image sequence
-      // why? Because an image sequence needs to go from start to finish with no loop,
-      // a 360 module needs to loop back to the first index.
-      if (self.is360) {
-        self.curIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : 0;
-      } else {
-        self.curIndex = (Math.floor(sequenceLength * sequenceDepth) !== sequenceLength) ? Math.floor(sequenceLength * sequenceDepth) : (self.sequenceLength - 1);
-      }
-
-      if ( self.curIndex < 0 ) {
-        self.curIndex = 0;
-      }
-
-      if ( !self.$sequence.eq( lastIndex ).length ) {
-        return;
-      }
-
-      // Show the current, hide the others
-      self.showCurrentFrame();
-    },
-
     showCurrentFrame: function() {
       this.$sequence
         .eq( this.curIndex )
         .removeClass( 'visuallyhidden' )
         .siblings()
         .addClass( 'visuallyhidden' );
-    },
-
-    sliderRatioToValue: function(ratio) {
-      var self = this,
-          range,
-          rawValue;
-
-        range = self.getSliderRange();
-        rawValue = ratio * (range.max - range.min) + range.min;
-
-        return self.sliderNearestValidValue(rawValue);
     },
 
     setSliderPosition: function(position, isMin) {
@@ -258,189 +202,6 @@ define(function(require) {
       self.dragged = true;
     },
 
-    setupBarBindings: function() {
-      var self = this;
-
-      self.pagePos = 0;
-      // find the handle so we can setup bindings
-      self.$slideHandle = self.$sliderControl.find('.handle');
-      self.$sliderControlContainer = self.$container.find('.control-bar-container');
-      var hammer = new Hammer(self.$slideHandle.get(0) ,{prevent_default:true});
-      self.$slideHandle.hammer();
-
-      self.$slideHandle.on({
-        touch : function( event ) {
-          self.touchDown( event );
-        },
-        release : function( event ) {
-          self.touchUp( event );
-        },
-        drag : function( event ) {
-          var direction = event.gesture.direction;
-
-          if ( 'left' === direction || 'right' === direction ) {
-            self.dragSlider( event );
-          }
-        },
-        tap : function( event ) {
-          self.touchMove( event );
-        }
-      });
-    },
-
-    getLabels: function() {
-      var self = this,
-          $labelContainer,
-          labelArr = [],
-          labels;
-
-      $labelContainer = self.$container.find('.label-data');
-      labels = $labelContainer.find('i');
-
-      // push our new items into the object.currLabels
-      for(var _i=0;_i < labels.length;_i++) {
-        var $el = $(labels[_i]),
-            elData = $el.data();
-
-        var obj = { 
-          id: elData.id,
-          type: elData.type,
-          name: elData.label
-        };
-        // push the label attributes into the object
-        labelArr.push(obj);
-      }
-
-      // remove the labels since we cached the data
-      $labelContainer.remove();
-
-      return labelArr;
-    },
-
-    createBarControl: function() {
-      var self = this,
-          controlTmpl = {},
-          tmplObj,
-          labels;
-
-      controlTmpl.slider = [
-        '<div class="control-bar-container">',
-          '<div class="control-bar slider range-control">',
-            '<div class="handle">',
-              '<span class="inner">',
-                '<span class="icons">',
-                  '<i class="fonticon-10-chevron-reverse"/>',
-                  '<i class="fonticon-10-chevron"/>',
-                '</span>',
-              '</span>',
-            '</div>',
-          '</div>',
-        '</div>'
-      ].join('\n');
-
-      controlTmpl.fallback = [
-        '<div class="control-bar-container fallback">',
-        '</div>'
-      ].join('\n');
-
-      // gets the label data and lenght
-      self.labels = self.getLabels();
-
-      // do we need to display the fallback experience?
-      if (self.showFallback) {
-        self.$container.append(controlTmpl.fallback);
-        self.$sliderControlContainer = self.$container.find('.control-bar-container');
-
-        // the label container needs to be different if were a fallback
-        // if we have only two labels the markup changes sligtly
-        if (self.labels.length == 2) {
-
-          controlTmpl.labelLeft = [
-            '<div class="slider-label label-left l3 active" data-direction="left">',
-              '<span class="label-container">',
-                '<span class="nav-label">',
-                  self.labels[0].name,
-                '</span>',
-              '</span>',
-            '</div>'
-          ].join('\n');
-
-          controlTmpl.labelRight = [
-            '<div class="slider-label label-right l3" data-direction="right">',
-              '<span class="label-container">',
-                '<span class="nav-label">',
-                  self.labels[1].name,
-                '</span>',
-              '</span>',
-            '</div>'
-          ].join('\n');
-
-        } else if(self.labels.length > 2) {
-          console.log('TODO: MAKE FALLBACK LABEL MARKUP FOR MORE THAN 2 LABELS');
-        }
-      } else {
-        // add our new controls to the container
-        //self.$container.append(controlTmpl.slider);
-
-        // define our slider globals
-        self.$sliderControlContainer = self.$container.find('.control-bar-container');
-        self.$sliderControl = self.$container.find('.range-control');
-
-        // get slider dimensions
-
-        if (self.labels.length == 2) {
-          controlTmpl.labelLeft = '<span class="slider-label label-left l3" data-direction="left">' + self.labels[0].name + '</span>';
-          controlTmpl.labelRight = '<span class="slider-label label-right l3" data-direction="right">' + self.labels[1].name + '</span>';
-        } else if(self.labels.length > 2) {
-          // add the new labels to controlTmpl
-          controlTmpl.labels = [];
-          for (var _i = 0; _i < self.labels.length; _i++) {
-            var currLabel = self.labels[_i];
-            // we should get the percentage of the label to position it?
-            var labelPos = (currLabel.id * (self.sliderControlWidth / (self.sequenceLength - 1)));
-            var labelPosPercentage = ( ( labelPos-30 ) / self.sliderControlWidth ) * 100;
-
-            if (currLabel.type == 'icon') {
-              tmplObj = '<i class="slider-label label-int l3 '+self.labels[_i].name+'" data-direction='+ currLabel.id +' style=" left:' + labelPosPercentage + '%; " ></i>';
-            } else {
-              tmplObj = '<span class="slider-label label-int l3" data-direction='+ currLabel.id +' style=" left:' + labelPosPercentage + '%; " >' + self.labels[_i].name + '</span>';
-            }
-
-            // push them into a cached object
-            controlTmpl.labels.push(tmplObj);
-          }
-        }
-
-      }
-
-      // do we have labels that we can show?
-      if (self.labels.length == 2) {
-        self.$sliderControlContainer.append(controlTmpl.labelRight)
-          .prepend(controlTmpl.labelLeft);
-      } else if(self.labels.length > 2) {
-        var labelContainer = '<div class="label-container"></div>',
-            $labelContainer;
-
-        self.$sliderControlContainer.addClass('multi-label')
-          .append(labelContainer);
-
-        $labelContainer = $('.label-container');
-        $labelContainer.append(controlTmpl.labels);
-      }
-
-      // setup the bindings for the control slider
-      if (self.$sliderControl) {
-        self.setupBarBindings();
-      }
-
-      // we should get rid of the other controls
-      self.$controls.remove();
-
-      // intiialize slider bindings
-      self.initSliderBindings();
-    },
-
-    // this will load the sequence of images
     loadSequence: function() {
       var self = this,
 
@@ -491,18 +252,23 @@ define(function(require) {
       }
     },
 
-    startAnimation: function(direction) {
+    startAnimation: function(direction, $el) {
       var self = this;
 
-      if ( self.options.barcontrols ) {
-        self.$slideHandle.addClass('transition');
+      // if were passing startAnimation we need to define our container
+      if ($el) {
+        self.$container = $el;
+        self.$sequence  = self.$container.find('[data-sequence-id]');
       }
+
+      //if ( self.options.barcontrols ) {
+        //self.$slideHandle.addClass('transition');
+      //}
 
       self.isAnimating = true;
       self.animationInterval = setInterval(function() {
         self.move( direction );
-      }, self.options.animationspeed);
-
+      }, self.options.speed);
     },
 
     initBehaviors: function() {
@@ -627,6 +393,15 @@ define(function(require) {
       self.clicked = true;
     },
 
+    touchUp: function() {
+      var self = this;
+      self.$body.removeClass('unselectable');
+      self.clicked = false;
+
+      if (self.options.barcontrols) {
+        self.$slideHandle.removeClass('active');
+      }
+    },
 
     touchMove: function( event ) {
       var self      = this,
@@ -744,45 +519,6 @@ define(function(require) {
       self.inMotion = false;
     },
 
-    initSliderBindings: function() {
-      var self = this;
-
-      // bind our click event handlers for labels
-      self.$sliderControlContainer.on('click.label-click', '.slider-label', function(e) {
-        var $el = $(e.target).closest('.slider-label'),
-            $labels = self.$sliderControlContainer.find('.slider-label'),
-            data = $el.data(),
-            direction = data.direction;
-
-        // if its autoplaying we dont want to reset everything -- crazy
-        if (self.options.autoplay) {
-          return false;
-        }
-
-        if (direction === "left" && self.curIndex === 0) {
-          return false;
-        }
-
-        if (direction === "right" && self.curIndex >= (self.sequenceLength-1)) {
-          return false;
-        }
-
-        // set it back to autoplay
-        self.options.autoplay = true;
-        self.animationLooped = false;
-
-        // set the label to have an active class if clicked
-        $el.addClass('active');
-        setTimeout(function() {
-          $el.siblings().removeClass('active');
-        }, 250);
-
-        // start the animation
-        self.startAnimation(direction);
-      });
-
-      self.sliderLabelInitialized = true;
-    },
 
     move: function( direction ) {
       var self      = this,
@@ -793,8 +529,8 @@ define(function(require) {
           pagePos;
 
       // gets the number of slide notches for the slider
-      slidePos = (self.curIndex * (self.sliderControlWidth / (self.sequenceLength - 1)));
-      slidePosPercentage = ( ( slidePos-30 ) / self.sliderControlWidth ) * 100;
+      //slidePos = (self.curIndex * (self.sliderControlWidth / (self.sequenceLength - 1)));
+      //slidePosPercentage = ( ( slidePos-30 ) / self.sliderControlWidth ) * 100;
 
       switch( (!isNaN(direction) || direction) ) {
         case true:
@@ -816,19 +552,8 @@ define(function(require) {
             self.pagePos = self.curIndex;
           }
 
-          // if were on the last slide we can assume that the slide control
-          // should hit the very end of the slider
-          // check if we have controls and not a fallback to set the slider position
-          if (self.options.barcontrols && !self.showFallback) {
-            self.setSliderPosition(slidePosPercentage);
-          }
-
           // weve reached our destination
           if (self.curIndex == direction && self.isAnimating) {
-            // close the method
-            // a bit janky but we should let it run once more before clearing
-            // the interval, this is because its setting the proper slider
-            // position before clearing the interval
             self.isAnimating = false;
             setTimeout(function() {
               clearInterval(self.animationInterval);
