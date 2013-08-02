@@ -22,8 +22,9 @@ $imgVerticalOffset: 10%;
     .sony-carousel-slide-children {
 
       // Images fit within the bounds of the columns with no overlapping.
-      img {
-      	display: block;
+      img,
+      .device {
+        display: block;
         max-width: 100%;
       }
 
@@ -32,7 +33,7 @@ $imgVerticalOffset: 10%;
       // margins are required for offsetting the images vertically.
       @for $i from 0 through $numColumns {
         &.column-#{$i} {
-          img {
+          .device {
             margin-top: 0;
             margin-left: auto;
             margin-right: auto;
@@ -46,3 +47,10 @@ $imgVerticalOffset: 10%;
   }
 }
 
+@media (max-width: px-em( 481 ) ) {
+  .editorial-compare {
+    .sony-carousel-slide-children .inches {
+      top: 35%;
+    }
+  }
+}
