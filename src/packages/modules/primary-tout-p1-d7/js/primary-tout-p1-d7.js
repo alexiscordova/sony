@@ -66,6 +66,8 @@ define(function(require){
           $('.primary-tout.product-intro-plate .image-module').css('height', Math.round(Math.min(720, Math.min(Settings.$window.height() * 0.75, 560 + ((w - 980) / 5)))));
 
           $('.primary-tout.default .image-module, .primary-tout.homepage .image-module').css('height', Math.round(Math.min(640, Math.min(Settings.$window.height() * 0.75, 520 + ((w - 980) / 5)))));
+
+          $('.primary-tout.p2-editorial-anchor-links .image-module').css('height', Math.round(Math.min(720, Math.min(Settings.$window.height() * 0.75, 605 + ((w - 980) / 5)))));
         }else{
           //this removes the dynamic css so it will reset back to responsive styles
           $('.primary-tout .image-module').css('height', '');
@@ -203,7 +205,7 @@ define(function(require){
       _init: function(){
         var self = this;
 
-        if ( $('.primary-tout.homepage, .primary-tout.default, .primary-tout.product-intro-plate').length > 0 ) {
+        if ( $('.primary-tout.homepage, .primary-tout.default, .primary-tout.p2-editorial-anchor-links, .primary-tout.product-intro-plate').length > 0 ) {
           self.resize();
           Environment.on('global:resizeDebounced', $.proxy(self.resize, self));
         }
