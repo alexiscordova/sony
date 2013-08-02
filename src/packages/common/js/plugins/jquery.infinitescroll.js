@@ -66,7 +66,9 @@ define(function(require){
         infid: 0, //Instance ID
         pixelsFromNavToBottom: undefined,
         path: undefined, // Either parts of a URL as an array (e.g. ["/page/", "/"] or a function that takes in the page number and returns a URL
-		prefill: false // When the document is smaller than the window, load data until the document is larger or links are exhausted
+		prefill: false, // When the document is smaller than the window, load data until the document is larger or links are exhausted
+        onScrollLimitMin: null,
+        onScrollLimitMax: null
 	};
 
     $.infinitescroll.prototype = {
@@ -535,6 +537,11 @@ define(function(require){
         updateNavLocation: function infscr_updateNav() {
             var opts = this.options;
             opts.pixelsFromNavToBottom = $(document).height() - $(opts.navSelector).offset().top;
+        },
+
+        updateScrollLimits: function infscr_updateScrollLimits() {
+            var opts = this.options;
+            
         },
 
 		beginAjax: function infscr_ajax(opts) {

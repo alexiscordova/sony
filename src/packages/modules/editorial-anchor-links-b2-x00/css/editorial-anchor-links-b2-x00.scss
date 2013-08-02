@@ -78,6 +78,31 @@ $tabletMax: px-em(979);
 
 
 
+.editorial-anchor-links-wrapper.iscroll-active .editorial-anchor-links{
+  position:relative;
+}
+.editorial-anchor-links-wrapper.iscroll-active.iscroll-active-left  .editorial-anchor-links::before{
+  content:"";
+  display:block;
+  position:absolute;
+  top:0;
+  left:-50px;
+  width:50px;
+  height:100%;
+  @include box-shadow(1px 0 0.25em 0.0625em rgba(0,0,0,0.25));
+  z-index:10;
+}
+.editorial-anchor-links-wrapper.iscroll-active.iscroll-active-right .editorial-anchor-links::after{
+  content:"";
+  display:block;
+  position:absolute;
+  top:0;
+  left:100%;
+  width:50px;
+  height:100%;
+  @include box-shadow(-1px 0 0.25em 0.0625em rgba(0,0,0,0.25));
+  z-index:10;
+}
 
 .editorial-anchor-links-wrapper.editorial-anchor-links--mobile-nav{
   .editorial-anchor-links{
@@ -88,9 +113,9 @@ $tabletMax: px-em(979);
     ul.jump-links{
       li {
         a {
-          padding-left:25px;
-          padding-right:25px;
-          min-width: 90px;
+          padding-left:18px;
+          padding-right:18px;
+          min-width: 80px;
 
           .btn-subtitle,
           i {

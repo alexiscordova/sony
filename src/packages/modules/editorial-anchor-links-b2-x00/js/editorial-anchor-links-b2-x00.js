@@ -90,8 +90,8 @@ define(function(require){
       self.$stickyNav = self.$el.find('.sticky-nav');
       self.$jumpLinks = self.$el.find('.jump-links a');
 
-      console.log("self.$stickyNav: " , self.$stickyNav);
-      console.log("self.$jumpLinks: " , self.$jumpLinks);
+      // console.log("self.$stickyNav: " , self.$stickyNav);
+      // console.log("self.$jumpLinks: " , self.$jumpLinks);
     },
 
     setupBreakpoints : function() {
@@ -119,12 +119,12 @@ define(function(require){
             self._setupMobile();
           }
         })
-        .register('(max-width: 35.4375em)', {
+        .register('(max-width: 39.9375em)', {
           match: function() {
             self._setupMobileNav();
           }
         })
-        .register('(min-width: 35.5em)', {
+        .register('(min-width: 40em)', {
           match: function() {
             self._teardownMobileNav();
           }
@@ -213,16 +213,18 @@ define(function(require){
       self.$el.removeClass('editorial-anchor-links--mobile-nav');
       self.isMobileNav = false;
 
+      self.$el.find('.grid.jump-links').parent().css({ 'width':'' , 'margin':'' });
+
       console.log("_teardownMobileNav");
     },
 
     _checkMobileNavWidth : function(){
       var self = this;
 
-
       // can prob move this to init
       // self.$el.find('.grid.jump-links').css({ 'width' : buttonsWidth + 1 + 'px'  ,  'margin' : '0 auto' });
 
+      self.$el.find('.grid.jump-links').parent().css({ 'width':'' , 'margin':'' });
 
       // see if we need the stickyTabs, and if not, center the buttons.
       // First only grab the staticNav (not the stickyNav)
@@ -230,7 +232,6 @@ define(function(require){
       var buttonsWidth = 0;
       $staticNav.find('li').each(function(){
         buttonsWidth += $(this).outerWidth(true);
-        // console.log("buttonsWidth: " + buttonsWidth);
       });
       // if the buttons are less wide than the container, center them; otherwise activate stickyTabs if not already active.
       if ( buttonsWidth < self.$el.outerWidth()){
@@ -239,12 +240,12 @@ define(function(require){
         if (self.iScrollActive){
           self._destroyMobileNavIScroll();
         }
-        self.$el.find('.grid.jump-links').css({ 'width' : buttonsWidth + 1 + 'px'  ,  'margin' : '0 auto' });
+        self.$el.find('.grid.jump-links').parent().css({ 'width' : buttonsWidth + 1 + 'px'  ,  'margin' : '0 auto' });
       } else {
         // iScroll the buttons
         // console.log("##STICKY TABS");
         // self.$el.find('.grid.jump-links').css({ 'width':'' , 'margin':'' });
-        self.$el.find('.grid.jump-links').css({ 'width' : buttonsWidth + 1 + 'px'  ,  'margin' : '0 auto' });
+        self.$el.find('.grid.jump-links').parent().css({ 'width' : buttonsWidth + 1 + 'px'  ,  'margin' : '0 auto' });
 
         if (!self.iScrollActive){
           self.$el.find('.editorial-anchor-links').each(function(){
@@ -258,24 +259,12 @@ define(function(require){
     _initMobileNavIScroll : function( $nav ) {
       var self = this;
       self.iScrollActive = true;
+
+      // This needs to be split out, so that left is only shown if there is something scrolled off the left side of the screen, & vise versa.
+      self.$el.addClass("iscroll-active iscroll-active-right");
       console.log("_initMobileNavIScroll");
 
-      // If there's alreaddy a mobileNavIScroll, refresh it. - idk if we want to do this, it was copied from another script.
-      // if (!!globalNav.mobileNavIScroll) {
-      //   var $scroller = $('.nav-mobile-scroller');
-      //   $scroller.css('height', '');
-      //   setTimeout(function() {
-      //     var scrollerHeight = $scroller.outerHeight();
-      //     $scroller.css('height', scrollerHeight);
-
-      //     setTimeout(function() {
-      //       globalNav.mobileNavIScroll.refresh();
-      //       globalNav.mobileNavIScroll.scrollTo();
-      //     },50);
-      //   },50);
-
-      // // No mobileNavIScroll, initialize it
-      // } else {
+      // var debounceUpdate = $.debounce( 280, $.proxy( self._updateIScrollShadows, self ) );
 
       self.mobileNavIScroll = new IScroll( 'editorial-anchor-links--static-nav', {
         vScroll : false,
@@ -284,22 +273,37 @@ define(function(require){
         snap : false,
         momentum : true,
         fadeScrollbar: false,
-        bounce : false,
-        // onBeforeScrollStart: function(e) {
-        //   var target = e.target,
-        //       nodeName;
-
-        //   while ( target.nodeType !== 1 ) {
-        //     target = target.parentNode;
-        //   }
-
-        //   nodeName = target.nodeName;
-
-        //   if (nodeName !== 'SELECT' && nodeName !== 'INPUT' && nodeName !== 'TEXTAREA') {
-        //     e.preventDefault();
-        //   }
-        // }
+        bounce : true,
+        onScrollMove: function() {
+          self._setOverflowClasses( this.x, this.maxScrollX + 3 );
+        },
+        onScrollStart: function() {
+          self._setOverflowClasses( this.x, this.maxScrollX + 3 );
+        }
       });
+    },
+
+    _setOverflowClasses : function( currentX, maxX ) {
+      console.log("_setOverflowClasses");
+      var self = this,
+          overflowLeftClass = 'iscroll-active-left',
+          overflowRightClass = 'iscroll-active-right',
+          hadContentLeft = self.$el.hasClass( overflowLeftClass ),
+          hadContentRight = self.$el.hasClass( overflowRightClass );
+
+      // Overflow left
+      if ( currentX < -3 && !hadContentLeft ) {
+        self.$el.addClass( overflowLeftClass );
+      } else if ( currentX >= -3 && hadContentLeft ) {
+        self.$el.removeClass( overflowLeftClass );
+      }
+
+      // Overflow right
+      if ( currentX >= maxX && !hadContentRight ) {
+        self.$el.addClass( overflowRightClass );
+      } else if ( currentX <= maxX && hadContentRight ) {
+        self.$el.removeClass( overflowRightClass );
+      }
     },
 
     _destroyMobileNavIScroll : function() {
@@ -309,6 +313,8 @@ define(function(require){
       if ( !!self.mobileNavIScroll ) {
         self.mobileNavIScroll.destroy();
       }
+
+      self.$el.removeClass("iscroll-active iscroll-active-left iscroll-active-right");
 
       self.iScrollActive = false;
 
