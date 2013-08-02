@@ -34,7 +34,9 @@ define(function(require) {
       var $module = $('.exploded-view');
 
       if ( $module.length ) {
-        new ExplodedView( $module[0] );
+        $module.each( function() {
+          new ExplodedView( this );
+        });
       }
     }
   };
