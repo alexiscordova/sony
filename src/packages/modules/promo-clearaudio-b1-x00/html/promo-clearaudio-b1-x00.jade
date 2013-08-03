@@ -4,7 +4,7 @@ include ../../../common/html/jade-helpers.jade
 
 section.promo-clearaudio
   .container
-    .grid
+    .grid.no-grid-at-567
       .span7.offset1
         .clearaudio-info
           h2.t2 Hear the difference
@@ -21,10 +21,10 @@ section.promo-clearaudio
         +sonyAudioPlayer(data.sonyAudioPlayerData);
 
         div.clearaudio-player-controls
-          a.lt1.clearaudio-play(href="#") Listen to ClearAudio+
+          a.lt1.clearaudio-play(href="#") !{data.audioPlayerToggleText}
             span
               i.fonticon-10-video-play
-          a.lt1.clearaudio-pause(href="#") Listen to ClearAudio+
+          a.lt1.clearaudio-pause(href="#") !{data.audioPlayerToggleText}
             span
               i.fonticon-10-video-pause
 
