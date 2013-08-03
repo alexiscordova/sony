@@ -538,7 +538,7 @@ define(function(require) {
           // set auto play to false since current index is now 0
           self.options.autoplay = false;
           //console.log(direction, self.curIndex, self.sequenceLength-1, (self.curIndex > direction && direction === 0 && self.options.loop && self.curIndex >= self.sequenceLength-1) );
-
+        
           if (self.curIndex > direction && direction === 0 && self.options.loop && self.curIndex >= self.sequenceLength-1) {
             // we need a case for if the curIndex is the lenght of the sequence yet the direction is 0. 
             // We need to simply set the curIndex to 0 and not iterate through it. 

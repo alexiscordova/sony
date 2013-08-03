@@ -135,6 +135,7 @@ define(function(require) {
     createSliderLabels: function() {
       var labelTemplate;
       this.controlTemplate.labels = [];
+      this.labelData = [];
 
       if (this.labels.length == 2) {
         this.controlTemplate.labelLeft = '<span class="slider-label label-left l3" data-direction="'+ 0 +'">' + this.labels[0].name + '</span>';
@@ -161,9 +162,17 @@ define(function(require) {
             currentLabel.class = 'text-middle';
           }
           
+          labelPosition.sequenceId = currentLabel.id;
           labelPosition.sliderControlWidth = this.sliderControlWidth;
           labelPosition.distanceBetween = (this.sliderControlWidth / (this.sequenceLength));
           labelPosition.distanceForNotch = (labelPosition.distanceBetween / 2);
+          labelPosition.sequencePosition = {};
+
+          labelPosition.sequencePosition.start = (labelPosition.sequenceId * labelPosition.distanceBetween);
+          labelPosition.sequencePosition.startPercentage = ((labelPosition.sequenceId * labelPosition.distanceBetween) / this.sliderControlWidth) * 100;
+          labelPosition.sequencePosition.end = (labelPosition.sequenceId * labelPosition.distanceBetween) + (labelPosition.distanceBetween - 1);
+          labelPosition.sequencePosition.endPercentage = (((labelPosition.sequenceId * labelPosition.distanceBetween) + (labelPosition.distanceBetween - 1)) / this.sliderControlWidth) * 100;
+
           // if the position is the last or the first we don't want to give it
           // positioning compensating the middle ground of where a notch
           // should be. It will alwyas be the min or the max, never a middle
@@ -171,10 +180,10 @@ define(function(require) {
           // see: (http://cl.ly/image/2Z1p2f3Y2K0n)
           if (_i === 0 || _i === (this.labels.length -1)) {
             labelPosition.px = (currentLabel.id * (this.sliderControlWidth / (this.sequenceLength - 1)));
-            labelPosition.percetnage = ( labelPosition.px / (this.sliderControlWidth + 10) ) * 100;
+            labelPosition.percentage = ( labelPosition.px / (this.sliderControlWidth + 10) ) * 100;
           } else {
             labelPosition.px = (currentLabel.id * labelPosition.distanceBetween) + (labelPosition.distanceForNotch);
-            labelPosition.percetnage = ( labelPosition.px / (this.sliderControlWidth + 10) ) * 100;
+            labelPosition.percentage = ( labelPosition.px / (this.sliderControlWidth + 10) ) * 100;
           }
           
           if (this.showFallback) {
@@ -202,7 +211,7 @@ define(function(require) {
           } else {
             if (currentLabel.type == 'icon') {
               labelTemplate = [
-                '<div class="slider-label label-int l3 '+ currentLabel.class +'" data-direction="'+ currentLabel.id +'" style="left:' + labelPosition.percetnage + '%;">',
+                '<div class="slider-label label-int l3 '+ currentLabel.class +'" data-direction="'+ currentLabel.id +'" style="left:' + labelPosition.percentage + '%;">',
                   '<div class="label-item-container">',
                     '<span class="notch" ></span>',
                     '<i class="l3 '+ currentLabel.name +'" ></i>',
@@ -211,7 +220,7 @@ define(function(require) {
               ].join('\n');
             } else {
               labelTemplate = [
-                '<span class="slider-label label-int l3 '+ currentLabel.class +'" data-direction='+ currentLabel.id +' style=" left:' + labelPosition.percetnage + '%; " >',
+                '<span class="slider-label label-int l3 '+ currentLabel.class +'" data-direction='+ currentLabel.id +' style=" left:' + labelPosition.percentage + '%; " >',
                   '<div class="label-item-container">',
                     '<span class="notch" ></span>',
                     '<span class="label-text">',
@@ -223,7 +232,8 @@ define(function(require) {
             }
           }
 
-          //log(" -- ADDING LABEL -- "+currentLabel.id+" properties", labelPosition);
+          this.labelData.push(labelPosition);
+          log(" -- ADDING LABEL -- "+currentLabel.id+" properties", labelPosition);
           // push them into a cached object
           this.controlTemplate.labels.push(labelTemplate);
         }
@@ -344,6 +354,7 @@ define(function(require) {
         data.positionPercentage = pagePosPercentage;
         data.positon = pagePos;
 
+        this.sliderDragData = data;
         this.$el.trigger('SonySliderControl:slider-drag', data);
       }
 
@@ -351,9 +362,11 @@ define(function(require) {
     },
 
     touchUp: function() {
+
       this.$body.removeClass('unselectable');
       this.clicked = false;
       this.$slideHandle.removeClass('active');
+      this.$el.trigger('SonySliderControl:slider-stop', this.sliderDragData);
     },
 
     touchDown: function() {
@@ -384,9 +397,6 @@ define(function(require) {
           if ( 'left' === direction || 'right' === direction ) {
             self.dragSlider( event );
           }
-        },
-        tap : function( event ) {
-          self.touchMove( event );
         }
       });
 

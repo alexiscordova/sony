@@ -51,6 +51,7 @@ define(function(require){
       var domReady = function() {
         self.initBindings();
         self.initSliderTimer();
+        self.followSequenceNotes();
       };
 
       $(domReady);
@@ -101,6 +102,15 @@ define(function(require){
           self.sliderPosition = sliderPosition;
           self.handleSliderDrag();
         });
+
+        // when the slider stops we need to check if were on a label or near
+        // one and snap the slider to the label
+        self.$el.on('SonySliderControl:slider-stop', function(e){
+          console.log('-- SLIDER STOPPED --');
+          console.log(self.sliderPosition);
+
+          self.snapToLabel(self.sliderPosition);
+        });
         Environment.on( 'global:resizeDebounced', $.proxy( self.onResize, self ) );
       }
 
@@ -108,12 +118,11 @@ define(function(require){
         // we're done animating so we can set isAnimating to false
         self.isAnimating = false;
       });
-
     },
-
 
     onResize: function() {
       this.getSliderPosition();
+      this.followSequenceNotes();
     },
 
     sliderNearestValidValue: function(rawValue) {
@@ -232,7 +241,59 @@ define(function(require){
       return sliderProperties;
     },
 
+    snapToLabel: function(sliderPosition) {
+      var self = this,
+          sequenceLength = self.sequence.sequenceLength,
+          adjustedSliderPosition,
+          sliderProperties;
 
+      adjustedSliderPosition = (sliderPosition.positon / self.slider.sliderControlWidth) * 100;
+      for(var _i = 0;_i < self.slider.labelData.length;_i++) {
+        var label = self.slider.labelData[_i],
+            tolerance = (((label.distanceBetween / self.slider.sliderControlWidth) * 100) / sequenceLength),
+            direction = self.getSliderPositionByIndex( label.sequenceId );
+
+        // we need some logic for our sequence lenghts
+        // for example if a sequence only contains 3 images the start / end
+        // positon per each label is massive causing the slider to jump even
+        // at any point. 
+        if (self.sequence.sequenceLength <= 3 ) {
+
+          if(adjustedSliderPosition >= (label.sequencePosition.startPercentage) && adjustedSliderPosition <= (label.sequencePosition.endPercentage)) {
+
+            self.sequence.move( label.sequenceId );
+            self.slider.animateSliderToPosition(direction);
+            return;
+          }  
+        } else if (self.sequence.sequenceLength >= 4 &&  self.sequence.sequenceLength <= 10) {
+          if(adjustedSliderPosition >= (label.sequencePosition.startPercentage - tolerance) && adjustedSliderPosition <= (label.sequencePosition.endPercentage + tolerance)) {
+
+            self.sequence.move( label.sequenceId );
+            self.slider.animateSliderToPosition(direction);
+            return;
+          }  
+        } else if (self.sequence.sequenceLength >= 11) {
+          // if they add more labels were doomed :(
+          tolerance += 10;
+          if(adjustedSliderPosition >= (label.sequencePosition.startPercentage - tolerance) && adjustedSliderPosition <= (label.sequencePosition.endPercentage + tolerance)) {
+
+            // we need to set the curIndex for the sequence to our
+            // destination slide because sequence can only fire once and if
+            // our destination is more than 2 slides away mayhem breaks out
+            self.sequence.curIndex =  label.sequenceId;
+
+            // move, get out the way
+            self.sequence.move( label.sequenceId );
+            self.slider.animateSliderToPosition(direction);
+            return;
+          }  
+        }
+      }
+    },
+    
+    // gets the sequence notes which are in a cached jquery object and loops
+    // through though to get each of the notes positioning so it can be placed
+    // on the view.
     getSequenceNotes: function() {
       var self = this;
 
@@ -245,7 +306,6 @@ define(function(require){
 
         // once we have our sequence notes lets close the method
         if (elData.id === self.sequence.curIndex) {
-          console.log(elData.id, self.sequence.curIndex);
           sequenceProperties.el = $el;
           sequenceProperties.notes = [];
           sequenceProperties.notes.el = sequenceProperties.el.find('.note');
@@ -253,14 +313,14 @@ define(function(require){
           // we need to go throught the notes and throw them into an object to
           // access later
           for (var _j = 0; _j < sequenceProperties.notes.el.length; _j++) {
-            var $noteEl = sequenceProperties.notes.el.eq([_j]),
+            var $noteEl = sequenceProperties.notes.el.eq(_j),
                 note,
                 noteData = $noteEl.data();
 
             note = {
-              el: sequenceProperties.notes.el.eq([_j]),
+              el: sequenceProperties.notes.el.eq(_j),
               x: noteData.x,
-              y: noteData.y,
+              y: noteData.y
             };
 
             sequenceProperties.notes.push(note);
@@ -278,8 +338,8 @@ define(function(require){
       
     },
 
+    // places the sequence notes on the page
     positionSequence: function( sequence ) {
-      console.log(sequence);
 
       for (var _i = 0; _i < sequence.notes.length; _i++) {
         var currSequence = sequence.notes[_i];
@@ -287,26 +347,57 @@ define(function(require){
         // position the notes!
         currSequence.el.css({
           'left' : currSequence.x,
-          'top' : currSequence.x,
+          'top' : currSequence.y
         });
 
       }
 
     },
 
+    followSequenceNotes: function() {
+      var sequenceNotes = this.getSequenceNotes(),
+          trackingAsset = this.$el.find('.image-module[data-sequence-id='+this.sequence.curIndex+']'),
+          assetW = trackingAsset.width(),
+          assetH = trackingAsset.height(),
+          percX,
+          percY,
+          adjustedX   = null,
+          adjustedY   = null,
+          widthOffset = 0,
+          heightOffset = 0;
+
+      sequenceNotes.el.closest('.sequence-note-container').css({
+        height: assetH
+      });
+      console.log(sequenceNotes.el);
+      for (var _i = 0; _i < sequenceNotes.notes.length; _i++) {
+        var note = sequenceNotes.notes[_i],
+            $noteEl = sequenceNotes.notes[_i].el;
+
+        percX       = note.x.replace( '%', '' ),
+        percY       = note.y.replace( '%', '' ),
+        widthOffset = ( trackingAsset.closest('.sony-sequence').width() - assetW ) / 2;
+        heightOffset = parseInt( trackingAsset.closest('.sony-sequence').css( 'padding-top' ), 10 );
+
+        // get x coordinate
+        adjustedX = ( percX * assetW ) / 100;
+        adjustedY = ( percY * assetH ) / 100;
+
+        console.log(adjustedY, assetH, adjustedX, heightOffset);
+
+        // lets stop animation
+        $noteEl.css( "left", adjustedX );
+        $noteEl.css( "top", adjustedY );
+      }
+    },
+
     placeSequenceNote: function() {
       var self = this,
+          sliderProperties,
           currentSequence;
 
       // if we have already shown the notes
       if (self.showNotes === false) { return false; }
-
-      // TODO:
-      // a. check if sequence has notes
-      // b. find the note properties (x and y)
-      // c. place notes on the view if available
-      // d. attach listeners for then browser is resized
-      // e. when slider drag is intialized again destroy the notes
 
       currentSequence = self.getSequenceNotes();
 
@@ -314,8 +405,8 @@ define(function(require){
       if (currentSequence) {
         var $currentSequence = currentSequence.el;
 
-        $currentSequence.removeClass('visuallyhidden')
-          .siblings().addClass('visuallyhidden');
+        $currentSequence.removeClass('visuallyhidden inactive')
+          .siblings().addClass('visuallyhidden inactive');
 
         self.positionSequence(currentSequence);
       }
