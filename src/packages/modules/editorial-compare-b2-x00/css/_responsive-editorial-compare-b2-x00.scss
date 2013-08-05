@@ -2,7 +2,7 @@
 $numColumns: 3;
 $imgVerticalOffset: 10%;
 
-@media (max-width: px-em( 767 ) ) {
+@media (max-width: px-em( 480 ) ) {
   .editorial-compare {
 
     .sony-carousel-slide {
@@ -27,6 +27,11 @@ $imgVerticalOffset: 10%;
         display: block;
         max-width: 100%;
       }
+      
+      // Add some extra offset for centering the inches text
+      .inches {
+        top: 35%;
+      }
 
       // No overlapping images at this size since the single column carousel is applied
       // but the layout is too wide for the overlapping to look good. So no image
@@ -44,13 +49,5 @@ $imgVerticalOffset: 10%;
 
     }
 
-  }
-}
-
-@media (max-width: px-em( 481 ) ) {
-  .editorial-compare {
-    .sony-carousel-slide-children .inches {
-      top: 35%;
-    }
   }
 }

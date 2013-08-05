@@ -65,12 +65,12 @@ define(function(require) {
         // These can be chained, like below
         // Use `em`s for your breakpoints ( px value / 16 )
         enquire
-          .register('(min-width: 48em)', {
+          .register('(min-width: 30.0001em)', {
             match: function() {
               self.setupDesktop();
             }
           })
-          .register('(max-width: 47.9375em)', {
+          .register('(max-width: 30em)', {
             match: function() {
               self.setupMobile();
             }
