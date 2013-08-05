@@ -3,10 +3,15 @@
 
 .promo-clearaudio {
   position: relative;
+  overflow:hidden;
   background-color: #f1f5f9;
 
   .container {
     padding-top: 100px;
+
+    .lt-ie10 & {
+      padding-top: 50px;
+    }
   }
 
   .clearaudio-info {
@@ -103,6 +108,11 @@
   background-size: contain;
   z-index: 0;
 
+  .lt-ie10 & {
+    width: 300%;
+    background-size: auto;
+  }
+
   .waves {
     > div {
       position: absolute;
@@ -114,6 +124,10 @@
       background-position: top left;
       background-size: contain;
       opacity: 0;
+
+      .lt-ie10 & {
+        display: none;
+      }
     }
 
     .playing & {
