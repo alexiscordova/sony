@@ -106,8 +106,8 @@ define(function(require){
         // when the slider stops we need to check if were on a label or near
         // one and snap the slider to the label
         self.$el.on('SonySliderControl:slider-stop', function(e){
-          console.log('-- SLIDER STOPPED --');
-          console.log(self.sliderPosition);
+          //console.log('-- SLIDER STOPPED --');
+          //console.log(self.sliderPosition);
 
           self.snapToLabel(self.sliderPosition);
         });
@@ -366,10 +366,13 @@ define(function(require){
           widthOffset = 0,
           heightOffset = 0;
 
+      // we must not have any notes defined, so lets just close out
+      if (!sequenceNotes) { return; }
+
       sequenceNotes.el.closest('.sequence-note-container').css({
         height: assetH
       });
-      console.log(sequenceNotes.el);
+
       for (var _i = 0; _i < sequenceNotes.notes.length; _i++) {
         var note = sequenceNotes.notes[_i],
             $noteEl = sequenceNotes.notes[_i].el;
@@ -382,8 +385,6 @@ define(function(require){
         // get x coordinate
         adjustedX = ( percX * assetW ) / 100;
         adjustedY = ( percY * assetH ) / 100;
-
-        console.log(adjustedY, assetH, adjustedX, heightOffset);
 
         // lets stop animation
         $noteEl.css( "left", adjustedX );
