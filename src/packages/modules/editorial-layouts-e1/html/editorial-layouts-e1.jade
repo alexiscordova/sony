@@ -89,7 +89,6 @@ mixin copyblock(_copy, _title, _subtitle, _body)
     e = { "locals" : locals, "data" : data.addon }
     !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
 
-
 mixin textonlylayout(_layout)
   layout = _layout ? _layout : data.layout
   if layout.text == "full"
@@ -100,10 +99,8 @@ mixin textonlylayout(_layout)
     +col(layout, extras)
       block
 
-
 mixin submodule( submodule )
   +partial( submodule.type, submodule.data, true )
-
 
 mixin submodules( data )
   hasAddon = data.addon != null && data.submodules && data.submodules.length > 1
@@ -128,8 +125,6 @@ mixin submodules( data )
           +submodule( module )
     else
       +submodule( data.submodules[0] )
-
-
 
 editorialClasses = [ "editorial", data.mode ]
 if data.variation && data.variation.background
@@ -262,7 +257,3 @@ if data.variation && data.variation.background
             div(class = span)(class = data.layout.tout.alignment)
               +toutimage(e, "m-span2")
               +toutcopy(col,"t7", "", "p3", mspan)
-
-
-
-
