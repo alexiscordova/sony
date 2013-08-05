@@ -260,7 +260,7 @@ define(function(require){
         'height':h,
         'width':w,
         'min-height':h,
-        'min-width':w,
+        'min-width':w
       });
     },
 
