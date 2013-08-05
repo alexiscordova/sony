@@ -143,6 +143,12 @@ define(function(require) {
 
       self.arrangeItemsInSlides( 1 );
 
+      // Set the first slide as on
+      $('.sony-carousel').attr('data-on','0');
+
+      // Update on attribute when switching slides
+      $('.sony-carousel').on('SonyCarousel:gotoSlide',self.switchSlide);
+
       if ( wasDesktop ) {
 
       }
@@ -151,6 +157,10 @@ define(function(require) {
 
       self.isDesktop = false;
       self.isMobile = true;
+    },
+
+    switchSlide: function(e,slide) {
+      $(this).attr('data-on',slide);
     },
 
     arrangeItemsInSlides : function( numPerSlide ) {

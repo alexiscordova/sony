@@ -1,10 +1,30 @@
 
 $numColumns: 3;
-$imgVerticalOffset: 10%;
+$imgVerticalOffset: 5%;
+$overlap: 45%;
+$overlapOffset: 10%;
 
 @media (max-width: px-em( 480 ) ) {
   .editorial-compare {
 
+    .p2 {
+      margin-bottom: 0;
+    }
+
+    @for $i from 0 through $numColumns {
+      $p: $i - 1;
+      $n: $i + 1;
+      .sony-carousel[data-on="#{$i}"] {
+        .slide-#{$p} .device {
+          margin-left: $overlap - ($overlapOffset * $i);
+        }
+
+        .slide-#{$n} .device {
+          margin-left: -$overlap + ($overlapOffset * $i);
+        }
+      }
+    }
+    
     .sony-carousel-slide {
 
       // Apply a position relative and z-index to the numbered slides so that
@@ -25,7 +45,11 @@ $imgVerticalOffset: 10%;
       img,
       .device {
         display: block;
-        max-width: 100%;
+        max-width: 110%;
+      }
+
+      .device {
+        @include transition(margin,200ms);
       }
       
       // Add some extra offset for centering the inches text
@@ -39,10 +63,8 @@ $imgVerticalOffset: 10%;
       @for $i from 0 through $numColumns {
         &.column-#{$i} {
           .device {
-            margin-top: 0;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 0;
+            margin-left: -5%;
+            margin-top: ($numColumns - $i) * $imgVerticalOffset;
           }
         }
       }
