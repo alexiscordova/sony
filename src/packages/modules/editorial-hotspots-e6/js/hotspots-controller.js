@@ -43,7 +43,7 @@ define(function(require) {
     self.$els                           = self.$container.find( '.hspot-outer' );
 
     // LAST OPEN
-    self.$lastOpen                       = null;
+    self.lastOpen                       = null;
 
     // TRANSITION VARIABLES
     self.$transitionSpeed                = 500;
@@ -95,6 +95,8 @@ define(function(require) {
       // detect what type of tracking we need to bind the instance to
       var moduleHandle = self.$container.closest( '.image-module' );
       var isFullHotspot = self.$container.parents('.editorial').find('.container.inner').length;
+
+      // The module event overlay is the container for the hotspots
       var moduleEventOverlay = isFullHotspot ? self.$container.parents('.editorial').find('.container.inner') : self.$container.closest( '.image-module' );
 
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
@@ -109,8 +111,14 @@ define(function(require) {
 
       //click image to close
       moduleEventOverlay.on( 'click', function( event ) {
-        var el = event.target;
-        if ( el.tagName === 'A' || el.tagName === 'BUTTON' ) { return; }
+        var el = event.target,
+            nodeName = el.nodeName;
+
+        // Clicking the overlay shouldn't do anything on mobile
+        if ( self.isMobile || nodeName === 'A' || nodeName === 'BUTTON' ) {
+          return;
+        }
+
         event.preventDefault();
         self.clickOutside( event, self );
       });
@@ -236,8 +244,8 @@ define(function(require) {
 
         self.showOverlayCentered = true;
         self.follow();
-        if( self.$lastOpen ) {
-          self.reanchor( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2], true );
+        if( self.lastOpen ) {
+          self.reanchor( self.lastOpen[0], self.lastOpen[1], self.lastOpen[2], true );
         }
       }).listen();
 
@@ -247,8 +255,8 @@ define(function(require) {
 
         self.showOverlayCentered = false;
         self.follow();
-        if( self.$lastOpen ) {
-          self.reanchor( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2], false );
+        if( self.lastOpen ) {
+          self.reanchor( self.lastOpen[0], self.lastOpen[1], self.lastOpen[2], false );
         }
       }).listen();
     },
@@ -293,8 +301,8 @@ define(function(require) {
       self.isModalOpen = false;
       self.isFadedIn = false;
 
-      if( self.showOverlayCentered ) {
-        self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
+      if( self.lastOpen && self.showOverlayCentered ) {
+        self.close( self.lastOpen[ 0 ], self.lastOpen[ 1 ], self.lastOpen[ 2 ] );
       }
 
       Settings.$body.find( '.modal-backdrop' ).remove();
@@ -456,14 +464,14 @@ define(function(require) {
       if( container.data( 'state' ) === 'open' ) {
         self.close( container, hotspot, info );
       } else {
-        if( self.$lastOpen && !container.is( self.$lastOpen ) ) {
+        if( self.lastOpen && !container.is( self.lastOpen ) ) {
           self.reset();
         }
          self.open( container, hotspot, info );
       }
     },
     clickOutside: function( event, self ) {
-      if( self.$lastOpen ){
+      if( self.lastOpen ){
         self.reset();
       }
     },
@@ -758,7 +766,7 @@ define(function(require) {
       self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
 
       // set the open status to zilch
-      self.$lastOpen = null;
+      self.lastOpen = null;
 
     },
 
@@ -779,13 +787,13 @@ define(function(require) {
       info.addClass('hidden'); // need to get the elements values
 
       // we are setting display:none when the trasition is complete, and managing the timer here
-      if( self.$lastOpen && container.is( self.$lastOpen[0] ) ) {
+      if( self.lastOpen && container.is( self.lastOpen[0] ) ) {
         self.cleanTimer();
       }
 
       //console.log('[[HOTSPOTS CONTROLLER -- open]]');
       // save last open state
-      self.$lastOpen = [ container, hotspot, info ];
+      self.lastOpen = [ container, hotspot, info ];
 
       // add data- info to this hotspot
       container.data( 'state', 'open' ).addClass( 'info-jump-to-top' );
@@ -842,9 +850,9 @@ define(function(require) {
 
     reset: function( container ) {
       var self = this;
-      if ( !self.$lastOpen ) { return; }
+      if ( !self.lastOpen ) { return; }
 
-      self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
+      self.close( self.lastOpen[ 0 ], self.lastOpen[ 1 ], self.lastOpen[ 2 ] );
     },
 
     cleanTimer: function() {
