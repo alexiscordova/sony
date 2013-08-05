@@ -1,10 +1,9 @@
 
-@media (max-width: px-em( 767 ) ) {
+@media (max-width: px-em( 768 ) ) {
 
   $pieceWidth: 85px;
   $pieceHeight: 85px;
-  $maxPieces: 6;
-  $maxDesktopPieces: 9;
+  $maxPieces: 9;
   $buttonInnerDiameter: 36px;
   $buttonBorder: 6px;
   $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
@@ -41,6 +40,17 @@
 
     .box {
       padding: 20px;
+    }
+
+    .detail {
+      .box {
+        padding: 0 20px 20px 20px;
+
+        .span4 {
+          margin-top: 20px;
+        }
+
+      }
     }
 
     .pieces {
@@ -88,15 +98,27 @@
         height: $buttonInnerDiameter;
         @include border-radius($buttonInnerDiameter / 2);
         margin: $buttonBorder;
-        
-        //@include background-clip(padding-box);
-        //border: solid 6px rgba(0,0,0,0.2);
 
         font-size: 1em;
         line-height: 1em;
         padding-top: 7px;
+
+        &.fonticon-10-chevron-reverse {
+          padding-right: 3px;
+        }
+        &.fonticon-10-chevron {
+          padding-left: 3px;
+        }
       }
 
+    }
+
+    .no-touch & .cta {
+      &:hover {
+        .circle-btn {
+          right: $buttonHoverShift;
+        }
+      }
     }
 
     @for $i from 0 through $maxPieces - 1 {
@@ -114,12 +136,6 @@
             }
           }
         }
-      }
-    }
-
-    @for $i from $maxPieces through $maxDesktopPieces {
-      .piece-#{$i} {
-        display: none;
       }
     }
 
