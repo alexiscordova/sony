@@ -170,6 +170,10 @@ define(function(require) {
         track.setPosition(newPosition);
       });
 
+      self.$el.on('SonyAudioPlayer:setVolume', function(e, newVolume) {
+        track.setVolume(newVolume);
+      });
+
       return self;
     },
 
@@ -253,10 +257,12 @@ define(function(require) {
 
       $scrubber.off('sonyDraggable:dragStart').on('sonyDraggable:dragStart', function(){
         self.clearScrubberInterval();
+        self.$el.trigger('SonyAudioPlayer:setVolume', 0);
       });
 
       $scrubber.off('sonyDraggable:dragEnd').on('sonyDraggable:dragEnd', function(){
         self.createScrubberInterval();
+        self.$el.trigger('SonyAudioPlayer:setVolume', 25);
       });
 
       self.createScrubberInterval();

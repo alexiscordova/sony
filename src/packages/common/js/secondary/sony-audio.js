@@ -108,6 +108,7 @@ define(function(require){
         url: config.sources[i],
         autoLoad: false,
         autoPlay: false,
+        volume: 25,
         onpause: function() {
           currentTime = this.position;
           config.onpause();
@@ -221,7 +222,25 @@ define(function(require){
         currentSound.setPosition(newPosition);
 
         return self;
+      },
+
+      // `Audio.setVolume()`: Sets the current track's volume.
+      //
+      // * `newVolume`: integer volume, 0-100.
+
+      setVolume: function(newVolume) {
+
+        var self = this;
+
+        if ( !currentSound.setVolume ) {
+          return false;
+        }
+
+        currentSound.setVolume(newVolume);
+
+        return self;
       }
+
     };
 
     return api;
