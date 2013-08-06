@@ -1,3 +1,8 @@
+$subPhoneMax: px-em(479);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$superDesktop: px-em(1200);
 
 @media (min-width: 48em) and (max-width: 61.1875em) {
   .sony-sequence {
@@ -66,6 +71,14 @@
 } // END min-width: 1400px
 
 
+//tablet only
+@media (min-width: $tabletMin) and (max-width: $tabletMax) {
+  .sony-sequence {
+    .editorial.full & {
+      padding: 0;
+    }
+  }
+}
 
 // ------------------------------------------------
 // MOBILE-LARGE (somewhere between tablet & mobile)
@@ -88,6 +101,10 @@
     .sequence-copy {
       top: 0;
     }
+
+    .editorial.full & {
+      padding: 0;
+    }
   }
 
   .editorial.full-inner .sony-sequence .box {
@@ -107,7 +124,7 @@
       bottom: 0;
     }
   }
-  
+
   .sony-sequence {
     div.image-module {
       height: 400px;
@@ -172,7 +189,7 @@
     }
     i { font-size: 0.75em; }
   }
-} // END max-width: 479px   
+} // END max-width: 479px
 
 // 618 - 767
 @media (min-width: px-em(618px)) and (max-width: px-em(767px)) {
