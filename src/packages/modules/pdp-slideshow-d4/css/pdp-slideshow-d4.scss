@@ -42,6 +42,7 @@
   .pdp-slideshow-outer {
     // @include flex-ratio-box( 1200 , 610 );
     position: relative;
+    z-index: 2; // below thumb nav
     overflow: hidden;
     height: inherit;
   }
@@ -53,7 +54,7 @@
     // @include flex-ratio-box-content();
     width: 1000em; // This will get set dynamically based on the number of slides
     max-height: px-em( 720px );
-    -webkit-backface-visibility: hidden;
+    @include flickerfix();
 
   }
 
@@ -92,7 +93,7 @@
 
   .pdp-slideshow-slide {
     img {
-      -webkit-backface-visibility: hidden;
+      @include flickerfix();
     }
 
   }
@@ -118,6 +119,7 @@
 
   > .sony-dot-nav {
     position: absolute;
+    z-index: 4;
     bottom: 30px;
     width: 100%;
   }
@@ -127,14 +129,9 @@
     width: 100%;
   }
 
-  .thumb-nav {
-    position: absolute;
-    left: 0;
-    margin: 0;
-  }
-
   .thumb-nav-container {
     position: relative;
+    z-index: 5;
     height: px-em( 70px );
 
     .pagination-paddles {
@@ -160,6 +157,9 @@
   }
 
   .thumb-nav {
+    position: absolute;
+    left: 0;
+    margin: 0;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -212,7 +212,7 @@
       width: 100.5%;
       height: 100%;
       display: block;
-      -webkit-backface-visibility: hidden;
+      @include flickerfix();
       @include transition();
 
       &.first {
@@ -225,7 +225,7 @@
           height: 95%;
           top: 5%;
           z-index: 2;
-          -webkit-backface-visibility: hidden;
+          @include flickerfix();
         }
       }
 
@@ -239,7 +239,7 @@
           height: 95%;
           top: 5%;
           z-index: 2;
-          -webkit-backface-visibility: hidden;
+          @include flickerfix();
         }
       }
     }

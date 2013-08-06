@@ -46,6 +46,15 @@ mixin slidelabels
           else
             i(data-label = labelData.label.content, data-id = i )
 
+mixin gridstyle(_extra, mgrid)
+  extraclass = _extra ? _extra : false
+  if mgrid
+    .grid.m-grid-at-767(class = extraclass)(class = data.style)
+      block
+  else
+    .grid.no-grid-at-767(class = extraclass)(class = data.style)
+      block
+              
 mixin copyblock(_copy, _title, _subtitle, _body)
   copyobject = _copy ? _copy : data
   titleclass = _title ? _title : "t2"
@@ -80,7 +89,18 @@ mixin copyblock(_copy, _title, _subtitle, _body)
             p.p2-bold.media-heading.text-dark !{ feature.title }
             p.p2 !{ feature.body }
 
-
+mixin col(_layout, extras)
+  layout = _layout ? _layout : data.layout
+  if layout.text == "left"
+    - span = "span" + layout.columns[0]
+    div(class = span)(class = extras)
+      block
+  else
+    - span = "span" + layout.columns[1]
+    - offset = "offset" + layout.columns[0]
+    div(class = span)(class = offset)(class = extras)
+      block
+              
 mixin center
   .table-center-wrap
     .table-center
@@ -91,6 +111,15 @@ mixin boxclass(_layout)
   .box(class = layout.alignment)
     block
 
+mixin textonlylayout(_layout)
+  layout = _layout ? _layout : data.layout
+  if layout.text == "full"
+    .span12(class = layout.alignment)
+      block
+  else
+    extras = "box " + layout.alignment
+    +col(layout, extras)
+      block
 
 
 mixin sequenceNotes(_data, _sequenceId)
@@ -167,6 +196,12 @@ mixin boxlayout(_layout)
 +mainElement( editorialClasses )
   if data.sequenceConfig
     div(class="sony-sequence container dim-the-lights", id=id, data-sequence-autoplay=autoplay, data-sequence-viewcontrols=viewControls, data-sequence-barcontrols=barControls, data-sequence-loop=loopAnimation, data-sequence-animation-speed=animationSpeed )
+      if data.layout
+        if data.layout.mode == "full"
+          if data.copy
+            +gridstyle
+              +textonlylayout
+                +copyblock(data.copy, "t2", "t7", "p2")    
       if data.sequence
         .sequence-note-container
           - for imgData, i in data.sequence
@@ -196,7 +231,7 @@ mixin boxlayout(_layout)
           +boxlayout
             if data.copy
               +copyblock(data.copy, "t2", "t7", "p2")
-        if data.layout.mode == "full-inner"
+        else if data.layout.mode == "full-inner"
           +boxlayout
             if data.copy
               +copyblock(data.copy, "t3", "t7", "p3")
