@@ -50,14 +50,14 @@ mixin mediaObject( data )
         .icon-wrap
         i(class=iconClass + " l-o-d")
 
-    if hasCopy
-      .addon-body.ghost-center-wrap.v-wrap.pull-left
-        .ghost-center
+    .addon-body.ghost-center-wrap.v-wrap.pull-left
+      .ghost-center
+        if hasCopy
           p.p3-bold.copy !{ data.copy }
-          if data.subhead
-            p.p4.subhead !{ data.subhead }
-          else if !iconClass && data.link
-            +link( data.link, [ "lt3", "addon-link" ] )
+        if data.subhead
+          p.p4.subhead !{ data.subhead }
+        else if !iconClass && data.link
+          +link( data.link, [ "lt3", "addon-link" ] )
 
 
 mixin quote( data )
