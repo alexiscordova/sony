@@ -30,29 +30,29 @@ define(function(require) {
     var self = this;
 
     self.options = $.extend({}, SonySliderControl.defaults, options);
-      
+
     // Settings
     self.showFallback   = ( Settings.isSonyTabletP || Settings.isGoogleTV || Settings.isVita || Settings.isPS3 );
 
     // Cached jQuery objects
     self.$el = $( element );
-    self.$sequence      = self.$el.find('[data-sequence-id]');    
-    self.sequenceLength = self.$sequence.length;  
+    self.$sequence      = self.$el.find('[data-sequence-id]');
+    self.sequenceLength = self.$sequence.length;
     self.$controls      = self.$el.find( '.controls' );
-    
+
     self.$win           = Settings.$window;
     self.$body          = Settings.$body;
 
     // Initialize
     self.init();
   };
-      
+
   SonySliderControl.prototype = {
     constructor: SonySliderControl,
 
     init : function() {
       var self = this;
-      
+
       $(domReady);
 
       // domReady!
@@ -88,7 +88,7 @@ define(function(require) {
         var $el = $(labels[_i]),
             elData = $el.data();
 
-        var obj = { 
+        var obj = {
           id: elData.id,
           type: elData.type,
           name: elData.label
@@ -102,7 +102,7 @@ define(function(require) {
 
       // close the method with our new array
       return labelArray;
-    },    
+    },
 
     sliderGetDimensions: function() {
       this.sliderControlWidth = (this.$sliderControl.width());
@@ -110,7 +110,7 @@ define(function(require) {
     },
 
     getSliderData: function() {
-      // get all the data needed for the slider 
+      // get all the data needed for the slider
       // before destroying the div which contains the data
       this.controlTemplate = {};
       this.labels = this.getLabels();
@@ -120,7 +120,7 @@ define(function(require) {
       this.createSliderLabels();
 
       this.$controls.remove();
-      
+
     },
 
     destroyLabels: function( cb ) {
@@ -131,7 +131,7 @@ define(function(require) {
       if (cb && typeof(cb) == "function") {cb();}
     },
 
-    // creates the slider labels 
+    // creates the slider labels
     createSliderLabels: function() {
       var labelTemplate;
       this.controlTemplate.labels = [];
@@ -146,22 +146,22 @@ define(function(require) {
           var currentLabel = this.labels[_i];
           // we should get the percentage of the label to position it?
           var labelPosition = {};
-          // we need to give a class to the labels to determine width 
+          // we need to give a class to the labels to determine width
           // and text direction
-          if (_i === 0 || _i === (this.labels.length - 1) ) {            
+          if (_i === 0 || _i === (this.labels.length - 1) ) {
             // this is the first or the last label
             if (_i === 0) {
               // the first label
-              currentLabel.class = 'text-right';
+              currentLabel.textClass = 'text-right';
             } else {
               // the last label
-              currentLabel.class = 'text-left';
+              currentLabel.textClass = 'text-left';
             }
           } else {
             // any label in between 0 and the last label
-            currentLabel.class = 'text-middle';
+            currentLabel.textClass = 'text-middle';
           }
-          
+
           labelPosition.sequenceId = currentLabel.id;
           labelPosition.sliderControlWidth = this.sliderControlWidth;
           labelPosition.distanceBetween = (this.sliderControlWidth / (this.sequenceLength));
@@ -185,7 +185,7 @@ define(function(require) {
             labelPosition.px = (currentLabel.id * labelPosition.distanceBetween) + (labelPosition.distanceForNotch);
             labelPosition.percentage = ( labelPosition.px / (this.sliderControlWidth + 10) ) * 100;
           }
-          
+
           if (this.showFallback) {
             if (currentLabel.type == 'icon') {
               labelTemplate = [
@@ -211,7 +211,7 @@ define(function(require) {
           } else {
             if (currentLabel.type == 'icon') {
               labelTemplate = [
-                '<div class="slider-label label-int l3 '+ currentLabel.class +'" data-direction="'+ currentLabel.id +'" style="left:' + labelPosition.percentage + '%;">',
+                '<div class="slider-label label-int l3 '+ currentLabel.textClass +'" data-direction="'+ currentLabel.id +'" style="left:' + labelPosition.percentage + '%;">',
                   '<div class="label-item-container">',
                     '<span class="notch" ></span>',
                     '<i class="l3 '+ currentLabel.name +'" ></i>',
@@ -220,7 +220,7 @@ define(function(require) {
               ].join('\n');
             } else {
               labelTemplate = [
-                '<span class="slider-label label-int l3 '+ currentLabel.class +'" data-direction='+ currentLabel.id +' style=" left:' + labelPosition.percentage + '%; " >',
+                '<span class="slider-label label-int l3 '+ currentLabel.textClass +'" data-direction='+ currentLabel.id +' style=" left:' + labelPosition.percentage + '%; " >',
                   '<div class="label-item-container">',
                     '<span class="notch" ></span>',
                     '<span class="label-text">',
@@ -246,7 +246,7 @@ define(function(require) {
 
       // check for how many labels we have
       // if there are only two labels toss the labels on the left and right of the slier
-      // otherwise we will need to position the labels below the slider 
+      // otherwise we will need to position the labels below the slider
       // do we have labels that we can show?
       if (this.labels.length == 2) {
         this.$sliderControlContainer.append(this.controlTemplate.labelRight)
@@ -300,7 +300,7 @@ define(function(require) {
         this.$el.append(this.controlTemplate.slider);
         this.$sliderControlContainer = this.$el.find('.control-bar-container');
         this.$sliderControl = this.$el.find('.range-control');
-        
+
         this.sliderGetDimensions();
       }
     },
@@ -315,7 +315,7 @@ define(function(require) {
           left: position + "%"
        });
     },
-    
+
     animateSliderToPosition: function( sliderProps ) {
 
       this.$slideHandle.animate({
@@ -373,7 +373,7 @@ define(function(require) {
       // Montana to Rice!
       this.$body.addClass('unselectable');
       this.clicked = true;
-    },    
+    },
 
     initalizeSliderBindings: function() {
       var self = this;
@@ -401,11 +401,11 @@ define(function(require) {
       });
 
 
-      self.sliderLabelInitialized = true;   
+      self.sliderLabelInitialized = true;
 
     }
   };
-    
+
   // Defaults
   // --------
   SonySliderControl.defaults = {
@@ -418,4 +418,4 @@ define(function(require) {
 
   return SonySliderControl;
 
-});     
+});

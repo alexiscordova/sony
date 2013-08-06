@@ -1,6 +1,3 @@
-/*global define, Modernizr, log*/
-/*jshint debug:true */
-
 // ------------ Sony Editorial Hotspots ------------
 // Module: Editorial Hotspots E6
 // Version: 0.9
@@ -43,10 +40,10 @@ define(function(require) {
     // container element holding the hotspots
     self.$container                     = $( element );
     // collection of hotspots we must initialize
-    self.$els                           = self.$container.find( ".hspot-outer" );
+    self.$els                           = self.$container.find( '.hspot-outer' );
 
     // LAST OPEN
-    self.$lastOpen                       = null;
+    self.lastOpen                       = null;
 
     // TRANSITION VARIABLES
     self.$transitionSpeed                = 500;
@@ -62,7 +59,7 @@ define(function(require) {
     self.variant2FloorHeight             = 108;
     self.variant1Differential            = 145;
     self.variant2Differential            = 120;
-    self.showOverlayCentered             = ( $( window ).width() < 768 ) ? true : false;
+    self.showOverlayCentered             = self.$window.width() < 768;
     self.lastOverlayFadein               = null;
     self.lastOverlayFadeout              = null;
     self.lastCenteredOverlay             = null;
@@ -98,6 +95,8 @@ define(function(require) {
       // detect what type of tracking we need to bind the instance to
       var moduleHandle = self.$container.closest( '.image-module' );
       var isFullHotspot = self.$container.parents('.editorial').find('.container.inner').length;
+
+      // The module event overlay is the container for the hotspots
       var moduleEventOverlay = isFullHotspot ? self.$container.parents('.editorial').find('.container.inner') : self.$container.closest( '.image-module' );
 
       if( moduleHandle.hasClass( 'track-by-background' ) ) {
@@ -112,8 +111,14 @@ define(function(require) {
 
       //click image to close
       moduleEventOverlay.on( 'click', function( event ) {
-        var $el = event.target;
-        if ( $el.tagName == "A" || $el.tagName == "Button") { return; }
+        var el = event.target,
+            nodeName = el.nodeName;
+
+        // Clicking the overlay shouldn't do anything on mobile
+        if ( self.isMobile || nodeName === 'A' || nodeName === 'BUTTON' ) {
+          return;
+        }
+
         event.preventDefault();
         self.clickOutside( event, self );
       });
@@ -123,10 +128,10 @@ define(function(require) {
       // IE7 zindex fix
       if( Settings.isLTIE9 ) {
         // address the joke that is stack order and zindexing in IE7
-        self.hotspotId = self.id+"-hotspot";
-        $( Settings.$body ).append( '<div class="ltie8-hotspot '+self.variant+'" id="'+self.hotspotId+'" />' );
-        $( Settings.$body ).append( '<div class="ltie8-hotspot-arrow-left-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-left" />' );
-        $( Settings.$body ).append( '<div class="ltie8-hotspot-arrow-right-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-right" />' );
+        self.hotspotId = self.id + '-hotspot';
+        Settings.$body.append( '<div class="ltie8-hotspot '+self.variant+'" id="'+self.hotspotId+'" />' );
+        Settings.$body.append( '<div class="ltie8-hotspot-arrow-left-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-left" />' );
+        Settings.$body.append( '<div class="ltie8-hotspot-arrow-right-'+self.variant+' hidden" id="'+self.hotspotId+'-arrow-right" />' );
         // in the case of full-inner, reparent the hotspots globally in the case of this blend of editorials
         var $searchAnchor = self.$container.parent().parent(),
             hasInner      = $searchAnchor.hasClass( 'full-inner' ),
@@ -142,10 +147,10 @@ define(function(require) {
       self.trackOpacity = function() {
         switch( self.trackingAsset.css( 'opacity' ) ) {
           case undefined:
-          case "undefined":
+          case 'undefined':
             clearInterval( self.trackOpacityTimer );
           break;
-          case "1":
+          case '1':
             clearInterval( self.trackOpacityTimer );
             self.canShowHotspots = true;
             triggerInitialPosition();
@@ -156,7 +161,7 @@ define(function(require) {
       // we've been polling for changes to the height of the background, once it is
       // injected into the DOM as a background image, we stop polling
       self.trackHeight = function() {
-        if( "none" !== self.trackingAsset.css( 'background-image' ) ) {
+        if( 'none' !== self.trackingAsset.css( 'background-image' ) ) {
           // bg detected, clearing
           clearInterval( self.trackOpacityTimer );
           self.canShowHotspots = true;
@@ -181,39 +186,14 @@ define(function(require) {
       };
 
       // initialize hotspot(s)
-      $( self.$els ).each(function( index, el ) {
+      self.$els.each(function( index, el ) {
         // subscribe to events
         self.bind( el );
         // initial placement
         self.place( el );
       });
 
-      // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO
-      // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
-      if( enquire ) {
-        enquire.register( "(max-width: 767px)" , function() {
-          self.isMobile = true;
-          self.isDesktop = false;
-
-          self.showOverlayCentered = true;
-          self.follow();
-          if( self.$lastOpen ) {
-            self.reanchor( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2], true );
-          }
-        }).listen();
-
-        enquire.register( "(min-width: 768px)" , function() {
-          self.isMobile = false;
-          self.isDesktop = true;
-
-          self.showOverlayCentered = false;
-          self.follow();
-          if( self.$lastOpen ) {
-            self.reanchor( self.$lastOpen[0], self.$lastOpen[1], self.$lastOpen[2], false );
-          }
-        }).listen();
-
-      }
+      self.setupBreakpoints();
 
       // listen for modal events
       self.$modal.on( 'show', $.proxy( self.onModalShow, self ) );
@@ -225,27 +205,60 @@ define(function(require) {
       }
 
       // TODO: switch to global throttled scroll
-      $( window ).scroll( function ( e ) {
+      self.$window.scroll( function () {
           self.trackingState = 'fadein';
           self.follow();
       });
 
-      // TODO: switch to global throttled resize
+      // Listen for global resize
       // for inline image type
-      $( window ).resize( function() {
+      Environment.on('global:resizeDebounced', function() {
         self.follow();
         self.getCanvasCoordinates();
       });
+
 
       // finally, seed the hotspot to fly on 1/2 second after set conditions are met
       setTimeout(triggerInitialPosition, 500);
 
       self.$window.on('e5-slide-change', function(){
         //log('SONY : Editorial Hotspots : E5 Slide Update');
-        Settings.isLTIE9 || self.isSmallChapter ? self.reset() : ''; 
+        Settings.isLTIE9 || self.isSmallChapter ? self.reset() : '';
       });
-      
+
       //log('SONY : Editorial Hotspots : Initialized');
+    },
+
+    setupBreakpoints : function() {
+      var self = this;
+
+      if ( !enquire ) {
+        return;
+      }
+
+      // BELOW THIS THRESHHOLD WE ARE FLAGGING THE STATE FOR OTHER FNS TO
+      // REPARTENT OVERLAY NODES TO DISPLAY CENTER OF MODULE
+      enquire.register( '(max-width: 767px)' , function() {
+        self.isMobile = true;
+        self.isDesktop = false;
+
+        self.showOverlayCentered = true;
+        self.follow();
+        if( self.lastOpen ) {
+          self.reanchor( self.lastOpen[0], self.lastOpen[1], self.lastOpen[2], true );
+        }
+      }).listen();
+
+      enquire.register( '(min-width: 768px)' , function() {
+        self.isMobile = false;
+        self.isDesktop = true;
+
+        self.showOverlayCentered = false;
+        self.follow();
+        if( self.lastOpen ) {
+          self.reanchor( self.lastOpen[0], self.lastOpen[1], self.lastOpen[2], false );
+        }
+      }).listen();
     },
 
     onModalShow: function( event ) {
@@ -278,7 +291,7 @@ define(function(require) {
       evt.stopPropagation();
 
       if ( true /* self.hasTouch */ ) {
-        $( 'body' ).css({
+        Settings.$body.css({
           height: '',
           maxHeight: '',
           overflow: ''
@@ -288,11 +301,11 @@ define(function(require) {
       self.isModalOpen = false;
       self.isFadedIn = false;
 
-      if( true === self.showOverlayCentered ) {
-        self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
+      if( self.lastOpen && self.showOverlayCentered ) {
+        self.close( self.lastOpen[ 0 ], self.lastOpen[ 1 ], self.lastOpen[ 2 ] );
       }
 
-      $( 'body' ).find( '.modal-backdrop' ).remove();
+      Settings.$body.find( '.modal-backdrop' ).remove();
 
     },
 
@@ -334,8 +347,8 @@ define(function(require) {
         self.$els.each( function( index, el) {
           var offsetX     = self.trackingAsset.position().left,
               offsetY     = self.trackingAsset.position().top,
-              percX       = $( el ).data( "x" ).replace( '%', '' ),
-              percY       = $( el ).data( "y" ).replace( '%', '' ),
+              percX       = $( el ).data( 'x' ).replace( '%', '' ),
+              percY       = $( el ).data( 'y' ).replace( '%', '' ),
               assetW      = self.trackingAsset.width(),
               assetH      = self.trackingAsset.innerHeight(),
               adjustedX   = null,
@@ -351,8 +364,8 @@ define(function(require) {
               adjustedY = ( percY * assetH ) / 100 + heightOffset;
 
               // lets stop animation
-              $( el ).css( "left", adjustedX );
-              $( el ).css( "top", adjustedY );
+              $( el ).css( 'left', adjustedX );
+              $( el ).css( 'top', adjustedY );
         });
       }
     },
@@ -360,10 +373,10 @@ define(function(require) {
     disableScroll: function( flag ) {
       if( flag ) {
         document.documentElement.style.overflow = 'hidden';  // firefox, chrome
-        document.body.scroll = "no"; // ie only
+        document.body.scroll = 'no'; // ie only
       } else {
         document.documentElement.style.overflow = 'auto';  // firefox, chrome
-        document.body.scroll = "yes"; // ie only
+        document.body.scroll = 'yes'; // ie only
       }
     },
 
@@ -379,32 +392,39 @@ define(function(require) {
     },
 
     bind: function( el ) {
-      var self = this;
+      var self = this,
+          $hotspotCore = $( el ).find( '.hspot-core' );
+
       // hotspot clicks
-      $( el ).find( '.hspot-core' ).bind( 'click', function( event ) {
+      $hotspotCore.on( 'click', function( event ) {
         event.stopPropagation();
         self.click( event, self );
       });
 
-      $( el ).find( '.hspot-core' ).bind( 'mouseover', function( event ) {
+      $hotspotCore.on( 'mouseover', function() {
         self.hover( el, self, true );
       });
 
-      $( el ).find( '.hspot-core' ).bind( 'mouseout', function( event ) {
+      $hotspotCore.on( 'mouseout', function() {
         self.hover( el, self, false );
       });
     },
 
     place: function( el ) {
 
-      var self = this;
+      var self = this,
+          $el = $( el ),
+          data;
+
       if( 'background' === self.trackingMode ) {
+        $el = $( el );
+        data = $el.data();
 
         // this places the hotspot absolutely (currently by % fed from data-x,-y attrib)
-        var xAnchor = $( el ).data( "x" );
-        var yAnchor = $( el ).data( "y" );
-        $( el ).css( "left", xAnchor );
-        $( el ).css( "top", yAnchor );
+        $el.css({
+          left: data.x,
+          top: data.y
+        });
       } else {
         self.follow( el );
       }
@@ -415,7 +435,7 @@ define(function(require) {
           offsetTime  = 400;
 
       if( true === self.canShowHotspots ) {
-        $( self.$els ).each(function( index, el ) {
+        self.$els.each(function( index, el ) {
           if( $( el ).hasClass( 'eh-transparent' ) ) {
             var stagger = function() {
               $( el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
@@ -441,17 +461,17 @@ define(function(require) {
           hotspot   = container.find( '.hspot-core, .hspot-core-on' ),
           info      = container.find( '.overlay-base' );
 
-      if( container.data( 'state' ) == 'open' ) {
+      if( container.data( 'state' ) === 'open' ) {
         self.close( container, hotspot, info );
       } else {
-        if( self.$lastOpen && !container.is( self.$lastOpen ) ) {
+        if( self.lastOpen && !container.is( self.lastOpen ) ) {
           self.reset();
         }
          self.open( container, hotspot, info );
       }
     },
     clickOutside: function( event, self ) {
-      if( self.$lastOpen ){
+      if( self.lastOpen ){
         self.reset();
       }
     },
@@ -472,7 +492,7 @@ define(function(require) {
           if ( true /* self.hasTouch */ ) {
             screenHeight = Settings.isIPhone || Settings.isAndroid ? window.innerHeight : self.$window.height();
             // Stop the page from scrolling behind the modal
-            $( 'body' ).css({
+            Settings.$body.css({
               height: screenHeight,
               maxHeight: screenHeight,
               overflow: 'hidden'
@@ -516,19 +536,19 @@ define(function(require) {
           $parentContainer       = el.parent(),
           parentWidth            = $parentContainer.width(),
           parentHeight           = $parentContainer.height(),
-          parentObj              = { "h" : parentHeight, "w" : parentWidth, "el" : $parentContainer },
+          parentObj              = { 'h' : parentHeight, 'w' : parentWidth, 'el' : $parentContainer },
           $hotspot               = el,
           hotspotPosition        = $hotspot.position(),
           $overlay               = el.find( '.overlay-base' ),
           overlayHeight          = $overlay.height(),
           overlayWidth           = $overlay.width(),
-          overlayObj             = { "h" : overlayHeight, "w" : overlayWidth, "el" : $overlay },
+          overlayObj             = { 'h' : overlayHeight, 'w' : overlayWidth, 'el' : $overlay },
           variantSmall           = $overlay.hasClass( 'variant2' ) ? true : false,
           $top                   = $overlay.find( '.top' ),
           topHeight              = $top.height(),
           hasTop                 = topHeight > 0 ? true : false,
           $bottom                = $overlay.find( '.footer' ),
-          hasBottom              = $bottom.html() === "" ? false : true,
+          hasBottom              = $bottom.html() === '' ? false : true,
           $middle                = $overlay.find( '.middle' ),
           middleHeight           = ( false === hasTop && false === hasBottom ) ? $middle.outerHeight() - $middle.css( 'padding-bottom' ).replace( 'px', '' ) : $middle.outerHeight(),
           topOffsetLowLg         = ( ( middleHeight * 73.26102088 ) / 100 ) + topHeight,
@@ -593,7 +613,7 @@ define(function(require) {
             (self.isSmallChapter) ? $overlay.css( 'top', '-'+topOffsetLow+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
           }
         break;
-        case 5: 
+        case 5:
           // also check if it fits within the parentHeight
           (self.isSmallChapter) ? $overlay.css( 'top', '-'+topOffsetHigh+'px' ) : $overlay.css( 'top', '-'+topOffsetLow+'px' );
         break;
@@ -653,8 +673,8 @@ define(function(require) {
             $overlayTop = $overlay.find('.top'),
             $overlayBot = $overlay.find('.footer');
 
-        // first check if it has a top 
-        if ($overlayTop && count === 1) { $overlayTop.addClass('hidden'); } 
+        // first check if it has a top
+        if ($overlayTop && count === 1) { $overlayTop.addClass('hidden'); }
 
         // then if that fails check if it has a bottom
         if ($overlayBot && count > 1) { $overlayBot.addClass('hidden'); }
@@ -698,10 +718,10 @@ define(function(require) {
     transition: function( collection, direction ) {
       $( collection ).each( function( index, _el ) {
         switch(direction) {
-          case "on":
+          case 'on':
             $( _el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           break;
-          case "off":
+          case 'off':
             $( _el ).removeClass( 'eh-visible' ).addClass( 'eh-transparent' );
           break;
         }
@@ -725,7 +745,7 @@ define(function(require) {
 
 
       if( Settings.isLTIE9 ) {
-        $( Settings.$body ).find( '#'+self.hotspotId ).html( '' );
+        Settings.$body.find( '#'+self.hotspotId ).html( '' );
         $( '#'+self.hotspotId+'-arrow-left' ).addClass( 'hidden' );
         $( '#'+self.hotspotId+'-arrow-right' ).addClass( 'hidden' );
       }
@@ -746,7 +766,7 @@ define(function(require) {
       self.$lastTimer = setTimeout( anon, self.$transitionSpeed );
 
       // set the open status to zilch
-      self.$lastOpen = null;
+      self.lastOpen = null;
 
     },
 
@@ -757,23 +777,23 @@ define(function(require) {
           $parentContainer       = container.parent(),
           parentWidth            = $parentContainer.width(),
           parentHeight           = $parentContainer.height(),
-          parentObj              = { "h" : parentHeight, "w" : parentWidth, "el" : $parentContainer },
+          parentObj              = { 'h' : parentHeight, 'w' : parentWidth, 'el' : $parentContainer },
           $hotspot               = hotspot,
           hotspotPosition        = $hotspot.position(),
           overlayHeight          = info.height(),
           overlayWidth           = info.width(),
-          overlayObj             = { "h" : overlayHeight, "w" : overlayWidth, "el" : info };
+          overlayObj             = { 'h' : overlayHeight, 'w' : overlayWidth, 'el' : info };
 
       info.addClass('hidden'); // need to get the elements values
 
       // we are setting display:none when the trasition is complete, and managing the timer here
-      if( self.$lastOpen && container.is( self.$lastOpen[0] ) ) {
+      if( self.lastOpen && container.is( self.lastOpen[0] ) ) {
         self.cleanTimer();
       }
 
       //console.log('[[HOTSPOTS CONTROLLER -- open]]');
       // save last open state
-      self.$lastOpen = new Array( container, hotspot, info );
+      self.lastOpen = [ container, hotspot, info ];
 
       // add data- info to this hotspot
       container.data( 'state', 'open' ).addClass( 'info-jump-to-top' );
@@ -788,12 +808,12 @@ define(function(require) {
       // we have to set display: block to allow DOM to calculate dimension
       info.removeClass( 'hidden' );
 
-      // if were running a chapters we need to check if it fits, otherwise the logic is there since they allow overflowing 
+      // if were running a chapters we need to check if it fits, otherwise the logic is there since they allow overflowing
       // overlays
       (self.isChapter || self.isSmallChapter) ? self.checkIfFits( container ) : self.repositionByQuadrant( container );
 
       // fade in info window
-      if( true === self.showOverlayCentered ) {
+      if( self.showOverlayCentered ) {
         //$( '.hspot-global-details-overlay' ).find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
         self.reanchor( container, hotspot, info, true );
       } else {
@@ -801,7 +821,7 @@ define(function(require) {
           // turn on the window
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
           // get the global handle for iE7
-          var $ieHackAttack = $( Settings.$body ).find( '#'+self.hotspotId );
+          var $ieHackAttack = Settings.$body.find( '#'+self.hotspotId );
           // apply the offset window value
           $ieHackAttack.css({
             'left': info.offset().left,
@@ -825,20 +845,14 @@ define(function(require) {
           info.find( '.overlay-inner' ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
         }
       }
-      
+
     },
 
     reset: function( container ) {
       var self = this;
-      if ( !self.$lastOpen ) { return; }
+      if ( !self.lastOpen ) { return; }
 
-      self.close( self.$lastOpen[ 0 ], self.$lastOpen[ 1 ], self.$lastOpen[ 2 ] );
-    },
-
-    defaultPositions: function() {
-      for(var el in self.$els) {
-
-      }
+      self.close( self.lastOpen[ 0 ], self.lastOpen[ 1 ], self.lastOpen[ 2 ] );
     },
 
     cleanTimer: function() {
