@@ -21,9 +21,21 @@
   $maxPieces: 11;
   $calloutPieceNumber: 2;
   $pieceExplosionStep: 15%;
-
+  $piecesOffsetRight: 64px;
 
   .exploded-view {
+
+    .boxes {
+      position: relative;
+      background: $gray10;
+      background: rgba(33,37,48,0.95);
+    }
+
+    .light-text-dark-box {
+      .box {
+        background: transparent;
+      }
+    }
 
     .bottom {
       .table-center {
@@ -32,6 +44,7 @@
     }
 
     .top {
+      //position: relative;
       .table-center {
         vertical-align: top;
       }
@@ -45,10 +58,25 @@
       width: 100%;
     }
 
+    .intro {
+      &.box {
+        padding: 30px;
+      }
+    }
+
+    .detail {
+      position: relative;
+      .box {
+        bottom: auto;
+        top: 0;
+        position: relative; // take up layout space so module grows in height with this box
+      }
+    }
+
     .callout {
       right: $calloutPieceNumber * $pieceExplosionStep;
-      margin-right: 159px;
-      width: 200px;
+      margin-right: 109px;
+      width: 240px;
       h3 {
         margin-top: -6px;
       }
@@ -59,6 +87,10 @@
         right: auto;
         left: 5%;
       }
+    }
+
+    .pieces {
+      margin-right: $piecesOffsetRight;
     }
 
     @for $i from 0 through $maxPieces - 1 {
@@ -83,73 +115,49 @@
 
 }
 
+@media (max-width: px-em( 568 ) ) {
+
+  .exploded-view {
+
+    .callout {
+      width: 200px;
+    }
+
+  }
+
+}
+
 @media (max-width: px-em( 480 ) ) {
 
-  $pieceWidth: 85px;
-  $pieceHeight: 85px;
-  $maxPieces: 9;
-  $buttonInnerDiameter: 36px;
-  $buttonBorder: 6px;
+  $bgHeight: 376px;
+  $maxPieces: 11;
+  $calloutPieceNumber: 2;
+  $pieceWidth: 91px;
+  $pieceHeight: 154px;
+  $piecesOffsetRight: 64px;
+
+  $buttonInnerDiameter: 54px;
+  $buttonBorder: 9px;
   $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
 
   $buttonHoverShift: 12px;
 
   // The distance between each piece in the exploded state
-  $pieceExplosionStep: 8%;
+  $pieceExplosionStep: 15%;
 
   // The distance between each piece in the tease state
-  $pieceTeaseStep: 1%;
+  $pieceTeaseStep: 0.4%;
 
   .exploded-view {
 
-    .box {
-      padding: 20px;
-    }
-
-    .title {
-      h2 {
-        font-size: 2.125em;
-      }
-    }
-
-    .detail {
-      .box {
-        padding: 0 20px 20px 20px;
-
-        .span4 {
-          margin-top: 20px;
-        }
-
-      }
-    }
-
-    .pieces {
-      height: $pieceHeight;
-      margin-right: 75px;
-      top: 261px;
-    }
-
-    .callout {
-      margin-right: 0;
-      top: 0;
-      right: 0;
-      height: auto;
-      border: 0;
-      padding: 20px;
-
-      h3, p {
-        color: $gray20;
-      }
-    }
-
-    .piece {
-      width: $pieceWidth;
-      height: $pieceHeight;
+    .submodule > .image-module {
+      height: $bgHeight;
+      @include background-size(auto $bgHeight);
     }
 
     .cta {
       top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
-      right: 50px;
+      right: 75px;
 
       width: $buttonOuterDiameter + $buttonHoverShift;
       height: $buttonOuterDiameter;
@@ -169,15 +177,15 @@
         @include border-radius($buttonInnerDiameter / 2);
         margin: $buttonBorder;
 
-        font-size: 1em;
-        line-height: 1em;
+        font-size: 1.2em;
+        line-height: 1.7em;
         padding-top: 7px;
 
         &.fonticon-10-chevron-reverse {
-          padding-right: 3px;
+          padding-right: 4px;
         }
         &.fonticon-10-chevron {
-          padding-left: 3px;
+          padding-left: 4px;
         }
       }
 
@@ -189,6 +197,19 @@
           right: $buttonHoverShift;
         }
       }
+    }
+
+    .pieces {
+      top: 97px;
+      margin-right: 51px;
+    }
+
+    .piece {
+
+      width: $pieceWidth;
+      height: $pieceHeight;
+      @include background-size(($pieceWidth * $maxPieces) $pieceHeight);
+
     }
 
     @for $i from 0 through $maxPieces - 1 {
@@ -209,5 +230,14 @@
       }
     }
 
+    .piece-1 {
+      // the collapsed cap piece needs an extra margin to be positioned correctly
+      margin-right: 15px;
+      &.perspective {
+        background-position-x: -$pieceWidth * ($maxPieces - 1);
+      }
+    }
+
   }
+  
 }
