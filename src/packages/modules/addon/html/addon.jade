@@ -29,7 +29,6 @@ mixin addonMediaWrapper( isDIV, width )
 mixin mediaObject( data )
   iconClass = false
   isDIV = true
-  hasCopy = !!(data.copy || data.subhead)
 
   if data.type == "video"
     iconClass = "fonticon-10-video-play"
@@ -52,7 +51,7 @@ mixin mediaObject( data )
 
     .addon-body.ghost-center-wrap.v-wrap.pull-left
       .ghost-center
-        if hasCopy
+        if data.copy
           p.p3-bold.copy !{ data.copy }
         if data.subhead
           p.p4.subhead !{ data.subhead }
