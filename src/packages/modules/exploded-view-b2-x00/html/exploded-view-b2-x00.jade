@@ -1,0 +1,55 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('exploded-view-b2-x00')
++includeJavascriptModule('exploded-view-b2-x00')
+
+mixin submodule( submodule )
+  +partial( submodule.type, submodule.data, true )
+
+mixin center
+  .table-center-wrap
+    .table-center
+      block
+
+moduleClasses = [ "exploded-view", "full-inner" ]
+
++mainElement( moduleClasses )
+  
+  .container.full-bleed
+    if data.submodules
+      .submodule
+        +submodule( data.submodules[0] )
+
+  .container.full-bleed.inner.light-text-dark-box.detail
+    .box
+      .grid
+        .span4
+          h3.t6= data.label1
+          p.p4= data.caption1
+        .span4
+          h3.t6= data.label2
+          p.p4= data.caption2
+        .span4
+          h3.t6= data.label3
+          p.p4= data.caption3
+
+  .container.full-bleed.inner.pieces-container
+    .callout
+      h3= data.callout_title
+      p.p4= data.callout_body
+    .pieces
+      a.cta.no-hover-transition(href="#")
+        i.fonticon-10-chevron-reverse
+        i.fonticon-10-chevron
+      - for ( var i = 0; i < data.animation.numberDesktopPieces; i++ ) {
+        +iQBackgroundImage( data.animation.imgPieces, "piece piece-" + i )
+      - }
+
+  .container.full-bleed.inner.light-text-dark-box.force-mobile-bg.top
+    .grid.no-grid-at-767
+      .span5.offset1
+        +center
+          .intro.box
+            h2= data.title
+            p= data.body
+        
+

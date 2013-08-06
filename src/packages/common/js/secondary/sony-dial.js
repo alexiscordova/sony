@@ -10,8 +10,9 @@
 //
 // This dial module is intended to be used as an animated timer. It uses the SimpleKnob
 // jQuery plugin as a base and extends that with `start`, `stop`, `pause`, and `resume`
-// methods to animate the dial. At the moment, It _requires_ the `&lt;input&gt;` to be
-// on the page already with the data-* attributes for the knob.
+// methods to animate the dial. Knob options can be either set via data-* attributes,
+// or an object `knob` when the dial is initialized. Dial styles can also be
+// updated via the `setStyles` function (for example, the dial might need to be smaller at mobile size).
 //
 // *Example Usage:*
 //
@@ -33,6 +34,12 @@ define(function( require ) {
   var $ = require('jquery'),
       SimpleKnob = require('secondary/jquery.simpleknob');
 
+  // Detect canvas support
+  var isCanvasSupported = (function() {
+    var canvas = document.createElement( 'canvas' );
+    return canvas.getContext && canvas.getContext('2d');
+  }());
+
   var Dial = function( options ) {
     var self = this;
 
@@ -45,13 +52,22 @@ define(function( require ) {
 
     init : function() {
       var self = this,
-          canvas = document.createElement( 'canvas' ),
-          hasCanvas = canvas.getContext && canvas.getContext('2d');
+          data,
+          hasData;
 
       self.$el = $( self.element );
+      data = self.$el.data();
+      hasData = !!data.width;
 
-      if ( hasCanvas ) {
+      if ( isCanvasSupported ) {
         self.$el.simpleKnob();
+
+        // If there is a data-width attribute on the `<input>` element
+        // assume the knob is already styled with the wanted attributes,
+        // otherwise it should use the options given on init
+        if ( self.knob || !hasData ) {
+          self.setStyles( self.knob );
+        }
 
         // So dumb that knob doesn't add any hooks to its element >:(
         self.$el.parent().addClass('simpleknob');
@@ -60,6 +76,12 @@ define(function( require ) {
 
     set : function( value ) {
       this.$el.val( value ).trigger('change');
+    },
+
+    setStyles : function( styles ) {
+      var self = this;
+
+      self.$el.trigger( 'configure', styles );
     },
 
     start : function() {
@@ -135,6 +157,25 @@ define(function( require ) {
 
       self.isRunning = false;
       cancelAnimationFrame( self.requestID );
+    },
+
+    destroy : function() {
+      var self = this;
+
+      self.stop();
+
+      if ( isCanvasSupported ) {
+        // Destroy simpleknob manually because it doesn't have a destroy method
+        self.$el.parent().off('configure');
+        self.$el.
+          off('configure change').
+          removeData('kontroled').
+          removeAttr('style').
+          siblings('canvas').
+            remove().
+            end().
+          unwrap();
+      }
     }
   };
 

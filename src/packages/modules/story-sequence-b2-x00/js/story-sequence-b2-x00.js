@@ -5,11 +5,15 @@
 // * **Version:** 1.0
 // * **Modified:** 06/24/2013
 // * **Author:** Glen Cheney
-// * **Dependencies:** jQuery 1.9.1+, Modernizr
+// * **Dependencies:** jQuery 1.9.1+, Modernizr,
+//    [SonySequence](../secondary/sony-img-sequence.html),
+//    [Timer](../secondary/sony-timer.html),
+//    [Viewport](../secondary/sony-viewport.html),
+//    [Dial](../secondary/sony-dial.html)
 //
 // *Example Usage:*
 //
-//      new StorySequence( $('.carousel-sequence')[0] );
+//      new StorySequence( $('.story-sequence')[0] );
 
 define(function(require) {
 
@@ -55,7 +59,6 @@ define(function(require) {
 
       self.createDial();
       self.subscribeToEvents();
-      self.onResize();
     },
 
     setVars : function() {
@@ -80,7 +83,7 @@ define(function(require) {
       var self = this;
 
       // Listen for global resize
-      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      // Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
 
       // Show sequence when the CTA button is clicked
       self.$btnTrigger.on( 'click', $.proxy( self.onCTAClick, self ) );
@@ -95,6 +98,13 @@ define(function(require) {
       var self = this;
 
       self.dial = new Dial({
+        knob: {
+          width: 60,
+          height: 60,
+          thickness: 0.2,
+          bgColor: '#d2d2db',
+          fgColor: '#504d56',
+        },
         element: self.$dial,
         length: self.restLength
       });
@@ -102,9 +112,9 @@ define(function(require) {
       self.updateDisplayCount();
     },
 
-    onResize : function() {
+    // onResize : function() {
 
-    },
+    // },
 
     onCTAClick : function() {
       var self = this;
@@ -192,23 +202,20 @@ define(function(require) {
       self.$el.addClass( 'is-last-stop' );
     },
 
+    // Add active and visible classes to current stop content
     showStopContent : function() {
       var self = this;
 
       self.$stopContent
         .eq( self.currentStop )
-        .removeClass( self.hiddenContentClass )
         .addClass( self.activeContentClass );
     },
 
+    // Remove active and visible classes from all content
     hideStopContent : function() {
       var self = this;
       self.$stopContent.each(function() {
         var $content = $( this );
-
-        if ( !$content.hasClass( self.hiddenContentClass ) ) {
-          $content.addClass( self.hiddenContentClass );
-        }
 
         if ( $content.hasClass( self.activeContentClass ) ) {
           $content.removeClass( self.activeContentClass );
@@ -224,7 +231,7 @@ define(function(require) {
           index;
     },
 
-    gotoStop : function( index, noAnimation ) {
+    gotoStop : function( index ) {
       var self = this,
           stop = self.getStop( index ),
           stopIndex = self.stops[ stop ];
@@ -317,8 +324,7 @@ define(function(require) {
   };
 
   StorySequence.settings = {
-    hiddenContentClass: 'invisible',
-    activeContentClass: 'active',
+    activeContentClass: 'active in',
     animationspeed: 100,
     currentStop: 0,
     isSequenceVisible: false,

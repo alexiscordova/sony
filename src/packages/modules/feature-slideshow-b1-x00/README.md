@@ -1,36 +1,42 @@
 # Feature Slideshow
 
-The feature slideshow is a slideshow which fades between slides. It uses sony-fade.js which does nearly everything. Caption sizes are set dynamically with javascript because of the currently limited availability of flexbox. The backdrop image is optional. `crossfade`, `delay`, and `speed` can all set from the json configuration. The crossfade value is a number between zero and one. A crossfade of 1.0 means that both images will fade at the same time. A crossfade of zero means the previous slide will wait until the next slide has completely faded in before it fades out.
+_Batch 1 Nurun custom module_
+
+The feature slideshow is a slideshow which fades between slides. It uses sony-fade.js which does nearly everything. Caption sizes are set dynamically with javascript because of the currently limited availability of flexbox.
 
 
-## Document Overview
+## Dependencies
+* jQuery
+* Modernizr
+* Sony Environment
+* [Fade](../../common/js/secondary/sony-fade.js)
 
-Each module will include this document, which contains an ordered list of the files required for the module. This manifest will be split into two sections - files in document HEAD & TAIL files (those loaded at the bottom of the file). While, CSS files will all be in the document HEAD, the two section convention will be followed for consistency. Paths should be relative to the base folder, where this file is. The CSS and JS files themselves should be un-minified development versions. Tasks like minification and SCSS compilation will be handled at build time by the platform team.
+## Source Files
+The source files required for this module.
 
-
-== Related Source ==
-
-* feature-slideshow-b1-x00.jade
-  * html/feature-slideshow-b1-x00.jade
-
-* feature-slideshow-b1-x00.js
-  * js/feature-slideshow-b1-x00.js
-
-* feature-slideshow-b1-x00.scss
-  * css/feature-slideshow-b1-x00.scss
-
-
-### Example JSON File(s)
+* [feature-slideshow-b1-x00.jade](html/feature-slideshow-b1-x00.jade)
+* [feature-slideshow-b1-x00.js](js/feature-slideshow-b1-x00.js)
+* [index.js](js/index.js)
+* [feature-slideshow-b1-x00.scss](css/feature-slideshow-b1-x00.scss)
+* [_responsive-feature-slideshow-b1-x00.scss](css/_responsive-feature-slideshow-b1-x00.scss)
 
 
-==JSON files==
+## JSON
 
-* feature-slideshow-default.json
-  * demo/data/feature-slideshow-default.json
+### Example files(s)
 
-* feature-slideshow-editorial.json
-  * demo/data/feature-slideshow-editorial.json
+* [feature-slideshow-default.json](demo/data/feature-slideshow-default.json)
+* [feature-slideshow-editorial.json](demo/data/feature-slideshow-editorial.json)
 
+### JSON Properties
+
+* `mode` : Either `"slideshow"` or `"editorial"`. Slideshows have the title and body copy on top of the slideshow while the editorial mode places the copy above the carousel.
+* `crossfade` : Optional. A number between zero and one. A crossfade of 1.0 means that both images will fade at the same time. A crossfade of zero means the previous slide will wait until the next slide has completely faded in before it fades out.
+* `backdrop` : Optional. A background image for the module. Will be present at all times.
+* `speed` : Optional. Transition duration for the slides (length of the fading).
+* `style` : Box and copy colors. Can have the same values as E1s.
+* `title` : The title for the module. Visible at all times.
+* `body` : The body copy for the module. Visible at all times.
 
 ### Submodule Information ReadMe
 

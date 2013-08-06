@@ -11,13 +11,18 @@ include ../../../common/html/jade-helpers.jade
   //- 6. Story
   //- 7. Slideshow
 
-mixin addonMediaWrapper( isDIV )
+mixin addonMediaWrapper( isDIV, width )
   classes = [ "addon-media", "pull-left" ]
+  width = width ? width : false
+
+  //- because this style has a semicolon, it needs a dash, otherwise jade breaks
+  - style = width ? 'max-width:' + width + 'px;' : false
+
   if isDIV
-    div(class=classes)
+    div(class=classes, style=style)
       block
   else
-    a(class=classes, href="#")
+    a(class=classes, href="#", style=style)
       block
 
 //- Used for everything except quotes and tweets
@@ -38,7 +43,7 @@ mixin mediaObject( data )
     isDIV = false
 
   .addon-mo.addon-inner.clearfix
-    +addonMediaWrapper( isDIV )
+    +addonMediaWrapper( isDIV, data.width )
       +iQBackgroundImage( data.img, "media-object" )
       if iconClass
         .icon-wrap
@@ -46,7 +51,8 @@ mixin mediaObject( data )
 
     .addon-body.ghost-center-wrap.v-wrap.pull-left
       .ghost-center
-        p.p3-bold.copy !{ data.copy }
+        if data.copy
+          p.p3-bold.copy !{ data.copy }
         if data.subhead
           p.p4.subhead !{ data.subhead }
         else if !iconClass && data.link

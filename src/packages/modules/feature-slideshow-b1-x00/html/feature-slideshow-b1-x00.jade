@@ -20,16 +20,14 @@ mixin featureSlide( data )
     div(class=innerClasses)
       if data.img
         +iQBackgroundImage( data.img )
-      +caption( data.caption )
+      +caption( data )
 
 
-mixin caption( caption )
-  caption = caption ? caption : {}
-  stat = caption.stat ? caption.stat : {}
-  statValue = stat.value ? stat.value : "0.00"
-  statUnit = stat.unit ? stat.unit : false
-  isSuperScript = stat.superscript != null ? stat.superscript : false
-  statDescription = caption.description ? caption.description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
+mixin caption( data )
+  statValue = data.caption_stat_value ? data.caption_stat_value : "0.00"
+  statUnit = data.caption_stat_unit ? data.caption_stat_unit : false
+  isSuperScript = data.caption_stat_superscript != null ? data.caption_stat_superscript : false
+  statDescription = data.caption_description ? data.caption_description : "Finder terminal vmware fusion ios simulator firefox nightly webkit"
 
   .caption
     div(class=isSlideshowMode ? "container" : false)
@@ -59,7 +57,7 @@ mixin copyGrid( data )
 mixin copyBlock( data )
   titleClass = "t2"
   //- subtitleClass = "t6"
-  bodyClass = "p1"
+  bodyClass = "p2"
   linkClass = "lt3"
 
   +copyGrid( data )
@@ -84,7 +82,6 @@ mainElementClasses = [ mode, "fs-module" ]
 
 crossfade = data.crossfade ? data.crossfade : false
 threshold = data.threshold ? data.threshold : false
-delay = data.delay ? data.delay : false
 speed = data.speed ? data.speed : false
 
 if data.variation && data.variation.background
@@ -97,7 +94,7 @@ if data.variation && data.variation.background
   .container.copy-grid
     +copyBlock( data )
   .fs-carousel-wrapper.sony-fade-wrapper
-    .fs-carousel.sony-fade(data-crossfade=crossfade, data-delay=delay, data-threshold=threshold, data-speed=speed)
+    .fs-carousel.sony-fade(data-crossfade=crossfade, data-threshold=threshold, data-speed=speed)
       +featureSlides( data )
 
 

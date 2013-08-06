@@ -1,4 +1,3 @@
-
 // Sony Audio Player (SonyAudioPlayer) Module
 // --------------------------------------------
 //
@@ -11,18 +10,19 @@
 // This module provides a UI interface for controlling an instance of the
 // global `SonyAudio` module.
 
-define(function(require){
+define(function(require) {
 
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr'),
-      SonyAudio = require('secondary/index').sonyAudio;
+    Modernizr = require('modernizr'),
+    SonyDraggable = require('secondary/index').sonyDraggable,
+    SonyAudio = require('secondary/index').sonyAudio;
 
-  var SonyAudioPlayer = function(element){
+  var SonyAudioPlayer = function(element) {
 
     var self = this,
-        init;
+      init;
 
     init = self.init(element);
 
@@ -44,17 +44,18 @@ define(function(require){
 
       self.$el = $(element);
 
-      if ( self.$el.length > 1 ) {
+      if (self.$el.length > 1) {
 
         var instances = [];
 
-        self.$el.each(function(){
+        self.$el.each(function() {
           instances.push(new SonyAudioPlayer(this));
         });
 
         return instances;
       }
 
+      self.bindNav();
       self.setTrack(0);
 
       return self;
@@ -66,27 +67,34 @@ define(function(require){
     setTrack: function(which) {
 
       var self = this,
-          $track = self.$el.find('.track').eq(which),
-          $sources = $track.find('.source');
+        $track = self.$el.find('.track').eq(which),
+        $sources = $track.find('.source');
 
       // Create audio track with provided sources.
 
       var track = new SonyAudio({
         sources: self.getSourceList($sources),
+        oninit: function() {
+          self.$el.removeClass('playing paused').addClass('loading');
+          self.$el.trigger('SonyAudioPlayer:isLoading');
+        },
         onpause: function() {
-          self.$el.removeClass('playing').addClass('paused');
+          self.$el.removeClass('playing loading').addClass('paused');
+          self.$el.trigger('SonyAudioPlayer:isPaused');
         },
         onplay: function() {
-          self.$el.removeClass('paused').addClass('playing');
+          self.$el.removeClass('paused loading').addClass('playing');
+          self.$el.trigger('SonyAudioPlayer:isPlaying');
         },
         onfinish: function() {
-          self.$el.removeClass('playing').addClass('paused');
+          self.$el.removeClass('playing loading').addClass('paused');
+          self.$el.trigger('SonyAudioPlayer:isPaused');
         }
       });
 
-      self.bindNav(track);
-      self.bindModuleAPI(track);
-      self.setAlbumArt(which);
+      self.bindModuleAPI(track)
+        .bindModuleResponse()
+        .setAlbumArt(which);
 
       return self;
     },
@@ -97,10 +105,10 @@ define(function(require){
 
       var sourceList = {};
 
-      $sources.each(function(a,b){
+      $sources.each(function(a, b) {
 
         var key = $(this).text(),
-            value = $(this).find('a').attr('href');
+          value = $(this).find('a').attr('href');
 
         sourceList[key] = value;
       });
@@ -110,18 +118,18 @@ define(function(require){
 
     // Binds the <nav> elements to the `track` object's API.
 
-    bindNav: function(track) {
+    bindNav: function() {
 
       var self = this;
 
       self.$el.on('click', '.play', function(e) {
         e.preventDefault();
-        track.play();
+        self.$el.trigger('SonyAudioPlayer:play');
       });
 
       self.$el.on('click', '.pause', function(e) {
         e.preventDefault();
-        track.pause();
+        self.$el.trigger('SonyAudioPlayer:pause');
       });
 
       return self;
@@ -142,8 +150,49 @@ define(function(require){
 
       var self = this;
 
-      self.$el.on('SonyAudioPlayer:play', function(e, setting){
+      self.$el.on('SonyAudioPlayer:play', function(e, setting) {
         track.play(setting);
+      });
+
+      self.$el.on('SonyAudioPlayer:pause', function(e) {
+        track.pause();
+      });
+
+      self.$el.on('SonyAudioPlayer:getPosition', function(e, cb) {
+        cb(track.getPosition());
+      });
+
+      self.$el.on('SonyAudioPlayer:getDuration', function(e, cb) {
+        cb(track.getDuration());
+      });
+
+      self.$el.on('SonyAudioPlayer:setPosition', function(e, newPosition) {
+        track.setPosition(newPosition);
+      });
+
+      self.$el.on('SonyAudioPlayer:setVolume', function(e, newVolume) {
+        track.setVolume(newVolume);
+      });
+
+      return self;
+    },
+
+    // Listens for custom events and calls the appropriate UI methods in response.
+
+    bindModuleResponse: function() {
+
+      var self = this;
+
+      self.$el.on('SonyAudioPlayer:isLoading', function(e) {
+
+      });
+
+      self.$el.on('SonyAudioPlayer:isPlaying', function(e) {
+        self.createScrubber();
+      });
+
+      self.$el.on('SonyAudioPlayer:isPaused', function(e) {
+        self.removeScrubber();
       });
 
       return self;
@@ -154,11 +203,135 @@ define(function(require){
 
     setAlbumArt: function(which) {
 
+      var self = this,
+        $activeTrack = self.$el.find('.active-track'),
+        $newTrack = self.$el.find('.track').eq(which),
+        $newAlbumArt = $newTrack.find('img'),
+        regularSource = $newAlbumArt.attr('src'),
+        activeSource = $newTrack.data('active-art');
+
+      $activeTrack.empty().append($newAlbumArt.clone());
+
+      self.$el.on('SonyAudioPlayer:isPlaying', function(e) {
+        $activeTrack.find('img').attr('src', activeSource);
+      });
+
+      self.$el.on('SonyAudioPlayer:isPaused', function(e) {
+        $activeTrack.find('img').attr('src', regularSource);
+      });
+
+      return self;
+    },
+
+    // Creates a scrubber overlay for the track, if `data-scrubber` is defined.
+
+    createScrubber: function() {
+
+      var self = this,
+        $containment = self.$el.find('.sap-hit-area'),
+        $scrubber = $containment.find('.scrubber'),
+        bounds = {};
+
+      bounds.x = {
+        'min': 0,
+        'max': 100
+      };
+
+      $containment.addClass('active');
+
+      self.$el.trigger('SonyAudioPlayer:getDuration', function(duration) {
+        self.$el.trigger('SonyAudioPlayer:getPosition', function(position) {
+
+          $scrubber.sonyDraggable({
+            'axis': 'x',
+            'unit': '%',
+            'containment': $containment,
+            'drag': $.proxy(self.onScrubberDrag, self),
+            'bounds': bounds
+          });
+
+          $scrubber.sonyDraggable('setPositions', {x: position / duration * 100});
+
+        });
+      });
+
+      $scrubber.off('sonyDraggable:dragStart').on('sonyDraggable:dragStart', function(){
+        self.clearScrubberInterval();
+        self.$el.trigger('SonyAudioPlayer:setVolume', 0);
+      });
+
+      $scrubber.off('sonyDraggable:dragEnd').on('sonyDraggable:dragEnd', function(){
+        self.createScrubberInterval();
+        self.$el.trigger('SonyAudioPlayer:setVolume', 25);
+      });
+
+      self.createScrubberInterval();
+
+      return self;
+    },
+
+    // Responds to drag events from the scrubber, updating the playhead to the current position.
+
+    onScrubberDrag: function(e) {
+
+      var self = this,
+          newLeft = e.position.left;
+
+      self.$el.trigger('SonyAudioPlayer:getDuration', function(duration) {
+        self.$el.trigger('SonyAudioPlayer:setPosition', newLeft / 100 * duration);
+      });
+
+      return self;
+    },
+
+    // Creates a new interval to periodically update the scrubber.
+    // Returns false if interval already exists.
+
+    createScrubberInterval: function() {
+
+      var self = this,
+        $scrubber = self.$el.find('.scrubber');
+
+      if ( self.scrubberInterval ) {
+        return false;
+      }
+
+      self.scrubberInterval = setInterval(function(){
+
+        self.$el.trigger('SonyAudioPlayer:getDuration', function(duration) {
+          self.$el.trigger('SonyAudioPlayer:getPosition', function(position) {
+            $scrubber.sonyDraggable('setPositions', { x: position / duration * 100 }, true);
+          });
+        });
+
+      }, 250);
+
+      return self;
+    },
+
+    // Clears and nullifies the interval created by `self.createScrubberInterval`.
+
+    clearScrubberInterval: function() {
+
       var self = this;
 
-      self.$el.css({
-        backgroundImage: 'url('+self.$el.find('.track').eq(which).data('album-art')+')'
-      });
+      self.scrubberInterval = clearInterval(self.scrubberInterval);
+
+      return self;
+    },
+
+    // Remove the scrubber for the track, if it exists.
+
+    removeScrubber: function() {
+
+      var self = this,
+        $containment = self.$el.find('.sap-hit-area');
+
+      $containment.removeClass('active');
+
+      $containment.find('.scrubber').sonyDraggable('destroy');
+
+      self.clearScrubberInterval();
 
       return self;
     }

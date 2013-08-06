@@ -7,9 +7,44 @@
   background-position: center center;
 }
 
-$dialSize: 40px;
+$dialSize: 60px;
+
+// Layering
+// --------------
+
+// .ss-inner-container > .grid > .box
+// .dial-wrap
+$zIndexDialWrap: 3;
+$zIndexInnerContainer: 2;
+$zIndexActiveContent: 2;
+$zIndexInactiveContent: 1;
+
+// .ss-backdrop
+// .ss-inner
+// .ss-cover
+$zIndexCover: 3;
+$zIndexInner: 2;
+$zIndexCoverVisibleSequence: 1;
+$zIndexBackdrop: 1;
+
+// .ss-cover-content
+// .ss-cover-img
+$zIndexCoverImg: 1;
+$zIndexCoverContent: 2;
+
+
 
 .story-sequence {
+
+  // Wrapper for sequence. Includes dail
+  .ss-inner {
+    position: relative;
+    z-index: $zIndexInner;
+  }
+
+  .ss-inner-container {
+    z-index: $zIndexInnerContainer;
+  }
 
   // Loader
   .loading {
@@ -18,30 +53,34 @@ $dialSize: 40px;
 
   // Cover with title & CTA
   .ss-cover {
-    z-index: 3; // above the sequence (.ss-inner)
+    z-index: $zIndexCover; // above the sequence (.ss-inner)
     @include fill-parent();
   }
 
   // Put the cover behind the sequence when the sequence is visible
   &.is-sequence-visible .ss-cover {
-    z-index: 1;
+    z-index: $zIndexCoverVisibleSequence;
   }
 
   .ss-backdrop,
   .ss-cover-img {
-    z-index: 1;
+    z-index: $zIndexBackdrop;
     @include fill-parent();
     @include background-cover();
+  }
+
+  .ss-cover-img {
+    z-index: $zIndexCoverImg;
   }
 
   // Position above backdrop and cover image
   // Needs z-index set because of IE7
   .ss-cover-content {
     position: relative;
-    z-index: 2;
+    z-index: $zIndexCoverContent;
   }
 
-  .title {
+  .ss-cover .title {
     margin-top: 16%;
     margin-bottom: 0;
   }
@@ -52,40 +91,35 @@ $dialSize: 40px;
     margin-bottom: 0;
   }
 
-  // Wrapper for sequence. Includes dail
-  .ss-inner {
-    position: relative;
-    z-index: 2;
-  }
-
 
   // Stop Content
   // -----------------
-  .stop-content {
-    z-index: 2;
-    @include fill-parent();
-  }
 
   // Needs more specificity to override grid margin-left
   .grid .box {
     position: absolute;
-    z-index: 1;
+    z-index: $zIndexInactiveContent;
     float: none; // Boxes are positioned absolute, they don't need floats
     margin: 0 auto;
   }
 
   .box.active {
-    z-index: 2;
+    z-index: $zIndexActiveContent;
   }
 
   .stop-copy {
     width: 100%;
+
+    .title:only-child {
+      margin-bottom: 0;
+    }
   }
 
 
   // Dial & Reset
   // -----------------
   .dial-wrap {
+    z-index: $zIndexDialWrap;
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -103,19 +137,31 @@ $dialSize: 40px;
   }
 
   .btn-reset {
-    @include xy( 0, 0 );
+    @include fill-parent();
+    background-color: $btnSpecialBackground;
+    border-radius: 50%;
+  }
+
+  // Hide hovers from touch
+  .no-touch & .btn-reset:hover {
+    background-color: $themeGreen;
   }
 
   .reset-icon {
-    font-size: $dialSize;
-    color: $btnSpecialBackground;
+    font-size: $dialSize / 2;
+    color: $white;
+  }
+
+  .no-touch & .btn-reset:hover i {
+    color: $themePurple;
   }
 
   .dial-counter {
     position: absolute;
-    top: ($dialSize / 2) - 6px;
+    top: 19px;
     left: 0;
     width: $dialSize;
+    margin: 0;
   }
 
   .btn-reset {

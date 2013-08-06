@@ -145,6 +145,11 @@ $scale: 1.1875;
   // Optional link
   .addon-link {
     display: block;
+
+    // Remove margins if it's the only copy in the container
+    &:only-child {
+      margin: 0;
+    }
   }
 
   .addon-link,

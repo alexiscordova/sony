@@ -57,7 +57,6 @@ define(function(require){
       // (in the case of Mozilla) is poorly supported.
 
       SoundManager.setup({
-        flashVersion: 9,
         debugMode: false,
         debugFlash: false,
         url: 'swf',
@@ -85,7 +84,7 @@ define(function(require){
 
     var moduleId = 'sonyAudio-' + _moduleCount,
         currentTime = 0,
-        currentSound,
+        currentSound = {},
         configDefaults,
         initializeSource;
 
@@ -93,6 +92,7 @@ define(function(require){
 
     configDefaults = {
       sources: {},
+      oninit: function() {},
       onpause: function() {},
       onplay: function() {},
       onfinish: function() {}
@@ -106,8 +106,9 @@ define(function(require){
       SoundManager.createSound({
         id: moduleId + '-' + i,
         url: config.sources[i],
-        autoLoad: true,
+        autoLoad: false,
         autoPlay: false,
+        volume: 25,
         onpause: function() {
           currentTime = this.position;
           config.onpause();
@@ -141,7 +142,7 @@ define(function(require){
       // `Audio.play()`: Play the sound.
       //
       // * `source`: the key string corresponding to one of the audio sources.
-      //             If not specified, plays the previously loaded source.
+      //     If not specified, plays the previously loaded source.
 
       play: function(source) {
 
@@ -149,6 +150,24 @@ define(function(require){
 
         if ( source ) {
           currentSound = SoundManager.getSoundById(moduleId + '-' + source);
+        }
+
+        // Wait until track is ready to play before attempting to play.
+
+        if ( currentSound.readyState !== 3 ) {
+
+          currentSound.load();
+
+          config.oninit();
+
+          self.initInterval = setInterval(function(){
+            if ( currentSound.readyState === 3 ) {
+              self.play(source);
+              clearInterval(self.initInterval);
+            }
+          }, 500);
+
+          return self;
         }
 
         self.pause();
@@ -159,7 +178,7 @@ define(function(require){
       },
 
       // `Audio.pause()`: Pause all sound. To prevent audio collisions, all audio is stopped when
-      //                  this method is called.
+      //     this method is called.
 
       pause: function() {
 
@@ -168,7 +187,60 @@ define(function(require){
         SoundManager.pauseAll();
 
         return self;
+      },
+
+      // `Audio.getPosition()`: Return the current track's position, in ms.
+
+      getPosition: function() {
+
+        var self = this;
+
+        return currentSound.position;
+      },
+
+      // `Audio.getPosition()`: Return the current track's duration, in ms.
+
+      getDuration: function() {
+
+        var self = this;
+
+        return currentSound.duration;
+      },
+
+      // `Audio.setPosition()`: Set the current track's position, in ms.
+      //
+      // * `newPosition`: integer position to set track to, in ms.
+
+      setPosition: function(newPosition) {
+
+        var self = this;
+
+        if ( !currentSound.setPosition ) {
+          return false;
+        }
+
+        currentSound.setPosition(newPosition);
+
+        return self;
+      },
+
+      // `Audio.setVolume()`: Sets the current track's volume.
+      //
+      // * `newVolume`: integer volume, 0-100.
+
+      setVolume: function(newVolume) {
+
+        var self = this;
+
+        if ( !currentSound.setVolume ) {
+          return false;
+        }
+
+        currentSound.setVolume(newVolume);
+
+        return self;
       }
+
     };
 
     return api;

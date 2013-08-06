@@ -1,0 +1,512 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$transitionSpeed: 0.5s;
+$miniWindowWidth : 500;
+$miniItemWidth: 105;
+$itemWidth: 255;
+$windowWidth: 1100;
+
+.fs-spacing {
+  height: 250px;
+}
+
+@for $i from 1 through 10 {
+  .fs-spacing:nth-of-type(#{$i}) {
+    background-color: hsl(0, 0%, $i * 10%);
+  }
+}
+
+.unselectable * {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.dim-the-lights {
+  @include transition();
+  opacity: 0.45;
+}
+
+.light-em-up {
+  @include transition();
+  opacity: 1;
+}
+
+.e360debug {
+  width: 90%;
+  height: 150px;
+  border: 1px solid green;
+}
+
+.editorial {
+
+  .center {
+    text-align: center;
+  }
+
+  &.gray {
+    background: $gray80;
+  }
+
+  &.full-inner .sony-sequence .box {
+    margin-top: -1%;
+    padding: 56px 52px 50px 52px;
+  }
+}
+
+
+.editorial .submodule .sony-sequence .image-module.visuallyhidden {
+  position: absolute;
+}
+
+.sequence-note-container {
+  position: absolute;
+  width: 100%;
+
+  .sequence-notes {
+    @include transition();
+    @include opacity(100);
+
+    &.inactive {
+      @include opacity(0);
+    }
+  }
+
+  .note {
+    position: absolute;
+    z-index: 100;
+
+    .headline {
+      color: $gray20;
+    }
+
+    .subhead {
+      color: $gray40;
+    }
+
+    &.direction-right {
+      text-align: right;
+
+      .pointer {
+        top: 12px;
+        width: 30px;
+        right: -42px;
+        &:before {
+          top: -2px;
+          left: 30px;
+        }
+      }
+    } // end &.direction-right
+
+    &.direction-left {
+      .pointer {
+        top: 12px;
+        width: 30px;
+        left: -42px;
+        &:before {
+          top: -2px;
+          left: 0;
+        }
+      }
+    } // end &.direction-left
+
+    &.direction-down {
+      text-align: center;
+
+      .pointer {
+        height: 30px;
+        top: 50px;
+        left: 50%;
+        &:before {
+          top: 30px;
+          left: -2px;
+        }
+      }
+    } // end &.direction-down
+
+    &.direction-up {
+      text-align: center;
+
+      .pointer {
+        height: 30px;
+        top: -38px;
+        left: 50%;
+        &:before {
+          top: 0;
+          left: -2px;
+        }
+      }
+    } // end &.direction-up
+  } // end .note
+
+
+  .pointer {
+    position: absolute;
+    display: block;
+    background: $buttonOrange;
+    width: 1px;
+    height: 1px;
+
+    &:before {
+      content: "";
+      position: relative;
+      display: block;
+      background: $buttonOrange;
+      height: 5px;
+      width: 5px;
+      @include border-radius(50%);
+    }
+  }
+
+} // end .sequence-note-container
+
+.sony-sequence {
+  position: relative;
+  padding: {
+    top: 75px;
+    bottom: 50px;
+  }
+
+  .box {
+    margin-top: -1%;
+    padding: 56px 52px 50px 52px;
+  }
+
+  .sequence-copy {
+    width: 100%;
+    position: absolute;
+    top: 100px;
+
+    &.editorial-sequence {
+      top: 0;
+    }
+
+    .box {
+      position: relative;
+      z-index: 100;
+    }
+  }
+
+  .loading {
+    position: absolute;
+    top: 50%;
+    padding-left: 50%;
+    margin: -30px 0 0 -30px;
+  }
+
+  div.image-module {
+    height: 560px;
+    background-position: center center;
+    background-size: cover;
+  }
+
+  .outer {
+    position: relative;
+    .image-module-360 {
+      text-align: center;
+    }
+  }
+
+  .controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    text-align: center;
+    background:rgba(0,0,0,0);
+
+    &.hasNav {
+      bottom: 110px;
+    }
+    &.isSmall {
+      bottom: 36px;
+    }
+    .dark {
+      color: $white;
+    }
+    .light {
+      color: $gray40;
+    }
+    .drag-controls {
+      position: relative;
+      top: 75%;
+    }
+    .multiModule {
+      bottom: 110px;
+    }
+    .instructions {
+      margin: 0 18px 0 18px;
+      display: inline-block;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+  } // end .controls
+
+  .control-bar-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+
+
+    &.multi-label {
+
+      .slider {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .label-container {
+        position: relative;
+        width: percentage(500/1040);
+        margin: 0 auto;
+        @include clearfix();
+      }
+
+      .label-item-container {
+        position: relative;
+        display: table;
+        height: 100%;
+
+        .nav-label {
+          display: table-cell;
+          vertical-align: middle;
+        }
+      }
+
+      .notch {
+        position: absolute;
+        top: -36px;
+        left: -3px;
+        display: block;
+        width: 16px;
+        height: 16px;
+        background: $gray50;
+        @include border-radius(50%);
+      }
+
+      .label-text {
+        position: absolute;
+        top: 0;
+        width: 75px;
+        text-align: center;
+
+      }
+
+      .slider-label {
+        top: 25px;
+        position: absolute;
+        width: auto;
+
+        &.text-right {
+          .label-text {
+            right: 0;
+            text-align: right;
+          }
+        }
+
+        &.text-left {
+          .label-text {
+            left: 0;
+            text-align: left;
+          }
+        }
+
+        &.text-middle {
+          .label-text {
+            left: -35px;
+          }
+        }
+
+        &.label-left {
+          left: 0;
+          text-align: left;
+        }
+        &.label-right {
+          right: 0;
+          text-align: right;
+        }
+      } // end .slider-label
+    } // end &.multi-label
+
+
+    &.fallback {
+      margin: -4px 0 0;
+      width: 100%;
+      height: 68px;
+      text-align: center;
+
+      .label-container {
+        position: relative;
+        display: table;
+        height: 100%;
+        width: 100%;
+
+        .nav-label {
+          position: relative;
+          display: table-cell;
+          vertical-align: middle;
+          zoom: 1;
+        }
+      }
+
+      .slider-label {
+        display: inline-block;
+        position: relative;
+        margin: 0;
+        line-height: 16px;
+        height: 48px;
+        padding:10px percentage(10/$windowWidth);
+        top: auto;
+        vertical-align: bottom;
+        @include box-sizing(content-box);
+        @include transition();
+        @include ie7-inline-block();
+
+        &.active {
+          border-top:4px solid $buttonBlue;
+          background: $gray80;
+          color: $gray20;
+
+          .gray & {
+            background: $white;
+          }
+        }
+
+        &.icon-mode {
+          width: auto;
+          padding: 0 percentage(10/$miniItemWidth);
+        }
+
+        &.label-left {
+          text-align: center;
+          left: auto;
+        }
+
+        &.label-right {
+          text-align: center;
+          right: auto;
+        }
+
+      } // end .slider-label
+    } // end &.fallback
+
+    .slider-label {
+      display: inline-block;
+      cursor: pointer;
+      text-transform: uppercase;
+      color: $gray40;
+      width: percentage(175/1040);
+      top: -6px;
+      @include ie7-inline-block();
+
+      &.label-left {
+        text-align: right;
+      }
+
+      &.label-right {
+        margin: 0 0 0 -4px;
+        text-align: left;
+      }
+    } // end .slider-label
+  } // end .control-bar-container
+
+  .slider {
+    display: inline-block;
+    width: percentage(500/1040);
+    margin: 0 24px;
+    @include ie7-inline-block();
+  }
+
+  .range-control {
+    height: 6px;
+
+    .handle {
+      top: 50%;
+      left: -30px;
+      margin-top:-28px;
+      background:transparent url('../../img/editorial-dual-viewer-e9/gray30.png');
+      width: 56px;
+      height: 56px;
+      @include box-shadow(none);
+
+      &.transition {
+        @include transition();
+      }
+
+      .inner {
+        color: #fff;
+        position:absolute;
+        width:41px;
+        height:41px;
+        line-height:36px;
+        background: $buttonOrange;
+        display:block;
+        text-align:center;
+        font-size:0.9em;
+        top:50%;
+        left:50%;
+        margin:-21px 0 0 -21px;
+        @include border-radius(50%);
+      }
+
+      &.active,
+      &:hover {
+        @include transform( scale(1) translateZ(0) );
+        @include box-shadow(none);
+
+        .inner {
+          background: $buttonOrangeHover;
+          @include transform( scale(1.07) translateZ(0) );
+          @include transition(.1s ease-out);
+        }
+      } // end inner:hover, inner.active
+    } // end .handle
+  } // end .range-control
+
+} // end .sony-sequence
+
+.csstransforms.touch {
+  .sony-sequence {
+    .range-control {
+      .handle {
+        @include transform( scale(1) translateZ(0) );
+        @include box-shadow(none);
+      }
+    }
+  }
+}
+
+.no-borderradius {
+  .sony-sequence {
+    .range-control {
+      height: 6px;
+      .handle {
+        margin-top: -31px;
+        height: 62px;
+        width: 62px;
+        border: none;
+        background:url('../../img/editorial-dual-viewer-e9/scrubber.png');
+        .inner {visibility:hidden;}
+      }
+    }
+  }
+}
+
+// IE7
+.lt-ie8 {
+  .sony-sequence {
+    .range-control {
+      vertical-align: middle;
+    }
+  }
+}
