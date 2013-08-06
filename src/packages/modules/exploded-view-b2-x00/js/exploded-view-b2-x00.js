@@ -181,6 +181,8 @@ define(function(require) {
           .removeClass( 'quick' )
           .addClass( 'exploded' )
           .removeClass( 'tease' );
+        // .piece-1 gets a perspective shift during the transition
+        $( '.piece-1', self.$el ).addClass( 'perspective' );
         self.$intro.addClass( 'out' );
         self.isExpanded = true;
       }
@@ -195,6 +197,10 @@ define(function(require) {
       self.$detail.removeClass( 'in' );
       self.$pieces.removeClass( 'exploded' );
       self.$cta.addClass( 'out' );
+      // .piece-1 gets a perspective shift during the transition
+      setTimeout( function() {
+        $( '.piece-1', self.$el ).removeClass( 'perspective' );
+      }, 750 );
       setTimeout( function() {
         // waith before transitioning in the intro and expand CTA
         self.$intro.removeClass( 'out' );
