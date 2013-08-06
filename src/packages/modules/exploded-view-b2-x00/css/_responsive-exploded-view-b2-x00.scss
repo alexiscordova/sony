@@ -16,22 +16,12 @@
 
 }
 
-@media (max-width: px-em( 768 ) ) {
+@media (max-width: px-em( 767 ) ) {
 
-  $pieceWidth: 85px;
-  $pieceHeight: 85px;
-  $maxPieces: 9;
-  $buttonInnerDiameter: 36px;
-  $buttonBorder: 6px;
-  $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
+  $maxPieces: 11;
+  $calloutPieceNumber: 2;
+  $pieceExplosionStep: 15%;
 
-  $buttonHoverShift: 12px;
-
-  // The distance between each piece in the exploded state
-  $pieceExplosionStep: 8%;
-
-  // The distance between each piece in the tease state
-  $pieceTeaseStep: 1%;
 
   .exploded-view {
 
@@ -54,6 +44,63 @@
     .no-grid-at-767 {
       width: 100%;
     }
+
+    .callout {
+      right: $calloutPieceNumber * $pieceExplosionStep;
+      margin-right: 159px;
+      width: 200px;
+      h3 {
+        margin-top: -6px;
+      }
+    }
+
+    .cta {
+      &.open {
+        right: auto;
+        left: 5%;
+      }
+    }
+
+    @for $i from 0 through $maxPieces - 1 {
+      .piece-#{$i} {
+        //background-position-x: -$pieceWidth * $i;
+        //z-index: $maxPieces - $i;
+
+        @if $i != 0 { 
+          @if $i != $maxPieces {
+            //&.tease {
+            //  right: ($maxPieces - $i - 1) * $pieceTeaseStep;
+            //}
+            &.exploded {
+              right: ($maxPieces - $i - 1) * $pieceExplosionStep;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+}
+
+@media (max-width: px-em( 480 ) ) {
+
+  $pieceWidth: 85px;
+  $pieceHeight: 85px;
+  $maxPieces: 9;
+  $buttonInnerDiameter: 36px;
+  $buttonBorder: 6px;
+  $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
+
+  $buttonHoverShift: 12px;
+
+  // The distance between each piece in the exploded state
+  $pieceExplosionStep: 8%;
+
+  // The distance between each piece in the tease state
+  $pieceTeaseStep: 1%;
+
+  .exploded-view {
 
     .box {
       padding: 20px;
