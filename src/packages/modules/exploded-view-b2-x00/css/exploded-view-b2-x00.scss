@@ -3,6 +3,7 @@
 
 $bgMaxWidth: 1110px;
 $bgHeight: 540px;
+$bgCropHeight: $bgHeight;
 $maxPieces: 11;
 $calloutPieceNumber: 2;
 $pieceWidth: 130px;
@@ -27,7 +28,7 @@ $pieceTeaseStep: 0.4%;
 
   padding: 0 0 75px;
 
-  .scene {
+  .scene, .scene-elements {
     position: relative;
   }
 
@@ -40,7 +41,7 @@ $pieceTeaseStep: 0.4%;
   }
 
   .submodule > .image-module {
-    height: $bgHeight;
+    height: $bgCropHeight;
     @include background-size(auto $bgHeight);
     background-repeat: no-repeat;
     background-position: right top;

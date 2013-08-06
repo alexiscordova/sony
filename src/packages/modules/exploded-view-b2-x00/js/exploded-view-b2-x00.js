@@ -81,9 +81,6 @@ define(function(require) {
         self.setupDesktop();
       }
 
-      // Listen for global resize
-      Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
-
     },
 
     setVars : function() {
@@ -110,8 +107,13 @@ define(function(require) {
       var self = this,
           wasMobile = self.isMobile;
 
-      if ( wasMobile ) {
+      log('SONY : ExplodedView : Setup Desktop');
 
+      if ( wasMobile ) {
+        var $intro = $( '.intro-container', self.$el );
+        $intro
+          .remove()
+          .insertAfter( '.scene-elements' );
       }
 
       self.isDesktop = true;
@@ -123,9 +125,16 @@ define(function(require) {
       var self = this,
           wasDesktop = self.isDesktop;
 
+      log('SONY : ExplodedView : Setup Mobile');
+
       if ( wasDesktop ) {
 
       }
+
+      var $intro = $( '.intro-container', self.$el );
+      $intro
+        .remove()
+        .insertBefore( '.scene-elements' );
 
       self.isDesktop = false;
       self.isMobile = true;
@@ -233,10 +242,6 @@ define(function(require) {
       }
     },
 
-    // Stubbed method. You don't have to use this
-    onResize : function() {
-      var self = this;
-    }
   };
 
   // Options that could be customized per module instance

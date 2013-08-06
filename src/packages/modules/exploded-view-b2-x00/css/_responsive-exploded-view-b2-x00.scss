@@ -12,28 +12,60 @@
       }
     }
 
+    .callout {
+      h3 {
+        margin-top: -11px;
+      }
+    }
+
   }
 
 }
 
+// The responsive images switch to the tablet version at 768px even
+// though the layout changes occur at 767px. So apply the necessary
+// layout changes to account for the tablet image(s).
+@media (max-width: px-em( 768 ) ) {
+
+  $calloutPieceNumber: 2;
+  $pieceWidth: 130px;
+  $piecesOffsetRight: 64px;
+  $pieceExplosionStep: 7.2%; // should match the explosion step used on desktop
+
+  .exploded-view {
+
+    .pieces {
+      margin-right: $piecesOffsetRight;
+    }
+
+    .callout {
+      right: $calloutPieceNumber * $pieceExplosionStep;
+      margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 9px;
+    }
+
+  }
+
+}
+
+// Tablet/mobile layout
 @media (max-width: px-em( 767 ) ) {
 
+  $bgCropHeight: 490px;
   $maxPieces: 11;
   $calloutPieceNumber: 2;
   $pieceExplosionStep: 15%;
   $piecesOffsetRight: 64px;
+  $pieceWidth: 130px;
 
   .exploded-view {
 
-    .boxes {
-      position: relative;
-      background: $gray10;
-      background: rgba(33,37,48,0.95);
+    .submodule > .image-module {
+      height: $bgCropHeight; // crop a small portion of the bottom of the background image
     }
 
     .light-text-dark-box {
       .box {
-        background: transparent;
+        background: $gray10;
       }
     }
 
@@ -44,7 +76,7 @@
     }
 
     .top {
-      //position: relative;
+      position: relative;
       .table-center {
         vertical-align: top;
       }
@@ -60,22 +92,32 @@
 
     .intro {
       &.box {
-        padding: 30px;
+        padding: 30px 50px;
+        &.out {
+          opacity: 1;
+        }
       }
     }
 
     .detail {
       position: relative;
+      @include clearfix;
       .box {
         bottom: auto;
         top: 0;
         position: relative; // take up layout space so module grows in height with this box
       }
+
+      height: 0;
+
+      &.in {
+        height: auto;
+      }
     }
 
     .callout {
       right: $calloutPieceNumber * $pieceExplosionStep;
-      margin-right: 109px;
+      margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 20px;
       width: 240px;
       h3 {
         margin-top: -6px;
@@ -95,19 +137,21 @@
 
     @for $i from 0 through $maxPieces - 1 {
       .piece-#{$i} {
-        //background-position-x: -$pieceWidth * $i;
-        //z-index: $maxPieces - $i;
 
         @if $i != 0 { 
           @if $i != $maxPieces {
-            //&.tease {
-            //  right: ($maxPieces - $i - 1) * $pieceTeaseStep;
-            //}
             &.exploded {
               right: ($maxPieces - $i - 1) * $pieceExplosionStep;
             }
           }
         }
+      }
+    }
+
+    .piece-1 {
+      // no perspective shift necessary because this piece animates off the screen
+      &.perspective {
+        background-position-x: -$pieceWidth;
       }
     }
 
@@ -120,16 +164,18 @@
   .exploded-view {
 
     .callout {
-      width: 200px;
+      width: 200px; // make narrower to wrap text
     }
 
   }
 
 }
 
+// Mobile layout
 @media (max-width: px-em( 480 ) ) {
 
   $bgHeight: 376px;
+  $bgCropHeight: 340px;
   $maxPieces: 11;
   $calloutPieceNumber: 2;
   $pieceWidth: 91px;
@@ -143,7 +189,7 @@
   $buttonHoverShift: 12px;
 
   // The distance between each piece in the exploded state
-  $pieceExplosionStep: 15%;
+  $pieceExplosionStep: 12%;
 
   // The distance between each piece in the tease state
   $pieceTeaseStep: 0.4%;
@@ -151,8 +197,14 @@
   .exploded-view {
 
     .submodule > .image-module {
-      height: $bgHeight;
+      height: $bgCropHeight; // crop a small portion of the bottom of the background image
       @include background-size(auto $bgHeight);
+    }
+
+    .callout {
+      top: 28px;
+      right: $calloutPieceNumber * $pieceExplosionStep;
+      margin-right: 86px;
     }
 
     .cta {
@@ -189,6 +241,12 @@
         }
       }
 
+    }
+
+    .cta {
+      &.open {
+        width: $buttonOuterDiameter;
+      }
     }
 
     .no-touch & .cta {
@@ -233,11 +291,28 @@
     .piece-1 {
       // the collapsed cap piece needs an extra margin to be positioned correctly
       margin-right: 15px;
+      // no perspective shift necessary because this piece animates off the screen
       &.perspective {
-        background-position-x: -$pieceWidth * ($maxPieces - 1);
+        background-position-x: -$pieceWidth;
       }
     }
 
   }
   
+}
+
+@media (max-width: px-em( 360 ) ) {
+
+  .exploded-view {
+
+    .callout {
+      width: 140px; // make narrower to wrap text
+      h3 {
+        font-size: 1.0em;
+        margin-top: -4px;
+      }
+    }
+
+  }
+
 }
