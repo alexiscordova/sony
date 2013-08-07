@@ -4,8 +4,21 @@ $imgVerticalOffset: 5%;
 $overlap: 45%;
 $overlapOffset: 10%;
 
-@media (max-width: px-em( 480 ) ) {
+@media (max-width: px-em( 800 ) ) {
+
   .editorial-compare {
+    .sony-carousel-slide-children .inches {
+      font-size: 1.5em;
+      top: 35%;
+    }
+  }
+
+}
+
+@media (max-width: px-em( 481 ) ) {
+  .editorial-compare {
+
+    padding: 3em 0;
 
     .p2 {
       margin-bottom: 0;
@@ -16,11 +29,11 @@ $overlapOffset: 10%;
       $n: $i + 1;
       .sony-carousel[data-on="#{$i}"] {
         .slide-#{$p} .device {
-          margin-left: $overlap - ($overlapOffset * $i);
+          left: $overlap - ($overlapOffset * $i);
         }
 
         .slide-#{$n} .device {
-          margin-left: -$overlap + ($overlapOffset * $i);
+          left: -$overlap + ($overlapOffset * $i);
         }
       }
     }
@@ -49,12 +62,13 @@ $overlapOffset: 10%;
       }
 
       .device {
-        @include transition(margin,200ms);
+        @include transition(margin,500ms);
       }
       
       // Add some extra offset for centering the inches text
       .inches {
-        top: 35%;
+        font-size: 2em;
+        top: 37%;
       }
 
       // No overlapping images at this size since the single column carousel is applied
@@ -63,8 +77,9 @@ $overlapOffset: 10%;
       @for $i from 0 through $numColumns {
         &.column-#{$i} {
           .device {
-            margin-left: -5%;
+            left: -5%;
             margin-top: ($numColumns - $i) * $imgVerticalOffset;
+            margin-bottom: $i * $imgVerticalOffset;
           }
         }
       }
