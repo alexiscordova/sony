@@ -21,7 +21,7 @@
 
   .lt-ie10 & {
     min-width: px-em( 1200px );
-    min-height: px-em( 720px );
+    min-height: px-em( 560px );
   }
   .lt-ie9 & {
     min-width: px-em(980px);
@@ -76,18 +76,17 @@
   .pdp-slideshow-slide .pdp-slide-inner {
     height: inherit;
     width: 100%;
-    .lt-ie8 & {
-      .ghost-center{
-        min-height:710px;
-      }
-    }
+    max-width: 100%;
   }
 
   // Type 1 images are product shots which are not full bleed
   .pdp-slideshow-slide.type1 .pdp-slide-inner {
     padding: 4% 2% 11%;
-    .lt-ie8 &{
-      padding: 0;
+
+    // IE7 doesn't support box sizing
+    .lt-ie8 & {
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 

@@ -134,11 +134,16 @@ define(function(require) {
         windowWidth,
         slideshowHeight = '';
 
-      if (isDesktop) {
+      // Has media queries and is desktop, set size based on window
+      if (Modernizr.mediaqueries && isDesktop) {
         windowWidth = self.$window.width(),
         // Make the header grow 1px taller for every 20px over 980w..
         slideshowHeight = 560 + ((windowWidth - 980) / 5);
         slideshowHeight = Math.round(Math.min(720, slideshowHeight));
+
+      // No media queries (IE)
+      } else if (!Modernizr.mediaqueries) {
+        slideshowHeight = Math.round( Math.min(560, Math.min(Settings.$window.height() * 0.75)) );
       }
 
       // On mobile, the dynamic height is reset back to nothing
