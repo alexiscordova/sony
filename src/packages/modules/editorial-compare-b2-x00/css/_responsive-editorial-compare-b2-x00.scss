@@ -16,26 +16,46 @@ $overlapOffset: 10%;
 }
 
 @media (max-width: px-em( 481 ) ) {
+
+  @for $i from 0 through $numColumns {
+    
+    $p: $i - 1;
+    $n: $i + 1;
+
+    $prev: $overlap - ($overlapOffset * $i);
+    $next: -$overlap + ($overlapOffset * $i);
+
+    .editorial-compare .sony-carousel[data-on="#{$i}"] {
+      .slide-#{$p} .device {
+        left: $prev;
+      }
+
+      .slide-#{$n} .device {
+        left: $next;
+      }
+    }
+  
+    // Transform3D fix for choppy iOS Safari animations
+    .csstransforms3d .editorial-compare .sony-carousel[data-on="#{$i}"] {
+      .slide-#{$p} .device {
+        left: auto;
+        @include translate3d($prev,0,0);
+      }
+
+      .slide-#{$n} .device {
+        left: auto;
+        @include translate3d($next,0,0);
+      }
+    }
+
+  }
+
   .editorial-compare {
 
     padding: 3em 0;
 
     .p2 {
       margin-bottom: 0;
-    }
-
-    @for $i from 0 through $numColumns {
-      $p: $i - 1;
-      $n: $i + 1;
-      .sony-carousel[data-on="#{$i}"] {
-        .slide-#{$p} .device {
-          left: $overlap - ($overlapOffset * $i);
-        }
-
-        .slide-#{$n} .device {
-          left: -$overlap + ($overlapOffset * $i);
-        }
-      }
     }
     
     .sony-carousel-slide {
