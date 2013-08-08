@@ -86,14 +86,23 @@ $pieceTeaseStep: 0.4%;
     }
   }
 
-  .detail {
-
+  .csstransitions & .detail {
     opacity: 0;
     @include transition( opacity $transitionSuperslow $easeNormal );
 
     &.in {
       opacity: 1;
     }
+  }
+
+  .no-csstransitions & .detail {
+    display: none;
+    &.in {
+      display: block;
+    }
+  }
+
+  .detail {
 
     .box {
       width: 100%;
