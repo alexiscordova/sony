@@ -54,7 +54,7 @@ mixin gridstyle(_extra, mgrid)
   else
     .grid.no-grid-at-767(class = extraclass)(class = data.style)
       block
-              
+
 mixin copyblock(_copy, _title, _subtitle, _body)
   copyobject = _copy ? _copy : data
   titleclass = _title ? _title : "t2"
@@ -100,7 +100,7 @@ mixin col(_layout, extras)
     - offset = "offset" + layout.columns[0]
     div(class = span)(class = offset)(class = extras)
       block
-              
+
 mixin center
   .table-center-wrap
     .table-center
@@ -126,15 +126,15 @@ mixin sequenceNotes(_data, _sequenceId)
   - containerClass = 'visuallyhidden sequence-notes sequence-'+_sequenceId
   div(class= containerClass, data-id=_sequenceId)
     for note, _j in _data
-      if note.pointer 
+      if note.pointer
         - noteClass = 'note has-pointer direction-'+note.pointer
-        - noteDataX = note.coords[0] 
+        - noteDataX = note.coords[0]
         - noteDataY = note.coords[1]
 
         div(class=noteClass, data-x=noteDataX, data-y=noteDataY)
           span.pointer
           .note-content
-            if note.headline 
+            if note.headline
               p.t7.headline !{note.headline}
             if note.subhead
               p.p5.subhead !{note.subhead}
@@ -142,12 +142,12 @@ mixin sequenceNotes(_data, _sequenceId)
         - noteClass = 'note'
         div(class = noteClass, data-x=noteDataX, data-y=noteDataY)
           .note-content
-            if note.headline 
+            if note.headline
               p.t7.headline !{note.headline}
             if note.subhead
               p.p5.subhead !{note.subhead}
 
-      
+
 mixin boxlayout(_layout)
   layout = _layout ? _layout : data.layout
   classes = layout.style
@@ -201,12 +201,23 @@ mixin boxlayout(_layout)
           if data.copy
             +gridstyle
               +textonlylayout
-                +copyblock(data.copy, "t2", "t7", "p2")    
+                +copyblock(data.copy, "t2", "t7", "p2")
       if data.sequence
         .sequence-note-container
           - for imgData, i in data.sequence
             if imgData.notes
               +sequenceNotes(imgData.notes, i)
+
+      if data.layout
+        if data.layout.mode == "editorial"
+          +boxlayout
+            if data.copy
+              +copyblock(data.copy, "t2", "t7", "p2")
+        else if data.layout.mode == "full-inner"
+          +boxlayout
+            if data.copy
+              +copyblock(data.copy, "t3", "t7", "p3")
+
       .outer
         if data.background == "true"
           .loading.load-indicator.text-center
@@ -226,15 +237,6 @@ mixin boxlayout(_layout)
               img.iq-img.no-fade(id= sequenceId, class= extraclass, alt= imgData.image.alt, data-sequence-id= i, data-src-desktop= imgData.image.srcDesktop, data-src-tablet= imgData.image.srcTablet, data-src-phone= imgData.image.srcPhone, data-src-desktop-highres= imgData.image.srcDesktopHighRes, data-src-tablet-highres= imgData.image.srcTabletHighRes, data-src-phone-highres= imgData.image.srcPhoneHighRes)(class= hide)
                 noscript
                   img(src= imgData.noscriptsrc)
-      if data.layout
-        if data.layout.mode == "editorial"
-          +boxlayout
-            if data.copy
-              +copyblock(data.copy, "t2", "t7", "p2")
-        else if data.layout.mode == "full-inner"
-          +boxlayout
-            if data.copy
-              +copyblock(data.copy, "t3", "t7", "p3")
 
       +slidelabels
       .controls.container.hidden
