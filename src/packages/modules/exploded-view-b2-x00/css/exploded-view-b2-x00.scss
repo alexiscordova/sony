@@ -36,8 +36,13 @@ $pieceTeaseStep: 0.4%;
     text-align: center;
   }
 
-  .container {
-    //max-width: $bgMaxWidth;
+  .csstransitions & .scene {
+    opacity: 0;
+    @include transition( opacity $transitionFast $easeNormal );
+
+    &.in {
+      opacity: 1;
+    }
   }
 
   .submodule > .image-module {

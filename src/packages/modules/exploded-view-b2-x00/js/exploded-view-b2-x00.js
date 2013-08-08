@@ -81,6 +81,17 @@ define(function(require) {
         self.setupDesktop();
       }
 
+      self.fadeIn();
+
+    },
+
+    fadeIn : function() {
+      var self = this;
+
+      setTimeout( function() {
+        log( 'Fade In' );
+        self.$el.find('.scene').addClass( 'in' );
+      }, 0 );
     },
 
     setVars : function() {
@@ -128,7 +139,7 @@ define(function(require) {
       log('SONY : ExplodedView : Setup Mobile');
 
       if ( wasDesktop ) {
-
+        
       }
 
       var $intro = $( '.intro-container', self.$el );
@@ -138,6 +149,7 @@ define(function(require) {
 
       self.isDesktop = false;
       self.isMobile = true;
+
     },
 
     // Bind events on the CTA
