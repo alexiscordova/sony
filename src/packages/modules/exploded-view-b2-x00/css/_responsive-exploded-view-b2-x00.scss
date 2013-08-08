@@ -1,4 +1,69 @@
 
+// This scales up when the width of the background exceeds the max
+// size of the image (1110 pixels). This occurs at 1192 pixels because
+// the default container module has a width of 93.06122% and
+// 1192 * .9306122 = 1109.29
+@media (min-width: px-em( 1192 ) ) {
+
+  .exploded-view {
+
+    $maxPieces: 11;
+    $bgCropHeight: 681px;
+    $bgWidth: 1400px;
+    $bgHeight: 681px;
+    $pieceWidth: 164px;
+    $pieceHeight: 277px;
+    $piecesOffsetTop: 176px;
+    $piecesOffsetRight: 169px;
+    $buttonInnerDiameter: 72px;
+    $buttonBorder: 12px;
+    $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
+
+    .submodule > .image-module {
+      height: $bgCropHeight;
+      @include background-size($bgWidth $bgHeight);
+    }
+
+    .callout {
+      top: 135px;
+      margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 20px;
+    }
+
+    .cta {
+      right: $piecesOffsetRight - ($buttonOuterDiameter / 2) + 20px;
+      top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
+    }
+
+    .pieces {
+      height: $pieceHeight;
+      top: $piecesOffsetTop;
+      margin-right: $piecesOffsetRight;
+    }
+
+    .piece {
+      width: $pieceWidth;
+      height: $pieceHeight;
+      @include background-size(($pieceWidth * $maxPieces) $pieceHeight);
+    }
+
+    @for $i from 0 through $maxPieces {
+      .piece-#{$i} {
+        background-position-x: -$pieceWidth * $i;
+      }
+    }
+
+    .piece-1 {
+      // the collapsed cap piece needs an extra margin to be positioned correctly
+      margin-right: 25px;
+      &.perspective {
+        background-position-x: -$pieceWidth * ($maxPieces - 1);
+      }
+    }
+
+  }
+
+}
+
 @media (max-width: px-em( 979 ) ) {
 
   .exploded-view {
@@ -106,6 +171,10 @@
         bottom: auto;
         top: 0;
         position: relative; // take up layout space so module grows in height with this box
+        .grid {
+          width: 92%;
+          margin: 0 auto;
+        }
       }
 
       height: 0;

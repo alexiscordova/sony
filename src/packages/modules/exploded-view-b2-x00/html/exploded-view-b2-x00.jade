@@ -24,12 +24,12 @@ moduleClasses = [ "exploded-view", "full-inner" ]
 
     .scene-elements
 
-      .container.full-bleed
+      .container
         if data.submodules
           .submodule
             +submodule( data.submodules[0] )
 
-      .container.full-bleed.inner.pieces-container
+      .container.inner.pieces-container
         .callout
           h3.t4= data.callout_title
         .pieces
@@ -42,7 +42,7 @@ moduleClasses = [ "exploded-view", "full-inner" ]
             +iQBackgroundImage( data.animation.imgPieces, "piece piece-" + i )
           - }
 
-    .container.full-bleed.inner.light-text-dark-box.top.intro-container
+    .container.inner.light-text-dark-box.top.intro-container
       .grid.no-grid-at-767
         .span5
           +center
@@ -50,7 +50,7 @@ moduleClasses = [ "exploded-view", "full-inner" ]
               h2= data.intro_title
               p.p3= data.intro_body
           
-    .container.full-bleed.inner.light-text-dark-box.detail
+    .container.inner.light-text-dark-box.detail
       .box
         .grid.no-grid-at-767
           .span4
@@ -62,3 +62,15 @@ moduleClasses = [ "exploded-view", "full-inner" ]
           .span4
             h3.t7= data.label3
             p.p3= data.caption3
+
+.container
+  .grid
+    .span4
+      h1 Column 1
+      p Lorem ipsum blah blah blah more content to wrap and show the width of the columns and whether or not they align correctly.
+    .span4
+      h1 Column 2
+      p Lorem ipsum blah blah blah more content to wrap and show the width of the columns and whether or not they align correctly.
+    .span4
+      h1 Column 3
+      p Lorem ipsum blah blah blah more content to wrap and show the width of the columns and whether or not they align correctly.
