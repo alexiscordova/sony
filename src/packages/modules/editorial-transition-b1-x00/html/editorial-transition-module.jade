@@ -154,44 +154,42 @@ mixin boxlayout(_layout)
   mode = layout.mode
   if layout.mode == "editorial"
     .sequence-copy.editorial-sequence
-      .container
-        if layout
-          if layout.mobilealign
-            classes = classes + " " + layout.mobilealign
-          if layout.text == "left" || layout.text == "full"
+      if layout
+        if layout.mobilealign
+          classes = classes + " " + layout.mobilealign
+        if layout.text == "left" || layout.text == "full"
+          .grid.no-grid-at-767(class = classes)
+            - span = "span" + layout.columns[0]
+            div(class = span)
+              +boxclass
+                block
+        else if layout.text == "right" || layout.text == "center"
+          if layout.columns
             .grid.no-grid-at-767(class = classes)
-              - span = "span" + layout.columns[0]
-              div(class = span)
+              - span = "span" + layout.columns[1]
+              - offset =  "offset" + layout.columns[0]
+              div(class = span)(class = offset)
                 +boxclass
                   block
-          else if layout.text == "right" || layout.text == "center"
-            if layout.columns
-              .grid.no-grid-at-767(class = classes)
-                - span = "span" + layout.columns[1]
-                - offset =  "offset" + layout.columns[0]
-                div(class = span)(class = offset)
-                  +boxclass
-                    block
   else
     .sequence-copy
-      .container
-        if layout
-          if layout.mobilealign
-            classes = classes + " " + layout.mobilealign
-          if layout.text == "left" || layout.text == "full"
+      if layout
+        if layout.mobilealign
+          classes = classes + " " + layout.mobilealign
+        if layout.text == "left" || layout.text == "full"
+          .grid.no-grid-at-767(class = classes)
+            - span = "span" + layout.columns[0]
+            div(class = span)
+              +boxclass
+                block
+        else if layout.text == "right" || layout.text == "center"
+          if layout.columns
             .grid.no-grid-at-767(class = classes)
-              - span = "span" + layout.columns[0]
-              div(class = span)
+              - span = "span" + layout.columns[1]
+              - offset =  "offset" + layout.columns[0]
+              div(class = span)(class = offset)
                 +boxclass
                   block
-          else if layout.text == "right" || layout.text == "center"
-            if layout.columns
-              .grid.no-grid-at-767(class = classes)
-                - span = "span" + layout.columns[1]
-                - offset =  "offset" + layout.columns[0]
-                div(class = span)(class = offset)
-                  +boxclass
-                    block
 
 +mainElement( editorialClasses )
   if data.sequenceConfig
