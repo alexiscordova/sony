@@ -5,7 +5,7 @@ $numColumns: 3;
 $imgVerticalOffset: 8%;
 
 .editorial-compare {
-
+  overflow: hidden;
   padding: 3em;
 
   // Fade in to hide slide rearrangement
@@ -74,7 +74,7 @@ $imgVerticalOffset: 8%;
   }
 
   .swatches {
-
+    overflow: hidden;
     margin-bottom: 10px;
 
     div {
@@ -124,4 +124,20 @@ $imgVerticalOffset: 8%;
 
   }
 
+}
+
+.lt-ie8 .editorial-compare {
+  .sony-carousel-wrapper {
+    overflow: hidden;
+  }
+  .sony-carousel-slide-children {
+      .device {
+        left: auto;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .inches {
+      top: 40%;
+    }
+  }
 }
