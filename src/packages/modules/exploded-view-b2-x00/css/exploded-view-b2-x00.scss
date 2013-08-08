@@ -122,6 +122,13 @@ $pieceTeaseStep: 0.4%;
     }
   }
 
+  .no-csstransitions & .box {
+    display: block;
+    &.out {
+      display: none;
+    }
+  }
+
   .pieces-container {
     overflow: hidden;
   }
@@ -164,6 +171,13 @@ $pieceTeaseStep: 0.4%;
       opacity: 1;
     }
 
+  }
+
+  .no-csstransitions & .callout {
+    display: none;
+    &.in {
+      display: block;
+    }
   }
 
   .cta {

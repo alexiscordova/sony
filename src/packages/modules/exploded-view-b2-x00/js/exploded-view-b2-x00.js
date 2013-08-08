@@ -109,6 +109,7 @@ define(function(require) {
 
       // Modernizr vars
       self.hasTouch = Modernizr.touch;
+      self.hasTransitions = Modernizr.csstransitions;
 
     },
 
@@ -189,6 +190,10 @@ define(function(require) {
       if( !self.isExpanded ) {
         // not already expanded so expand
         self.$cta.addClass( 'out' );
+        var delay = 0;
+        if( self.hasTransitions ) {
+          delay = 800;
+        }
         setTimeout( function() {
           // wait before transitioning in the collapse CTA, detail box, and callout
           self.$cta
@@ -196,7 +201,7 @@ define(function(require) {
             .removeClass( 'out' );
           self.$detail.addClass( 'in' );
           self.$callout.addClass( 'in' );
-        }, 800 );
+        }, delay );
         self.$pieces
           .removeClass( 'quick' )
           .addClass( 'exploded' )
@@ -217,17 +222,19 @@ define(function(require) {
       self.$detail.removeClass( 'in' );
       self.$pieces.removeClass( 'exploded' );
       self.$cta.addClass( 'out' );
+      var delay = self.hasTransitions ? 750 : 0;
       // .piece-1 gets a perspective shift during the transition
       setTimeout( function() {
         $( '.piece-1', self.$el ).removeClass( 'perspective' );
-      }, 750 );
+      }, delay );
+      delay = self.hasTransitions ? 900 : 0;
       setTimeout( function() {
         // wait before transitioning in the intro and expand CTA
         self.$intro.removeClass( 'out' );
         self.$cta
           .removeClass( 'open' )
           .removeClass( 'out' );
-      }, 900 );
+      }, delay );
       self.isExpanded = false;
     },
 
@@ -251,7 +258,7 @@ define(function(require) {
         self.$pieces.removeClass( 'tease' );
         self.isTeasing = false;
       }
-    },
+    }
 
   };
 
