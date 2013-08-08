@@ -176,6 +176,9 @@ $pieceTeaseStep: 0.4%;
     height: $buttonOuterDiameter;
 
     opacity: 1;
+    &:active {
+      background-color: transparent;
+    }
 
     .circle-btn {
       position: absolute;
@@ -219,7 +222,7 @@ $pieceTeaseStep: 0.4%;
 
     }
 
-    &.open {
+    &.collapse {
       width: $buttonOuterDiameter;
       right: $maxPieces * $pieceExplosionStep;
       margin-right: 20px;
@@ -228,14 +231,16 @@ $pieceTeaseStep: 0.4%;
           background-color: rgb(160,160,160);
         }
 
-        &.expand {
-          display: none;
-        }
-        &.collapse {
-          display: block;
-        }
-
       }
+
+      display: none;
+      &.open {
+        display: block;
+      }
+    }
+
+    &.open.expand {
+      display: none;
     }
 
     @include transition( opacity $transitionSlower $easeOutQuad );
@@ -251,20 +256,24 @@ $pieceTeaseStep: 0.4%;
   }
 
   .no-touch & .cta {
-    &:hover {
-      .circle-btn {
-        right: $buttonHoverShift;
-        i {
-          background-color: $buttonOrangeHover;
+    &.expand {
+      &:hover {
+        .circle-btn {
+          right: $buttonHoverShift;
+          i {
+            background-color: $buttonOrangeHover;
+          }
         }
       }
     }
     &.open {
-      &:hover {
-        .circle-btn {
-          right: 0;
-          i {
-            background-color: rgb(180,180,180);
+      &.collapse {
+        &:hover {
+          .circle-btn {
+            right: 0;
+            i {
+              background-color: rgb(180,180,180);
+            }
           }
         }
       }

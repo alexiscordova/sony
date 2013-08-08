@@ -191,9 +191,11 @@
     }
 
     .cta {
-      &.open {
-        right: auto;
-        left: 5%;
+      &.collapse {
+        &.open {
+          right: auto;
+          left: 5%;
+        }
       }
     }
 
@@ -310,15 +312,19 @@
     }
 
     .cta {
-      &.open {
-        width: $buttonOuterDiameter;
+      &.collapse {
+        &.open {
+          width: $buttonOuterDiameter;
+        }
       }
     }
 
     .no-touch & .cta {
-      &:hover {
-        .circle-btn {
-          right: $buttonHoverShift;
+      &.expand {
+        &:hover {
+          .circle-btn {
+            right: $buttonHoverShift;
+          }
         }
       }
     }

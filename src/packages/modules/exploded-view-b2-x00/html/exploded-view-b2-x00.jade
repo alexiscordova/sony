@@ -33,10 +33,11 @@ moduleClasses = [ "exploded-view", "full-inner" ]
         .callout
           h3.t4= data.callout_title
         .pieces
-          a.cta.no-hover-transition(href="#")
-            .circle-btn.expand
+          a.cta.expand.no-hover-transition(href="#")
+            .circle-btn
               i.fonticon-10-chevron-reverse
-            .circle-btn.collapse
+          a.cta.collapse.no-hover-transition(href="#")
+            .circle-btn
               i.fonticon-10-chevron
           - for ( var i = 0; i < data.animation.numberDesktopPieces; i++ ) {
             +iQBackgroundImage( data.animation.imgPieces, "piece piece-" + i )

@@ -222,7 +222,7 @@ define(function(require) {
         $( '.piece-1', self.$el ).removeClass( 'perspective' );
       }, 750 );
       setTimeout( function() {
-        // waith before transitioning in the intro and expand CTA
+        // wait before transitioning in the intro and expand CTA
         self.$intro.removeClass( 'out' );
         self.$cta
           .removeClass( 'open' )
