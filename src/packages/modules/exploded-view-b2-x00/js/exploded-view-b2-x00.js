@@ -89,7 +89,6 @@ define(function(require) {
       var self = this;
 
       setTimeout( function() {
-        log( 'Fade In' );
         self.$el.find('.scene').addClass( 'in' );
       }, 0 );
     },
