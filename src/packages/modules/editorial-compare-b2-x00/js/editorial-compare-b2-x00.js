@@ -65,12 +65,12 @@ define(function(require) {
         // These can be chained, like below
         // Use `em`s for your breakpoints ( px value / 16 )
         enquire
-          .register('(min-width: 48em)', {
+          .register('(min-width: 30.0634em)', {
             match: function() {
               self.setupDesktop();
             }
           })
-          .register('(max-width: 47.9375em)', {
+          .register('(max-width: 30.0625em)', {
             match: function() {
               self.setupMobile();
             }
@@ -143,6 +143,12 @@ define(function(require) {
 
       self.arrangeItemsInSlides( 1 );
 
+      // Set the first slide as on
+      $('.sony-carousel').attr('data-on','0');
+
+      // Update on attribute when switching slides
+      $('.sony-carousel').on('SonyCarousel:gotoSlide',self.switchSlide);
+
       if ( wasDesktop ) {
 
       }
@@ -151,6 +157,10 @@ define(function(require) {
 
       self.isDesktop = false;
       self.isMobile = true;
+    },
+
+    switchSlide: function(e,slide) {
+      $(this).attr('data-on',slide);
     },
 
     arrangeItemsInSlides : function( numPerSlide ) {
