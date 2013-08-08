@@ -237,6 +237,11 @@ $pieceTeaseStep: 0.4%;
       opacity: 0;
     }
 
+    outline: none;
+    &:active {
+      outline: none;
+    }
+
   }
 
   .no-touch & .cta {
@@ -286,7 +291,7 @@ $pieceTeaseStep: 0.4%;
 
   @for $i from 0 through $maxPieces {
     .piece-#{$i} {
-      background-position-x: -$pieceWidth * $i;
+      background-position: (-$pieceWidth * $i) 0;
       z-index: $maxPieces - $i;
 
       @if $i != 0 { 
@@ -318,7 +323,7 @@ $pieceTeaseStep: 0.4%;
     // the collapsed cap piece needs an extra margin to be positioned correctly
     margin-right: 20px;
     &.perspective {
-      background-position-x: -$pieceWidth * ($maxPieces - 1);
+      background-position: (-$pieceWidth * ($maxPieces - 1)) 0;
     }
   }
 
