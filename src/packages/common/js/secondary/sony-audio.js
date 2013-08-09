@@ -156,8 +156,6 @@ define(function(require){
 
         if ( currentSound.readyState !== 3 ) {
 
-          currentSound.load();
-
           config.oninit();
 
           self.initInterval = setInterval(function(){
@@ -166,6 +164,15 @@ define(function(require){
               clearInterval(self.initInterval);
             }
           }, 500);
+
+          // The next two lines replaced `currentSound.load()`, which didn't
+          // work well in mobile devices. Now it works, but mainly in isolation.
+          // Multiple instances of sony-audio seem to be buggy, but we don't have
+          // that use-case to account for at the moment. Noting this for a refactor
+          // if we ever have to have two or more audio files at once.
+
+          currentSound.setPosition(currentTime).play();
+          self.pause();
 
           return self;
         }
