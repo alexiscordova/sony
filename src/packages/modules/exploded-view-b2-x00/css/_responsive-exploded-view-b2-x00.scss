@@ -1,20 +1,138 @@
 
-@media (max-width: px-em( 767 ) ) {
-
-  $pieceWidth: 85px;
-  $pieceHeight: 85px;
-  $maxPieces: 6;
-  $maxDesktopPieces: 9;
-  $buttonDiameter: 48px;
-  $buttonHoverShift: 12px;
-
-  // The distance between each piece in the exploded state
-  $pieceExplosionStep: 8%;
-
-  // The distance between each piece in the tease state
-  $pieceTeaseStep: 1%;
+// This scales up when the width of the background exceeds the max
+// size of the image (1110 pixels). This occurs at 1192 pixels because
+// the default container module has a width of 93.06122% and
+// 1192 * .9306122 = 1109.29
+@media (min-width: px-em( 1192 ) ) {
 
   .exploded-view {
+
+    $maxPieces: 11;
+    $bgCropHeight: 681px;
+    $bgWidth: 1400px;
+    $bgHeight: 681px;
+    $pieceWidth: 164px;
+    $pieceHeight: 277px;
+    $piecesOffsetTop: 176px;
+    $piecesOffsetRight: 169px;
+    $buttonInnerDiameter: 72px;
+    $buttonBorder: 12px;
+    $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
+
+    .submodule > .image-module {
+      height: $bgCropHeight;
+      @include background-size($bgWidth $bgHeight);
+    }
+
+    .callout {
+      top: 135px;
+      margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 20px;
+    }
+
+    .cta {
+      right: $piecesOffsetRight - ($buttonOuterDiameter / 2) + 20px;
+      top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
+    }
+
+    .pieces {
+      height: $pieceHeight;
+      top: $piecesOffsetTop;
+      margin-right: $piecesOffsetRight;
+    }
+
+    .piece {
+      width: $pieceWidth;
+      height: $pieceHeight;
+      @include background-size(($pieceWidth * $maxPieces) $pieceHeight);
+    }
+
+    @for $i from 0 through $maxPieces {
+      .piece-#{$i} {
+        background-position: (-$pieceWidth * $i) 0;
+      }
+    }
+
+    .piece-1 {
+      // the collapsed cap piece needs an extra margin to be positioned correctly
+      margin-right: 25px;
+      &.perspective {
+        background-position: (-$pieceWidth * ($maxPieces - 1)) 0;
+      }
+    }
+
+  }
+
+}
+
+@media (max-width: px-em( 979 ) ) {
+
+  .exploded-view {
+
+    .title {
+      h2 {
+        font-size: 2.375em;
+      }
+      p {
+        font-size: 1.0em;
+      }
+    }
+
+    .callout {
+      h3 {
+        margin-top: -11px;
+      }
+    }
+
+  }
+
+}
+
+// The responsive images switch to the tablet version at 768px even
+// though the layout changes occur at 767px. So apply the necessary
+// layout changes to account for the tablet image(s).
+@media (max-width: px-em( 768 ) ) {
+
+  $calloutPieceNumber: 2;
+  $pieceWidth: 130px;
+  $piecesOffsetRight: 64px;
+  $pieceExplosionStep: 7.2%; // should match the explosion step used on desktop
+
+  .exploded-view {
+
+    .pieces {
+      margin-right: $piecesOffsetRight;
+    }
+
+    .callout {
+      right: $calloutPieceNumber * $pieceExplosionStep;
+      margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 9px;
+    }
+
+  }
+
+}
+
+// Tablet/mobile layout
+@media (max-width: px-em( 767 ) ) {
+
+  $bgCropHeight: 490px;
+  $maxPieces: 11;
+  $calloutPieceNumber: 2;
+  $pieceExplosionStep: 15%;
+  $piecesOffsetRight: 64px;
+  $pieceWidth: 130px;
+
+  .exploded-view {
+
+    .submodule > .image-module {
+      height: $bgCropHeight; // crop a small portion of the bottom of the background image
+    }
+
+    .light-text-dark-box {
+      .box {
+        background: $gray10;
+      }
+    }
 
     .bottom {
       .table-center {
@@ -23,6 +141,7 @@
     }
 
     .top {
+      position: relative;
       .table-center {
         vertical-align: top;
       }
@@ -36,59 +155,196 @@
       width: 100%;
     }
 
-    .box {
-      padding: 20px;
+    .intro {
+      &.box {
+        padding: 30px;
+        &.out {
+          opacity: 1;
+        }
+      }
     }
 
-    .pieces {
-      height: $pieceHeight;
-      margin-right: 75px;
-      top: 261px;
+    .detail {
+      position: relative;
+      @include clearfix;
+      .box {
+        bottom: auto;
+        top: 0;
+        position: relative; // take up layout space so module grows in height with this box
+        padding: 30px;
+      }
+
+      height: 0;
+
+      &.in {
+        height: auto;
+      }
     }
 
     .callout {
-      margin-right: 0;
-      top: 0;
-      right: 0;
-      height: auto;
-      border: 0;
-      padding: 20px;
-
-      h3, p {
-        color: $gray20;
+      right: $calloutPieceNumber * $pieceExplosionStep;
+      margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 20px;
+      width: 240px;
+      h3 {
+        margin-top: -6px;
       }
-    }
-
-    .piece {
-      width: $pieceWidth;
-      height: $pieceHeight;
     }
 
     .cta {
-      top: ($pieceHeight / 2) - ($buttonDiameter / 2);
-      right: 50px;
+      &.collapse {
+        &.open {
+          right: auto;
+          left: 5%;
+        }
+      }
+    }
 
-      width: $buttonDiameter + $buttonHoverShift;
-      height: $buttonDiameter;
+    .pieces {
+      margin-right: $piecesOffsetRight;
+    }
+
+    @for $i from 0 through $maxPieces - 1 {
+      .piece-#{$i} {
+
+        @if $i != 0 { 
+          @if $i != $maxPieces {
+            &.exploded {
+              right: ($maxPieces - $i - 1) * $pieceExplosionStep;
+            }
+          }
+        }
+      }
+    }
+
+    .piece-1 {
+      // no perspective shift necessary because this piece animates off the screen
+      &.perspective {
+        background-position: -$pieceWidth 0;
+      }
+    }
+
+  }
+
+}
+
+@media (max-width: px-em( 568 ) ) {
+
+  .exploded-view {
+
+    .callout {
+      width: 160px; // make narrower to wrap text
+    }
+
+  }
+
+}
+
+// Mobile layout
+@media (max-width: px-em( 480 ) ) {
+
+  $bgHeight: 376px;
+  $bgCropHeight: 340px;
+  $maxPieces: 11;
+  $calloutPieceNumber: 2;
+  $pieceWidth: 91px;
+  $pieceHeight: 154px;
+  $piecesOffsetRight: 64px;
+
+  $buttonInnerDiameter: 54px;
+  $buttonBorder: 9px;
+  $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
+
+  $buttonHoverShift: 12px;
+
+  // The distance between each piece in the exploded state
+  $pieceExplosionStep: 12%;
+
+  // The distance between each piece in the tease state
+  $pieceTeaseStep: 0.4%;
+
+  .exploded-view {
+
+    .submodule > .image-module {
+      height: $bgCropHeight; // crop a small portion of the bottom of the background image
+      @include background-size(auto $bgHeight);
+    }
+
+    .callout {
+      top: 28px;
+      right: $calloutPieceNumber * $pieceExplosionStep;
+      margin-right: 86px;
+    }
+
+    .cta {
+      top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
+      right: 75px;
+
+      width: $buttonOuterDiameter + $buttonHoverShift;
+      height: $buttonOuterDiameter;
+
+      .circle-btn {
+
+        width: $buttonOuterDiameter;
+        height: $buttonOuterDiameter;
+        @include border-radius($buttonOuterDiameter / 2);
+
+      }
 
       i {
 
-        width: $buttonDiameter;
-        height: $buttonDiameter;
-        @include border-radius($buttonDiameter / 2);
-        @include background-clip(padding-box);
-        border: solid 6px rgba(0,0,0,0.2);
+        width: $buttonInnerDiameter;
+        height: $buttonInnerDiameter;
+        @include border-radius($buttonInnerDiameter / 2);
+        margin: $buttonBorder;
 
-        font-size: 1em;
-        line-height: 1em;
+        font-size: 1.2em;
+        line-height: 1.7em;
         padding-top: 7px;
+
+        &.fonticon-10-chevron-reverse {
+          padding-right: 4px;
+        }
+        &.fonticon-10-chevron {
+          padding-left: 4px;
+        }
       }
+
+    }
+
+    .cta {
+      &.collapse {
+        &.open {
+          width: $buttonOuterDiameter;
+        }
+      }
+    }
+
+    .no-touch & .cta {
+      &.expand {
+        &:hover {
+          .circle-btn {
+            right: $buttonHoverShift;
+          }
+        }
+      }
+    }
+
+    .pieces {
+      top: 97px;
+      margin-right: 51px;
+    }
+
+    .piece {
+
+      width: $pieceWidth;
+      height: $pieceHeight;
+      @include background-size(($pieceWidth * $maxPieces) $pieceHeight);
 
     }
 
     @for $i from 0 through $maxPieces - 1 {
       .piece-#{$i} {
-        background-position-x: -$pieceWidth * $i;
+        background-position: (-$pieceWidth * $i) 0;
         z-index: $maxPieces - $i;
 
         @if $i != 0 { 
@@ -104,11 +360,32 @@
       }
     }
 
-    @for $i from $maxPieces through $maxDesktopPieces {
-      .piece-#{$i} {
-        display: none;
+    .piece-1 {
+      // the collapsed cap piece needs an extra margin to be positioned correctly
+      margin-right: 15px;
+      // no perspective shift necessary because this piece animates off the screen
+      &.perspective {
+        background-position: -$pieceWidth 0;
       }
     }
 
   }
+  
+}
+
+@media (max-width: px-em( 360 ) ) {
+
+  .exploded-view {
+
+    .callout {
+      width: 120px; // make narrower to wrap text
+      padding-right: 10px;
+      h3 {
+        font-size: 1.0em;
+        margin-top: -4px;
+      }
+    }
+
+  }
+
 }

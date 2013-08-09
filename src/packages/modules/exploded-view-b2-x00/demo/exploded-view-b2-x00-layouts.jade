@@ -18,6 +18,10 @@ body
 
         hr(style="margin:50px 0;")
 
+        +partial('exploded-view-b2-x00/html/exploded-view-b2-x00.jade', 'packages/modules/exploded-view-b2-x00/demo/data/default.json')
+
+        hr(style="margin:50px 0;")
+
       e = {"locals":locals, "data":data('packages/modules/global-header-footer/demo/data/default-footer.json'), "sample_session_data":data('packages/modules/global-header-footer/demo/data/sample_session_data.json')}
       !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}
   include ../../../common/html/foot.jade
