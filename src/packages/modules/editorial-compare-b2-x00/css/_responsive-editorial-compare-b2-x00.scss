@@ -22,10 +22,11 @@ $overlapOffset: 10%;
     $p: $i - 1;
     $n: $i + 1;
 
-    $prev: $overlap - ($overlapOffset * $i);
-    $next: -$overlap + ($overlapOffset * $i);
+    $prev: $overlap - ( $overlapOffset * $i );
+    $next: -$overlap + ( $overlapOffset * $i );
 
     .editorial-compare .sony-carousel[data-on="#{$i}"] {
+
       .slide-#{$p} .device {
         left: $prev;
       }
@@ -37,14 +38,15 @@ $overlapOffset: 10%;
   
     // Transform3D fix for choppy iOS Safari animations
     .csstransforms3d .editorial-compare .sony-carousel[data-on="#{$i}"] {
+
       .slide-#{$p} .device {
         left: auto;
-        @include translate3d($prev,0,0);
+        @include translate3d( $prev, 0, 0 );
       }
 
       .slide-#{$n} .device {
         left: auto;
-        @include translate3d($next,0,0);
+        @include translate3d( $next, 0, 0 );
       }
     }
 
@@ -86,7 +88,7 @@ $overlapOffset: 10%;
       }
 
       .device {
-        @include transition(margin,700ms);
+        @include transition( margin, 700ms );
       }
       
       // Add some extra offset for centering the inches text
@@ -102,12 +104,11 @@ $overlapOffset: 10%;
         &.column-#{$i} {
           .device {
             left: -5%;
-            margin-top: ($numColumns - $i) * $imgVerticalOffset;
+            margin-top: ( $numColumns - $i ) * $imgVerticalOffset;
             margin-bottom: $i * $imgVerticalOffset;
           }
         }
       }
-
     }
 
   }
