@@ -15,11 +15,6 @@
 //
 //
 
-
-// Look through here for global variables first: `sony-global-settings.js`
-// Some utilities functions that might save you time: `sony-global-utilities.js`
-
-
 define(function(require) {
 
   'use strict';
@@ -35,7 +30,9 @@ define(function(require) {
       var $module = $('.editorial-compare');
 
       if ( $module.length ) {
-        new EditorialCompare( $module[0] );
+        $module.each( function() {
+          new EditorialCompare( this );
+        });
       }
     }
   };
