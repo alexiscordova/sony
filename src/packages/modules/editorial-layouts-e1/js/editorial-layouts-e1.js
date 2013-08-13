@@ -141,6 +141,8 @@ define(function(require) {
           Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));
         }
 
+
+
         log('SONY : Editorial - E : Initialized');
 
         Settings.editorialModuleInitialzied.resolve();
@@ -317,7 +319,11 @@ define(function(require) {
         // Fixes horizontal 2 up layout wraping
         var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap').parent();
         if (tc.length) {
-          tc.css('width', tc.parent().width() - tc.prev().width() -2);
+          var width = tc.parent().width() - tc.prev().width() -2;
+          tc.css({
+            'width': width,
+            'maxWidth' : width 
+          });
         }
 
         // Fixes heights of tout copy across 2up 3up
