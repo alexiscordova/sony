@@ -1,4 +1,9 @@
 
+// Variables shared across all responsive styles
+
+$maxPieces: 11;
+$calloutPieceNumber: 2;
+
 // This scales up when the width of the background exceeds the max
 // size of the image (1110 pixels). This occurs at 1192 pixels because
 // the default container module has a width of 93.06122% and
@@ -7,7 +12,6 @@
 
   .exploded-view {
 
-    $maxPieces: 11;
     $bgCropHeight: 681px;
     $bgWidth: 1400px;
     $bgHeight: 681px;
@@ -21,7 +25,7 @@
 
     .submodule > .image-module {
       height: $bgCropHeight;
-      @include background-size($bgWidth $bgHeight);
+      @include background-size( $bgWidth $bgHeight );
     }
 
     .callout {
@@ -30,8 +34,8 @@
     }
 
     .cta {
-      right: $piecesOffsetRight - ($buttonOuterDiameter / 2) + 20px;
-      top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
+      right: $piecesOffsetRight - ( $buttonOuterDiameter / 2 ) + 20px;
+      top: ( $pieceHeight / 2 ) - ( $buttonOuterDiameter / 2 );
     }
 
     .pieces {
@@ -43,20 +47,21 @@
     .piece {
       width: $pieceWidth;
       height: $pieceHeight;
-      @include background-size(($pieceWidth * $maxPieces) $pieceHeight);
+      @include background-size( ( $pieceWidth * $maxPieces ) $pieceHeight );
     }
 
     @for $i from 0 through $maxPieces {
       .piece-#{$i} {
-        background-position: (-$pieceWidth * $i) 0;
+        background-position: ( -$pieceWidth * $i ) 0;
       }
     }
 
     .piece-1 {
       // the collapsed cap piece needs an extra margin to be positioned correctly
       margin-right: 25px;
+      
       &.perspective {
-        background-position: (-$pieceWidth * ($maxPieces - 1)) 0;
+        background-position: ( -$pieceWidth * ( $maxPieces - 1 ) ) 0;
       }
     }
 
@@ -69,15 +74,18 @@
   .exploded-view {
 
     .title {
+
       h2 {
         font-size: 2.375em;
       }
+
       p {
         font-size: 1.0em;
       }
     }
 
     .callout {
+
       h3 {
         margin-top: -11px;
       }
@@ -92,7 +100,6 @@
 // layout changes to account for the tablet image(s).
 @media (max-width: px-em( 768 ) ) {
 
-  $calloutPieceNumber: 2;
   $pieceWidth: 130px;
   $piecesOffsetRight: 64px;
   $pieceExplosionStep: 7.2%; // should match the explosion step used on desktop
@@ -116,8 +123,6 @@
 @media (max-width: px-em( 767 ) ) {
 
   $bgCropHeight: 490px;
-  $maxPieces: 11;
-  $calloutPieceNumber: 2;
   $pieceExplosionStep: 15%;
   $piecesOffsetRight: 64px;
   $pieceWidth: 130px;
@@ -142,6 +147,7 @@
 
     .top {
       position: relative;
+
       .table-center {
         vertical-align: top;
       }
@@ -158,6 +164,7 @@
     .intro {
       &.box {
         padding: 30px;
+
         &.out {
           opacity: 1;
         }
@@ -167,6 +174,7 @@
     .detail {
       position: relative;
       @include clearfix;
+
       .box {
         bottom: auto;
         top: 0;
@@ -185,6 +193,7 @@
       right: $calloutPieceNumber * $pieceExplosionStep;
       margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 20px;
       width: 240px;
+
       h3 {
         margin-top: -6px;
       }
@@ -209,7 +218,7 @@
         @if $i != 0 { 
           @if $i != $maxPieces {
             &.exploded {
-              right: ($maxPieces - $i - 1) * $pieceExplosionStep;
+              right: ( $maxPieces - $i - 1 ) * $pieceExplosionStep;
             }
           }
         }
@@ -244,16 +253,12 @@
 
   $bgHeight: 376px;
   $bgCropHeight: 340px;
-  $maxPieces: 11;
-  $calloutPieceNumber: 2;
   $pieceWidth: 91px;
   $pieceHeight: 154px;
   $piecesOffsetRight: 64px;
-
   $buttonInnerDiameter: 54px;
   $buttonBorder: 9px;
-  $buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
-
+  $buttonOuterDiameter: $buttonInnerDiameter + ( 2 * $buttonBorder );
   $buttonHoverShift: 12px;
 
   // The distance between each piece in the exploded state
@@ -266,7 +271,7 @@
 
     .submodule > .image-module {
       height: $bgCropHeight; // crop a small portion of the bottom of the background image
-      @include background-size(auto $bgHeight);
+      @include background-size( auto $bgHeight );
     }
 
     .callout {
@@ -276,27 +281,22 @@
     }
 
     .cta {
-      top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
+      top: ( $pieceHeight / 2 ) - ( $buttonOuterDiameter / 2 );
       right: 75px;
-
       width: $buttonOuterDiameter + $buttonHoverShift;
       height: $buttonOuterDiameter;
 
       .circle-btn {
-
         width: $buttonOuterDiameter;
         height: $buttonOuterDiameter;
-        @include border-radius($buttonOuterDiameter / 2);
-
+        @include border-radius( $buttonOuterDiameter / 2 );
       }
 
       i {
-
         width: $buttonInnerDiameter;
         height: $buttonInnerDiameter;
-        @include border-radius($buttonInnerDiameter / 2);
+        @include border-radius( $buttonInnerDiameter / 2 );
         margin: $buttonBorder;
-
         font-size: 1.2em;
         line-height: 1.7em;
         padding-top: 7px;
@@ -335,25 +335,23 @@
     }
 
     .piece {
-
       width: $pieceWidth;
       height: $pieceHeight;
-      @include background-size(($pieceWidth * $maxPieces) $pieceHeight);
-
+      @include background-size( ( $pieceWidth * $maxPieces ) $pieceHeight );
     }
 
     @for $i from 0 through $maxPieces - 1 {
       .piece-#{$i} {
-        background-position: (-$pieceWidth * $i) 0;
+        background-position: ( -$pieceWidth * $i ) 0;
         z-index: $maxPieces - $i;
 
         @if $i != 0 { 
           @if $i != $maxPieces {
             &.tease {
-              right: ($maxPieces - $i - 1) * $pieceTeaseStep;
+              right: ( $maxPieces - $i - 1 ) * $pieceTeaseStep;
             }
             &.exploded {
-              right: ($maxPieces - $i - 1) * $pieceExplosionStep;
+              right: ( $maxPieces - $i - 1 ) * $pieceExplosionStep;
             }
           }
         }
@@ -363,6 +361,7 @@
     .piece-1 {
       // the collapsed cap piece needs an extra margin to be positioned correctly
       margin-right: 15px;
+      
       // no perspective shift necessary because this piece animates off the screen
       &.perspective {
         background-position: -$pieceWidth 0;
@@ -380,6 +379,7 @@
     .callout {
       width: 120px; // make narrower to wrap text
       padding-right: 10px;
+
       h3 {
         font-size: 1.0em;
         margin-top: -4px;

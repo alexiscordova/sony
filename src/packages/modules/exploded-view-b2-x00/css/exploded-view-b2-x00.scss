@@ -12,11 +12,9 @@ $piecesOffsetTop: 140px;
 $piecesOffsetRight: 134px;
 $buttonInnerDiameter: 72px;
 $buttonBorder: 12px;
-$buttonOuterDiameter: $buttonInnerDiameter + (2 * $buttonBorder);
+$buttonOuterDiameter: $buttonInnerDiameter + ( 2 * $buttonBorder );
 $buttonHoverShift: 48px;
 $easeInCubic: cubic-bezier(0.550, 0.055, 0.675, 0.190);
-$easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-$easeInOutCubic: cubic-bezier(0.645, 0.045, 0.355, 1.000);
 
 // The distance between each piece in the exploded state
 $pieceExplosionStep: 7.2%;
@@ -25,6 +23,9 @@ $pieceExplosionStep: 7.2%;
 $pieceTeaseStep: 0.4%;
 
 .exploded-view {
+
+  // Fix for Safari font weight changes on transition
+  -webkit-font-smoothing: antialiased;
 
   padding: 0 0 75px;
 
@@ -47,7 +48,7 @@ $pieceTeaseStep: 0.4%;
 
   .submodule > .image-module {
     height: $bgCropHeight;
-    @include background-size(auto $bgHeight);
+    @include background-size( auto $bgHeight );
     background-repeat: no-repeat;
     background-position: right top;
   }
@@ -76,9 +77,11 @@ $pieceTeaseStep: 0.4%;
   }
 
   .title {
+
     h2 {
       font-size: 2.75em;
     }
+
     p {
       color: $gray20;
       font-size: 1.125em;
@@ -97,6 +100,7 @@ $pieceTeaseStep: 0.4%;
 
   .no-csstransitions & .detail {
     display: none;
+
     &.in {
       display: block;
     }
@@ -133,6 +137,7 @@ $pieceTeaseStep: 0.4%;
 
   .no-csstransitions & .box {
     display: block;
+
     &.out {
       display: none;
     }
@@ -150,7 +155,6 @@ $pieceTeaseStep: 0.4%;
   }
 
   .callout {
-
     z-index: $maxPieces;
     width: 430px;
     height: 86px;
@@ -160,16 +164,15 @@ $pieceTeaseStep: 0.4%;
     top: 88px;
     margin-right: $piecesOffsetRight + ( $pieceWidth / 2 ) - 20px;
     padding-right: 20px;
-    border-right: solid 1px white;
+    border-right: solid 1px $white;
 
     h3, p {
-      color: white;
+      color: $white;
     }
 
     h3 {
       margin-top: -13px; // pull up to align with callout border
     }
-
   }
 
   .csstransitions & .callout {
@@ -179,11 +182,11 @@ $pieceTeaseStep: 0.4%;
     &.in {
       opacity: 1;
     }
-
   }
 
   .no-csstransitions & .callout {
     display: none;
+
     &.in {
       display: block;
     }
@@ -191,14 +194,13 @@ $pieceTeaseStep: 0.4%;
 
   .cta {
     position: absolute;
-    right: $piecesOffsetRight - ($buttonOuterDiameter / 2) + 20px;
-    top: ($pieceHeight / 2) - ($buttonOuterDiameter / 2);
+    right: $piecesOffsetRight - ( $buttonOuterDiameter / 2 ) + 20px;
+    top: ( $pieceHeight / 2 ) - ( $buttonOuterDiameter / 2 );
     z-index: $maxPieces + 1;
-
     width: $buttonOuterDiameter + $buttonHoverShift;
     height: $buttonOuterDiameter;
-
     opacity: 1;
+
     &:active {
       background-color: transparent;
     }
@@ -206,11 +208,10 @@ $pieceTeaseStep: 0.4%;
     .circle-btn {
       position: absolute;
       right: 0;
-
       width: $buttonOuterDiameter;
       height: $buttonOuterDiameter;
       @include border-radius( $buttonOuterDiameter / 2 );
-      background: rgba(0,0,0,0.2);
+      background: rgba( 0, 0, 0, 0.2);
 
       &.expand {
         display: block;
@@ -222,38 +223,35 @@ $pieceTeaseStep: 0.4%;
     }
 
     i {
-
       background: $buttonOrange;
-      color: white;
-
+      color: $white;
       width: $buttonInnerDiameter;
       height: $buttonInnerDiameter;
-      @include border-radius($buttonInnerDiameter / 2);
+      @include border-radius( $buttonInnerDiameter / 2 );
       margin: $buttonBorder;
-
       font-size: 2em;
-      // TODO: is there a better way to get the icons centered in the circle than this and the padding below?
       line-height: 1.9em;
       text-align: center;
 
       &.fonticon-10-chevron-reverse {
         padding-right: 6px;
       }
+
       &.fonticon-10-chevron {
         padding-left: 6px;
       }
-
     }
 
     &.collapse {
       width: $buttonOuterDiameter;
       right: $maxPieces * $pieceExplosionStep;
       margin-right: 20px;
-      .circle-btn {
-        i {
-          background-color: rgb(160,160,160);
-        }
 
+      .circle-btn {
+
+        i {
+          background-color: rgb( 160, 160, 160 );
+        }
       }
 
       display: none;
@@ -279,10 +277,12 @@ $pieceTeaseStep: 0.4%;
   }
 
   .no-touch & .cta {
+
     &.expand {
       &:hover {
         .circle-btn {
           right: $buttonHoverShift;
+
           i {
             background-color: $buttonOrangeHover;
           }
@@ -294,8 +294,9 @@ $pieceTeaseStep: 0.4%;
         &:hover {
           .circle-btn {
             right: 0;
+
             i {
-              background-color: rgb(180,180,180);
+              background-color: rgb( 180, 180, 180 );
             }
           }
         }
@@ -304,7 +305,6 @@ $pieceTeaseStep: 0.4%;
   }
 
   .piece {
-
     width: $pieceWidth;
     height: $pieceHeight;
     position: absolute;
@@ -329,15 +329,15 @@ $pieceTeaseStep: 0.4%;
 
   @for $i from 0 through $maxPieces {
     .piece-#{$i} {
-      background-position: (-$pieceWidth * $i) 0;
+      background-position: ( -$pieceWidth * $i ) 0;
       z-index: $maxPieces - $i;
 
       @if $i != 0 { 
         &.tease {
-          right: ($maxPieces - $i - 1) * $pieceTeaseStep;
+          right: ( $maxPieces - $i - 1 ) * $pieceTeaseStep;
         }
         &.exploded {
-          right: ($maxPieces - $i - 1) * $pieceExplosionStep;
+          right: ( $maxPieces - $i - 1 ) * $pieceExplosionStep;
           opacity: 1;
         }
       }
@@ -360,9 +360,83 @@ $pieceTeaseStep: 0.4%;
   .piece-1 {
     // the collapsed cap piece needs an extra margin to be positioned correctly
     margin-right: 20px;
+
     &.perspective {
-      background-position: (-$pieceWidth * ($maxPieces - 1)) 0;
+      background-position: ( -$pieceWidth * ( $maxPieces - 1 ) ) 0;
     }
   }
 
+}
+
+.lt-ie8 {
+  .exploded-view {
+
+    .scene, .scene-elements {
+      width: 980px;
+      margin: 0 auto;
+    }
+
+    .inner {
+      .table-center-wrap {
+
+        .table-center {
+          height: 100%;
+
+          .intro {
+            margin-top: 100px;
+          }
+
+        }
+      }
+    }
+
+    .callout h3 {
+      margin-top: 0;
+    }
+
+    .cta {
+      background: #f00;
+      display: block;
+      width: $buttonInnerDiameter;
+      height: $buttonInnerDiameter;
+      z-index: 100;
+
+      .circle-btn {
+        display: block;
+        cursor: pointer;
+        width: $buttonInnerDiameter;
+        height: $buttonInnerDiameter;
+        position: relative;
+
+        i {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: $buttonInnerDiameter;
+          height: $buttonInnerDiameter;
+          display: block;
+          margin: 0;
+          padding: 0;
+          line-height: 2.2em;
+          z-index: 101;
+        }
+      }
+
+      &.expand {
+        right: $piecesOffsetRight - ( $buttonOuterDiameter / 2 ) + $buttonHoverShift;
+
+        .circle-btn {
+          right: auto;
+          left: 0;
+        }
+
+        &:hover {
+          .circle-btn {
+            right: auto;
+            left: 0;
+          }
+        }
+      }
+    }
+  }
 }

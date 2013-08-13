@@ -560,6 +560,9 @@ define(function(require) {
         l = widths[LENGTH],
         i = 0,
         width;
+      if( 'innerWidth' in window ) {
+        widths.push( window.innerWidth );
+      }
 
       for (; i < l; i++) {
         // If not a number remove it.

@@ -15,11 +15,6 @@
 //
 //
 
-
-// Look through here for global variables first: `sony-global-settings.js`
-// Some utilities functions that might save you time: `sony-global-utilities.js`
-
-
 define(function(require) {
 
   'use strict';
@@ -31,7 +26,7 @@ define(function(require) {
 
   var module = {
     init: function() {
-      var $module = $('.exploded-view');
+      var $module = $( '.exploded-view' );
 
       if ( $module.length ) {
         $module.each( function() {
@@ -49,7 +44,7 @@ define(function(require) {
     self.$el = $( element );
     self.init();
 
-    log('SONY : ExplodedView : Initialized');
+    log( 'SONY : ExplodedView : Initialized' );
   };
 
   ExplodedView.prototype = {
@@ -66,12 +61,12 @@ define(function(require) {
         // These can be chained, like below
         // Use `em`s for your breakpoints ( px value / 16 )
         enquire
-          .register('(min-width: 48em)', {
+          .register( '(min-width: 48em)', {
             match: function() {
               self.setupDesktop();
             }
           })
-          .register('(max-width: 47.9375em)', {
+          .register( '(max-width: 47.9375em)', {
             match: function() {
               self.setupMobile();
             }
@@ -89,8 +84,8 @@ define(function(require) {
       var self = this;
 
       setTimeout( function() {
-        self.$el.find('.scene').addClass( 'in' );
-      }, 0 );
+        self.$el.find( '.scene' ).addClass( 'in' );
+      }, 0);
     },
 
     setVars : function() {
@@ -118,7 +113,7 @@ define(function(require) {
       var self = this,
           wasMobile = self.isMobile;
 
-      log('SONY : ExplodedView : Setup Desktop');
+      log( 'SONY : ExplodedView : Setup Desktop' );
 
       if ( wasMobile ) {
         var $intro = $( '.intro-container', self.$el );
@@ -136,7 +131,7 @@ define(function(require) {
       var self = this,
           wasDesktop = self.isDesktop;
 
-      log('SONY : ExplodedView : Setup Mobile');
+      log( 'SONY : ExplodedView : Setup Mobile' );
 
       if ( wasDesktop ) {
         
