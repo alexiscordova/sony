@@ -55,7 +55,10 @@ body {
 }
 
 html.no-touch.csstransitions [class*="fonticon"] {
-  @include transition( color $transitionSlowish linear );
+  @include transition(
+    opacity $transitionSlowish linear,
+    color $transitionSlowish linear
+  );
 }
 
 
