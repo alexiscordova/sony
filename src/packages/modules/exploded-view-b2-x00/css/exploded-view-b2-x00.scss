@@ -367,3 +367,76 @@ $pieceTeaseStep: 0.4%;
   }
 
 }
+
+.lt-ie8 {
+  .exploded-view {
+
+    .scene, .scene-elements {
+      width: 980px;
+      margin: 0 auto;
+    }
+
+    .inner {
+      .table-center-wrap {
+
+        .table-center {
+          height: 100%;
+
+          .intro {
+            margin-top: 100px;
+          }
+
+        }
+      }
+    }
+
+    .callout h3 {
+      margin-top: 0;
+    }
+
+    .cta {
+      background: #f00;
+      display: block;
+      width: $buttonInnerDiameter;
+      height: $buttonInnerDiameter;
+      z-index: 100;
+
+      .circle-btn {
+        display: block;
+        cursor: pointer;
+        width: $buttonInnerDiameter;
+        height: $buttonInnerDiameter;
+        position: relative;
+
+        i {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: $buttonInnerDiameter;
+          height: $buttonInnerDiameter;
+          display: block;
+          margin: 0;
+          padding: 0;
+          line-height: 2.2em;
+          z-index: 101;
+        }
+      }
+
+      &.expand {
+        right: $piecesOffsetRight - ( $buttonOuterDiameter / 2 ) + $buttonHoverShift;
+
+        .circle-btn {
+          right: auto;
+          left: 0;
+        }
+
+        &:hover {
+          .circle-btn {
+            right: auto;
+            left: 0;
+          }
+        }
+      }
+    }
+  }
+}
