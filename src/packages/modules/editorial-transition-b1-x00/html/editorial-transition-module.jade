@@ -237,11 +237,11 @@ mixin boxlayout(_layout)
                   img(src= imgData.noscriptsrc)
 
       +slidelabels
-      .controls.container.hidden
-        .drag-controls(class=isDark)(class=bump)(class=lod)
-          i.left-arrow.fonticon-10-chevron-reverse
-          span.instructions.l3(class=isDark)(class=lod) DRAG
-          i.right-arrow.fonticon-10-chevron
+
+      .grid
+        .span6.offset3
+          +partial("sony-slide-nav/html/sony-slide-nav.jade", "packages/modules/sony-slide-nav/demo/data/default.json")
+
 
   else
     div(class="sony-sequence container dim-the-lights", id=id)
@@ -265,8 +265,6 @@ mixin boxlayout(_layout)
                 noscript
                   img(src= imgData.noscriptsrc)
 
-      .controls.container.hidden
-        .drag-controls(class=isDark)(class=bump)(class=lod)
-          i.left-arrow.fonticon-10-chevron-reverse
-          span.instructions.l3(class=isDark)(class=lod) DRAG
-          i.right-arrow.fonticon-10-chevron
+      .grid
+        .span6.offset3
+          +partial("sony-slide-nav/html/sony-slide-nav.jade", "packages/modules/sony-slide-nav/demo/data/default.json")

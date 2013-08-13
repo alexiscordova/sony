@@ -1,0 +1,109 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$scrubberSize: 57px;
+$scrubberInnerSize: $scrubberSize * .72;
+$barHeight: 8px;
+
+.sony-slide-nav {
+  position: relative;
+  height: $scrubberSize;
+  width: 100%;
+  margin-bottom: 20px;
+
+  a {
+    position: absolute;
+    top: 60px;
+    width: 100px;
+    text-align: center;
+    margin-left: -50px;
+    color: $gray30;
+    cursor: pointer;
+    font-size: 0.7em;
+    opacity: 0.3;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  .bar {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: $barHeight;
+    margin-top: $barHeight / -2;
+    z-index: 2;
+    background-color: $gray60;
+    border-radius: $barHeight / 2;
+  }
+
+  .scrubber-container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .scrubber {
+    position: absolute;
+    min-height: 100%;
+    z-index: 3;
+
+    .handle {
+      position: absolute;
+      top: 50%;
+      margin-top: $scrubberSize / -2;
+      left: $scrubberSize / -2;
+      width: $scrubberSize;
+      height: $scrubberSize;
+      background: rgba($gray30, 0.25);
+      cursor: pointer;
+      cursor: -webkit-grab;
+      cursor: -moz-grab;
+      cursor: grab;
+      @include border-radius(50%);
+      @include transition(0.1s);
+      .inner {
+        position: absolute;
+        width: $scrubberInnerSize;
+        height: $scrubberInnerSize;
+        line-height: $scrubberInnerSize - 4px;
+        background: $buttonOrange;
+        display: block;
+        text-align: center;
+        font-size: 0.9em;
+        top: 50%;
+        left: 50%;
+        margin: ($scrubberInnerSize / -2) 0 0 ($scrubberInnerSize / -2);
+        @include border-radius(50%);
+        @include transition(0.1s ease-out);
+
+        i {
+          color: $white;
+          display: inline-block;
+          margin: 0;
+          -webkit-font-smoothing: antialiased;
+          @include transition(0.1s ease-out);
+        }
+      }
+    }
+    &:hover .handle {
+      .inner {
+        @include scale(1.05);
+        background: $buttonOrangeHover;
+      }
+    }
+    &.dragging .handle {
+      cursor: pointer;
+      cursor: -webkit-grabbing;
+      cursor: -moz-grabbing;
+      cursor: grabbing;
+
+      .inner {
+        @include scale(1.05);
+        background: $gray30;
+      }
+    }
+  }
+
+}
