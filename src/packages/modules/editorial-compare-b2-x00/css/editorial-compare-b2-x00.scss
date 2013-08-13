@@ -5,6 +5,7 @@ $numColumns: 3;
 $imgVerticalOffset: 8%;
 
 .editorial-compare {
+
   overflow: hidden;
   padding: 3em 0;
 
@@ -32,27 +33,27 @@ $imgVerticalOffset: 8%;
       width: 155%;
     }
 
-      .inches {
-        color: #fff;
-        font-size: 2em;
-        font-weight: bold;
-        margin: 0;
-        padding: 0;
-        position: absolute;
-          left: 0;
-          right: 0;
-          top: 43%;
-        text-align: center;
+    .inches {
+      color: $white;
+      font-size: 2em;
+      font-weight: bold;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 43%;
+      text-align: center;
 
-        span {
-          font-size: .5em;
-        }
+      span {
+        font-size: .5em;
       }
+    }
 
-      img {
-        max-width: 155%;
-        width: 100%;
-      }
+    img {
+      max-width: 155%;
+      width: 100%;
+    }
 
     // Apply an image offset and z-index to the images in the columns
     // so that images to the left are lower and in front of images
@@ -66,7 +67,6 @@ $imgVerticalOffset: 8%;
         }
       }
     }
-
   }
 
   .center {
@@ -80,11 +80,9 @@ $imgVerticalOffset: 8%;
     div {
       margin-right: 10px;
     }
-
   }
 
   .benefits {
-
     border-top: solid 1px $gray60;
     margin: 0;
     padding-top: 20px;
@@ -100,16 +98,29 @@ $imgVerticalOffset: 8%;
         font-size: 3em;
 
         &.icon-orange {
-          color: #ef715b;
+          color: $themeOrange;
         }
 
         &.icon-green {
-          color: #c2db66;
+          color: $themeGreen;
         }
 
-        &.icon-blue {
-          color: #60d0e8;
+        &.icon-blue-light {
+          color: $themeBlueLight;
         }
+
+        &.icon-blue-dark {
+          color: $themeBlueDark;
+        }
+
+        &.icon-red {
+          color: $themeRed;
+        }
+
+        &.icon-purple {
+          color: $themePurple;
+        }
+
       }
 
       h5, p {
@@ -119,25 +130,28 @@ $imgVerticalOffset: 8%;
       h5 {
         margin-bottom: 0;
       }
-
     }
-
   }
 
 }
 
 .lt-ie8 .editorial-compare {
+
   .sony-carousel-wrapper {
     overflow: hidden;
   }
+
   .sony-carousel-slide-children {
-      .device {
+    
+    .device {
         left: auto;
         margin: 0 auto;
         width: 100%;
     }
+    
     .inches {
       top: 40%;
     }
   }
+
 }
