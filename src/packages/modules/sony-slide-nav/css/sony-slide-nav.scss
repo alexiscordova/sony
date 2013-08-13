@@ -20,10 +20,28 @@ $barHeight: 8px;
     color: $gray30;
     cursor: pointer;
     font-size: 0.7em;
-    opacity: 0.3;
+
+    i, img {
+      opacity: 0.3;
+    }
 
     &.active {
-      opacity: 1;
+      i, img {
+        opacity: 1;
+      }
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: ($barHeight + 1) * 2;
+      height: ($barHeight + 1) * 2;
+      top: -39px;
+      left: 50%;
+      background-color: $gray60;
+      margin-left: ($barHeight + 1) * -1;
+      z-index: 2;
+      border-radius: ($barHeight + 1);
     }
   }
 
