@@ -4,24 +4,29 @@ include ../../../common/html/jade-helpers.jade
 
 moduleClasses = [ "editorial-compare" ]  
 
-mixin columnElement(color, image)
-  div.device
-    +iQImage(image)
-    p.inches=image.inches
-      span in
-  .swatches
-    .swatch-blue.mini-swatch
-    .swatch-black.mini-swatch
-    div.mini-swatch(class = "swatch-#{color}")
-  ul.benefits
-    each icon in image.icons
-      li
-        i(class="#{icon.icon} icon-#{icon.color}")(aria-hidden="true")
-        h5.t7=icon.label
-        p=icon.desc
-    
- 
+mixin colorSwatches( colors )
+  if colors
+    each color in colors
+      colour = color.color ? color.color : color
+      theClass = 'swatch-' + colour
+      size = 'mini-swatch'
+      theClass = size + ' ' + theClass
+      div( class=theClass, data-color=colour, itemprop="color" ) !{ colour }
 
+mixin productColumn( product )
+  div.device
+    +iQImage( product.img )
+    p.inches= product.size
+      span= product.size_unit
+  .swatches
+    +colorSwatches( product.colors )
+  ul.benefits
+    each benefit in product.benefits
+      li
+        i(class="#{benefit.icon} icon-#{benefit.color}")(aria-hidden="true")
+        h5.t7= benefit.label
+        p= benefit.description
+    
 +mainElement( moduleClasses )
 
   .container
@@ -37,8 +42,8 @@ mixin columnElement(color, image)
             .container
               .slimgrid
                 .span4.sony-carousel-slide-children.column-0
-                  +columnElement('green', data.image_1)
+                  +productColumn( data.product_1 )
                 .span4.sony-carousel-slide-children.column-1
-                  +columnElement('red', data.image_2)
+                  +productColumn( data.product_2 )
                 .span4.sony-carousel-slide-children.column-2
-                  +columnElement('lemon', data.image_3)
+                  +productColumn( data.product_3 )

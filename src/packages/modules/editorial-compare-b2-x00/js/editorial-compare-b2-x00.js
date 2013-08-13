@@ -15,11 +15,6 @@
 //
 //
 
-
-// Look through here for global variables first: `sony-global-settings.js`
-// Some utilities functions that might save you time: `sony-global-utilities.js`
-
-
 define(function(require) {
 
   'use strict';
@@ -32,10 +27,12 @@ define(function(require) {
 
   var module = {
     init: function() {
-      var $module = $('.editorial-compare');
+      var $module = $( '.editorial-compare' );
 
       if ( $module.length ) {
-        new EditorialCompare( $module[0] );
+        $module.each( function() {
+          new EditorialCompare( this );
+        });
       }
     }
   };
@@ -48,7 +45,7 @@ define(function(require) {
     self.$el = $( element );
     self.init();
 
-    log('SONY : EditorialCompare : Initialized');
+    log( 'SONY : EditorialCompare : Initialized' );
   };
 
   EditorialCompare.prototype = {
@@ -65,12 +62,12 @@ define(function(require) {
         // These can be chained, like below
         // Use `em`s for your breakpoints ( px value / 16 )
         enquire
-          .register('(min-width: 30.0634em)', {
+          .register( '(min-width: 30.0634em)', {
             match: function() {
               self.setupDesktop();
             }
           })
-          .register('(max-width: 30.0625em)', {
+          .register( '(max-width: 30.0625em)', {
             match: function() {
               self.setupMobile();
             }
@@ -90,14 +87,14 @@ define(function(require) {
       var self = this;
 
       setTimeout( function() {
-        self.$el.find('.carousel-container').addClass( 'in' );
+        self.$el.find( '.carousel-container' ).addClass( 'in' );
       }, 0 );
     },
 
     initCarousel : function() {
       var self = this;
 
-      log('SONY : EditorialCompare : Init Carousel');
+      log( 'SONY : EditorialCompare : Init Carousel' );
 
       // Initialize a new sony carousel.
       self.$carousel.sonyCarousel({
@@ -112,7 +109,7 @@ define(function(require) {
     destroyCarousel : function() {
       var self = this;
 
-      log('SONY : EditorialCompare : Destroy Carousel');
+      log( 'SONY : EditorialCompare : Destroy Carousel' );
 
       // Destroy the sony carousel.
       self.$carousel.sonyCarousel( 'destroy' );
@@ -123,7 +120,7 @@ define(function(require) {
       var self = this,
           wasMobile = self.isMobile;
 
-      log('SONY : EditorialCompare : Setup Desktop');
+      log( 'SONY : EditorialCompare : Setup Desktop' );
 
       self.arrangeItemsInSlides( 3 );
 
@@ -139,15 +136,15 @@ define(function(require) {
       var self = this,
           wasDesktop = self.isDesktop;
 
-      log('SONY : EditorialCompare : Setup Mobile');
+      log( 'SONY : EditorialCompare : Setup Mobile' );
 
       self.arrangeItemsInSlides( 1 );
 
       // Set the first slide as on
-      $('.sony-carousel').attr('data-on','0');
+      $( '.sony-carousel' ).attr( 'data-on', '0' );
 
       // Update on attribute when switching slides
-      $('.sony-carousel').on('SonyCarousel:gotoSlide',self.switchSlide);
+      $( '.sony-carousel' ).on( 'SonyCarousel:gotoSlide' , self.switchSlide );
 
       if ( wasDesktop ) {
 
@@ -160,14 +157,14 @@ define(function(require) {
     },
 
     switchSlide: function(e,slide) {
-      $(this).attr('data-on',slide);
+      $(this).attr( 'data-on', slide );
     },
 
     arrangeItemsInSlides : function( numPerSlide ) {
       var self = this,
           doc = document,
           frag = document.createDocumentFragment(),
-          $items = self.$carousel.find('.sony-carousel-slide-children'),
+          $items = self.$carousel.find( '.sony-carousel-slide-children' ),
           numItems = $items.length,
           numSlides = Math.ceil( numItems / numPerSlide ),
           i = 0,
@@ -201,7 +198,6 @@ define(function(require) {
       self.$carousel
         .empty()
         .append( frag );
-
     }
 
   };
