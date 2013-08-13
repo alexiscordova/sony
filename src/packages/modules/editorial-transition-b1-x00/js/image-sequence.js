@@ -34,44 +34,39 @@ define(function(require) {
 
       // initialize the sequence
       self.sequence = new SonySequence(self.$el, {
-        loop: false,
-        speed: 100
+        loop: false
       });
 
       self.$sequenceNoteContainer = self.$el.find('.sequence-note-container');
       self.$sequenceNotes = self.$sequenceNoteContainer.find('.sequence-notes');
 
-      // initalize bindings
-      var domReady = function() {
-        self.initBindings();
-        self.followSequenceNotes();
-      };
+      self.initBindings();
+      self.followSequenceNotes();
+      self.createSliderAnchors();
+    },
 
-      // TODO: This is temporary, should be moved to its own method.
+    createSliderAnchors: function() {
 
-      var $labelContainer = self.$el.find('.label-data');
-      var labels = $labelContainer.find('i');
+      var self = this,
+          $labelContainer = self.$el.find('.label-data'),
+          $labels = $labelContainer.find('i'),
+          $label, $sliderPosition, $sliderIcon;
 
-      for (var _i = 0; _i < labels.length; _i++) {
+      $labels.each(function(){
 
-        var $el = $(labels[_i]),
-          elData = $el.data();
+        $label = $(this);
 
-        var $sliderPosition = $('<a/>');
-        var $sliderIcon = $('<i/>');
+        $sliderIcon = $('<i/>');
+        $sliderIcon.addClass($label.data('label'));
 
-        $sliderPosition.data('id', elData.id);
-        $sliderPosition.data('position', elData.id / (self.sequence.sequenceLength - 1) * 100);
-        $sliderIcon.addClass(elData.label);
+        $sliderPosition = $('<a/>');
+        $sliderPosition.data('position', $label.data('id') / (self.sequence.sequenceLength - 1) * 100);
         $sliderPosition.append($sliderIcon);
 
         self.$el.find('.sony-slide-nav').append($sliderPosition);
-
-      }
+      });
 
       self.$el.find('.sony-slide-nav').trigger('SonySlideNav:update');
-
-      $(domReady);
     },
 
     initBindings: function() {
