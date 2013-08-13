@@ -40,8 +40,9 @@ body {
 .no-touch .btn:not(.no-hover-transition){
   @include transition(
     background-color $transitionSlowish linear,
-    color $transitionSlowish linear,
-    border-color $transitionSlowish linear
+    border-color $transitionSlowish linear,
+    opacity $transitionSlowish linear,
+    color $transitionSlowish linear
   );
   // This is causing a delay for the icon, making things weird. Weird isn't wanted.
   // [class*="fonticon"]{
@@ -54,7 +55,10 @@ body {
 }
 
 html.no-touch.csstransitions [class*="fonticon"] {
-  @include transition( color $transitionSlowish linear );
+  @include transition(
+    opacity $transitionSlowish linear,
+    color $transitionSlowish linear
+  );
 }
 
 

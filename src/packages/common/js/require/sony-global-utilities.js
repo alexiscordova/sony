@@ -197,6 +197,17 @@ define(function (require) {
       parent2.insertBefore(elm1, next2);
     },
 
+    getElementCenter: function(elem) {
+
+      var width = elem.getBoundingClientRect().right - elem.getBoundingClientRect().left,
+          height = elem.getBoundingClientRect().bottom - elem.getBoundingClientRect().top;
+
+      return {
+        x: elem.getBoundingClientRect().left + width/2,
+        y: elem.getBoundingClientRect().top + height/2
+      };
+    },
+
     // Given an array of numbers (`arr`), find the item in the array closest
     // to a given number (`num`). If you provide '>' or '<' for `filter`,
     // it only looks for items greater or lesser than `num`, respectively.

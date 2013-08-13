@@ -22,7 +22,6 @@ define(function(require){
     if (data.sequenceLabelRight) { opts.labelRight = data.sequenceLabelRight; }
 
     new EditorialTransition($el, opts);
-    //new SonySliderControl($el, opts);
 
   });
 
