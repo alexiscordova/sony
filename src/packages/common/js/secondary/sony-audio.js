@@ -33,6 +33,7 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
+      Utilities = require('require/sony-global-utilities'),
       SoundManager = require('soundManager');
 
   // `SonyAudioController` prototype is the global sound player. All instances of `module` create an independent
@@ -110,7 +111,6 @@ define(function(require){
         autoPlay: false,
         volume: 25,
         onpause: function() {
-          currentTime = this.position;
           config.onpause();
         },
         onplay: function() {
@@ -122,6 +122,9 @@ define(function(require){
         onfinish: function() {
           currentTime = 0;
           config.onfinish();
+        },
+        whileplaying: function() {
+          currentTime = this.position;
         }
       });
     };
@@ -165,14 +168,7 @@ define(function(require){
             }
           }, 500);
 
-          // The next two lines replaced `currentSound.load()`, which didn't
-          // work well in mobile devices. Now it works, but mainly in isolation.
-          // Multiple instances of sony-audio seem to be buggy, but we don't have
-          // that use-case to account for at the moment. Noting this for a refactor
-          // if we ever have to have two or more audio files at once.
-
-          currentSound.setPosition(currentTime).play();
-          self.pause();
+          self.loadTrack(currentSound);
 
           return self;
         }
@@ -183,6 +179,22 @@ define(function(require){
 
         return self;
       },
+
+      // This method 'fixes' `currentSound.load()`, which didn't
+      // work well in mobile devices. Now it works, but mainly in isolation.
+      // Multiple instances of sony-audio seem to be buggy, but we don't have
+      // that use-case to account for at the moment. Noting this for a refactor
+      // if we ever have to have two or more audio files at once.
+
+      loadTrack: Utilities.once(function(sound){
+
+        var self = this;
+
+        sound.setPosition(0).play();
+        self.pause();
+
+        return this;
+      }),
 
       // `Audio.pause()`: Pause all sound. To prevent audio collisions, all audio is stopped when
       //     this method is called.
