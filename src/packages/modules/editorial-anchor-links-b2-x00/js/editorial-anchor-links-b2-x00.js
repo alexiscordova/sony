@@ -76,6 +76,9 @@ define(function(require){
       self.$stickyNav = self.$el.find('.sticky-nav');
       self.$jumpLinks = self.$el.find('.jump-links a');
 
+      // find the video submodule in the sibling primary tout module
+      self.$videoSubmodule = self.$el.siblings( '.primary-tout' ).find( '.submodule.video' );
+
     },
 
     setupBreakpoints : function() {
@@ -129,6 +132,14 @@ define(function(require){
         offset: 0,
         offsetTarget: $.proxy( self.getStickyNavTriggerMark, self ),
         scrollToTopOnClick: false
+      });
+
+      // The height of the Primary Tout module may change when the video submodule
+      // is activated (both opened and closed). Register for this event so the 
+      // sticky nav can be refreshed with the updated trigger mark and positions
+      // at which the active nav item changes.
+      self.$videoSubmodule.on( 'PrimaryTout:submoduleActivated', function() {
+        self.$stickyNav.data( 'stickyNav' ).refresh();
       });
 
       // Scroll to a hash if it's present
