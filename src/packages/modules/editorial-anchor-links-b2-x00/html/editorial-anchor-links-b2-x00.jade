@@ -6,20 +6,20 @@ include ../../../common/html/jade-helpers.jade
 .editorial-anchor-links-wrapper
   .editorial-anchor-links#editorial-anchor-links--static-nav
     .container.full-bleed-at-767
-      ul.grid.jump-links(class= "button-count-" + data.buttons.length)
+      ul.grid.jump-links( class= "button-count-" + data.buttons.length )
         each button, i in data.buttons
           li
-            a.editorial-anchor-link-btn(href= button.href)
+            a.editorial-anchor-link-btn( href= button.href )
               span.btn-title.t6 !{button.title}
               span.btn-subtitle.p3 !{button.subtitle}
               i (icon)
 
   .editorial-anchor-links.sticky-nav.sticky-nav-tall#editorial-anchor-links--sticky-nav
     .container.full-bleed-at-767
-      ul.grid.jump-links.nav(class= "button-count-" + data.buttons.length)
+      ul.grid.jump-links.nav( class= "button-count-" + data.buttons.length )
         each button, i in data.buttons
           li
-            a.editorial-anchor-link-btn(href= button.href)
+            a.editorial-anchor-link-btn( href= button.href )
               span.btn-title.t6 !{button.title}
               span.btn-subtitle.p3 !{button.subtitle}
 

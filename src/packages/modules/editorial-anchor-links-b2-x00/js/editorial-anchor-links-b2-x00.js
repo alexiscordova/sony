@@ -25,7 +25,7 @@ define(function(require){
 
   var module = {
     init: function() {
-      var $ealModule = $('.editorial-anchor-links-wrapper');
+      var $ealModule = $( '.editorial-anchor-links-wrapper' );
       if ( $ealModule.length > 0 ) {
         new EditorialAnchorLinks( $ealModule[0] );
       }
@@ -33,7 +33,7 @@ define(function(require){
   };
 
   // Start module
-  var EditorialAnchorLinks = function(element){
+  var EditorialAnchorLinks = function( element ){
 
     var self = this;
 
@@ -43,10 +43,9 @@ define(function(require){
     self.iScrollActive = false;
 
     self.$el = $( element );
-    console.log("self.$el: " , self.$el);
     self.init();
 
-    log('SONY : EditorialAnchorLinks : Initialized');
+    log( 'SONY : EditorialAnchorLinks : Initialized' );
   };
 
   EditorialAnchorLinks.prototype = {
@@ -65,23 +64,10 @@ define(function(require){
       self._onResize();
 
       // Setup that can be deferred
-      setTimeout(function() {
+      setTimeout( function() {
         self.lazyInit();
       }, 0);
 
-      // self.$stickyNav = self.$el.find('.editorial-anchor-links-sticky-nav');
-      // self.$jumpLinks = self.$stickyNav.find('.editorial-anchor-link-btn');
-
-      // self.stickyNavHeight = self.$stickyNav.outerHeight();
-
-      // console.log("self.stickyNavHeight: " + self.stickyNavHeight);
-
-      // // var btn = self.$el.find('.editorial-anchor-links-btn');
-
-      // // if ( btn.length > 0 ) {
-      // //   self.setupButtons( btn );
-      // // }
-      // self._initStickyNav();
     },
 
     setVars : function() {
@@ -90,8 +76,9 @@ define(function(require){
       self.$stickyNav = self.$el.find('.sticky-nav');
       self.$jumpLinks = self.$el.find('.jump-links a');
 
-      // console.log("self.$stickyNav: " , self.$stickyNav);
-      // console.log("self.$jumpLinks: " , self.$jumpLinks);
+      // find the video submodule in the sibling primary tout module
+      self.$videoSubmodule = self.$el.siblings( '.primary-tout' ).find( '.submodule.video' );
+
     },
 
     setupBreakpoints : function() {
@@ -99,32 +86,32 @@ define(function(require){
 
       if ( Modernizr.mediaqueries ) {
 
-        enquire.register('(min-width: 48em)', {
+        enquire.register( '(min-width: 48em)', {
           match: function() {
             self._setupDesktop();
           }
         })
-        .register('(min-width: 48em) and (max-width: 61.1875em)', {
+        .register( '(min-width: 48em) and (max-width: 61.1875em)', {
           match: function() {
             self._setupTablet();
           }
         })
-        .register('(min-width: 61.25em)', {
+        .register( '(min-width: 61.25em)', {
           match: function() {
             self._teardownTablet();
           }
         })
-        .register('(max-width: 47.9375em)', {
+        .register( '(max-width: 47.9375em)', {
           match: function() {
             self._setupMobile();
           }
         })
-        .register('(max-width: 39.9375em)', {
+        .register( '(max-width: 39.9375em)', {
           match: function() {
             self._setupMobileNav();
           }
         })
-        .register('(min-width: 40em)', {
+        .register( '(min-width: 40em)', {
           match: function() {
             self._teardownMobileNav();
           }
@@ -136,7 +123,7 @@ define(function(require){
     },
 
     lazyInit : function() {
-      console.log("lazyInit");
+      log( 'SONY : EditorialAnchorLinks : Lazy Init' );
       var self = this;
 
       // Init sticky nav
@@ -147,23 +134,30 @@ define(function(require){
         scrollToTopOnClick: false
       });
 
+      // The height of the Primary Tout module may change when the video submodule
+      // is activated (both opened and closed). Register for this event so the 
+      // sticky nav can be refreshed with the updated trigger mark and positions
+      // at which the active nav item changes.
+      self.$videoSubmodule.on( 'PrimaryTout:submoduleActivated', function() {
+        self.$stickyNav.data( 'stickyNav' ).refresh();
+      });
+
       // Scroll to a hash if it's present
       $.simplescroll.initial();
     },
 
     getStickyNavTriggerMark : function() {
       var triggerMark = this.$el.next().offset().top - this.$stickyNav.outerHeight();
-      // console.log("#getStickyNavTriggerMark - triggerMark: " + triggerMark);
       return triggerMark;
     },
 
     _onResize: function(){
       var self = this;
-      console.log("#EditorialAnchorLinks ##RESIZE##");
-      if (self.isMobileNav){
-        setTimeout(function(){
+      log( 'SONY : EditorialAnchorLinks : Resize' );
+      if ( self.isMobileNav ){
+        setTimeout( function() {
           self._checkMobileNavWidth();
-        },250);
+        }, 250 );
       }
     },
 
@@ -201,55 +195,49 @@ define(function(require){
     _setupMobileNav : function() {
       var self = this;
 
-      self.$el.addClass('editorial-anchor-links--mobile-nav');
+      self.$el.addClass( 'editorial-anchor-links--mobile-nav' );
       self.isMobileNav = true;
 
-      console.log("_setupMobileNav");
+      log( 'SONY : EditorialAnchorLinks : Setup Mobile Nav' );
     },
 
     _teardownMobileNav : function() {
       var self = this;
 
-      self.$el.removeClass('editorial-anchor-links--mobile-nav');
+      self.$el.removeClass( 'editorial-anchor-links--mobile-nav' );
       self.isMobileNav = false;
 
-      self.$el.find('.grid.jump-links').parent().css({ 'width':'' , 'margin':'' });
+      self.$el.find( '.grid.jump-links' ).parent().css( { 'width' : '', 'margin' : '' } );
 
-      console.log("_teardownMobileNav");
+      log( 'SONY : EditorialAnchorLinks : Teardown Mobile Nav' );
     },
 
     _checkMobileNavWidth : function(){
       var self = this;
 
-      // can prob move this to init
-      // self.$el.find('.grid.jump-links').css({ 'width' : buttonsWidth + 1 + 'px'  ,  'margin' : '0 auto' });
-
-      self.$el.find('.grid.jump-links').parent().css({ 'width':'' , 'margin':'' });
+      self.$el.find( '.grid.jump-links' ).parent().css( { 'width' : '', 'margin' : '' } );
 
       // see if we need the stickyTabs, and if not, center the buttons.
       // First only grab the staticNav (not the stickyNav)
-      var $staticNav = self.$el.find('.editorial-anchor-links').not('.sticky-nav');
+      var $staticNav = self.$el.find( '.editorial-anchor-links' ).not( '.sticky-nav' );
       var buttonsWidth = 0;
-      $staticNav.find('li').each(function(){
-        buttonsWidth += $(this).outerWidth(true);
+      $staticNav.find( 'li' ).each( function() {
+        buttonsWidth += $( this ).outerWidth( true );
       });
       // if the buttons are less wide than the container, center them; otherwise activate stickyTabs if not already active.
-      if ( buttonsWidth < self.$el.outerWidth()){
+      if ( buttonsWidth < self.$el.outerWidth() ) {
         // center the buttons, no iScroll
-        // console.log("##CENTER BUTTONS");
-        if (self.iScrollActive){
+        if( self.iScrollActive ){
           self._destroyMobileNavIScroll();
         }
-        self.$el.find('.grid.jump-links').parent().css({ 'width' : buttonsWidth + 1 + 'px'  ,  'margin' : '0 auto' });
+        self.$el.find( '.grid.jump-links' ).parent().css( { 'width' : buttonsWidth + 1 + 'px', 'margin' : '0 auto' } );
       } else {
         // iScroll the buttons
-        // console.log("##STICKY TABS");
-        // self.$el.find('.grid.jump-links').css({ 'width':'' , 'margin':'' });
-        self.$el.find('.grid.jump-links').parent().css({ 'width' : buttonsWidth + 1 + 'px'  ,  'margin' : '0 auto' });
+        self.$el.find( '.grid.jump-links' ).parent().css( { 'width' : buttonsWidth + 1 + 'px', 'margin' : '0 auto' } );
 
-        if (!self.iScrollActive){
-          self.$el.find('.editorial-anchor-links').each(function(){
-            self._initMobileNavIScroll($(this));
+        if ( !self.iScrollActive ) {
+          self.$el.find( '.editorial-anchor-links' ).each( function() {
+            self._initMobileNavIScroll( $( this ) );
           });
         }
       }
@@ -260,11 +248,9 @@ define(function(require){
       var self = this;
       self.iScrollActive = true;
 
-      // This needs to be split out, so that left is only shown if there is something scrolled off the left side of the screen, & vise versa.
-      self.$el.addClass("iscroll-active iscroll-active-right");
-      console.log("_initMobileNavIScroll");
-
-      // var debounceUpdate = $.debounce( 280, $.proxy( self._updateIScrollShadows, self ) );
+      // This needs to be split out, so that left is only shown if there is something scrolled
+      // off the left side of the screen, & vice versa.
+      self.$el.addClass( 'iscroll-active iscroll-active-right' );
 
       self.mobileNavIScroll = new IScroll( 'editorial-anchor-links--static-nav', {
         vScroll : false,
@@ -284,7 +270,6 @@ define(function(require){
     },
 
     _setOverflowClasses : function( currentX, maxX ) {
-      console.log("_setOverflowClasses");
       var self = this,
           overflowLeftClass = 'iscroll-active-left',
           overflowRightClass = 'iscroll-active-right',
@@ -308,22 +293,14 @@ define(function(require){
 
     _destroyMobileNavIScroll : function() {
       var self = this;
-      console.log("_destroyMobileNavIScroll");
 
       if ( !!self.mobileNavIScroll ) {
         self.mobileNavIScroll.destroy();
       }
 
-      self.$el.removeClass("iscroll-active iscroll-active-left iscroll-active-right");
+      self.$el.removeClass( 'iscroll-active iscroll-active-left iscroll-active-right' );
 
       self.iScrollActive = false;
-
-      // var globalNav = $('.nav-wrapper').data('globalNav');
-      // if ( !!globalNav.mobileNavIScroll ) {
-      //   globalNav.mobileNavIScroll.destroy();
-      // }
-      // globalNav.mobileNavIScroll = false;
-      // globalNav.$pageWrapOuter.css('height', '');
     }
 
   };
@@ -331,9 +308,9 @@ define(function(require){
   // Plugin definition
   $.fn.editorialAnchorLinks = function( options ) {
     var args = Array.prototype.slice.call( arguments, 1 );
-    return this.each(function() {
-      var self = $(this),
-        editorialAnchorLinks = self.data('editorialAnchorLinks');
+    return this.each( function() {
+      var self = $( this ),
+        editorialAnchorLinks = self.data( 'editorialAnchorLinks' );
 
       // If we don't have a stored moduleName, make a new one and save it
       if ( !editorialAnchorLinks ) {
