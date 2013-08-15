@@ -151,6 +151,10 @@ define(function(require){
 
         var self = this;
 
+        // I hate these state checks, but `loadTrack`'s approach of
+        // play/pausing to force a load in older android devices doesn't handle
+        // multiple calls before the "real" load very well, so I need to gate it.
+
         if ( self.isInitializing ) { return; }
 
         if ( source ) {
