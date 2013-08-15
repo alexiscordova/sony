@@ -151,6 +151,8 @@ define(function(require){
 
         var self = this;
 
+        if ( self.isInitializing ) { return; }
+
         if ( source ) {
           currentSound = SoundManager.getSoundById(moduleId + '-' + source);
         }
@@ -159,10 +161,13 @@ define(function(require){
 
         if ( currentSound.readyState !== 3 ) {
 
+          self.isInitializing = true;
+
           config.oninit();
 
           self.initInterval = setInterval(function(){
             if ( currentSound.readyState === 3 ) {
+              self.isInitializing = false;
               self.play(source);
               clearInterval(self.initInterval);
             }
@@ -191,7 +196,7 @@ define(function(require){
         var self = this;
 
         sound.setPosition(0).play();
-        self.pause();
+        sound.pause();
 
         return this;
       }),
