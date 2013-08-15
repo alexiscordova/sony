@@ -35,6 +35,7 @@ $tabletMax: px-em(979);
         padding:8px;
         height:42px;
       }
+
         img {
           width:56px;
           margin:0 auto;
@@ -131,7 +132,7 @@ $tabletMax: px-em(979);
         width:auto;
         height:30px;
       }
-      
+
       img, span {display:none;}
       i {
         top:4px;
@@ -187,7 +188,6 @@ $tabletMax: px-em(979);
       right: 0;
     }
   }
-
 }
 
 @media (max-width: px-em(909)) {
@@ -200,6 +200,10 @@ $tabletMax: px-em(979);
     }
 
     @include tablet-thumb-nav;
+
+    .editorial-slideshow .slide-band.box {
+      height: auto;
+    }
   }
 
   .editorial.textonly {
@@ -216,7 +220,6 @@ $tabletMax: px-em(979);
 
     }
   }
-
 
   // Media Left + Media Right Chapters!
   // ==================================
@@ -252,7 +255,7 @@ $tabletMax: px-em(979);
 
   } // end spans
 }
-                    
+
 @media (max-width: px-em(410)) {
   .span7 .editorial-chapters-container.text-mode .thumb-nav {width:300px;}
 }
@@ -271,7 +274,11 @@ $tabletMax: px-em(979);
   .container,
   .span12 {
     & > .editorial-chapters-container {
-      .slider {width:auto !important;}
+
+      .slider {
+        width:auto !important;
+      }
+
     }
   }
 
@@ -322,10 +329,10 @@ $tabletMax: px-em(979);
 
     &.hotspots {
       .editorial-chapters-container,
-      .editorial-carousel-wrapper {
+      .editorial-carousel-wrapper.chapter-pane {
         overflow: visible;
 
-        .editorial-carousel-slide.active {
+        .editorial-carousel-slide.chapter-slide.active {
           z-index: auto;
         }
       }

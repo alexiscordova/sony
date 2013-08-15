@@ -22,27 +22,28 @@ define(function(require){
         Settings = require('require/sony-global-settings'),
         Environment = require('require/sony-global-environment'),
         enquire = require('enquire'),
+        Utilities = require('require/sony-global-utilities'),
         sonyVideo = require('secondary/index').sonyVideo;
 
     var self = {
       'init': function() {
-        $('.sony-video').sonyVideo();
+        $('.sony-video').not('.sony-video-placeholder .sony-video').sonyVideo();
       }
     };
-    
+
     var SonyVideo = function(element, options){
       var self = this;
-       
+
       // Extend
       $.extend( self, {}, $.fn.sonyVideo.defaults, options, $.fn.sonyVideo.settings );
-      
+
       // Set base element
       self.$el = $( element );
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.cssTransitions       = Modernizr.transitions;
-      
+
       // Modernizr vars
       self.hasTouch             = Modernizr.touch;
       self.transitionDuration   = Modernizr.prefixed('transitionDuration');
@@ -72,51 +73,56 @@ define(function(require){
       init : function( param ) {
         var self = this;
 
-        if(Settings.isLTIE8){
+        if(Settings.isLTIE8 || Settings.isAndroid){
           self.$player.addClass( 'no-toggle is-mouseover' );
+        }
+
+        if(Settings.isAndroid && !Settings.isSonyTabletS && !Settings.isSonyTabletS){
+          self.$player.find('.fp-ui').hide();
         }
 
         //initialize videos
         self.videoAPI = sonyVideo.initVideos( self.$player );
 
+        //hide fullscreen button for ipad
+        if(( Settings.isIPad && self.isFullEditorial) || (self.isFullEditorial && Settings.isAndroid ) || Settings.isIPad ) {
+          self.$player.find('.fp-fullscreen').hide();
+        }
+
+        //window.alert( 'Settings.isIPad' );
+
         self.videoAPI.bind('resume' , function(){
           if(self.isFullEditorial){
             self.onDebouncedResize();
+            Utilities.forceWebkitRedraw();
           }
+
         });
 
         self.videoAPI.bind('fullscreen fullscreen-exit' , function(e){
-
+          Utilities.forceWebkitRedraw();
           //log( 'Video API FullScreen event >' , e.type );
           if(e.type === 'fullscreen'){
             self.isFullScreen = true;
             self.onDebouncedResize();
 
-            if(Settings.isLTIE10){
-              $('body').css({
-                'overflow' : 'hidden'
-              });
-            }
+           $('body').css('overflow' , 'hidden');
 
           }else {
             self.isFullScreen = false;
             self.onDebouncedResize();
 
-            if(Settings.isLTIE10){
-              $('body').css({
-                'overflow' : ''
-              });
-            }
+            $('body').css('overflow' , '');
 
             self.$el.find('.fp-ratio').css({
               'padding-top': self.$el.find('.player').data('ratio') * 100 + '%'
-            });   
-            
-            self.$engine.css('top' , 0);    
+            });
+
+            self.$engine.css('top' , 0);
 
             if(self.$el.hasClass('normal')){
               self.$el.css('height', '');
-            }     
+            }
           }
 
         });
@@ -129,12 +135,13 @@ define(function(require){
         if(self.isFullEditorial){
           Environment.on('global:resizeDebounced' , $.proxy( self.onDebouncedResize , self ) );
           self.onDebouncedResize(); //call once to set size
+
         }
-        
+
         iQ.update();
 
       },
-      
+
       api: function(){
         var self = this;
         return self.videoAPI;
@@ -173,9 +180,17 @@ define(function(require){
           }
         }
 
-        if(self.isFullScreen || Settings.isSonyTabletS){
+        if(self.isFullScreen || Settings.isSonyTabletS || Settings.isAndroid){
           //console.log(self.isFullScreen);
           self.$engine.css('top' , 0);
+          //window.alert(Settings.isAndroid);
+
+          if(!Settings.isIPad && Settings.isSonyTabletS && Settings.isAndroid){
+            self.$el.find('.fp-fullscreen').css({
+              opacity :  0
+            });
+          }
+
         }
 
         if(wW < 567){
@@ -189,7 +204,6 @@ define(function(require){
             'padding-top': ''
           });
         }
-
 
       }
 
@@ -222,6 +236,6 @@ define(function(require){
     // Non override-able settings
     // --------------------------
     $.fn.sonyVideo.settings = {};
-  
+
     return self;
  });

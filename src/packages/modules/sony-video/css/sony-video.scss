@@ -5,12 +5,14 @@
 
 	position: relative;
 	overflow: hidden;
+	z-index:0;
+  width: 100%; // IE8 choking without this
 
   &.full-bleed {
     max-height: 720px;
     overflow: hidden;
     position: relative;
-    
+
     .lt-ie8 & {
     	width: 980px;
     }
@@ -45,7 +47,7 @@
           min-height: 100%;
           min-width: 100%;
           height: auto;
-          width: auto;   
+          width: auto;
 
 		      .lt-ie8 & {
 
@@ -190,6 +192,8 @@
 
 .flowplayer {
 
+	position:relative;
+
 	.fp-play-btn-sml {
 
 		.lt-ie10 & {
@@ -210,6 +214,8 @@
     height: 74px;
     background: rgba(47 , 53 , 61, 0.15);
     cursor: pointer;
+    z-index: 2000;
+    -webkit-transform:translateZ(0px);
 
     .fp-play-btn-inner {
       position: absolute;
@@ -268,6 +274,8 @@
     height: 88px;
     background: rgba(47 , 53 , 61, 0.15);
     cursor: pointer;
+    z-index: 2000;
+    -webkit-transform:translateZ(0px);
 
     .fp-play-btn-inner {
       position: absolute;
@@ -338,6 +346,10 @@
 	cursor: pointer;
 }
 
+.flowplayer .fp-fullscreen {
+	z-index: $zindexFullScreenVideo;
+}
+
 .is-rtl.flowplayer .fp-fullscreen,.is-rtl.flowplayer .fp-unload,.is-rtl.flowplayer .fp-close{right:auto;left:5px;background-position:18px -197px}
 .flowplayer .fp-unload,.flowplayer .fp-close{background-position:14px -175px;display:none;}
 .is-rtl.flowplayer .fp-unload,.is-rtl.flowplayer .fp-close{background-position:14px -175px}
@@ -383,8 +395,7 @@
 	display: none;
 	visibility: hidden;
 }
-
-.is-ipad.flowplayer .fp-scrubber {
+.is-touch.flowplayer .fp-scrubber {
 	display: none !important;
 	visibility: hidden !important;
 }
@@ -522,6 +533,12 @@
 	top: -5px;
 	cursor: pointer;
 	background-position: -2px -99px;
+
+	.lt-ie8 & {
+		height:25px;
+		background-position: -2px -95px;
+	}
+
 }
 
 .is-rtl.flowplayer .fp-mute {

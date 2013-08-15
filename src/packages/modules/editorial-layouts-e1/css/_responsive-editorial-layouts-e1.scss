@@ -10,6 +10,7 @@ $superDesktop: px-em(1200);
 //tablet only
 @media (min-width: $tabletMin) and (max-width: $tabletMax) {
   .editorial.full-inner {
+
     .box {
       padding: 46px 42px 40px 42px;
 
@@ -20,6 +21,7 @@ $superDesktop: px-em(1200);
         }
       }
     }
+
     .box.center {
       padding: 56px 82px;
     }
@@ -27,13 +29,21 @@ $superDesktop: px-em(1200);
 
   .editorial.mediaright,
   .editorial.medialeft {
+
     .grid {
       min-height: 460px;
     }
+
+    // Boxes get way too cramped with 70px 52px padding!
+    .box {
+      padding: 35px 26px;
+    }
   }
+
   .editorial.full{
     padding:60px 0 50px 0;
   }
+
   .editorial.full-inner,
   .editorial.full-tout,
   .editorial.full {
@@ -115,6 +125,10 @@ $mobileSidePadding: 0 18px;
           margin-top:4px;
         }
       }
+
+      .addon {
+        margin-top: 24px;
+      }
     }
 
     .center {
@@ -132,6 +146,10 @@ $mobileSidePadding: 0 18px;
 
   .editorial.full {
     padding: 42px 0 28px;
+
+    .addon {
+      max-width: none;
+    }
 
     .box {
       margin-bottom: 16px;
@@ -278,11 +296,20 @@ $mobileSidePadding: 0 18px;
   .editorial .light-text-dark-box,
   .editorial .light-text-trans-box {
 
-    h1, h2, h3, h4, h5, h6 {
+    h1, h2, h3, h4, h5, h6, .addon .copy {
       color: $gray20;
     }
     p {
       color: $gray40;
+    }
+
+    a:not(.btn) {
+      color: $linkColor;
+    }
+    a:not(.btn):hover,
+    a:not(.btn):active,
+    a:not(.btn):focus {
+      color: $linkColorHover;
     }
 
     .box {

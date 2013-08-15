@@ -12,8 +12,11 @@
 }
 
 // When this module is inside a media-element (editorial), it's height should be auto
-.media-element .editorial-carousel-wrapper {
+// The carousel slides need to fit within the carousel slide container floated left
+// so that when the editorial.js file measures its height, they're not stacked
+.media-element .editorial-slideshow-container .editorial-carousel-wrapper {
   height: auto;
+  max-height: 620px;
 }
 
 .editorial-slideshow-container {
@@ -22,7 +25,8 @@
     margin-bottom: px-em( 40px );
   }
 
-  &.normal {
+  &.normal,
+  .media-element & {
     margin-bottom: 0;
   }
 
@@ -32,28 +36,47 @@
 
   .editorial-carousel-wrapper {
     position: relative;
+    height: 540px; // Same as E1 full
     overflow: hidden;
   }
 
   .editorial-carousel {
+    -webkit-backface-visibility: hidden;
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 9000px; // overridden by javascript
     opacity: 0;
     filter: alpha(opacity=0);
-    -webkit-backface-visibility: hidden;
   }
 
-
   .editorial-carousel-slide {
+    -webkit-backface-visibility: hidden;
     position: relative;
-    width: 100%;
+    width: 600px; // overriden by javascript (to something like 20%)
     height: 100%;
     float: left;
     display: block;
 
     img {
       width: 100%;
+    }
+  }
+
+  // 3 classes to override specificity
+  .editorial-slideshow .slide-band.box {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1em;
+    margin: 0;
+    text-align: right;
+
+    .media-element & {
+      padding: px-em( 11 ) 1em;
+    }
+
+    p {
+      margin-bottom: 0;
     }
   }
 
@@ -70,3 +93,19 @@
     display: block;
   }
 }
+
+
+// Support: IE7
+.lt-ie8 {
+
+  .editorial-slideshow-container .editorial-slideshow .slide-band.box {
+    text-indent: 1em;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+
+
+
+

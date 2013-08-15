@@ -1,0 +1,389 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$sidePadding: 12px;
+$addonHeight: 74px;
+$quoteHeight: 38px;
+$addonBodyMaxWidth: 180px;
+$mediaWidth: 76px;
+$twitterFontSize: 3em;
+$circleSize: 32px;
+$extraImgPadding: 10px;
+
+$halfCircle: $circleSize / 2;
+
+// Getting decimal pixels makes it wonky
+// Both 32 and half of 32 (16) need to be divisible by this number
+$scale: 1.1875;
+
+
+// Addon container
+.addon {
+  text-align: left; // Don't want to inherit styles from editorials
+
+  .addon-inner,
+  .v-wrap {
+    min-height: $addonHeight;
+  }
+
+  // Wrapper for the media
+  .addon-media {
+    position: relative;
+    display: block;
+
+    max-width: px-em( $mediaWidth );
+    min-height: inherit;
+    height: 100%;
+    width: 100%;
+
+    margin-right: px-em( $sidePadding );
+    overflow: hidden;
+
+    // You know iOS, sometimes I really hate you
+    // You don't have hovers!
+    .no-touch &:hover .icon-wrap,
+    .touch &:active .icon-wrap {
+      @include scale( 1 );
+      background-color: $linkBlue;
+    }
+  }
+
+  // Copy wrapper
+  .addon-body {
+    max-width: $addonBodyMaxWidth;
+  }
+
+  // Image/media object
+  .media-object {
+    min-height: inherit;
+    height: 100%;
+    width: 100%;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  // Dark circle which grows
+  .icon-wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -$halfCircle;
+    margin-left: -$halfCircle;
+    @include square( $circleSize );
+    background-color: rgba($gray10, 0.4);
+    border-radius: 50%;
+    @include transition( .15s );
+  }
+
+  // Scale it down, so on hover it's scaled to 1 and crisp
+  .csstransforms & .icon-wrap {
+    @include square( $circleSize * $scale );
+    margin-top: -($circleSize * $scale) / 2;
+    margin-left: -($circleSize * $scale) / 2;
+    @include scale( 1 / $scale );
+  }
+
+  // using 12 because the font-size is 24px (1.5em)
+  .addon-media {
+    i {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      // margin-top: -12px;
+      // margin-left: -12px;
+      color: $white;
+    }
+
+    [class*="fonticon-10-"] {
+      margin-top: -8px;
+      margin-left: -8px;
+    }
+
+    .fonticon-15-popup {
+      font-size: 20px;
+      margin-top: -10px;
+      margin-left: -10px;
+    }
+
+    .fonticon-10-video-play {
+      font-size: 12px;
+      margin-top: -6px;
+      margin-left: -6px;
+      padding-left: 1px;
+    }
+  }
+
+  // Twitter icon
+  .quote .twitter-color {
+    position: static;
+    margin: 0;
+    color: $twitterColor;
+    font-size: $twitterFontSize;
+
+    // -10px margin top (the twitter icon is centered within its container, which leaves extra room
+    // at the top, but it's supposed to be vertically aligned to top)
+    margin-top: px-em( -4, strip-units( $twitterFontSize ) * 16 );
+  }
+
+  // Title
+  .copy {
+    color: $gray20;
+    margin: -2px 0 0 0;
+
+    .light-text-dark-box & {
+      color: $white;
+    }
+  }
+
+  .copy,
+  .subhead {
+    padding-right: $sidePadding;
+  }
+
+  // Optional link
+  .addon-link {
+    display: block;
+  }
+
+  .addon-link,
+  .subhead {
+    margin: 4px 0 0;
+  }
+}
+
+// Addons with an image on the left. SK wants it to look rectangular.
+// Best solution was to add padding to the top and bottom
+// and modify the min-height for those to reflect the addition of padding
+.addon-video,
+.addon-slideshow,
+.addon-audio,
+.addon-story {
+
+  .addon-media {
+    padding: $extraImgPadding 0;
+    min-height: $addonHeight - ($extraImgPadding * 2);
+  }
+}
+
+.addon-logo,
+.addon-tweet,
+.addon-quote {
+
+  .addon-body {
+    max-width: 320px;
+  }
+}
+
+// Centered copy should have the twitter icon
+// and image above the copy :\
+.addon .quote.center-copy {
+  min-height: 0;
+
+  .addon-media,
+  .addon-body {
+    float: none;
+  }
+
+  .addon-media {
+    min-height: 0;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .iq-img {
+    width: $twitterFontSize;
+    height: $quoteHeight;
+    margin: 0 auto 5px;
+    background-size: contain;
+  }
+}
+
+
+// Flexbox layout for modern browsers.
+// -----------------------------------
+
+// All browsers except for IE < 10 && Opera mini support a version of flex box.
+
+// References:
+// http://caniuse.com/#feat=flexbox
+// http://css-tricks.com/using-flexbox/
+
+// Because the desired result is that text can keep growing without being clipped,
+// an explicit height cannot be set on the addon. Which is why min-height is used.
+// Almost every part of the layout is attainable with that, except for vertical
+// alignment of the copy. Flexbox to the rescue!
+.modern .addon {
+
+  .addon-inner {
+    display: -webkit-box;   // OLD - iOS 6-, Safari 3.1-6
+    display: -moz-box;      // OLD - Firefox 19- (doesn't work very well)
+    display: -ms-flexbox;   // TWEENER - IE 10
+    display: -webkit-flex;  // NEW - Chrome 29-
+    display: flex;          // NEW, Spec - Opera 12.1, Firefox 20+, Chrome 30+
+
+    // Old flexbox centering
+    -webkit-box-align: center;
+    -moz-box-align: center;
+  }
+
+  // Needed for old flexbox versions.
+  // New flexbox ignores floats
+  .addon-media,
+  .addon-body {
+    float: none;
+  }
+
+  // Align image/icon/logo to the top of the container
+  // (new syntax)
+  .addon-media {
+    -webkit-align-self: flex-start;
+    align-self: flex-start;
+  }
+
+  // Don't set a min-height so the text will create it's own height
+  // Then center it
+  .addon-body {
+    min-height: 0;
+
+    // Don't overflow container, flex to fit
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+
+
+    -webkit-align-self: center;
+    align-self: center;
+  }
+}
+
+
+// Tweets & Quotes for modern browsers
+.modern .addon .quote {
+
+  // twitter icon font size. Flexbox is making it smaller
+  .addon-media {
+    // Flexbox shrinks by default, stop it from doing that
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+
+    // Fix for old flexbox
+    min-width: $twitterFontSize;
+  }
+
+  // Flexbox saves space wherever it can, the quotes were getting cut off
+  blockquote p {
+    text-indent: 0;
+    color: $secondarySlateDark;
+    margin-bottom: 0;
+  }
+}
+
+// Easier to use display:block for centered layout than display:flex
+.modern .addon .quote.center-copy {
+  display: block;
+}
+
+
+// Need to pull up the media by the padding it's pushed down by for browsers without old/new flexbox
+.lt-ie10 .addon {
+
+  .addon-mo .addon-media {
+    top: -$extraImgPadding;
+  }
+}
+
+
+
+
+// Addon type specific type styles
+// -------------------------------
+
+
+
+// LOGO SPECIFIC
+.addon-logo {
+  $mediaWidth: 50px;
+  $addonHeight: 46px;
+
+  // Don't want logos to get clipped. The whole logo should always be visible
+  .media-object {
+    background-size: contain;
+  }
+
+  .addon-inner,
+  .v-wrap {
+    min-height: $addonHeight;
+  }
+
+  .addon-media {
+    max-width: px-em( $mediaWidth );
+  }
+}
+
+// QUOTE SPECIFIC
+.addon-quote {
+
+  .addon-inner,
+  .v-wrap {
+    min-height: $quoteHeight;
+  }
+
+  .media-object {
+    // Don't stretch.
+    // This won't work for retina because I don't know the image size
+    // needed to shrink it down. Retina images will be larger.
+    // background-size: auto auto;
+
+    // Top of the container in the middle
+    // background-position: 50% 0;
+
+    // If contain is used, one dimesion will always be a wide/tall as the parent
+    // This will work for retina images, but the image will always be stretched to
+    // one of the container's dimesions
+    background-size: contain;
+  }
+
+  .addon-media {
+    width: $twitterFontSize;
+  }
+}
+
+// TWEET SPECIFIC
+.addon-tweet {
+
+  .addon-media {
+    width: $twitterFontSize;
+  }
+}
+
+
+
+// IE specifc support
+// ------------------
+
+
+// Support: < IE 9
+.lt-ie9 .addon {
+  .addon-body {
+    width: 100%;
+  }
+
+  .icon-wrap {
+    background-color: #595959;
+  }
+}
+
+
+// Support: IE7
+.lt-ie8 {
+
+  // IE7 doesn't support `inherit` value
+  .addon-media,
+  .media-object {
+    min-height: $addonHeight;
+  }
+}
+
+
+

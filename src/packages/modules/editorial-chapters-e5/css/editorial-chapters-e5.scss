@@ -2,7 +2,7 @@
 @import "../../../common/css/_base/mixins";
 
 $itemWidth: 255;
-$windowWidth: 1100;
+$windowWidth: 1500;
 
 // if they stack a textonly module ontop of a full module
 // we need to compensate that
@@ -57,30 +57,39 @@ $windowWidth: 1100;
     position: relative;
 
     // getting stomped on by another similar class :(
-    .editorial-carousel-wrapper {
+    .editorial-carousel-wrapper.chapter-pane {
       height: auto;
+
+      .sony-dot-nav {
+        position: absolute;
+        width: 100%;
+        margin-top: 0;
+        bottom: 20px;
+      }
+
+      .editorial-slideshow-container {
+        margin-bottom: 0;
+      }
     }
 
     // design review margin: 80px 0 50px;
   }
 
-  .editorial-carousel-wrapper {
+  .editorial-carousel-wrapper.chapter-pane {
     position: relative;
     overflow: hidden;
   }
 
   // hotspots spcific we need to adjust overflow issues
   &.hotspots {
-    .editorial-carousel-wrapper {
+    .editorial-carousel-wrapper.chapter-pane {
       overflow: visible;
     }
-      
+
     .thumb-nav {
       top: -4px;
     }
-
   }
-  
 
   .editorial-carousel {
     position: relative;
@@ -91,30 +100,31 @@ $windowWidth: 1100;
     @include flickerfix();
   }
 
-  .editorial-carousel-slide {
+  .editorial-carousel-slide.chapter-slide {
     position: relative;
     width: 100%;
     height: 100%;
     float:left;
     @include opacity(0);
-    @include transition();
+    @include transition( opacity .15s $easeNormal );
 
     .image-module {
       position: absolute;
       left: -9999em;
 
-      //we need to unhide one elemnt on load 
+      //we need to unhide one elemnt on load
       // so it show the slideshow atleast
       &.unhide {
         position: relative;
         left: auto;
       }
-    }     
+    }
 
     &.active {
+      left: 0;
       display: block;
       @include opacity(100);
-      @include transition();
+      @include transition( opacity .15s $easeNormal );
 
       .image-module {
         position: relative;
@@ -344,6 +354,7 @@ $windowWidth: 1100;
     &.thumb-mode {
       .thumb-nav {
         height:62px;
+        white-space: nowrap;
 
         img {
           width: 51px;
@@ -405,7 +416,7 @@ $windowWidth: 1100;
   // ==================================
   .hotspots {
 
-    .editorial-carousel-wrapper {
+    .editorial-carousel-wrapper.chapter-pane {
       overflow: hidden;
     }
     .thumb-nav {
@@ -415,8 +426,8 @@ $windowWidth: 1100;
 
   .table-center-wrap .table-center .editorial-chapters .image-module {
     height: auto;
-  } 
-  
+  }
+
   .editorial,
   .editorial-chapters-container {
     .hotspot-instance {
@@ -428,7 +439,7 @@ $windowWidth: 1100;
       } // end .hspot-outer
     } // end .hotspot-instance
 
-    .overlay-base {     
+    .overlay-base {
       z-index: auto;
     }
   } // end .editorial-chapters-container
@@ -437,7 +448,7 @@ $windowWidth: 1100;
 
 .lt-ie10 {
   .editorial-chapters-container {
-    .editorial-carousel-slide.active {position:relative;}
+    .editorial-carousel-slide.chapter-slide.active {position:relative;}
     .thumb-nav.container {width:92.5%;}
     &.top-nav .thumb-nav.container {width:auto;}
 

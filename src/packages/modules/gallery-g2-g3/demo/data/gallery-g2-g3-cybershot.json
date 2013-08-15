@@ -56,8 +56,8 @@
         }
     ],
     "featured": {
-        "_comments": "name should be unique, as it is used for IDs.",
-        "name": "featured-cameras",
+        "_comments": "id should be unique, as it is used for IDs.",
+        "id": "featured-cameras",
         "title": "Featured Cameras",
         "mode": "editorial",
         "layout": "layout5",
@@ -69,8 +69,8 @@
         }
     },
     "featured2": {
-        "_comments": "name should be unique, as it is used for IDs.",
-        "name": "featured-accessories",
+        "_comments": "id should be unique, as it is used for IDs.",
+        "id": "featured-accessories",
         "title": "Featured Accessories",
         "mode": "editorial",
         "layout": "layout2",
@@ -82,14 +82,15 @@
         }
     },
     "productCards": {
-        "_comments": "name should be unique, as it is used for IDs. galleryName is used in the compare screen.",
-        "name": "camera-cards",
+        "_comments": "id should be unique, as it is used for IDs. name is used in the compare screen and sticky nav.",
+        "id": "camera-cards",
         "mode": "detailed",
-        "galleryName": "Cyber-shot&reg;",
+        "name": "Cyber-shot&reg;",
         "pluralProducts" : "Products",
         "singularProduct" : "Product",
         "zeroProductsMessage" : "results based on your request",
         "startOver" : "Start over?",
+        "clearAll" : "Clear All",
         "filterSet": [
             {
                 "filterGroup" : 1,
@@ -129,7 +130,25 @@
                 "label": "Price Range",
                 "type": "range",
                 "min": 20,
-                "max": 1000
+                "max": 1000,
+                "filters": [
+                    {
+                        "label": "$0-$399",
+                        "value": "0-399"
+                    },
+                    {
+                        "label": "$400-$799",
+                        "value": "400-799"
+                    },
+                    {
+                        "label": "$800-$999",
+                        "value": "800-999"
+                    },
+                    {
+                        "label": "$1000+",
+                        "value": "1000+"
+                    }
+                ]
             },
             {
                 "filterGroup" : 3,

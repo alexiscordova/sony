@@ -54,6 +54,7 @@
     width: 1000em; // This will get set dynamically based on the number of slides
     max-height: px-em( 720px );
     -webkit-backface-visibility: hidden;
+
   }
 
   // These will get set dynamically based on number of slides
@@ -64,16 +65,29 @@
     width: 100%;
     height: inherit;
     text-align: center;
+    .legal{
+      z-index:9;
+      position:relative;
+      margin-top:-23px;
+    }
   }
 
   .pdp-slideshow-slide .pdp-slide-inner {
     height: inherit;
     width: 100%;
+    .lt-ie8 & {
+      .ghost-center{
+        min-height:710px;
+      }
+    }
   }
 
   // Type 1 images are product shots which are not full bleed
   .pdp-slideshow-slide.type1 .pdp-slide-inner {
     padding: 4% 2% 11%;
+    .lt-ie8 &{
+      padding: 0;
+    }
   }
 
   .pdp-slideshow-slide {
@@ -99,6 +113,7 @@
 
   .pdp-slideshow-slide.type2 .flowplayer {
     max-width: 704px;
+    -moz-transform: scale(1); //fixes repaint centering issue in FF
   }
 
   > .sony-dot-nav {
@@ -136,7 +151,7 @@
   .thumb-nav-grid {
     position: relative;
     height: 100%;
-    top: -116px;
+    top: -105px;
   }
 
   .thumb-nav-carousel {

@@ -1,6 +1,4 @@
-### D4. PDP Slide Show
-
-The pdp slide show D4.
+### Sony Video
 
 
 Document Overview
@@ -23,8 +21,8 @@ Each module will include this document, which contains an ordered list of the fi
 * all.css
 	*../../../../build/deploy/css/modules/all.css
 	
-* pdp-slideshow-d4.css
-	*../../../../build/deploy/css/modules/pdp-slideshow-d4.css
+* sony-video.css
+	*../../../../build/deploy/css/modules/sony-video.css
 
 * responsive.css
 	*../../../../build/deploy/css/responsive-modules.css	
@@ -50,14 +48,14 @@ Each module will include this document, which contains an ordered list of the fi
 	
 == Related Source ==
 
-* pdp-slideshow-d4.js
-	*../../../js/bundle/defer/pdp-slideshow-d4.js
+* sony-video.js
+	*../../../js/bundle/defer/sony-video.js
 
-* pdp-slideshow-d4.scss
-	*../../../css/scss/modules/pdp-slideshow-d4.scss
+* sony-video.scss
+	*../../../css/modules/sony-video.scss
 
-* _responsive-pdp-slideshow-d4.scss
-	*../../../css/scss/_responsive/_responsive-pdp-slideshow-d4.scss
+* _responsive-sony-video.scss
+	*../../../css/_responsive/_responsive-sony-video.scss
 	
 Example JSON File(s)
 --------------------
@@ -66,7 +64,14 @@ Each module should contain atleast one example JSON file. Additional JSON files 
 
 ==JSON files==
 
+* full-bleed-no-poster.json
+    *../../data/sony-video/full-bleed-no-poster.json
 
+* full-bleed-video.json
+    *../../data/sony-video/full-bleed-video.json
+
+* standard-video.json
+    *../../data/sony-video/standard-video.json
 
 Submodule Information ReadMe
 ----------------------------

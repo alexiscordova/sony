@@ -1,0 +1,86 @@
+
+@media ( max-height: px-em( 550 ) ) {
+
+  // Modals
+  // Maximum height of 90% width 5% at the top and bottom
+  .modal {
+    top: 0;
+    margin-top: 1%;
+    max-height: 90%;
+
+    .container,
+    .grid {
+      height: 100%;
+    }
+
+    &.fade.in {
+      top: 0;
+
+      &.sony-modal {
+        top: 50%;
+        height: auto;
+      }
+    }
+
+    .modal-header {
+      max-height: 20%;
+    }
+
+    .modal-body {
+      padding-top: 0;
+      padding-bottom: 0em;
+      max-height: 75%;
+      overflow: hidden;
+    }
+
+    .js-spec-modal-body,
+    .spec-modal-body,
+    .js-spec-modal-body img {
+      max-height: 100%;
+    }
+
+    // Try to reset things for takeovers
+    &.takeover {
+      margin: 0;
+      height: 100%;
+
+      .modal-header,
+      .modal-body {
+        max-height: none;
+      }
+    }
+  }
+
+  // Reduce padding
+  .modal-header {
+    padding-top: px-em(10);
+    padding-bottom: px-em(6);
+  }
+
+  .modal-inner .modal-subhead {
+    padding-top: px-em(6);
+    padding-bottom: px-em(6);
+  }
+
+}
+
+
+@media ( max-height: px-em( 400 ) ) {
+  .modal {
+
+    // Fucking percentages....
+   .container {
+      max-height: 250px;
+    }
+  }
+}
+
+@media ( max-height: px-em( 320 ) ) {
+  .modal {
+
+    // Fucking percentages....
+   .container {
+      max-height: 180px;
+    }
+  }
+}

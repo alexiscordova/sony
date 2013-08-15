@@ -2,18 +2,14 @@ mixin copyblock(data)
   .tcc-copy
     if (data.title)
       p.p2
-        strong= data.title
+        strong !{data.title}
 
     if (data.bodyCopy)
-      p.p4= data.bodyCopy
+      p.p4 !{data.bodyCopy}
 
-    if (data.articleLink)
+    if ( data.link )
       p.lt3
-        a(href= data.articleLink)= data.linkTitle
-
-mixin socialButton(link, label)
-  .social-btn
-    a.btn.btn-small(href= link)= label
+        +link( data.link )
 
 mixin header(data)
   .tcc-header-wrapper
@@ -26,7 +22,7 @@ mixin header(data)
           - link = data.link
           .span3.offset3
             p.tcc-header-link.lt3
-              a(href= link)= data.linkText
+              +link( link )
 
 mixin article(mode, data)
   if(mode == "featured")
@@ -48,7 +44,7 @@ mixin default(data)
 mixin event(count)
   .attendance
     .details
-      p.t3= count
+      p.t3 !{count}
       p.l3-light attending
 
 mixin news(date)
@@ -58,9 +54,9 @@ mixin news(date)
 mixin featured(data)
   .img-container.iq-img(data-src-desktop= data.image.srcDesktop, data-src-tablet= data.image.srcTablet, data-src-phone= data.image.srcPhone, data-src-desktop-highres= data.image.srcDesktopHighRes, data-src-tablet-highres= data.image.srcTabletHighRes, data-src-phone-highres= data.image.srcPhoneHighRes)
   .copy.dark-box.light-text
-    p.t5-light= data.title
+    p.t5-light !{data.title}
     p.lt3
-      a(href= data.articleLink)= data.linkTitle
+      +link( link )
 
 mixin users-voice(mode, data)
   - quoteClasses = ["quote"]
@@ -71,18 +67,19 @@ mixin users-voice(mode, data)
     - blockquote = data.quote
 
   if(data.mode != "question")
-    .title.l3= data.title
+    .title.l3 !{data.title}
 
   if(data.mode == "question")
     +credits(mode, data)
 
   div(class= quoteClasses)
     blockquote.bq3
-      p= blockquote
+      p !{blockquote}
 
     if(data.mode == "question")
-      .lt3
-        a(href= data.repliesLink)= data.repliesLinkTitle
+      if(link.href)
+        .lt3
+          +link( data.repliesLink )
 
   if(data.mode != "question")
     +credits(mode, data)
@@ -99,25 +96,23 @@ mixin credits(mode, data)
       if (mode == "expert-quote")
         +author-expert-quote(data.author)
       else
-        +author-default(mode, data.author)
+        +author-default(mode, data.author, data.title)
 
 mixin author-expert-quote(author)
+  +link( author.link )
 
-  a(href= author.link)= author.name
-
-mixin author-default(mode, author)
+mixin author-default(mode, author, title)
   if(author.link)
-    a.handle(href= author.link)= author.handle
+    +link( author.link, [ 'handle' ] )
     if(mode == "question")
-      - title = " asked:"
-      | #{title}
+      span !{title}
 
   if(author.name)
     span= author.name
 
 mixin question-extra(data)
   .answer-btn
-    a.btn.btn-small(href= data.answerLink)= data.answerLinkTitle
+    +link( data.answerLink, [ "btn", "btn-small" ] )
 
 mixin topCenterBottom(mode, data)
   +top("fonticon-15-" + mode, data)
@@ -137,11 +132,11 @@ mixin top(icon, data)
     if (meta)
       .meta
         div.p4
-          div.user= meta.user
+          div.user !{meta.user}
           if(meta.timestamp)
-            div.timestamp= meta.timestamp
+            div.timestamp !{meta.timestamp}
           if(meta.title)
-            div.title= meta.title
+            div.title !{meta.title}
 
 mixin center(mode, data)
   .center.table-center-wrap
@@ -158,29 +153,23 @@ mixin center(mode, data)
 
 mixin bottom(mode, data)
   .bottom
-    case mode
-      when "twitter"
-        - label = "Follow Us on Twitter"
-      when "facebook"
-        - label = "Like Us on Facebook"
-      when "instagram"
-        - label = "Follow Us on Instagram"
-      when "flickr"
-        - label = "View Set on Flickr"
-
-    +socialButton( data.socialBtnLink, label )
+    .social-btn
+      +link( data.link , [ "btn", "btn-small" ])
 
 mixin twitter(data)
   blockquote.bq4
-    p= data.quote
+    p !{data.quote}
+
+      +link( data.tweetLink )
 
 mixin facebook(data)
     .post-image
       +iQImage(data.image)
 
     blockquote.bq5
-        p= data.postCopy
-          a(href= data.postLink)= data.postLink
+      p
+        span !{data.postCopy}
+        +link( data.postLink )
 
 mixin instagram(data)
   -images = data.images

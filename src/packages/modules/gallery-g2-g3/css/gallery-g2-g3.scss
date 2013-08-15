@@ -314,9 +314,9 @@ $gifHeight: 60px;
     margin: 13px 0 0;
   }
 
-  .product-count {
-    padding-right: px-em(2, 13);
-  }
+  // .product-count {
+  //   padding-right: px-em(2, 13);
+  // }
 
   // Text should be allowed to overflow, but having a width
   // keeps the filter button from jumping back and forth when the
@@ -490,6 +490,10 @@ $gifHeight: 60px;
   // Fix webkit flicker bug: promote buttons to their own layer
   .btn-square {
     @include translate3d(0,0,0);
+    &[data-price_touchbutton] {
+      padding-left:8px;
+      padding-right:8px;
+    }
   }
 
   // Override default btn-group functionality to have them drop to the new line
@@ -596,6 +600,23 @@ $gifHeight: 60px;
 .gallery .range-control {
   position: absolute;
   width: 100%;
+}
+
+
+// Only show the range control on non-touch. 
+// Only show the range-container-touch-buttons on touch.
+.no-touch {
+  .range-container-touch-buttons{
+    display:none;
+  }
+}
+.touch {
+  .range-output-container,
+  .range-control-wrap,
+  .label-close[data-filter-name="price"][data-filter="min"],
+  .label-close[data-filter-name="price"][data-filter="max"]{
+    display:none;
+  }
 }
 
 

@@ -5,6 +5,16 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('sony-video')
 //- +includeJavascriptModule('sony-video')
 
+mixin legal(_data)
+  d = _data ? _data : data
+  if d.legal
+    p.legal.p5
+      span!{d.legal.copy}
+      if d.legal.href
+      span
+        &nbsp;
+        a(href = d.legal.href) !{d.legal.linktext ? d.legal.linktext : d.legal.href}
+
 //- Mixin for slides
 mixin pdpSlide(data)
   if data.submodules
@@ -16,12 +26,14 @@ mixin pdpSlide(data)
       .pdp-slideshow-slide( class=variation, data-mode=mode )
         .pdp-slide-inner.ghost-center-wrap
           if slideData.mode == 'imageGallery'
-            +iQImage(slideData.productImg, 'ghost-center update-always')
+            div.ghost-center
+              +iQImage(slideData.productImg, 'update-always')
           else if slideData.mode == 'video'
             div(class='ghost-center')
               - data.isSubmodule = true
               e = { 'locals' : locals , 'data' : slideData }
               !{locals.partial( 'packages/modules/sony-video/html/sony-video.jade', e) }
+        +legal(slideData)
 
 //- Mixin for thumbnails
 mixin pdpThumbs(data)

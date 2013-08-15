@@ -50,9 +50,6 @@ define(function(require) {
     self.isTabletMode = false;
     self.isMobileMode = false;
 
-    self.useBounce = !( Settings.isVita || Settings.isLTIE9 );
-    self.useMomentum = !( Settings.isVita || Settings.isLTIE9 );
-
     // Cache some jQuery objects we'll reference later
     self.hasTouch = Settings.hasTouchEvents;
     self.$document = Settings.$document;
@@ -121,7 +118,7 @@ define(function(require) {
       var self = this,
         $firstImage = self.$slides.find('img').first();
 
-      if ($firstImage.data('hasLoaded')) {
+      if ($firstImage.data('hasLoaded') || self.$slides.eq(0).data('mode')  === 'video') {
         self.$el.addClass('active');
       } else {
         $firstImage.on('imageLoaded', function() {
@@ -317,8 +314,11 @@ define(function(require) {
       // If the final slide has less than four anchors, decrement `thumbsPerSlide` by
       // one until the last slide has at least four anchors.
 
-      while ( anchorCount % thumbsPerSlide < 4 && thumbsPerSlide > 1 ) {
-        thumbsPerSlide = Math.max( thumbsPerSlide - 1, 1 );
+      if(anchorCount > 4){
+        //THIS TOTALLY DOESN'T WORK IF THERE'S LESS THAN 4 TOTAL
+        while ( anchorCount % thumbsPerSlide < 4 && thumbsPerSlide > 1 ) {
+          thumbsPerSlide = Math.max( thumbsPerSlide - 1, 1 );
+        }
       }
 
       slideCount = Math.ceil( anchorCount / thumbsPerSlide );

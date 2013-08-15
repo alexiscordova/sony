@@ -23,25 +23,6 @@
     &.visuallyhidden {
       height: 0; // setting margin back to -1px creates the problem the above comment fixes
     }
-    .box-close-alt{
-      top:12px;
-      right:14px;
-      background: $gray40;
-      background:$closeBox;
-      &:hover {
-        background: $gray20;
-        background:$closeBoxHover;
-      }
-      width: 2.5em;
-      height: 2.5em;
-      i{
-        font-size:1.25em;
-      }
-      @include transition();
-      &.close-hide{
-        opacity: 0;
-      }
-    }
     .sony-video{
        @include translate3d(0,0,0);
     }
@@ -58,6 +39,30 @@
   }
   .table-center-wrap{
     width:100%;
+  }
+  .addon {
+  	.addon-body{
+  	  max-width: 100%;
+  	}
+
+    .addon-media{
+      padding:0;
+    }
+    // margin-top: 42px;
+  }
+  .addon-story,
+  .addon-video,
+  .addon-slideshow,
+  .addon-audio,
+  .addon-tweet{
+    .addon-inner{
+      min-height:0;
+    }
+  }
+  .light-text-dark-box{
+    .addon-quote blockquote p{
+      color:$gray50 !important;
+    }
   }
 
   .dark-text-trans-box{
@@ -107,7 +112,7 @@
         margin-bottom:20px;
         margin-left:-2px;
       }
-      .p3{
+      >.p3{
         margin-bottom:37px;
         line-height:20px;
       }
@@ -127,11 +132,21 @@
           position:relative;
         }
       }
+
       .bq1>p{
         margin-bottom:18px;
       }
     }
   }
+  .secondary{
+    position:absolute;
+    bottom:0;
+    right:0;
+    left:0;
+    width:100%;
+
+  }
+
   &.default{
     .inner{
       .box{
@@ -158,8 +173,11 @@
         }
       }
     }
-  }
+    .secondary .box{
+      padding:15px 0 17px 0;
 
+    }
+  }
 
   &.homepage{
     .inner {
@@ -175,25 +193,24 @@
         }
       }
     }
-    .secondary{
-      position:absolute;
-      bottom:0;
-      right:0;
-      left:0;
-      width:100%;
-      .box{
-        padding:28px 0 22px 0;
-        .p3{
-          margin-top:-4px;
-        }
-        .btn{
-          margin-bottom:8px
-        }
+    .secondary .box{
+      padding:28px 0 22px 0;
+      .p3{
+        margin-top:-4px;
+      }
+      .btn{
+        margin-bottom:8px
       }
     }
+
   }
 
   &.product-intro-plate{
+    .legal{
+      z-index:9;
+      position:relative;
+      margin-top:-23px;
+    }
     .image-module{
       height:560px;
     }
@@ -248,14 +265,12 @@
       h1{
         margin-bottom:15px;
       }
-      .p3{
-        margin-bottom:42px;
-      }
+
       a{
         display:block;
         margin-bottom:4px;
         i{
-          font-size:1.6em;
+          font-size:1.846em;
           margin-right:.3em;
         }
       }
@@ -291,9 +306,11 @@
       padding:49px 52px 58px 0;
       a{
         color:$white;
-        &:hover{
-         color:$gray60;
-        }
+
+        // Removed per Steve's request
+        // &:hover{
+        //  color:$gray60;
+        // }
         i.fonticon-10-chevron-reverse{
           @include transition(none);
           font-size:0.6875em;
@@ -316,6 +333,17 @@
 .lt-ie10{
   .primary-tout{
     text-align:center;
+    .secondary{
+      .addon{
+        .addon-body{
+          min-height:0;
+          max-width:320px;
+        }
+        .addon-media{
+         top:0;
+        }
+      }
+    }
   }
 }
 .lt-ie9{

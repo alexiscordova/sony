@@ -29,12 +29,11 @@ if ( data.config )
       if ( data.config.nav_location )
         if ( navlocation == "top" )
           +thumb-nav
-      div(class='editorial-carousel-wrapper')
-        h3 = data.submodules
+      div(class='editorial-carousel-wrapper chapter-pane')
         div(class='editorial-carousel')
           if ( data.submodules )
             for slide in data.submodules
-              .editorial-carousel-slide
+              .editorial-carousel-slide.chapter-slide
                 if ( slide.type && slide.data) 
                   +partial(slide.type, slide.data, true)
       if hotspots 
