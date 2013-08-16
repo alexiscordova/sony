@@ -1,0 +1,13 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('slideshow-image-caption-b3-x00')
++includeJavascriptModule('slideshow-image-caption-b3-x00')
+
++mainElement( ['demo-module'] )
+
+  .container
+      .sic-carousel-wrapper
+          .sony-carousel
+              for slide in data.slides
+                .sic-carousel-slide
+                    +iQImage( slide.img )
+
