@@ -10,4 +10,8 @@ include ../../../common/html/jade-helpers.jade
               for slide in data.slides
                 .sic-carousel-slide
                     +iQImage( slide.img )
+                    .band
+                            .text-container
+                                h3.t7.title !{slide.band.title}
+                                p.p3.description !{slide.band.description}
 
