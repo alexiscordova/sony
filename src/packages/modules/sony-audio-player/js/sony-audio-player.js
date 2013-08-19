@@ -55,8 +55,10 @@ define(function(require) {
         return instances;
       }
 
-      self.bindNav();
-      self.setTrack(0);
+      $(function(){
+        self.bindNav();
+        self.setTrack(0);
+      });
 
       return self;
     },
