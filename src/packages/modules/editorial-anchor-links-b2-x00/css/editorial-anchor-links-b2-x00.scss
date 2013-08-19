@@ -148,3 +148,35 @@ $tabletMax: px-em(979);
     }
   }
 }
+
+.lt-ie8 {
+
+  .editorial-anchor-links {
+
+    ul.jump-links{
+
+      // no box-sizing support so adjust the widths to account for the li borders
+      &.button-count-6 li {
+        width: 16.5%;
+      }
+      &.button-count-5 li {
+        width: 19.8%;
+      }
+      &.button-count-4 li {
+        width: 24.8%;
+      }
+      &.button-count-3 li {
+        width: 33.1%;
+      }
+      &.button-count-2 li {
+        width: 49.8%;
+      }
+
+      a {
+        i, .submodule {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
