@@ -20,22 +20,30 @@
     z-index: 2;
     opacity: 1 !important;
     position: absolute;
-    @include transition( .5s );
+    //@include transition( .5s );
 
     &.inactive {
       z-index: 1;
       opacity: 0 !important;
+      //position: absolute !important;
     }
 
     // Some IE8 code path in RP makes the container visible
     &.invisible {
       visibility: hidden !important;
+      position: absolute;
     }
 
+
+/* 
     .lt-ie10 &.invisible {
       left: -9999px;
-    }
+    } */
   }
+
+/*     .related-products.rp-mobile.inactive {
+      display: none !important;
+    }  */
 
 }
 
