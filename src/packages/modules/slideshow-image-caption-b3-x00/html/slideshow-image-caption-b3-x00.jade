@@ -9,9 +9,9 @@ include ../../../common/html/jade-helpers.jade
           .sony-carousel
               for slide in data.slides
                 .sic-carousel-slide
-                    +iQImage( slide.img )
+                    +iQBackgroundImage( slide.img, 'slide-background')
                     .band
-                            .text-container
-                                h3.t7.title !{slide.band.title}
-                                p.p3.description !{slide.band.description}
+                        .text-container
+                            h3.t7.title !{slide.band.title}
+                            p.p3.description !{slide.band.description}
 

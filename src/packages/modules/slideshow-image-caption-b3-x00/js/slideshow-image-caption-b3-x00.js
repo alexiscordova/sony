@@ -26,8 +26,10 @@ define(function(require) {
 
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
+      iQ = require('iQ'),
       enquire = require('enquire'),
-      Environment = require('require/sony-global-environment');
+      Environment = require('require/sony-global-environment'),
+      sonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     init: function() {
@@ -45,6 +47,9 @@ define(function(require) {
     $.extend( self, SlideshowImageCaption.options, options, SlideshowImageCaption.settings );
 
     self.$el = $( element );
+    self.$slides = self.$el.find( '.sic-carousel-slide' );
+    self.$slideContainer = self.$el.find( '.sony-carousel' );
+    self.numSlides = self.$slides.length;
     self.init();
 
     log('SONY : SlideshowImageCaption : Initialized');
@@ -60,7 +65,7 @@ define(function(require) {
       // Probably set some variables here
       self.$wrapper = self.$el.find( '.sic-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
-
+      self.setupSlides();
 
       if ( Modernizr.mediaqueries ) {
         // These can be chained, like below
@@ -103,6 +108,19 @@ define(function(require) {
         pagination: true
       });
       log('SONY : SlideshowImageCaption : setupCarousel');
+
+      return self;
+    },
+
+    //Sets up slides to correct width based on how many there are.
+    setupSlides: function() {
+      var self = this,
+          slidesWithClones = self.numSlides + 2,
+          containerWidth = (100 * slidesWithClones) + 0.5 + '%',
+          slideWidth = (100 / slidesWithClones) + '%';
+
+      self.$slideContainer.css( 'width', containerWidth );
+      self.$slides.css( 'width', slideWidth );
 
       return self;
     },
