@@ -2,9 +2,12 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('hear-it-feel-it-b3-x00')
 +includeJavascriptModule('hear-it-feel-it-b3-x00')
 
+mixin submodule( submodule )
+  +partial( submodule.type, submodule.data, true )
+
 +mainElement( ['hear-it-feel-it'] )
 
   .container
-    .grid
-      h2.t2.demo-title= data.title
-
+    if data.submodules
+      .submodule.background
+        +submodule( data.submodules[0] )
