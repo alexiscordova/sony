@@ -5,9 +5,41 @@ include ../../../common/html/jade-helpers.jade
 mixin submodule( submodule )
   +partial( submodule.type, submodule.data, true )
 
+mixin calloutInner( info )
+  h3= info.title
+  p.p3= info.description
+  h5.range= info.range
+  span.p3= info.unit
+
+mixin callout( info, leftQuadrant )
+  if info.position == 'offset'
+    if leftQuadrant
+      .callout.offset( style='right: #{info.offset_horizontal}; top: #{info.offset_vertical};' )
+        +calloutInner( info )
+    else
+      .callout.offset( style='left: #{info.offset_horizontal}; top: #{info.offset_vertical};' )
+        +calloutInner( info )
+  else
+    .table-center-wrap
+      .table-center
+        if leftQuadrant
+          .callout.center-vertical( style='margin-right: #{info.offset_horizontal};' )
+            +calloutInner( info )
+        else
+          .callout.center-vertical( style='margin-left: #{info.offset_horizontal};' )
+            +calloutInner( info )
+
 +mainElement( ['hear-it-feel-it'] )
 
   .container
     if data.submodules
       .submodule.background
         +submodule( data.submodules[0] )
+
+    .callouts
+
+      .quadrant.quadrant-left
+        +callout( data.callout_left, true )
+
+      .quadrant.quadrant-right
+        +callout( data.callout_right, false )

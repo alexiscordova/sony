@@ -3,6 +3,10 @@
 
 .hear-it-feel-it {
 
+  .container {
+    position: relative;
+  }
+
   .background {
     .image-module {
       height: 540px;
@@ -11,8 +15,63 @@
     }
   }
 
+  .callouts {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+
+    .table-center-wrap {
+      height: 100%;
+      width: 100%;
+    }
+
+  }
+
+  .callout {
+    width: 40%;
+    max-width: 280px;
+    background: rgba(255,0,0,0.1);
+
+    &.offset {
+      position: absolute;
+    }
+
+    .range {
+      display: inline;
+      color: $themeOrange;
+      margin-right: 10px;
+    }
+    
+  }
+
   .quadrant {
     width: 50%;
+    height: 100%;
+    position: absolute;
+
+    &.quadrant-left {
+      left: 0;
+      top: 0;
+      background: rgba(0,0,255,0.1);
+
+      .callout {
+        text-align: right;
+      }
+
+    }
+
+    &.quadrant-right {
+      right: 0;
+      top: 0;
+      background: rgba(0,255,0,0.1);
+
+      .callout {
+        text-align: left;
+      }
+
+    }
+
   }
 
 }
