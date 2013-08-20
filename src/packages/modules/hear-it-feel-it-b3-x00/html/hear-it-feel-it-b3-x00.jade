@@ -5,29 +5,39 @@ include ../../../common/html/jade-helpers.jade
 mixin submodule( submodule )
   +partial( submodule.type, submodule.data, true )
 
-mixin calloutInner( info )
+mixin calloutIndicator( info, leftQuadrant )
+  if leftQuadrant
+    .callout-indicator( style='width: #{info.callout_indicator_length}; right: -#{info.callout_indicator_length};' )
+      .circle
+  else
+    .callout-indicator( style='width: #{info.callout_indicator_length}; left: -#{info.callout_indicator_length};' )
+      .circle
+
+mixin calloutInner( info, leftQuadrant )
   h3= info.title
   p.p3= info.description
   h5.range= info.range
   span.p3= info.unit
+  +calloutIndicator( info, leftQuadrant )
 
 mixin callout( info, leftQuadrant )
   if info.position == 'offset'
     if leftQuadrant
       .callout.offset( style='right: #{info.offset_horizontal}; top: #{info.offset_vertical};' )
-        +calloutInner( info )
+        +calloutInner( info, leftQuadrant )
     else
       .callout.offset( style='left: #{info.offset_horizontal}; top: #{info.offset_vertical};' )
-        +calloutInner( info )
+        +calloutInner( info, leftQuadrant )
+        
   else
     .table-center-wrap
       .table-center
         if leftQuadrant
           .callout.center-vertical( style='margin-right: #{info.offset_horizontal};' )
-            +calloutInner( info )
+            +calloutInner( info, leftQuadrant )
         else
           .callout.center-vertical( style='margin-left: #{info.offset_horizontal};' )
-            +calloutInner( info )
+            +calloutInner( info, leftQuadrant )
 
 +mainElement( ['hear-it-feel-it'] )
 

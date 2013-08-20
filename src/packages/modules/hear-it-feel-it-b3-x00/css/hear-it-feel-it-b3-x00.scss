@@ -3,6 +3,10 @@
 
 .hear-it-feel-it {
 
+  $calloutIndicatorHeight: 1px;
+  $calloutIndicatorDiameter: 5px;
+  $calloutIndicatorMargin: 10px;
+
   .container {
     position: relative;
   }
@@ -37,12 +41,32 @@
       position: absolute;
     }
 
+    &.center-vertical {
+      position: relative;
+    }
+
     .range {
       display: inline;
       color: $themeOrange;
       margin-right: 10px;
     }
     
+  }
+
+  .callout-indicator {
+    position: absolute;
+    top: 18px;
+    height: $calloutIndicatorHeight;
+    background: $themeOrange;
+
+    .circle {
+      width: $calloutIndicatorDiameter;
+      height: $calloutIndicatorDiameter;
+      position: absolute;
+      top: -$calloutIndicatorDiameter / 2;
+      @include border-radius( 50% );
+      background: $themeOrange;
+    }
   }
 
   .quadrant {
@@ -59,6 +83,14 @@
         text-align: right;
       }
 
+      .callout-indicator {
+        margin-right: -$calloutIndicatorMargin;
+
+        .circle {
+          right: 0;
+        }
+      }
+
     }
 
     &.quadrant-right {
@@ -68,6 +100,10 @@
 
       .callout {
         text-align: left;
+      }
+
+      .callout-indicator {
+        margin-left: -$calloutIndicatorMargin;
       }
 
     }
