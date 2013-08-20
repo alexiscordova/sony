@@ -11,7 +11,7 @@
 //
 // *Example Usage:*
 //
-//      new SlideshowImageCaption( $('.demo-module')[0] )
+//      new SlideshowImageCaption( $('.slideshow-image-caption')[0] )
 //
 //
 
@@ -65,8 +65,12 @@ define(function(require) {
       // Probably set some variables here
       self.$wrapper = self.$el.find( '.sic-carousel-wrapper' );
       self.$carousel = self.$el.find( '.sony-carousel' );
-      self.setupSlides();
+      self
+        .setupSlides()
+        .onResize();
 
+
+      self.setupCarousel();
       if ( Modernizr.mediaqueries ) {
         // These can be chained, like below
         // Use `em`s for your breakpoints ( px value / 16 )
@@ -94,8 +98,6 @@ define(function(require) {
 
     fadeIn : function() {
       var self = this;
-
-      // Fade in the carousel container (not the text)
       setTimeout(function() {
         self.$el.addClass( 'in' );
       }, 0);
@@ -114,7 +116,6 @@ define(function(require) {
         axis: 'x',
         dragThreshold: 2,
         paddles: true,
-        useSmallPaddles: self.isSmall,
         pagination: true
       });
       log('SONY : SlideshowImageCaption : setupCarousel');
@@ -126,8 +127,8 @@ define(function(require) {
     setupSlides: function() {
       var self = this,
           slidesWithClones = self.numSlides + 2,
-          containerWidth = (100 * slidesWithClones) + 0.5 + '%',
-          slideWidth = (100 / slidesWithClones) + '%';
+          containerWidth = ( 100 * slidesWithClones ) + 0.5 + '%',
+          slideWidth = ( 100 / slidesWithClones ) + '%';
 
       self.$slideContainer.css( 'width', containerWidth );
       self.$slides.css( 'width', slideWidth );
@@ -141,9 +142,8 @@ define(function(require) {
           wasMobile = self.isMobile;
 
       if ( wasMobile ) {
-
+        log('SONY : SlideshowImageCaption : setupDesktop');
       }
-      self.setupCarousel();
 
       self.isDesktop = true;
       self.isMobile = false;
@@ -155,17 +155,43 @@ define(function(require) {
           wasDesktop = self.isDesktop;
 
       if ( wasDesktop ) {
-
+        log('SONY : SlideshowImageCaption : setupMobile');
       }
 
       self.isDesktop = false;
       self.isMobile = true;
     },
 
-    // Stubbed method. You don't have to use this
+    updateSlideBand: function (index) {
+      var self = this,
+          $band = self.$slides.find( '.band' ).eq( index ),
+          $thumb = $band.find( '.thumb-holder' ),
+          thumbWidth = self.isMobile || $thumb.length === 0 ? 0 : $thumb.outerWidth();
+      $band.find( '.text-container' ).css( 'margin-left', thumbWidth + 'px' );
+      self.$el.find( '.sony-carousel-edge-clone' ).remove(); //Carousel BUG: clone slides are copied when resetSlides is called
+      self.$carousel
+        .sonyCarousel( 'resetSlides' )
+        .sonyCarousel( 'gotoNearestSlide' );
+    },
+
     onResize : function() {
       var self = this;
+      log('SONY : SlideshowImageCaption : onResize');
+      self.$el.find( '.sony-carousel-edge-clone' ).remove(); //Carousel BUG: clone slides are copied when resetSlides is called
+      self.$slides.find( '.thumb-holder' ).each( function( index, element ) {
+          var $thumb = $( this ),
+            updateSlideBandProxy = $.proxy(self.updateSlideBand, self, index );
+          if ( self.isMobile || $thumb.data( 'hasLoaded' ) ) {
+            self.updateSlideBand(index);
+          } else {
+            $thumb.on( 'imageLoaded', function() {
+              self.updateSlideBand(index);
+            });
+          }
+      });
+      return self;
     }
+
   };
 
   // Options that could be customized per module instance
