@@ -71,6 +71,14 @@ $tabletMax: px-em(979);
       }
     }
   }
+
+  .icon-circle-chevron-down {
+    height: 30px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+  }
+
 }
 
 .editorial-anchor-links-section-header {
@@ -124,7 +132,7 @@ $tabletMax: px-em(979);
           min-width: 80px;
 
           .btn-subtitle,
-          i {
+          i, .icon-circle-chevron-down {
             display: none;
           }
         }
@@ -136,6 +144,38 @@ $tabletMax: px-em(979);
       &.button-count-5 li,
       &.button-count-6 li {
         width: auto;
+      }
+    }
+  }
+}
+
+.lt-ie8 {
+
+  .editorial-anchor-links {
+
+    ul.jump-links{
+
+      // no box-sizing support so adjust the widths to account for the li borders
+      &.button-count-6 li {
+        width: 16.5%;
+      }
+      &.button-count-5 li {
+        width: 19.8%;
+      }
+      &.button-count-4 li {
+        width: 24.8%;
+      }
+      &.button-count-3 li {
+        width: 33.1%;
+      }
+      &.button-count-2 li {
+        width: 49.8%;
+      }
+
+      a {
+        i, .submodule {
+          cursor: pointer;
+        }
       }
     }
   }

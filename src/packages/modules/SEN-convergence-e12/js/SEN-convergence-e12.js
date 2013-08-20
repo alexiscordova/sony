@@ -382,6 +382,9 @@ define(function(require){
 
       self.currentId = selectedIndex;
 
+      //make sure slides are stopped.
+      self.internalSlideStop();
+
       // need to set a tmeout of 100ms so we can
       // fix a flicker bug on mobile devices
       $el.addClass('active');
@@ -476,7 +479,7 @@ define(function(require){
     },
 
     internalSlideStop: function() {
-      var self = this;
+      var self = this;  
       clearInterval(self.interval);
     },
 
@@ -489,8 +492,9 @@ define(function(require){
 
       iQ.update();
 
-      $nextSlide.fadeIn(750, function(){
-          self.$currentSlide.fadeOut(750);
+      $nextSlide.stop(true,true).fadeIn(750, function(){
+          iQ.update();
+          self.$currentSlide.stop(true,true).fadeOut(750);
           self.$currentSlide = $nextSlide;
       });
 

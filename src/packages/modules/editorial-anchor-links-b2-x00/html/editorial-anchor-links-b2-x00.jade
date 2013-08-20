@@ -2,6 +2,8 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('editorial-anchor-links-b2-x00')
 +includeJavascriptModule('editorial-anchor-links-b2-x00')
 
+mixin submodule( submodule )
+  +partial( submodule.type, submodule.data, true )
 
 .editorial-anchor-links-wrapper
   .editorial-anchor-links#editorial-anchor-links--static-nav
@@ -12,7 +14,9 @@ include ../../../common/html/jade-helpers.jade
             a.editorial-anchor-link-btn( href= button.href )
               span.btn-title.t6 !{button.title}
               span.btn-subtitle.p3 !{button.subtitle}
-              i (icon)
+              if data.submodules
+                .submodule
+                  +submodule( data.submodules[0] )
 
   .editorial-anchor-links.sticky-nav.sticky-nav-tall#editorial-anchor-links--sticky-nav
     .container.full-bleed-at-767

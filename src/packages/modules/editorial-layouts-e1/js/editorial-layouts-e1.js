@@ -24,8 +24,6 @@ define(function(require) {
         Modals = require('secondary/index').sonyModal,
         jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
-    Settings.editorialModuleInitialzied = $.Deferred();
-
     var module = {
       init: function() {
         if ( $('.editorial').length ) {
@@ -144,8 +142,6 @@ define(function(require) {
 
 
         log('SONY : Editorial - E : Initialized');
-
-        Settings.editorialModuleInitialzied.resolve();
       },
 
       setupSubmodules : function() {
@@ -322,7 +318,7 @@ define(function(require) {
           var width = tc.parent().width() - tc.prev().width() -2;
           tc.css({
             'width': width,
-            'maxWidth' : width 
+            'maxWidth' : width
           });
         }
 

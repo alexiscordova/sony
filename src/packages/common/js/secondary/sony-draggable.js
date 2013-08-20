@@ -178,6 +178,8 @@ define(function(require){
       self.$containment.off(_moveEvents(self.id));
 
       self.debouncedScrubDestroy();
+
+
     },
 
     'debouncedScrubDestroy': $.debounce(200, function(){
