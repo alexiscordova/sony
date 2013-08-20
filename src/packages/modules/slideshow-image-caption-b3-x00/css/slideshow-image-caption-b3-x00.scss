@@ -1,58 +1,72 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
-.demo-module {
+.slideshow-image-caption {
+	.sic-carousel-slide {
+		position: relative;
+	    width: 600px; // overriden by javascript (to something like 20%)
+	    height: 100%;
+	    float: left;
+	    display: block;
 
-  // Remove this, it's just an example
-  .demo-title {
-    color: $themeGreen;
-  }
+	    img {
+	    	width: 100%;
+	    }
+	}
+
+	.sic-carousel-wrapper {
+		position: relative;
+	    height: 540px; // Same as E1 full
+	    overflow: hidden;
+	}
+	.sony-carousel {
+		height: 100%;
+	}
+
+	.slide-background {
+		width: 100%;
+		height: 100%;
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: top center;
+	}
+
+	.band {
+		width: 100%;
+		background-color: $titleBlack;
+		position: absolute;
+		bottom: 0px;
+
+		.thumb-holder {
+			margin-top: 20px;
+			margin-left:20px;
+			width: 100px;
+			height: 100px;
+			float:left;
+		}
+
+		.title {
+			color: $white;
+			margin-bottom: 4px;
+		}
+
+		.description {
+		}
+
+		.text-container {
+			width: 75%;
+			margin: 20px;
+			float: left;
+		}
+	}
+
+	.csstransitions & {
+		opacity: 0;
+		@include transition( opacity $transitionFast $easeNormal );
+
+		&.in {
+		  opacity: 1;
+		}
+	}
 }
 
-.sic-carousel-slide {
-	position: relative;
-    width: 600px; // overriden by javascript (to something like 20%)
-    height: 100%;
-    float: left;
-    display: block;
-
-    img {
-    	width: 100%;
-    }
-}
-
-.sic-carousel-wrapper {
-	position: relative;
-    height: 540px; // Same as E1 full
-    overflow: hidden;
-}
-.sony-carousel {
-	height: 100%;
-}
-
-.slide-background {
-	width: 100%;
-	height: 100%;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-}
-
-.band {
-	width: 100%;
-	background-color: rgba(0,0,0,0.5);
-	position: absolute;
-	bottom: 0px;
-}
-
-.band .title {
-	color: $white;
-	margin-bottom: 4px;
-}
-.band .description {
-}
-
-.band .text-container {
-	width: 75%;
-	margin: 20px;
-}

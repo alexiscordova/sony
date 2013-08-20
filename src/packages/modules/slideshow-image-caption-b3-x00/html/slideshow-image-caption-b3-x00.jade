@@ -2,7 +2,7 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('slideshow-image-caption-b3-x00')
 +includeJavascriptModule('slideshow-image-caption-b3-x00')
 
-+mainElement( ['demo-module'] )
++mainElement( ['slideshow-image-caption'] )
 
   .container
       .sic-carousel-wrapper
@@ -11,6 +11,8 @@ include ../../../common/html/jade-helpers.jade
                 .sic-carousel-slide
                     +iQBackgroundImage( slide.img, 'slide-background')
                     .band
+                        if (slide.band.img) 
+                            +iQImage(slide.band.img, 'thumb-holder')
                         .text-container
                             h3.t7.title !{slide.band.title}
                             p.p3.description !{slide.band.description}

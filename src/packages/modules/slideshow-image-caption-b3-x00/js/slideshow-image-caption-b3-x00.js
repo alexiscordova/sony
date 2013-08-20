@@ -33,7 +33,7 @@ define(function(require) {
 
   var module = {
     init: function() {
-      var $module = $('.demo-module');
+      var $module = $('.slideshow-image-caption');
 
       if ( $module.length ) {
         new SlideshowImageCaption( $module[0] );
@@ -88,8 +88,18 @@ define(function(require) {
 
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      self.fadeIn();
 
-    },    
+    },   
+
+    fadeIn : function() {
+      var self = this;
+
+      // Fade in the carousel container (not the text)
+      setTimeout(function() {
+        self.$el.addClass( 'in' );
+      }, 0);
+    }, 
 
     // Main setup method for the carousel
     setupCarousel: function() {
