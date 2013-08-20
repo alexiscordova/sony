@@ -14,7 +14,7 @@ mixin editorialSlides(data)
         - slideClasses.push( style )
 
       div(class=slideClasses)
-        +iQImage(slideData.productImg)
+        +iQBackgroundImage(slideData.productImg , [ "hero" ])
         if slideData.band
           .slide-band.box
             p.p4 !{ slideData.band.copy }

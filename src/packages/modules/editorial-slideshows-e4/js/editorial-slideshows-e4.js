@@ -104,7 +104,12 @@ define(function(require) {
         paddles: true,
         useSmallPaddles: self.isSmall,
         pagination: true
+
       });
+
+      iQ.update();
+
+      //alert('setup carousel');
 
       return self;
     },

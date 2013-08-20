@@ -94,8 +94,31 @@ define(function(require) {
         pagination: true,
         paddles: true,
         paddlePosition: 'outset',
-        paginationTheme: self.paginationTheme
+        paginationTheme: self.paginationTheme,
+        looped: !Settings.isPS3,
+        jumping: !Settings.isPS3,
+        axis: 'x',
+        dragThreshold: 2
       });
+
+/*      self.$slideContainer.sonyCarousel({
+        wrapper: '.pdp-slideshow-outer',
+        slides: '.pdp-slideshow-slide',
+        looped: !Settings.isPS3,
+        jumping: !Settings.isPS3,
+        axis: 'x',
+        dragThreshold: 2,
+        paddles: true,
+        paddlePosition: 'outset',
+        pagination: true,
+        $paddleWrapper: self.$el,
+        // $dotNavWrapper: '.thumb-nav-grid',
+        nonDraggableChildren: '.sony-video'
+      });
+
+
+*/
+
     },
 
     updateCarousel : function() {
