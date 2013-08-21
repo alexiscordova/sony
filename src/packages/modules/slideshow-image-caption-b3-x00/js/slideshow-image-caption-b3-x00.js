@@ -29,7 +29,7 @@ define(function(require) {
       iQ = require('iQ'),
       enquire = require('enquire'),
       Environment = require('require/sony-global-environment'),
-      sonyCarousel = require('secondary/index').sonyCarousel;
+      SonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     init: function() {
@@ -76,18 +76,16 @@ define(function(require) {
         // Use `em`s for your breakpoints ( px value / 16 )
         enquire
           .register('(min-width: 48em)', {
-            match: function() {
-              self.setupDesktop();
+            match: function() {              
+              self.isMobile = false;
             }
           })
           .register('(max-width: 47.9375em)', {
             match: function() {
-              self.setupMobile();
+              self.isMobile = true;
             }
           });
 
-      } else {
-        self.setupDesktop();
       }
 
       // Listen for global resize
@@ -136,51 +134,19 @@ define(function(require) {
       return self;
     },
 
-    // Stubbed method. You don't have to use this
-    setupDesktop : function() {
-      var self = this,
-          wasMobile = self.isMobile;
-
-      if ( wasMobile ) {
-        log('SONY : SlideshowImageCaption : setupDesktop');
-      }
-
-      self.isDesktop = true;
-      self.isMobile = false;
-    },
-
-    // Stubbed method. You don't have to use this
-    setupMobile : function() {
-      var self = this,
-          wasDesktop = self.isDesktop;
-
-      if ( wasDesktop ) {
-        log('SONY : SlideshowImageCaption : setupMobile');
-      }
-
-      self.isDesktop = false;
-      self.isMobile = true;
-    },
-
     updateSlideBand: function (index) {
       var self = this,
-          $band = self.$slides.find( '.band' ).eq( index ),
+          $band = self.$el.find( '.band' ).has( '.thumb-holder' ).eq( index ),
           $thumb = $band.find( '.thumb-holder' ),
           thumbWidth = self.isMobile || $thumb.length === 0 ? 0 : $thumb.outerWidth();
       $band.find( '.text-container' ).css( 'margin-left', thumbWidth + 'px' );
-      self.$el.find( '.sony-carousel-edge-clone' ).remove(); //Carousel BUG: clone slides are copied when resetSlides is called
-      self.$carousel
-        .sonyCarousel( 'resetSlides' )
-        .sonyCarousel( 'gotoNearestSlide' );
     },
 
     onResize : function() {
       var self = this;
       log('SONY : SlideshowImageCaption : onResize');
-      self.$el.find( '.sony-carousel-edge-clone' ).remove(); //Carousel BUG: clone slides are copied when resetSlides is called
-      self.$slides.find( '.thumb-holder' ).each( function( index, element ) {
-          var $thumb = $( this ),
-            updateSlideBandProxy = $.proxy(self.updateSlideBand, self, index );
+      self.$el.find( '.thumb-holder' ).each( function( index, element ) {
+          var $thumb = $( this );
           if ( self.isMobile || $thumb.data( 'hasLoaded' ) ) {
             self.updateSlideBand(index);
           } else {
@@ -194,12 +160,8 @@ define(function(require) {
 
   };
 
-  // Options that could be customized per module instance
-  SlideshowImageCaption.options = {};
-
   // These are not overridable when instantiating the module
   SlideshowImageCaption.settings = {
-    isDesktop: false,
     isMobile: false
   };
 
