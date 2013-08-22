@@ -1,0 +1,216 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+@mixin background-cover() {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+$dialSize: 60px;
+
+// Layering
+// --------------
+
+// .ss-inner-container > .grid > .box
+// .dial-wrap
+$zIndexDialWrap: 3;
+$zIndexInnerContainer: 2;
+$zIndexActiveContent: 2;
+$zIndexInactiveContent: 1;
+
+// .ss-backdrop
+// .ss-inner
+// .ss-cover
+$zIndexCover: 3;
+$zIndexInner: 2;
+$zIndexCoverVisibleSequence: 1;
+$zIndexBackdrop: 1;
+
+// .ss-cover-content
+// .ss-cover-img
+$zIndexCoverImg: 1;
+$zIndexCoverContent: 2;
+
+
+
+.story-sequence {
+
+  // Wrapper for sequence. Includes dail
+  .ss-inner {
+    position: relative;
+    z-index: $zIndexInner;
+  }
+
+  .ss-inner-container {
+    z-index: $zIndexInnerContainer;
+  }
+
+  // Loader
+  .loading {
+    @include center-hv( 68px, 62px );
+  }
+
+  // Cover with title & CTA
+  .ss-cover {
+    z-index: $zIndexCover; // above the sequence (.ss-inner)
+    @include fill-parent();
+  }
+
+  // Put the cover behind the sequence when the sequence is visible
+  &.is-sequence-visible .ss-cover {
+    z-index: $zIndexCoverVisibleSequence;
+  }
+
+  .ss-backdrop,
+  .ss-cover-img {
+    z-index: $zIndexBackdrop;
+    @include fill-parent();
+    @include background-cover();
+  }
+
+  .ss-cover-img {
+    z-index: $zIndexCoverImg;
+  }
+
+  // Position above backdrop and cover image
+  // Needs z-index set because of IE7
+  .ss-cover-content {
+    position: relative;
+    z-index: $zIndexCoverContent;
+  }
+
+  .ss-cover .title {
+    margin-top: 16%;
+    margin-bottom: 0;
+  }
+
+  // Call to action which starts the animation
+  .cta {
+    margin-top: 10%;
+    margin-bottom: 0;
+  }
+
+
+  // Stop Content
+  // -----------------
+
+  // Needs more specificity to override grid margin-left
+  .grid .box {
+    position: absolute;
+    z-index: $zIndexInactiveContent;
+    float: none; // Boxes are positioned absolute, they don't need floats
+    margin: 0 auto;
+  }
+
+  .box.active {
+    z-index: $zIndexActiveContent;
+  }
+
+  .stop-copy {
+    width: 100%;
+
+    .title:only-child {
+      margin-bottom: 0;
+    }
+  }
+
+
+  // Dial & Reset
+  // -----------------
+  .dial-wrap {
+    z-index: $zIndexDialWrap;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    @include square( $dialSize );
+    margin-left: -( $dialSize / 2 );
+    line-height: .8;
+
+    input {
+      padding: 0;
+      margin: 0;
+      border: 0;
+      height: 0;
+      width: 0;
+    }
+  }
+
+  .btn-reset {
+    @include fill-parent();
+    background-color: $btnSpecialBackground;
+    border-radius: 50%;
+  }
+
+  // Hide hovers from touch
+  .no-touch & .btn-reset:hover {
+    background-color: $themeGreen;
+  }
+
+  .reset-icon {
+    font-size: $dialSize / 2;
+    color: $white;
+  }
+
+  .no-touch & .btn-reset:hover i {
+    color: $themePurple;
+  }
+
+  .dial-counter {
+    position: absolute;
+    top: 19px;
+    left: 0;
+    width: $dialSize;
+    margin: 0;
+  }
+
+  .btn-reset {
+    display: none;
+  }
+
+  // Dial States
+  // ---------------
+  &.is-last-stop {
+
+    .btn-reset {
+      display: block;
+    }
+
+    .simpleknob,
+    .dial-counter {
+      display: none !important; // override inline styles set by simpleknob
+    }
+  }
+
+
+  // Button
+  // --------------
+  // Default styling
+  .btn-circle {
+    @include square( px-em( 40 ) );
+    padding: 0;
+    border-radius: 50%;
+    background: $btnSpecialBackground;
+
+    &:hover {
+      background: $btnSpecialBackgroundHover;
+    }
+    &.active,
+    &:active {
+      background: $btnSpecialBackgroundActive;
+    }
+    // &.disabled:hover,
+    // &[disabled]:hover {
+    //   background: $btnSpecialBackground;
+    // }
+  }
+
+  // Styling needed for carousel sequence
+  .btn-circle {
+    margin-left: 1em;
+  }
+
+  .btn-circle i {
+    -webkit-font-smoothing: antialiased;
+  }
+}

@@ -75,6 +75,8 @@ mixin copyblock(_copy, _title, _subtitle, _body)
   bodyclass = _body ? _body : "p2"
   linkclass = data.mode == "full" ? "lt2" : "lt3"
   .copy
+    if copyobject.icon
+      i.editorial-icon(class=copyobject.icon)
     if copyobject.title
       h2(class = titleclass) !{copyobject.title}
     if copyobject.subtitle
@@ -85,9 +87,21 @@ mixin copyblock(_copy, _title, _subtitle, _body)
     .link
       linktextsize = copyobject.link.type == "txt" ? linkclass : ""
       +link(copyobject.link, [copyobject.link.type, linktextsize])
+
   else if copyobject.addon
     e = { "locals" : locals, "data" : data.addon }
     !{ locals.partial('packages/modules/addon/html/addon.jade', e) }
+
+  else if copyobject.features && copyobject.features.length > 0
+    ul.media-list.feature-list
+      each feature in copyobject.features
+        li.media
+          .pull-left.img-wrap
+            +iQBackgroundImage( feature.img )
+          .media-body
+            p.p2-bold.media-heading.text-dark !{ feature.title }
+            p.p2 !{ feature.body }
+
 
 mixin textonlylayout(_layout)
   layout = _layout ? _layout : data.layout
@@ -99,8 +113,10 @@ mixin textonlylayout(_layout)
     +col(layout, extras)
       block
 
+
 mixin submodule( submodule )
   +partial( submodule.type, submodule.data, true )
+
 
 mixin submodules( data )
   hasAddon = data.addon != null && data.submodules && data.submodules.length > 1
@@ -126,9 +142,13 @@ mixin submodules( data )
     else
       +submodule( data.submodules[0] )
 
+
+
 editorialClasses = [ "editorial", data.mode ]
 if data.variation && data.variation.background
   - editorialClasses.push( data.variation.background )
+if data.features && data.features.length > 0
+  - editorialClasses.push( "efl-module" )
 
 +mainElement( editorialClasses )
   if data.mode == "textonly"
@@ -257,3 +277,7 @@ if data.variation && data.variation.background
             div(class = span)(class = data.layout.tout.alignment)
               +toutimage(e, "m-span2")
               +toutcopy(col,"t7", "", "p3", mspan)
+
+
+
+

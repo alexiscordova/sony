@@ -8,6 +8,7 @@ The primary tout is a large header section with text over a full-bleed image, ge
 *homepage P1* - Specific to the homepage, slightly different layout with the h1 separate from the text block
 *product-intro-plate D3* - This has a video and or gallery button that loads in a submodule, mainly used on PDP's
 *title-plate D7* - simple photo and text header that is shorter than the default p1 and generally used on gallery pages
+*editorial-anchor-links* - Specific to pages using the Editorial Anchor Links Stickynav, slightly different layout
 
 **layout:** defines the main layout columns
 *text* - which column the text goes into (right | left | center)

@@ -1,0 +1,107 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('story-sequence-b2-x00')
++includeJavascriptModule('story-sequence-b2-x00')
+
+moduleClasses = [ "story-sequence", "relative" ]
+
+stops = []
+sequenceLength = data.sequence && data.sequence.length ? data.sequence.length : 0
+
+
+//- Get stops array. The first and last images will always be stops
+if data.sequence
+  each sq, i in data.sequence
+    if sq.stop || i == 0 || i == sequenceLength - 1
+      - stops.push( i )
+
+
+mixin sequence()
+  .loading.is-asset.load-indicator.text-center
+    img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+  if data.sequence
+    .ss-sequence.text-center
+      each imgData, i in data.sequence
+        img = imgData.image ? imgData.image : {}
+
+        imgClasses = [ "iq-img", "no-fade" ]
+
+        if i > 0
+          -imgClasses.push( "visuallyhidden" )
+
+        img(id=false, class=imgClasses, alt=img.alt, data-sequence-id=i, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
+        noscript
+          img(src=img.noscriptsrc)
+
+
+mixin stopContent()
+  each stopIndex, i in stops
+    stop = data.sequence[ stopIndex ]
+    title = stop.title
+    bodyCopy = stop.body
+    coords = stop.coords ? stop.coords : [ 0, 0 ]
+    textAlignment = stop.textAlign ? stop.textAlign : "left"
+    boxClasses = [ "span5", "box", "text-" + textAlignment, "fade" ]
+    extraStyle = ""
+
+    if stop.align == "center"
+      - coords[ 0 ] = 0;
+      - extraStyle = "right:0;"
+    else if stop.align == "right"
+      - coords[ 0 ] = "auto"
+      - extraStyle = "right:0;"
+    else if stop.align == "bottom"
+      - coords[ 1 ] = "auto"
+      - extraStyle = "bottom:0;"
+    else if stop.align == "bottom-right"
+      - coords[ 0 ] = "auto"
+      - coords[ 1 ] = "auto"
+      - extraStyle = "right:0;bottom:0;"
+
+    if i == 0
+      - boxClasses.push( "active in" )
+
+    div(class=boxClasses, data-stop="", style="left:#{ coords[ 0 ] };top:#{ coords[ 1 ] };#{extraStyle}")
+      .stop-copy
+        h2.t3-bold.title !{ title }
+        if bodyCopy
+          p.p3 !{ bodyCopy }
+
+
+mixin dial()
+  .dial-wrap
+    a.js-reset.btn-reset.ghost-center-wrap.text-center(href="#")
+      i.fonticon-10-circlearrow.reset-icon.ghost-center
+    span.t7-light.dial-counter.text-center
+      span.js-stop-number 1
+      span !{ "/" + stops.length }
+    input.dial
+
+
+mixin cover()
+  .ss-cover.js-cover.fade.in
+    if data.img
+      +iQBackgroundImage( data.img, 'update-always ss-cover-img' )
+    .container.ss-cover-content
+      .grid.text-center
+        h2.t2.title !{ data.title }
+        p.t5-light.cta
+          | !{ data.cta }
+          button.js-cta.btn.btn-circle
+            i.fonticon-10-chevron
+
+
++mainElement( moduleClasses )
+  if data.backdrop
+    +iQBackgroundImage( data.backdrop, 'update-always ss-backdrop' )
+  div(class="ss-inner js-sequence-inner invisible", data-stops=JSON.stringify( stops ))
+    .container.relative.ss-inner-container
+      .grid.no-grid-at-767.relative
+        +stopContent()
+        +sequence()
+    +dial()
+  +cover()
+
+
+
+
+

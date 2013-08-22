@@ -1,0 +1,115 @@
+
+$numColumns: 3;
+$imgVerticalOffset: 5%;
+$overlap: 45%;
+$overlapOffset: 10%;
+
+@media (max-width: px-em( 800 ) ) {
+
+  .editorial-compare {
+    .sony-carousel-slide-children .inches {
+      font-size: 1.5em;
+      top: 35%;
+    }
+  }
+
+}
+
+@media (max-width: px-em( 481 ) ) {
+
+  @for $i from 0 through $numColumns {
+    
+    $p: $i - 1;
+    $n: $i + 1;
+
+    $prev: $overlap - ( $overlapOffset * $i );
+    $next: -$overlap + ( $overlapOffset * $i );
+
+    .editorial-compare .sony-carousel[data-on="#{$i}"] {
+
+      .slide-#{$p} .device {
+        left: $prev;
+      }
+
+      .slide-#{$n} .device {
+        left: $next;
+      }
+    }
+  
+    // Transform3D fix for choppy iOS Safari animations
+    .csstransforms3d .editorial-compare .sony-carousel[data-on="#{$i}"] {
+
+      .slide-#{$p} .device {
+        left: auto;
+        @include translate3d( $prev, 0, 0 );
+      }
+
+      .slide-#{$n} .device {
+        left: auto;
+        @include translate3d( $next, 0, 0 );
+      }
+    }
+
+  }
+
+  .editorial-compare {
+
+    padding: 3em 0;
+
+    .sony-carousel-wrapper {
+      overflow: hidden;
+    }
+
+    .p2 {
+      margin-bottom: 0;
+    }
+    
+    .sony-carousel-slide {
+
+      // Apply a position relative and z-index to the numbered slides so that
+      // the images to the left are in front of images to the right after
+      // the markup changes that occur for mobile
+      @for $i from 0 through $numColumns {
+        &.slide-#{$i} {
+          position: relative;
+          z-index: $numColumns - $i;
+        }
+      }
+      
+    }
+
+    .sony-carousel-slide-children {
+
+      // Images fit within the bounds of the columns with no overlapping.
+      img,
+      .device {
+        display: block;
+        max-width: 110%;
+      }
+
+      .device {
+        @include transition( margin, 700ms );
+      }
+      
+      // Add some extra offset for centering the inches text
+      .inches {
+        font-size: 2em;
+        top: 37%;
+      }
+
+      // No overlapping images at this size since the single column carousel is applied
+      // but the layout is too wide for the overlapping to look good. So no image
+      // margins are required for offsetting the images vertically.
+      @for $i from 0 through $numColumns {
+        &.column-#{$i} {
+          .device {
+            left: -5%;
+            margin-top: ( $numColumns - $i ) * $imgVerticalOffset;
+            margin-bottom: $i * $imgVerticalOffset;
+          }
+        }
+      }
+    }
+
+  }
+}

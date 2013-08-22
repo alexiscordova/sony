@@ -1,0 +1,65 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('exploded-view-b2-x00')
++includeJavascriptModule('exploded-view-b2-x00')
+
+mixin submodule( submodule )
+  +partial( submodule.type, submodule.data, true )
+
+mixin center
+  .table-center-wrap
+    .table-center
+      block
+
+moduleClasses = [ "exploded-view", "full-inner" ]
+
++mainElement( moduleClasses )
+  
+  .container.title
+    .grid
+      .box.span12.center
+        h1.t2= data.title
+        p= data.subtitle
+
+  .scene
+
+    .scene-elements
+
+      .container
+        if data.submodules
+          .submodule
+            +submodule( data.submodules[0] )
+
+      .container.inner.pieces-container
+        .callout
+          h3.t4= data.callout_title
+        .pieces
+          a.cta.expand.no-hover-transition(href="#")
+            .circle-btn
+              i.fonticon-10-chevron-reverse
+          a.cta.collapse.no-hover-transition(href="#")
+            .circle-btn
+              i.fonticon-10-chevron
+          - for ( var i = 0; i < data.animation.numberDesktopPieces; i++ ) {
+            +iQBackgroundImage( data.animation.imgPieces, "piece piece-" + i )
+          - }
+
+    .container.inner.light-text-dark-box.top.intro-container
+      .grid.no-grid-at-767
+        .span5
+          +center
+            .intro.box
+              h2= data.intro_title
+              p.p3= data.intro_body
+          
+    .container.inner.light-text-dark-box.detail
+      .box
+        .grid.no-grid-at-767
+          .span4
+            h3.t7= data.label1
+            p.p3= data.caption1
+          .span4
+            h3.t7= data.label2
+            p.p3= data.caption2
+          .span4
+            h3.t7= data.label3
+            p.p3= data.caption3

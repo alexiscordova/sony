@@ -1567,21 +1567,21 @@ $default-transition-delay    : 0s;
 // set up an element to be centered horizontally & vertically within its parent, using negative margins
 @mixin center-hv($widthHeight, $height: null) {
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: $widthHeight;
   @if ($height == null) {
     height: $widthHeight;
   } @else {
     height: $height;
   }
-  margin: 0;
-  margin-left: -$widthHeight/2; // mixins don't understand when there's 2 zeros next to each other, as in: -5px 0px 0px -5px, so these need to be explicitly set.
+  // margin: 0;
+  margin-left: -$widthHeight / 2; // mixins don't understand when there's 2 zeros next to each other, as in: -5px 0px 0px -5px, so these need to be explicitly set.
   @if ($height == null) {
-    margin-top: -$widthHeight/2;
+    margin-top: -$widthHeight / 2;
   } @else {
-    margin-top: -$height/2;
+    margin-top: -$height / 2;
   }
-  top: 50%;
-  left: 50%;
 }
 
 @mixin pseudoEl-block($w: 50px, $h: 50px) {
@@ -1598,6 +1598,14 @@ $default-transition-delay    : 0s;
   height: $h;
 }
 
+// Fill the parent using absolute positioning
+@mixin fill-parent() {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 
 
 // A ghost element used to vertically center something

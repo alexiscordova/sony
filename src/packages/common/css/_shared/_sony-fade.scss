@@ -1,0 +1,25 @@
+
+.sony-fade {
+  width: auto;
+  @include clearfix();
+
+  .sony-fade-slide {
+    position: relative;
+    z-index: 1;
+    float: left;
+    width: 100%;
+    height: 100%;
+    margin-right: -100%; // has the effect of stacking the slides
+    opacity: 0;
+    @include transition( 400ms opacity linear );
+
+    &.on {
+      opacity: 1;
+      z-index: 3;
+    }
+
+    &.behind {
+      z-index: 2;
+    }
+  }
+}

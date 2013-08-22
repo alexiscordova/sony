@@ -7,9 +7,14 @@
 // * **Author:** Chris Pickett
 // * **Dependencies:** jQuery 1.7+, sony-iscroll
 //
+// *Notes:*
+//
+// * This module should not be used for anything where there's more than one on the page
+// * I also highly suggest you do NOT use this module
+//
 // *Example Usage:*
 //
-// new StickyHeader('scrollable-element-id');
+//      new StickyHeader('scrollable-element-id');
 
 define(function(require){
 
@@ -27,10 +32,8 @@ define(function(require){
 
   StickyHeader.prototype = {
     init: function(scrollableId) {
-      var ua = navigator.userAgent.toLowerCase();
-      this.isAndroid = ua.indexOf("android") > 1;
-      
-      if (this.isAndroid){
+
+      if (Settings.isAndroid){
         this.loaded = false;
         return;
       }

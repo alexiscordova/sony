@@ -201,29 +201,26 @@ define(function(require){
 
         self.$window.on('resize.e5-mobile-resize', $.proxy(self.getSlideHeight, self ));
 
-        Settings.editorialModuleInitialzied.then(function(){
+        // even with a deffered object window.load does not fire with require.js
+        // the deffered object is firing before the dom has fully loaded. The perfect
+        // approach would be to run on window.load and get the height of the individual
+        // slides, however that isnt an option. So were back to an arbitary settimout.
+        setTimeout( function() {
+          self.getSlideHeight();
+          self.getSliderWidth();
+        }, 500);
 
-          // even with a deffered object window.load does not fire with require.js
-          // the deffered object is firing before the dom has fully loaded. The perfect
-          // approach would be to run on window.load and get the height of the individual
-          // slides, however that isnt an option. So were back to an arbitary settimout.
-          setTimeout( function() {
-            self.getSlideHeight();
-            self.getSliderWidth();
-          }, 500);
-
-          if (self.$el.hasClass('text-mode')) {
-            self.initScroller();
-            // show slider shades if needed
-            var node = self.$slider.get(0),
-                curTransform = new WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
-                sliderOffset = node.offsetLeft + curTransform.m41, //real offset left
-                sliderWidth = self.$slider.width(),
-                navWidth = self.$thumbNav.width();
-            (sliderOffset < 0) ? self.$leftShade.show() : self.$leftShade.hide();
-            (sliderOffset > ((-1 * sliderWidth) + navWidth)) ? self.$rightShade.show() : self.$rightShade.hide();
-          }
-        });
+        if (self.$el.hasClass('text-mode')) {
+          self.initScroller();
+          // show slider shades if needed
+          var node = self.$slider.get(0),
+              curTransform = new WebKitCSSMatrix(window.getComputedStyle(node).webkitTransform),
+              sliderOffset = node.offsetLeft + curTransform.m41, //real offset left
+              sliderWidth = self.$slider.width(),
+              navWidth = self.$thumbNav.width();
+          (sliderOffset < 0) ? self.$leftShade.show() : self.$leftShade.hide();
+          (sliderOffset > ((-1 * sliderWidth) + navWidth)) ? self.$rightShade.show() : self.$rightShade.hide();
+        }
       },
 
       dragStart: function(e) {
@@ -396,7 +393,7 @@ define(function(require){
 
       // Listens for slide changes and updates the correct thumbnail
       onSlideUpdate: function(e , currIndx){
-        
+
         var self = this,
             $currSlide,
             $prevSlide,
@@ -415,12 +412,12 @@ define(function(require){
         $nextSlideImg.addClass('unhide');
 
         if (!self.isMediaChapter) {
-          $currSlide.addClass('pos-active').removeClass('off-screen'); 
+          $currSlide.addClass('pos-active').removeClass('off-screen');
 
           setTimeout(function(){
             $currSlide.siblings().removeClass('pos-active').addClass('off-screen');
-            if(!$currSlide.hasClass('pos-active')){ 
-              $currSlide.addClass('pos-active').removeClass('off-screen'); 
+            if(!$currSlide.hasClass('pos-active')){
+              $currSlide.addClass('pos-active').removeClass('off-screen');
             }
           }, 500);
         } else {

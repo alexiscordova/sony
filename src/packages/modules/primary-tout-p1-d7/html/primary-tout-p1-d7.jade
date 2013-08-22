@@ -36,7 +36,7 @@ mixin bodytext(_data, _extra)
     if d.variation.headertext == "larger"
       e = e + " hidden-phone"
   if d.body
-    if data.mode == "homepage" || data.mode == "default"
+    if data.mode == "homepage" || data.mode == "default" || data.mode == "p2-editorial-anchor-links"
       p.p2(class= e) !{d.body}
     else
       p.p3(class= e) !{d.body}
@@ -188,7 +188,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
         +header
         +bodytext(data, "hidden-phone")
         +links
-  else if data.mode == "default"
+  else if data.mode == "default" || data.mode == "p2-editorial-anchor-links"
     style = data.style ? data.style : false
     if data.variation
       if data.variation.mobilebg

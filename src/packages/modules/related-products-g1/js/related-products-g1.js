@@ -77,8 +77,8 @@ define(function(require) {
 
             e.preventDefault();
 
-            $tab.addClass('active').siblings().removeClass('active');
-
+           $tab.addClass('active').siblings().removeClass('active');
+ 
             // Clicked the same tab
             if (newPanelId === currentPanelId) {
               return;
@@ -96,11 +96,13 @@ define(function(require) {
             // Fade in current panel
             $currentPanel.removeClass('inactive invisible');
 
-            if (Modernizr.csstransitions) {
+/*            if (Modernizr.csstransitions) {
               $oldPanel.one(transitionEndName, onOldPanelFadedOut);
             } else {
               $.proxy(onOldPanelFadedOut, $oldPanel[0])();
-            }
+            }*/
+
+            $.proxy(onOldPanelFadedOut, $oldPanel[0])();
 
             $currentPanel.data('relatedProducts').enableShuffle();
 
@@ -331,20 +333,20 @@ define(function(require) {
       var self = this;
 
       if (Modernizr.touch) {
-        self.hasTouch = true;
-        self.downEvent = 'touchstart.rp';
-        self.moveEvent = 'touchmove.rp';
-        self.upEvent = 'touchend.rp';
-        self.cancelEvent = 'touchcancel.rp';
+        self.hasTouch         = true;
+        self.downEvent        = 'touchstart.rp';
+        self.moveEvent        = 'touchmove.rp';
+        self.upEvent          = 'touchend.rp';
+        self.cancelEvent      = 'touchcancel.rp';
         self.lastItemFriction = 0.5;
       } else {
-        self.hasTouch = false;
+        self.hasTouch         = false;
         self.lastItemFriction = 0.2;
-        self.downEvent = 'mousedown.rp';
-        self.moveEvent = 'mousemove.rp';
-        self.upEvent = 'mouseup.rp';
-        self.cancelEvent = 'mouseup.rp';
-        self.clickEvent = 'click.rp';
+        self.downEvent        = 'mousedown.rp';
+        self.moveEvent        = 'mousemove.rp';
+        self.upEvent          = 'mouseup.rp';
+        self.cancelEvent      = 'mouseup.rp';
+        self.clickEvent       = 'click.rp';
       }
     },
 

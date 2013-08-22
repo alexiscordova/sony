@@ -10,7 +10,10 @@ requirejs.config({
     modernizr: 'libs/modernizr',
     enquire: 'libs/enquire',
     iQ: 'libs/iq',
-    jquery: 'libs/jquery'
+    jquery: 'libs/jquery',
+    soundManager: 'libs/soundmanager',
+    jasmine: 'libs/jasmine',
+    'jasmine-html': 'libs/jasmine-html'
   },
 
   shim: {
@@ -26,7 +29,21 @@ requirejs.config({
 
     modernizr: {
       exports: 'Modernizr'
+    },
+
+    soundManager: {
+      exports: 'soundManager'
+    },
+
+    jasmine: {
+      exports: 'jasmine'
+    },
+
+    'jasmine-html': {
+      deps: ['jasmine'],
+      exports: 'jasmine'
     }
+
   },
 
   // IE8 and 7 sometimes time out when set to 30sec
@@ -40,6 +57,7 @@ define(function(require){
       jquery = require('jquery'),
       modernizr = require('modernizr'),
       enquire = require('enquire'),
+      soundManager = require('soundManager'),
       iQ = require('iQ');
 });
 

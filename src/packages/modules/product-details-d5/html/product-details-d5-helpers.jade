@@ -65,6 +65,7 @@ mixin featureList(list)
               p(class= copyClasses)
                 span #{li.copy}
                 if (li.link.href)
+                  | !{ " " }
                   +link( li.link, [ "no-wrap" ] )
 
 mixin specsList( list, isHorizontal )
@@ -101,6 +102,7 @@ mixin bottomTout(textTout)
         .no-overflow
           span #{textTout.copy}
           if textTout.link && textTout.link.href && textTout.link.text
+            | !{ " " }
             +link( textTout.link , [ "no-wrap" ] )
 
 mixin bottomButton(btn)

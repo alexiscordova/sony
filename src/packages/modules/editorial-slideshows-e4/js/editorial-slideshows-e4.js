@@ -66,13 +66,7 @@ define(function(require) {
 
       self.setupSlides();
 
-      if ( $firstImage.data('hasLoaded') ) {
-        self.setupCarousel();
-      } else {
-        $firstImage.on('imageLoaded', function(){
-          self.setupCarousel();
-        });
-      }
+      self.setupCarousel();
 
       self.$slideContainer.css( 'opacity', 1 );
 
@@ -104,7 +98,12 @@ define(function(require) {
         paddles: true,
         useSmallPaddles: self.isSmall,
         pagination: true
+
       });
+
+      iQ.update();
+
+      
 
       return self;
     },

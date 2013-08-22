@@ -1,0 +1,171 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+@media (max-width: px-em(767)) {
+
+  $captionPadding: 12px;
+  $topPadding: 35px; // 40 with line-height
+  $editorialTopPadding: 30px; // 35 with line-height
+
+  $navDotFromBtm: 30px;
+  $captionFromNavDots: 20px;
+  $editorialNavDotFromBtm: 30px;
+  $statBtmMargin: 9px; // 20 with line-height
+
+  $copyBtmMargin: 25px;
+
+  $DOT_SIZE: 16px;
+
+  .fs-module {
+
+    .box {
+      top: $topPadding;
+    }
+
+    // Reposition caption
+    .fs-carousel .caption {
+      bottom: $navDotFromBtm + $DOT_SIZE + $captionFromNavDots;
+      width: $mobileContainerPlusGridWidth;
+      margin: auto;
+    }
+
+    // Put stat above description
+    .stat-wrap {
+      float: none;
+      padding: 0;
+      margin: 0 0 $statBtmMargin;
+
+      // Remove divider
+      &:after {
+        content: none;
+      }
+    }
+
+    // Let text-align work, reset table-centering
+    .caption .table-center-wrap,
+    .caption .table-center {
+      display: block;
+    }
+
+    // Center description
+    .caption-body {
+      text-align: center;
+    }
+
+    // Resposition nav dots
+    .sony-dot-nav .pagination-bullets {
+      bottom: $navDotFromBtm;
+    }
+  }
+
+
+  // Editorial mode
+  .fs-editorial {
+    padding-top: $editorialTopPadding;
+
+    .copy-grid {
+      margin-bottom: $copyBtmMargin;
+    }
+
+    .box {
+      padding-top: 0;
+    }
+
+    .fs-slide-inner {
+      position: static;
+      top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+    }
+
+    .sony-dot-nav {
+      margin-top: 0;
+      padding-top: 17px;
+      padding-bottom: $editorialNavDotFromBtm;
+    }
+  }
+}
+
+
+
+$subPhoneMax: px-em(479);
+$phoneMin: px-em(480);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$superDesktop: px-em(1200);
+
+
+// >= 1200
+@media (min-width: $superDesktop) {
+
+  .fs-module {
+
+  }
+}
+
+// 768-979
+@media (min-width: $tabletMin) and (max-width: $tabletMax) {
+
+  .fs-module {
+
+    .box {
+      top: 82px;
+    }
+
+    .fs-carousel-wrapper {
+      height: 620px;
+    }
+  }
+
+  .fs-editorial {
+    padding-top: 60px;
+  }
+}
+
+// < 768
+@media (max-width: $phoneMax) {
+
+  .fs-module {
+
+    .fs-carousel-wrapper {
+      height: 550px;
+    }
+  }
+
+  .fs-editorial {
+
+    .fs-carousel-wrapper {
+      height: auto;
+
+      .fs-slide .iq-img {
+        height: 240px;
+      }
+    }
+  }
+}
+
+// < 480
+@media (max-width: $subPhoneMax){
+
+  .fs-module {
+
+    .fs-carousel-wrapper {
+      height: 500px;
+    }
+  }
+
+  .fs-editorial {
+
+    .fs-carousel-wrapper {
+      height: auto;
+
+      .fs-slide .iq-img {
+        height: 180px;
+      }
+    }
+  }
+}
+
+

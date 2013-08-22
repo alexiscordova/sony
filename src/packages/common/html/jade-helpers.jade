@@ -29,6 +29,9 @@ mixin includeJavascriptModule(moduleName)
 
 
 //- @param {array} classes an array of strings which will become classes on the main element
+//- Use this mixin at the start of all your modules as the first element.
+//- See editorial-slideshows-e4.jade for a good example of default usage
+//- or php-slideshow-d4.jade for an example of submodule usage
 mixin mainElement( classes )
   moduleId = data.id ? data.id : false
   isSubmodule = data.isSubmodule
@@ -58,6 +61,7 @@ mixin iQImage( img, extraClasses, itemprop, isBackgroundImage )
     classes = 'iq-img'
     extraClasses = extraClasses ? extraClasses : false
     itemprop = itemprop ? itemprop : false
+    noscriptsrc = img.noscriptsrc ? img.noscriptsrc : img.noscriptSrc ? img.noscriptSrc : img.srcDesktop
     if extraClasses
       - classes += ' ' + extraClasses
 
@@ -66,10 +70,10 @@ mixin iQImage( img, extraClasses, itemprop, isBackgroundImage )
     else
       img(class=classes, alt=img.alt, itemprop=itemprop, data-src-desktop=img.srcDesktop, data-src-tablet=img.srcTablet, data-src-phone=img.srcPhone, data-src-desktop-highres=img.srcDesktopHighRes, data-src-tablet-highres=img.srcTabletHighRes, data-src-phone-highres=img.srcPhoneHighRes)
       noscript
-        img(class=extraClasses, src=img.noscriptSrc, alt=img.alt, itemprop=itemprop)
+        img(class=extraClasses, src=noscriptsrc, alt=img.alt, itemprop=itemprop)
 
 
-//- Shortcut for background images
+//- Shortcut for background images using iQ
 mixin iQBackgroundImage( img, extraClasses )
   +iQImage( img, extraClasses, false, true )
 
@@ -102,8 +106,16 @@ mixin sonyVideo ( videoData, extraClasses )
         source(type='video/mp4',  src=videoData.mp4)
         source(type='video/flash',src=videoData.mp4)
 
+//- Mixin for SonyAudioPlayer Module
+mixin sonyAudioPlayer ( data )
+  +partial("sony-audio-player/html/sony-audio-player.jade", data)
 
 //- To be used with bootstrap's dropdown
+//- @param {Array} socialButtons an array of social button objects
+//-     each object has an `icon`, `title`, `id`, `text`, and optionally `target`
+//- @param {String} shortLink link to share
+//- @param {Boolean} addCloseButton if true, will add a close button for
+//-     when the share menu is used as a modal
 mixin shareMenu( socialButtons, shortLink, addCloseButton )
   //- Default to false
   addCloseButton = addCloseButton == true
@@ -159,12 +171,15 @@ mixin link( linkObj, classes, icon, iconBefore, noText )
 
 
 //- Link with a chevron
+//- @param {Object} link object
 mixin breadcrumbLink( obj )
   +link( obj, [ "l3", "breadcrumb-link" ], "fonticon-10-chevron-reverse", true )
 
 
 //- Creates an unordered list of links which are used for in page navigation (likely a sticky nav)
 //- Used in Single/Multi spec pages and the product summary
+//- @param {Array} links array of link objects
+//- @param {Boolean} [isInStickyNav] optional. Adds tabindex="-1" and an extra class
 mixin jumpLinks( links, isInStickyNav )
   ulClasses = [ "jump-links", "inline" ]
 
@@ -201,6 +216,7 @@ mixin scrollToTop()
         i.fonticon-10-back-to-top
 
 
+//- Used when generated docs
 mixin docsLinks( listName, suffix, exclude )
   //- Not sure why `locals` can only be used inside a mixin
   list = locals[ listName ]()

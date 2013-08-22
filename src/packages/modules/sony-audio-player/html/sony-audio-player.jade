@@ -1,0 +1,39 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('sony-audio-player')
++includeJavascriptModule('sony-audio-player')
+
+div.sony-audio-player
+
+  .sony-audio-loading
+    img.load-indicator.global-loader(src="img/loader.gif", alt="Loading...")
+
+  .sap-hit-area
+    .scrubber
+      span.handle(title="Alternate between images.")
+        span.inner
+          span.icons
+            i.fonticon-10-chevron-reverse
+            i.fonticon-10-chevron
+
+  .active-track
+
+  ul.tracks
+
+    each track in data.tracks
+      if track.sources && track.sources.default
+
+        li.track(data-active-art=track.albumActiveArt)
+          img(src=track.albumArt)
+          ul.id3
+            each item, label in track.id3
+              li(class=label)
+                | !{label + ": "}
+                span.value !{item}
+          ul.sources
+            each source, label in track.sources
+              li.source
+                a.sony-audio-src(href=source) !{label}
+
+  nav
+    a.play(href="#") Play
+    a.pause(href="#") Pause

@@ -1,5 +1,3 @@
-/*global jQuery, brightcove*/
-
 // Global tracking
 // ---------------------------------------------------------------
 //
@@ -61,7 +59,7 @@ define(function(require){
 
   };
 
-  jQuery.fn.globalTracking = function(options) {
+  $.fn.globalTracking = function(options) {
 
     var args = Array.prototype.slice.call( arguments, 1 );
 

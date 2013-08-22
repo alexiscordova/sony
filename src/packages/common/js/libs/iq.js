@@ -23,6 +23,7 @@ define(function(require) {
     window.iQ = {
       options: {
         speedTestExpireMinutes: 30,
+        minDevicePixelRatio: 1.3, // makes this consistent with the retina.scss stylesheet
         asyncDistance: 200, // needs to be at least 600 for the nav images to load, since they're off the top of the viewport when iQ loads.
         throttleSpeed: 300,
         updateOnResize: true,
@@ -233,10 +234,9 @@ define(function(require) {
             '-ms-filter': ''
           });
         }, 900);
-        $elm.data('hasLoaded', true);
-        $elm.trigger('imageLoaded');
       }
-      $elm.trigger('imageReLoaded');
+      $elm.data('hasLoaded', true);
+      $elm.trigger('imageLoaded');
     },
 
     loadImages = function(resizing, rotating, update) {
@@ -555,8 +555,29 @@ define(function(require) {
     getScreenWidth = function() {
       return win.outerWidth || win.screen.width;
     },
+
+    // Returns a viewport width that is normalized across browsers to match media breakpoints
+    // (the highest pixel value for which a min-width media query returns true).
+    //
+    // See:
+    //
+    // * [Response JS: Device and Viewport Size in JavaScript](http://responsejs.com/labs/dimensions/)
+    correctedViewportW = function () {
+
+      var matchMedia = window['matchMedia'] || window['msMatchMedia'],
+        client = docElm['clientWidth'],
+        inner = window['innerWidth'];
+
+      if( matchMedia && client < inner && true === matchMedia('(min-width:' + inner + 'px)')['matches'] ) {
+        return window['innerWidth'];
+      }
+      else {
+        return docElm['clientWidth'];
+      }
+    },
+
     getViewportWidthInCssPixels = function() {
-      var widths = [docElm.clientWidth, docElm.offsetWidth, doc.body.clientWidth],
+      var widths = [docElm.clientWidth, docElm.offsetWidth, doc.body.clientWidth, correctedViewportW() ],
         l = widths[LENGTH],
         i = 0,
         width;

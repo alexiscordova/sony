@@ -27,7 +27,7 @@ $transitionSpeed: 0.5s;
   border: 1px solid green;
 }
 
-
+.sony-sequence,
 .e360 {
   position: relative;
 
@@ -48,7 +48,7 @@ $transitionSpeed: 0.5s;
     div.image-module.visuallyhidden {
       position: absolute;
     }
-  }
+  }  
 
   .outer {
     position: relative;
@@ -58,8 +58,6 @@ $transitionSpeed: 0.5s;
   }
 
   .controls {
-    cursor: move;
-    cursor: url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move;
     position: absolute;
     top: 0;
     left: 0;
@@ -97,13 +95,69 @@ $transitionSpeed: 0.5s;
       -ms-user-select: none;
       user-select: none;
     }
+  }
 
-    &.is-dragging {
-      cursor: move;
-      cursor: grabbing;
-      cursor: -webkit-grabbing;
-      cursor: -moz-grabbing;
-      cursor: url(https://mail.google.com/mail/images/2/closedhand.cur) 8 8, move;
+  .slider {
+    margin: 0 auto;
+    width: 50%;
+
+    .slider-label {
+      display: block;
+      position: absolute;
+      width: 150px;
+      top: -10px;
+
+      &.label-left {
+        text-align: right;
+        left: -170px;
+      }
+
+      &.label-right {
+        right: 0;
+      }
+    }
+  }
+
+  .range-control {
+    height: 6px;
+
+    .handle {
+      top: 50%;
+      left: -30px;
+      margin-top:-31px;
+      background:transparent url('../../img/editorial-dual-viewer-e9/gray30.png');
+      width: 56px;
+      height: 56px;
+      @include box-shadow(none);
+
+      .inner {
+        color: #fff;
+        position:absolute;
+        width:41px;
+        height:41px;
+        line-height:36px;
+        background: $buttonOrange;
+        display:block;
+        text-align:center;
+        font-size:0.9em;
+        top:50%;
+        left:50%;
+        margin:-21px 0 0 -21px;
+        @include border-radius(50%);
+      }
+
+      &.hover,
+      &:hover {
+        @include transform( scale(1) translateZ(0) );
+        @include box-shadow(none);
+
+        .inner {
+          background: $buttonOrangeHover;
+          @include transform( scale(1.07) translateZ(0) );
+          @include transition(.1s ease-out);
+        }
+
+      }
     }
   }
 

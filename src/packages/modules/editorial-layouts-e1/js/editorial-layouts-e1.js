@@ -24,8 +24,6 @@ define(function(require) {
         Modals = require('secondary/index').sonyModal,
         jquerySimpleScroll = require('secondary/index').jquerySimpleScroll;
 
-    Settings.editorialModuleInitialzied = $.Deferred();
-
     var module = {
       init: function() {
         if ( $('.editorial').length ) {
@@ -141,9 +139,9 @@ define(function(require) {
           Environment.on('global:resizeDebounced', $.proxy(self.fixMediaHeights, self));
         }
 
-        log('SONY : Editorial - E : Initialized');
 
-        Settings.editorialModuleInitialzied.resolve();
+
+        log('SONY : Editorial - E : Initialized');
       },
 
       setupSubmodules : function() {
@@ -295,14 +293,16 @@ define(function(require) {
             minh,
             isSmallerThanTablet = Modernizr.mq('(max-width: 47.9375em)'),
             gridMinHeight,
-            mediaElementFirstHeight;
+            mediaElementFirstHeight,
+            copyHeight;
 
         if ( isSmallerThanTablet ) {
           minh = 'auto';
         } else {
           gridMinHeight = parseInt( self.$el.find('.grid').css('minHeight'), 10 );
+          copyHeight = self.$el.find('.box').outerHeight();
           mediaElementFirstHeight = self.$el.find('.media-element .table-center').children().first().height();
-          minh = Math.max( gridMinHeight, mediaElementFirstHeight );
+          minh = Math.max( gridMinHeight, copyHeight, mediaElementFirstHeight );
           minh += 'px';
         }
 
@@ -315,7 +315,11 @@ define(function(require) {
         // Fixes horizontal 2 up layout wraping
         var tc = $('.editorial.tout .m2up .horizontal .table-center-wrap').parent();
         if (tc.length) {
-          tc.css('width', tc.parent().width() - tc.prev().width() -2);
+          var width = tc.parent().width() - tc.prev().width() -2;
+          tc.css({
+            'width': width,
+            'maxWidth' : width
+          });
         }
 
         // Fixes heights of tout copy across 2up 3up
@@ -368,11 +372,15 @@ define(function(require) {
 
           // Save current class name to re apply it when this breakpoint no longer matches
           $p.data( 'className', p.className );
-          $link.data( 'className', link.className );
+
+          // we don't want to assume links are present so check if they exist
+          if ($link.length) {
+            $link.data( 'className', link.className );
+            link.className = 'lt4';
+          }
 
           // Switch class to `.p4`
           p.className = 'p4';
-          link.className = 'lt4';
         });
       },
 
@@ -388,7 +396,10 @@ define(function(require) {
 
           // Revert class name back to what it was before
           p.className = pClassName;
-          link.className = linkClassName;
+
+          if ($link.length) {
+            link.className = linkClassName;
+          }
         });
       },
 

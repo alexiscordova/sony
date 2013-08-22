@@ -15,8 +15,9 @@
 // The carousel slides need to fit within the carousel slide container floated left
 // so that when the editorial.js file measures its height, they're not stacked
 .media-element .editorial-slideshow-container .editorial-carousel-wrapper {
-  height: auto;
+  
   max-height: 620px;
+  height: 100%;
 }
 
 .editorial-slideshow-container {
@@ -44,6 +45,8 @@
     -webkit-backface-visibility: hidden;
     position: relative;
     width: 9000px; // overridden by javascript
+    height: 100%;
+    float:left;
     opacity: 0;
     filter: alpha(opacity=0);
   }
@@ -52,12 +55,20 @@
     -webkit-backface-visibility: hidden;
     position: relative;
     width: 600px; // overriden by javascript (to something like 20%)
+    height: auto;
     height: 100%;
     float: left;
     display: block;
 
     img {
       width: 100%;
+    }
+
+    .hero {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      height: 100%;
     }
   }
 

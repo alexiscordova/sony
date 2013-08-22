@@ -32,52 +32,52 @@ define(function(require){
   };
 
   var SenConvergence = function( $element ) {
-    var self = this;
-
+    var self                    = this;
+    
     // Set base element
-    self.$el = $element;
-
+    self.$el                    = $element;
+    
     // Basic selectors
     self.$doc                   = Settings.$document;
     self.$window                = Settings.$window;
-
+    
     // Cache some jQuery objects we'll reference later
-    self.$slides              = self.$el.find('.sen-carousel-slide');
-    self.$slideWrapper        = self.$el.find('.sen-carousel-wrapper');
-    self.$slideContainer      = self.$el.find('.sen-carousel');
-    self.$thumbNav            = self.$el.find('.thumb-nav');
-    self.$slider              = self.$el.find('.slider');
-    self.$leftShade           = self.$el.find('.left-shade');
-    self.$rightShade          = self.$el.find('.right-shade');
-    self.$thumbItems          = self.$thumbNav.find('li');
-    self.$thumbLabels         = self.$thumbNav.find('span');
-
-    self.hasThumbs            = self.$thumbNav.length > 0;
-    self.numSlides            = self.$slides.length;
-    self.moduleId             = self.$el.attr('id');
-    self.currentId            = 0;
-
+    self.$slides                = self.$el.find('.sen-carousel-slide');
+    self.$slideWrapper          = self.$el.find('.sen-carousel-wrapper');
+    self.$slideContainer        = self.$el.find('.sen-carousel');
+    self.$thumbNav              = self.$el.find('.thumb-nav');
+    self.$slider                = self.$el.find('.slider');
+    self.$leftShade             = self.$el.find('.left-shade');
+    self.$rightShade            = self.$el.find('.right-shade');
+    self.$thumbItems            = self.$thumbNav.find('li');
+    self.$thumbLabels           = self.$thumbNav.find('span');
+    
+    self.hasThumbs              = self.$thumbNav.length > 0;
+    self.numSlides              = self.$slides.length;
+    self.moduleId               = self.$el.attr('id');
+    self.currentId              = 0;
+    
     // touch defaults
     self.startInteractionPointX = null;
-    self.lastTouch            = null;
-    self.handleStartPosition  = null;
-
-    self.hasTouch             = Settings.hasTouchEvents;
-    self.useIScroll           = self.hasTouch;
-
+    self.lastTouch              = null;
+    self.handleStartPosition    = null;
+    
+    self.hasTouch               = Settings.hasTouchEvents;
+    self.useIScroll             = self.hasTouch;
+    
     // deep linking vars
-    self.location             = window.location;
-    self.initFromhash         = false;
-
-    self.isDesktop = false;
-    self.isMobile = false;
+    self.location               = window.location;
+    self.initFromhash           = false;
+    
+    self.isDesktop              = false;
+    self.isMobile               = false;
 
     // Inits the module
     self.init();
 
     log('SONY : SenConvergence : Initialized');
 
-    self.internalSlideStart();
+    
   };
 
   SenConvergence.prototype = {
@@ -94,7 +94,7 @@ define(function(require){
       self.setupCarousel();
 
       if(self.hasThumbs){
-          self.createThumbNav();
+        self.createThumbNav();
       }
 
       self.$slideContainer.fadeTo(0,1);
@@ -117,7 +117,13 @@ define(function(require){
      // initialize the router for deep linking
       Router.on('chapter-'+self.moduleId+'(/:a)', $.proxy(self.directFromHash, self));
 
-      self.$thumbNav.on(self.downEvent, function(e) { self.dragStart(e); });
+      self.$thumbNav.on(self.downEvent, function(e) { 
+        self.dragStart(e); 
+      });
+
+      //make a call to start internal timer for slides
+      self.internalSlideStart();
+
 
     },
 
@@ -151,9 +157,12 @@ define(function(require){
         self.clickEvent = 'click.pdpss';
       }
 
-      self.tapOrClick = function(){
-        return self.hasTouch ? self.upEvent : self.clickEvent;
-      };
+
+    },
+
+    tapOrClick: function(){
+      var self = this;
+      return self.hasTouch ? self.upEvent : self.clickEvent;
     },
 
     setupMobilePlus: function() {
@@ -304,6 +313,17 @@ define(function(require){
       iQ.update();
     },
 
+    // Listens for slide changes and updates the correct thumbnail
+    onSlideUpdate: function(e , currIndx){
+      var self = this;
+
+      self.currentId = currIndx;
+      self.setCurrentActiveThumb();
+
+      iQ.update();
+      
+    },
+
     getSliderWidth: function() {
       var self = this,
           $currTabs,
@@ -337,15 +357,6 @@ define(function(require){
       $.evenHeights(groups);
     },
 
-    // Listens for slide changes and updates the correct thumbnail
-    onSlideUpdate: function(e , currIndx){
-      var self = this;
-
-      self.currentId = currIndx;
-      self.setCurrentActiveThumb();
-
-      iQ.update();
-    },
 
     // Bind events to the thumbnail navigation
     createThumbNav: function(){
@@ -370,6 +381,9 @@ define(function(require){
       animDirection = '';
 
       self.currentId = selectedIndex;
+
+      //make sure slides are stopped.
+      self.internalSlideStop();
 
       // need to set a tmeout of 100ms so we can
       // fix a flicker bug on mobile devices
@@ -440,12 +454,17 @@ define(function(require){
       $currTab.addClass('active');
 
       $chapterTabs.removeClass('active');
-        self.internalSlideStart();
+      
+      self.internalSlideStart();
 
       // update the hash after we got the correct slide transition
-      self.updateHash(self.location, self.currentId);
+      self.updateHash( self.location, self.currentId );
     },
 
+    /**
+    * Internal slide start
+    *
+    */
     internalSlideStart: function() {
       var self = this;
 
@@ -456,11 +475,11 @@ define(function(require){
       self.$currentSlide = self.$internalSlides.first();
       self.$currentSlide.show();
 
-      self.interval = setInterval($.proxy(self.showNextSlide, self), 3500);
+      self.interval = setInterval( $.proxy( self.showNextSlide, self ), 3500 );
     },
 
     internalSlideStop: function() {
-      var self = this;
+      var self = this;  
       clearInterval(self.interval);
     },
 
@@ -470,8 +489,12 @@ define(function(require){
           nextSlideIndex = (currentSlideIndex + 1) % self.$internalSlides.length,
           $nextSlide = $(self.$internalSlides[nextSlideIndex]);
 
-      $nextSlide.fadeIn(750, function(){
-          self.$currentSlide.fadeOut(750);
+
+      iQ.update();
+
+      $nextSlide.stop(true,true).fadeIn(750, function(){
+          iQ.update();
+          self.$currentSlide.stop(true,true).fadeOut(750);
           self.$currentSlide = $nextSlide;
       });
 
