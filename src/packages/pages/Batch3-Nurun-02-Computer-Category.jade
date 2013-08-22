@@ -1,0 +1,57 @@
+include ../common/html/jade-helpers.jade
+doctype 5
+include ../common/html/ieconditionals.html
+
+head
+  title Computer Category
+  include ../common/html/head.jade
+
+body
+  #page-wrap-outer.page-wrap-outer
+    #page-wrap-inner.page-wrap-inner
+      e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-header.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json'), "sample_search_results":data('packages/pages/data/global-header-footer/sample_search_results.json')}
+      !{partial('packages/modules/global-header-footer/html/global-header.jade', e)}
+      #main(role='main')
+
+        // N4. Subnav
+        +partial('subnavigation-n4/html/subnavigation-n4.jade', 'packages/pages/data/subnavigation-n4/computers.json')
+
+        // D7.A1
+        +partial('primary-tout-p1-d7/html/primary-tout-p1-d7.jade', 'packages/pages/data/Batch3-Nurun-02-Computer-Category/D7_1.json')
+
+        // CUSTOM - Product Grid + Modal Details
+        //- Using a placeholder headline and image until the module is built
+        section.editorial.full
+          .container
+            .grid
+              .span12
+                h2
+                  center Lorem ipsum consectetur
+                center
+                  +partial('image/html/image.jade', 'packages/pages/data/Batch3-Nurun-02-Computer-Category/Placeholder-image.json')
+
+        // E1.B2 with E5.F2 submodule
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/Batch3-Nurun-02-Computer-Category/E1_1.json')
+        
+        // E1.A1 with E5.G1 submodule
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/Batch3-Nurun-02-Computer-Category/E1_2.json')
+
+        // S3.B1
+        +partial('secondary-touts-s1-s4/html/secondary-tout-s3.jade', 'packages/pages/data/Batch3-Nurun-02-Computer-Category/S3_1.json')
+
+        // E1.D2
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/Batch3-Nurun-02-Computer-Category/E1_3.json')
+
+        // E1.O1
+        +partial('editorial-layouts-e1/html/editorial-layouts-e1.jade', 'packages/pages/data/Batch3-Nurun-02-Computer-Category/E1_4.json')
+
+        // S2 Carousel
+        +partial('one-sony-tout-carousel-s2/html/one-sony-tout-carousel-s2.jade', 'packages/pages/data/Batch3-Nurun-02-Computer-Category/S2_1.json')
+
+      +scrollToTop
+
+      e = {"locals":locals, "data":data('packages/pages/data/global-header-footer/default-footer.json'), "sample_session_data":data('packages/pages/data/global-header-footer/sample_session_data.json')}
+      !{partial('packages/modules/global-header-footer/html/global-footer.jade', e)}
+
+  include ../common/html/foot.jade
+</html>
