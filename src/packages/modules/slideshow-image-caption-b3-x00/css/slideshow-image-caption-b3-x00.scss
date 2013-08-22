@@ -1,6 +1,9 @@
 @import "../../../common/css/_base/variables";
 @import "../../../common/css/_base/mixins";
 
+
+$textPadding: 20px;
+
 .slideshow-image-caption {
 	.sic-carousel-slide {
     	-webkit-backface-visibility: hidden;
@@ -9,15 +12,11 @@
 	    height: 100%;
 	    float: left;
 	    display: block;
-
-	    // img {
-	    // 	width: 100%;
-	    // }
 	}
 
 	.sic-carousel-wrapper {
 		position: relative;
-	    height: 540px; // Same as E1 full
+	    height: 540px; 
 	    overflow: hidden;
 	}
 	.sony-carousel {
@@ -34,28 +33,27 @@
 
 	.band {
 		width: 100%;
-		background-color: $titleBlack;
 		position: absolute;
 		bottom: 0px;
-		//display: table;
 
 		.thumb-holder {
 			position: absolute;
-			height: 100%;
-			padding: 20px 0px 20px 40px;
+			top: $textPadding;
+			padding-left: 40px;
 		}
 
 		.title {
-			color: $white;
-			margin-bottom: 4px;
+			margin-bottom: 8px;
+			line-height: 1;
 		}
 
 		.description {
+			margin-bottom: 0px;
 		}
 
 		.text-container {
 			width: 75%;
-			padding: 20px;
+			padding: $textPadding;
 			vertical-align: top;
 		}
 	}

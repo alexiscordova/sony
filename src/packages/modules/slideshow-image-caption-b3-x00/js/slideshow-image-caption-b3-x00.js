@@ -33,7 +33,7 @@ define(function(require) {
 
   var module = {
     init: function() {
-      var $module = $('.slideshow-image-caption');
+      var $module = $( '.slideshow-image-caption' );
 
       if ( $module.length ) {
         new SlideshowImageCaption( $module[0] );
@@ -67,12 +67,12 @@ define(function(require) {
       self.$carousel = self.$el.find( '.sony-carousel' );
       self
         .setupSlides()
+        .setupCarousel()
         .onResize();
+      iQ.update();
 
 
-      self.setupCarousel();
       if ( Modernizr.mediaqueries ) {
-        // These can be chained, like below
         // Use `em`s for your breakpoints ( px value / 16 )
         enquire
           .register('(min-width: 48em)', {
@@ -136,10 +136,16 @@ define(function(require) {
 
     updateSlideBand: function (index) {
       var self = this,
+          textPadding = 20,
           $band = self.$el.find( '.band' ).has( '.thumb-holder' ).eq( index ),
           $thumb = $band.find( '.thumb-holder' ),
-          thumbWidth = self.isMobile || $thumb.length === 0 ? 0 : $thumb.outerWidth();
-      $band.find( '.text-container' ).css( 'margin-left', thumbWidth + 'px' );
+          $textContainer = $band.find( '.text-container' ),
+          thumbWidth;          
+      $thumb.css( 'height', $textContainer.outerHeight() - textPadding * 2 + 'px' );
+     
+      thumbWidth = self.isMobile || $thumb.length === 0 ? 0 : $thumb.outerWidth();
+      $textContainer.css( 'margin-left', thumbWidth + 'px' );
+
     },
 
     onResize : function() {
