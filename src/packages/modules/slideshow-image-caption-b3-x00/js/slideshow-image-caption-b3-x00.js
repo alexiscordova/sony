@@ -68,6 +68,7 @@ define(function(require) {
       self
         .setupSlides()
         .setupCarousel()
+        .setupSlideBands()
         .onResize();
       iQ.update();
 
@@ -134,6 +135,12 @@ define(function(require) {
       return self;
     },
 
+    setupSlideBands: function() {
+      var self = this;      
+      self.$el.find( '.band' ).has( '.thumb-holder' ).addClass( 'with-thumb') ;
+      return self;
+    },
+
     updateSlideBand: function (index) {
       var self = this,
           textPadding = 20,
@@ -141,7 +148,7 @@ define(function(require) {
           $thumb = $band.find( '.thumb-holder' ),
           $textContainer = $band.find( '.text-container' ),
           thumbWidth;          
-      $thumb.css( 'height', $textContainer.outerHeight() - textPadding * 2 + 'px' );
+      $thumb.css( 'height', $band.outerHeight() - textPadding * 2 + 'px' );
      
       thumbWidth = self.isMobile || $thumb.length === 0 ? 0 : $thumb.outerWidth();
       $textContainer.css( 'margin-left', thumbWidth + 'px' );
