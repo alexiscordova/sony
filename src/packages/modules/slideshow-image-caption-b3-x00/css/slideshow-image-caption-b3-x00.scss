@@ -12,6 +12,13 @@ $textPadding: 20px;
 	    height: 100%;
 	    float: left;
 	    display: block;
+
+
+	    @include transition(opacity $transitionFast ease-in);
+	    opacity: 0;
+		&.on {
+	      opacity: 1;
+	    }
 	}
 
 	.sic-carousel-wrapper {
@@ -43,6 +50,7 @@ $textPadding: 20px;
 		.thumb-holder {
 			position: absolute;
 			top: $textPadding;
+			left: 0px;
 			padding-left: 40px;
 		}
 
