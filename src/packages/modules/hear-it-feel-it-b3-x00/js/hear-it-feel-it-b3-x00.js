@@ -22,7 +22,8 @@ define(function(require) {
   var $ = require('jquery'),
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
-      Environment = require('require/sony-global-environment');
+      Environment = require('require/sony-global-environment'),
+      sonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
     init: function() {
@@ -54,7 +55,8 @@ define(function(require) {
     init: function() {
       var self = this;
 
-      setVars();
+      self.setVars(); 
+      self.setupCarousel();
 
       if ( Modernizr.mediaqueries ) {
         // These can be chained, like below
@@ -89,7 +91,7 @@ define(function(require) {
           wasMobile = self.isMobile;
 
       if ( wasMobile ) {
-
+        //self.$el.find( '.hear-it-carousel' ).sonyCarousel('destroy');
       }
 
       self.isDesktop = true;
@@ -101,7 +103,7 @@ define(function(require) {
           wasDesktop = self.isDesktop;
 
       if ( wasDesktop ) {
-
+        //self.setupCarousel();
       }
 
       self.isDesktop = false;
@@ -110,7 +112,28 @@ define(function(require) {
 
     onResize : function() {
       var self = this;
-    }
+    },
+
+
+    // Main setup method for the carousel
+    setupCarousel: function() {
+      var self = this;
+
+      log('SONY : HearItFeelIt : setupCarousel');
+      // Using Sony Carousel for this module
+      self.$el.find( '.hear-it-carousel' ).sonyCarousel({
+        wrapper: '.hear-it-carousel-wrapper',
+        slides: '.hear-it-carousel-slide',
+        looped: true,
+        jumping: true,
+        axis: 'x',
+        dragThreshold: 2,
+        paddles: false,
+        pagination: true
+      });
+
+      return self;
+    },
   };
 
   // Options that could be customized per module instance

@@ -39,6 +39,11 @@ mixin callout( info, leftQuadrant )
           .callout.center-vertical( style='margin-left: #{info.offset_horizontal};' )
             +calloutInner( info, leftQuadrant )
 
+mixin slide (info)
+  .hear-it-carousel-slide.box
+    h3= info.title
+    p.p3= info.description
+
 +mainElement( ['hear-it-feel-it'] )
 
   .container
@@ -53,3 +58,8 @@ mixin callout( info, leftQuadrant )
 
       .quadrant.quadrant-right
         +callout( data.callout_right, false )
+
+    .hear-it-carousel-wrapper
+      .hear-it-carousel.light-text-dark-box
+        +slide(data.callout_left)
+        +slide(data.callout_right)
