@@ -91,7 +91,7 @@ define(function(require) {
           wasMobile = self.isMobile;
 
       if ( wasMobile ) {
-        //self.$el.find( '.hear-it-carousel' ).sonyCarousel('destroy');
+        self.disposeCarousel();
       }
 
       self.isDesktop = true;
@@ -103,7 +103,7 @@ define(function(require) {
           wasDesktop = self.isDesktop;
 
       if ( wasDesktop ) {
-        //self.setupCarousel();
+        self.setupCarousel();
       }
 
       self.isDesktop = false;
@@ -134,6 +134,13 @@ define(function(require) {
 
       return self;
     },
+
+    disposeCarousel: function() {
+      var self = this;
+      self.$el.find('.sony-carousel-edge-clone').remove();
+      self.$el.find( '.hear-it-carousel' ).sonyCarousel('destroy');
+      return self;
+    }
   };
 
   // Options that could be customized per module instance
