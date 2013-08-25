@@ -94,12 +94,14 @@ mixin legal(_data)
     .container(class = style)
       .grid
         .span-12.pull-right
+          +iQImage( d.legal.icon , "legal-icon" )
           p.legal.p5
             span!{d.legal.copy}
             if d.legal.href
             span
               &nbsp;
               a(href = d.legal.href) !{d.legal.linktext ? d.legal.linktext : d.legal.href}
+
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
