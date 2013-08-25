@@ -1,0 +1,19 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('slideshow-image-caption-b3-x00')
++includeJavascriptModule('slideshow-image-caption-b3-x00')
+
++mainElement( ['slideshow-image-caption'] )
+
+  .container
+      .sic-carousel-wrapper
+          .sony-carousel
+              for slide in data.slides
+                .sic-carousel-slide.light-text-dark-box
+                    +iQBackgroundImage( slide.img, 'slide-background')
+                    .band.box
+                        if (slide.band.img) 
+                            +iQImage(slide.band.img, 'thumb-holder')
+                        .text-container
+                            h3.t7.title !{slide.band.title}
+                            p.p3.description !{slide.band.description}
+
