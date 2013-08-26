@@ -281,7 +281,7 @@ define(function(require) {
       return elementBottom > viewportTop && elementBottom <= viewportBottom;
     },
 
-    triggerEnter : function( index, viewportItem ) {
+    triggerEnter : function( viewportItem ) {
       var self = this;
 
       // Queue up the callback with the delay. Default is 0
@@ -296,14 +296,14 @@ define(function(require) {
       // If the leave property is not a function,
       // The module no longer needs to watch it, so remove from list
       } else {
-        self.list.splice( index, 1 );
+        self.list.splice( $.inArray( viewportItem, self.list ), 1 );
       }
 
       // If there are no more, unbind from scroll and resize events
       self.maybeUnbindEvents();
     },
 
-    triggerLeave : function( index, viewportItem ) {
+    triggerLeave : function( viewportItem ) {
       // var self = this;
 
       // Queue up the callback with the delay. Default is 0
@@ -333,13 +333,13 @@ define(function(require) {
         // If the enter callback hasn't been triggerd and it's in the viewport,
         // trigger the enter callback
         if ( !viewportItem.triggered && isInViewport ) {
-          return self.triggerEnter( i, viewportItem );
+          return self.triggerEnter( viewportItem );
         }
 
         // This viewport has already come into view once and now it is out of view
         // It's not in view, the bottom is out of view, the list item's enter has been triggered
         if ( !isInViewport && isBottomOutOfView && viewportItem.triggered ) {
-          return self.triggerLeave( i, viewportItem );
+          return self.triggerLeave( viewportItem );
         }
       });
     }
