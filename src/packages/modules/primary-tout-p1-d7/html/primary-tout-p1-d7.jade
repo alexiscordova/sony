@@ -91,16 +91,21 @@ mixin legal(_data)
   d = _data ? _data : data
   style = data.style ? data.style : false
   if d.legal
+    p.legal.p5
+      span!{d.legal.copy}
+      if d.legal.href
+      span
+        &nbsp;
+        a(href = d.legal.href) !{d.legal.linktext ? d.legal.linktext : d.legal.href}
+
+mixin legalLogo(_data)
+  d = _data ? _data : data
+  style = data.style ? data.style : false
+  if d.legal
     .container(class = style)
-      .grid
+      .grid(class="legal-icon-grid no-grid-at-767")
         .span-12.pull-right
           +iQImage( d.legal.icon , "legal-icon" )
-          p.legal.p5
-            span!{d.legal.copy}
-            if d.legal.href
-            span
-              &nbsp;
-              a(href = d.legal.href) !{d.legal.linktext ? d.legal.linktext : d.legal.href}
 
 
 mixin boxclass(_layout)
@@ -142,6 +147,9 @@ mixin boxlayout(_layout, _style)
           +vbox
             +boxclass
               block
+            if data.legal
+              .div(class="legal-div")
+                +legal
   else if layout.text == "right" || layout.text == "center"
     .container.inner(class= classes)
       .grid.no-grid-at-767
@@ -204,7 +212,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       +links
     +addon
   else if data.mode == "product-intro-plate"
-    +legal
+    +legalLogo
     +boxlayout
       +eyebrow
       h1.t2 !{data.headline}
