@@ -43,6 +43,7 @@ define(function(require) {
     $.extend( self, HearItFeelIt.options, options, HearItFeelIt.settings );
 
     self.$el = $( element );
+    self.$carousel = null;
     self.init();
 
     log('SONY : HearItFeelIt : Initialized');
@@ -56,7 +57,6 @@ define(function(require) {
       var self = this;
 
       self.setVars(); 
-      self.setupCarousel();
 
       if ( Modernizr.mediaqueries ) {
         // These can be chained, like below
@@ -90,7 +90,7 @@ define(function(require) {
       var self = this,
           wasMobile = self.isMobile;
 
-      if ( wasMobile ) {
+      if ( self.$carousel !== null ) {
         self.disposeCarousel();
       }
 
@@ -102,7 +102,7 @@ define(function(require) {
       var self = this,
           wasDesktop = self.isDesktop;
 
-      if ( wasDesktop ) {
+      if ( self.$carousel === null ) {
         self.setupCarousel();
       }
 
@@ -121,7 +121,7 @@ define(function(require) {
 
       log('SONY : HearItFeelIt : setupCarousel');
       // Using Sony Carousel for this module
-      self.$el.find( '.hear-it-carousel' ).sonyCarousel({
+      self.$carousel = self.$el.find( '.hear-it-carousel' ).sonyCarousel({
         wrapper: '.hear-it-carousel-wrapper',
         slides: '.hear-it-carousel-slide',
         looped: true,
@@ -129,7 +129,8 @@ define(function(require) {
         axis: 'x',
         dragThreshold: 2,
         paddles: false,
-        pagination: true
+        pagination: true,
+        paginationTheme: 'light'
       });
 
       return self;
@@ -138,7 +139,8 @@ define(function(require) {
     disposeCarousel: function() {
       var self = this;
       self.$el.find('.sony-carousel-edge-clone').remove();
-      self.$el.find( '.hear-it-carousel' ).sonyCarousel('destroy');
+      self.$carousel.sonyCarousel('destroy');
+      self.$carousel = null;
       return self;
     }
   };

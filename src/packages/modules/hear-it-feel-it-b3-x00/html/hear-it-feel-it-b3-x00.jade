@@ -40,9 +40,11 @@ mixin callout( info, leftQuadrant )
             +calloutInner( info, leftQuadrant )
 
 mixin slide (info)
-  .hear-it-carousel-slide.box
+  .hear-it-carousel-slide
     h3= info.title
     p.p3= info.description
+    h5.range= info.range
+    span.p3= info.unit
 
 +mainElement( ['hear-it-feel-it'] )
 

@@ -1,17 +1,27 @@
+$subPhoneMax: px-em(479);
+$phoneMax: px-em(767);
 
-@media (max-width: px-em( 767 ) ) {
+@media (max-width: $phoneMax ) {
   .hear-it-feel-it {
 	  .quadrant {
 	  	display:none;
 	  }
+	  .hear-it-carousel-wrapper, .sony-dot-nav {
+	  	display:block;
+	  }
   }
 }
 
-@media (min-width: px-em( 768 ) ) {
-  .hear-it-feel-it {
-	  .sony-dot-nav, .hear-it-carousel-wrapper {
-	  	display:none;
-	  }
-	}
+
+
+.hear-it-feel-it .background .image-module {
+
+  @media (max-width: $phoneMax) {
+    height: 320px;
+  }
+
+  @media (max-width: $subPhoneMax){
+    height: 440px;
+  }
 }
 

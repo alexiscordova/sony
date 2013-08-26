@@ -14,6 +14,7 @@
   .background {
     .image-module {
       height: 540px;
+      background-size: auto 100%;
       background-position: center bottom;
       background-repeat: no-repeat;
     }
@@ -35,7 +36,6 @@
   .callout {
     width: 40%;
     max-width: 280px;
-    background: rgba(255,0,0,0.1);
 
     &.offset {
       position: absolute;
@@ -44,14 +44,14 @@
     &.center-vertical {
       position: relative;
     }
+    
+  }
 
-    .range {
+  .range {
       display: inline;
       color: $themeOrange;
       margin-right: 10px;
     }
-    
-  }
 
   .callout-indicator {
     position: absolute;
@@ -77,7 +77,6 @@
     &.quadrant-left {
       left: 0;
       top: 0;
-      background: rgba(0,0,255,0.1);
 
       .callout {
         text-align: right;
@@ -96,7 +95,6 @@
     &.quadrant-right {
       right: 0;
       top: 0;
-      background: rgba(0,255,0,0.1);
 
       .callout {
         text-align: left;
@@ -115,6 +113,8 @@
     bottom: 0px;
     width: 100%;
     overflow:hidden;
+    background-color:   $titleBlack;
+    display:none;
 
     .hear-it-carousel {
       width: 400%;
@@ -126,12 +126,14 @@
       float: left;
       width: 25%;
       padding: 20px;
+      -webkit-font-smoothing: antialiased;
     }
   }
 
   .sony-dot-nav {
     margin-top: 0px;
     bottom: 10px;
+    display: none;
   }
 
 }
