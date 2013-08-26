@@ -52,6 +52,17 @@ define(function(require) {
     self.numSlides = self.$slides.length;
     self.init();
 
+    self.$el.find( '.slide-background' ).each( function( index, element ) {
+          var $image = $( this );
+          if ( $image.data( 'hasLoaded' ) ) {
+            $image.closest( '.sic-carousel-slide' ).addClass('on');
+          } else {
+            $image.on( 'iQ:imageLoaded', function() {
+              $image.closest( '.sic-carousel-slide' ).addClass('on');
+            });
+          }
+      });
+
     log('SONY : SlideshowImageCaption : Initialized');
   };
 
