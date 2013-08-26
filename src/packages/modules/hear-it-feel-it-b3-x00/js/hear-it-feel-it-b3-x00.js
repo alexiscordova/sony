@@ -77,9 +77,19 @@ define(function(require) {
         self.setupDesktop();
       }
 
+      self.fadeIn();
+
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
 
+    },
+
+    fadeIn : function() {
+      var self = this;
+
+      setTimeout( function() {
+        self.$el.find( '.container' ).addClass( 'in' );
+      }, 0);
     },
 
     setVars : function() {

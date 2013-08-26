@@ -11,6 +11,15 @@
     position: relative;
   }
 
+  .csstransitions & .container {
+    opacity: 0;
+    @include transition( opacity $transitionNormal $easeNormal );
+
+    &.in {
+      opacity: 1;
+    }
+  }
+
   .background {
     .image-module {
       height: 540px;
