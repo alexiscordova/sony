@@ -61,7 +61,8 @@ mixin slide (info)
       .quadrant.quadrant-right
         +callout( data.callout_right, false )
 
-    .hear-it-carousel-wrapper
-      .hear-it-carousel.light-text-dark-box
-        +slide(data.callout_left)
-        +slide(data.callout_right)
+    div(class=data.style)
+      .hear-it-carousel-wrapper.box
+        .hear-it-carousel
+          +slide(data.callout_left)
+          +slide(data.callout_right)

@@ -4,7 +4,7 @@
 // * **Class:** HearItFeelIt
 // * **Version:** 1.0
 // * **Modified:** 08/19/2013
-// * **Author:** Ryan Mauer
+// * **Author:** Ryan Mauer, Travis Nelson
 // * **Dependencies:** jQuery 1.7+ , Modernizr
 //
 // *Notes:*
@@ -77,7 +77,13 @@ define(function(require) {
         self.setupDesktop();
       }
 
-      self.fadeIn();
+      var $backgroundImage = self.$el.find('.background .iq-img');
+      if ( $backgroundImage.data('hasLoaded') ) {
+        self.fadeIn();
+      }
+      else {
+        $backgroundImage.on( 'iQ:imageLoaded', $.proxy( self.fadeIn, self ) );
+      }
 
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
@@ -122,6 +128,7 @@ define(function(require) {
 
     onResize : function() {
       var self = this;
+      return self;
     },
 
 
@@ -139,10 +146,11 @@ define(function(require) {
         axis: 'x',
         dragThreshold: 2,
         paddles: false,
-        pagination: true,
-        paginationTheme: 'light'
-      });
-
+        pagination: true
+      }); 
+      if ( self.$el.find( '.hear-it-carousel-wrapper' ).parent().hasClass ( 'light-text-dark-box' ) ) {
+        self.$el.find( '.sony-dot-nav' ).addClass( 'pagination-light' );
+      }
       return self;
     },
 
