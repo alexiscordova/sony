@@ -1,0 +1,37 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+$subPhoneMax: px-em(479);
+$phoneMin: px-em(480);
+$phoneMax: px-em(767);
+$tabletMin: px-em(768);
+$tabletMax: px-em(979);
+$superDesktop: px-em(1200);
+
+.slideshow-image-caption .sic-carousel-wrapper{
+
+  @media (min-width: $superDesktop) {
+    height: 620px;
+  }
+
+  @media (min-width: $tabletMin) and (max-width: $tabletMax) {
+    height: 440px;
+  }
+
+  @media (max-width: $phoneMax) {
+    height: 320px;
+    .band.with-thumb {      
+      min-height: 0px;
+    }
+    .thumb-holder {
+      display: none;
+    }
+    .text-container {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: $subPhoneMax){
+    height: 250px;
+  }
+}

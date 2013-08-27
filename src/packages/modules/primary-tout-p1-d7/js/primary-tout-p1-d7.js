@@ -13,7 +13,7 @@ define(function(require){
   'use strict';
 
   var $ = require('jquery'),
-      // enquire = require('enquire'),
+      enquire = require('enquire'),
       iQ = require('iQ'),
       Settings = require('require/sony-global-settings'),
       Environment = require('require/sony-global-environment');
@@ -63,6 +63,19 @@ define(function(require){
       // This removes the dynamic css so it will reset back to responsive styles
       } else {
         self.$imageModule.css('height', '');
+      }
+
+      //make sure legal div is either on top or bottom of the panel
+      if(w > 767){
+        self.$el.find('.legal-div').closest('.table-center').find('.box').css('margin-top' , '');
+        $('.legal-div').appendTo(self.$el.find('.legal-div').closest('.table-center'));
+        self.$el.find('.legal-icon').removeClass('small');
+       // console.log('appending to table-center');
+      }else{
+        self.$el.find('.legal-div').closest('.table-center').find('.box').css('margin-top' , '0px');
+        self.$el.find('.legal-div').prependTo(self.$el.find('.legal-div').closest('.table-center'));
+        self.$el.find('.legal-icon').addClass('small');
+        //console.log('prepending to table-center');
       }
 
       // If a secondary box exists, the primary one needs to be adjusted
