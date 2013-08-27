@@ -1,0 +1,68 @@
+include ../../../common/html/jade-helpers.jade
++includeCSS('hear-it-feel-it-b3-x00')
++includeJavascriptModule('hear-it-feel-it-b3-x00')
+
+mixin submodule( submodule )
+  +partial( submodule.type, submodule.data, true )
+
+mixin calloutIndicator( info, leftQuadrant )
+  if leftQuadrant
+    .callout-indicator( style='width: #{info.callout_indicator_length}; right: -#{info.callout_indicator_length};' )
+      .circle
+  else
+    .callout-indicator( style='width: #{info.callout_indicator_length}; left: -#{info.callout_indicator_length};' )
+      .circle
+
+mixin calloutInner( info, leftQuadrant )
+  h3= info.title
+  p.p3= info.description
+  h5.range= info.range
+  span.p3= info.unit
+  +calloutIndicator( info, leftQuadrant )
+
+mixin callout( info, leftQuadrant )
+  if info.position == 'offset'
+    if leftQuadrant
+      .callout.offset( style='right: #{info.offset_horizontal}; top: #{info.offset_vertical};' )
+        +calloutInner( info, leftQuadrant )
+    else
+      .callout.offset( style='left: #{info.offset_horizontal}; top: #{info.offset_vertical};' )
+        +calloutInner( info, leftQuadrant )
+        
+  else
+    .table-center-wrap
+      .table-center
+        if leftQuadrant
+          .callout.center-vertical( style='margin-right: #{info.offset_horizontal};' )
+            +calloutInner( info, leftQuadrant )
+        else
+          .callout.center-vertical( style='margin-left: #{info.offset_horizontal};' )
+            +calloutInner( info, leftQuadrant )
+
+mixin slide (info)
+  .hear-it-carousel-slide
+    h3= info.title
+    p.p3= info.description
+    h5.range= info.range
+    span.p3= info.unit
+
++mainElement( ['hear-it-feel-it'] )
+
+  .container
+    if data.submodules
+      .submodule.background
+        +submodule( data.submodules[0] )
+
+    .callouts
+
+      .quadrant.quadrant-left
+        +callout( data.callout_left, true )
+
+      .quadrant.quadrant-right
+        +callout( data.callout_right, false )
+
+    div(class=data.style)
+      .hear-it-carousel-wrapper.box
+        .hear-it-carousel
+          +slide(data.callout_left)
+          +slide(data.callout_right)
