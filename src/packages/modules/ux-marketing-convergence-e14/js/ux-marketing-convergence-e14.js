@@ -120,7 +120,7 @@ define(function(require) {
 
         // go to location only if there is one
         if (loc) {
-          Settings.$window.location = loc;
+          window.location = loc;
         }
       });
     },
