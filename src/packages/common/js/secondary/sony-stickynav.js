@@ -185,12 +185,14 @@ define(function(require){
     _closeStickyNav : function() {
       if ( this.$el.hasClass('open') ) {
         this.$el.removeClass('open');
+        this.$el.trigger('SonyStickyNav:close');
       }
     },
 
     _openStickyNav : function() {
       if ( !this.$el.hasClass('open') ) {
         this.$el.addClass('open');
+        this.$el.trigger('SonyStickyNav:open');
       }
     },
 

@@ -159,6 +159,22 @@ define(function(require) {
       self._initFavorites();
 
       iQ.update();
+
+      // Hack due to some environments not knowing what to do with the iQ image
+      // in this `StickyNav`. Waits three seconds after the nav opens and force-loads
+      // the image in if iQ won't. Obviously not ideal, but trying to avoid
+      // deconstructing this module / the `StickyNav` component.
+
+      self.$stickyNav.on('SonyStickyNav:open', function(){
+        setTimeout(function(){
+          if ( !$stickyImg.attr('src') ) {
+            var $newImage = $('<img/>');
+            $newImage.attr('src', $stickyImg.data('src-phone'));
+            $stickyImg.parent().append($newImage);
+            $stickyImg.remove();
+          }
+        }, 3000);
+      });
     },
 
     getStickyNavTriggerMark : function() {
