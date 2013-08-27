@@ -205,27 +205,41 @@
 
   }
 
-  &.product-intro-plate{
-    .legal{
-      z-index:9;
-      position:relative;
-      margin-top:-23px;
+  .legal{
+    z-index:9;
+
+    span {
+      color: $gray20;
+    }
+  }
+
+  .legal-grid {
+    position: absolute;
+      bottom: 36px;
+      right: 100px;
+    text-align: right;
+
+    &.right {
+      text-align: left;
     }
 
-    .legal-icon-grid {
-      position: relative;
+    .p5 {
+      margin-bottom: 0;
+    }
 
-      .legal-icon {
-        position: absolute;
-        bottom: 36px;
-        right: 0;
-
-        &.small {
-          bottom: 305px;
-        }
-
+    .legal-icon {
+      &.small {
+        bottom: 305px;
       }
+
     }
+
+    .legal-icon,.p5 {
+      margin-top: 15px;
+    }
+  }
+
+  &.product-intro-plate{
 
     .legal-div {
       width: 100%;

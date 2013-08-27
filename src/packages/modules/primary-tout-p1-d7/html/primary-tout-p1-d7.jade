@@ -87,26 +87,27 @@ mixin addon(_data)
               e = { "locals" : locals, "data" : d.addon }
               !{ locals.partial('packages/modules/addon/html/addon.jade', e)}
 
+mixin legalText(_data)
+  d = _data ? _data : data
+  p.legal.p5
+    span!{d.copy}
+    if d.href
+      span
+        a(href = d.href) !{d.text ? d.text : d.href}
+    else
+      span #{d.text}
+
 mixin legal(_data)
   d = _data ? _data : data
   style = data.style ? data.style : false
   if d.legal
-    p.legal.p5
-      span!{d.legal.copy}
-      if d.legal.href
-      span
-        &nbsp;
-        a(href = d.legal.href) !{d.legal.linktext ? d.legal.linktext : d.legal.href}
-
-mixin legalLogo(_data)
-  d = _data ? _data : data
-  style = data.style ? data.style : false
-  if d.legal
     .container(class = style)
-      .grid(class="legal-icon-grid no-grid-at-767")
-        .span-12.pull-right
-          +iQImage( d.legal.icon , "legal-icon" )
-
+      .grid(class="legal-grid no-grid-at-767 "+data.layout.text)
+        for legal in d.legal
+          if legal.icon
+            +iQImage( legal.icon , "legal-icon" )
+          if legal.text && d.mode != "product-intro-plate"
+            +legalText(legal)
 
 mixin boxclass(_layout)
   layout = _layout ? _layout : data.layout
@@ -147,9 +148,11 @@ mixin boxlayout(_layout, _style)
           +vbox
             +boxclass
               block
-            if data.legal
+            if data.legal && data.mode == "product-intro-plate"
               .div(class="legal-div")
-                +legal
+                for legal in data.legal
+                  if legal.text
+                    +legalText(legal)
   else if layout.text == "right" || layout.text == "center"
     .container.inner(class= classes)
       .grid.no-grid-at-767
@@ -174,6 +177,9 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
           button(class= "box-close box-close-alt")
             i(class="fonticon-10-x")
           +partial(data.submodules[i].type, data.submodules[i].data, true)
+
+  if data.legal
+    +legal
 
   if data.mode == "homepage"
     if data.variation.secondbox
@@ -212,7 +218,6 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
       +links
     +addon
   else if data.mode == "product-intro-plate"
-    +legalLogo
     +boxlayout
       +eyebrow
       h1.t2 !{data.headline}
@@ -234,7 +239,7 @@ primaryToutClasses = ['primary-tout', data.mode, data.theme ]
             .image-module
       else
         !{locals.partial('packages/modules/image/html/image.jade' , e)}
-
+  
     +boxlayout
       +eyebrow
       h1.t2 !{locals.smallmark(data.headline)}
