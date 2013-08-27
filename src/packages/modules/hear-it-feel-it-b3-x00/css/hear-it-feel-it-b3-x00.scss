@@ -1,0 +1,152 @@
+@import "../../../common/css/_base/variables";
+@import "../../../common/css/_base/mixins";
+
+.hear-it-feel-it {
+
+  $calloutIndicatorHeight: 1px;
+  $calloutIndicatorDiameter: 6px;
+  $calloutIndicatorMargin: 10px;
+
+  .container {
+    position: relative;
+  }
+
+  .csstransitions & .container {
+    opacity: 0;
+    @include transition( opacity $transitionNormal $easeNormal );
+
+    &.in {
+      opacity: 1;
+    }
+  }
+
+  .background {
+    .image-module {
+      height: 540px;
+      background-size: auto 100%;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .callouts {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+
+    .table-center-wrap {
+      height: 100%;
+      width: 100%;
+    }
+
+  }
+
+  .callout {
+    width: 40%;
+    max-width: 280px;
+
+    &.offset {
+      position: absolute;
+    }
+
+    &.center-vertical {
+      position: relative;
+    }
+    
+  }
+
+  .range {
+      display: inline;
+      color: $themeOrange;
+      margin-right: 10px;
+    }
+
+  .callout-indicator {
+    position: absolute;
+    top: 18px;
+    height: $calloutIndicatorHeight;
+    background: $themeOrange;
+
+    .circle {
+      width: $calloutIndicatorDiameter;
+      height: $calloutIndicatorDiameter;
+      position: absolute;
+      top: -$calloutIndicatorDiameter / 2;
+      @include border-radius( 50% );
+      background: $themeOrange;
+    }
+  }
+
+  .quadrant {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+
+    &.quadrant-left {
+      left: 0;
+      top: 0;
+
+      .callout {
+        text-align: right;
+      }
+
+      .callout-indicator {
+        margin-right: -$calloutIndicatorMargin;
+
+        .circle {
+          right: 0;
+        }
+      }
+
+    }
+
+    &.quadrant-right {
+      right: 0;
+      top: 0;
+
+      .callout {
+        text-align: left;
+      }
+
+      .callout-indicator {
+        margin-left: -$calloutIndicatorMargin;
+      }
+
+    }
+
+  }
+
+  .hear-it-carousel-wrapper {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    overflow:hidden;
+    display:none;
+
+    .hear-it-carousel {
+      width: 400%;
+      position: relative;
+    }
+
+    .hear-it-carousel-slide {
+      position: relative;
+      float: left;
+      width: 25%;
+      padding: 20px;
+      -webkit-font-smoothing: antialiased;
+      -webkit-backface-visibility: hidden;
+    }
+  }
+
+  .light-text-dark-box .p3 {
+    color:$gray50;
+  }
+
+  .sony-dot-nav {
+    margin-top: 0px;
+    bottom: 10px;
+    display: none;
+  }
+
+}
