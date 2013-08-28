@@ -67,10 +67,12 @@ $windowWidth: 1100;
   width: 100%;
 
   .sequence-notes {
-    @include transition();
-    @include opacity(100);
+    & > div {
+      @include transition(2.0s);
+      @include opacity(100);
+    }
 
-    &.inactive {
+    &.inactive > div {
       @include opacity(0);
     }
   }

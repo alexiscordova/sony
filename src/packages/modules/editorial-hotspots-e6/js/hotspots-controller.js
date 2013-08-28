@@ -103,10 +103,15 @@ define(function(require) {
         self.trackingMode   = 'background';
         self.trackingAsset  = moduleHandle;
         self.variant        = 'variant1';
-      } else {
+      } else if ( moduleHandle.hasClass ( 'track-by-asset')) {
         self.trackingMode   = 'asset';
         self.trackingAsset  = $( moduleHandle.children( '.iq-img' )[0] );
         self.variant        = 'variant2';
+      }
+      else { //no background image at all -- where will width and height come from? not sure yet, what was driving them before?
+        self.trackingMode = 'none';
+        self.trackingAsset  = moduleHandle;
+        self.variant        = 'variant1';
       }
 
       //click image to close
@@ -173,8 +178,13 @@ define(function(require) {
       // height changes for backgrounds with hotspots
       if( 'asset' === self.trackingMode ) {
         self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
-      } else {
+      } else if ( 'backround' === self.trackingMode ) {
         self.trackOpacityTimer = setInterval( self.trackHeight, 1000 );
+      } else {
+          self.canShowHotspots = true;
+          self.follow();
+          // since we're ready to show it, show it!
+          self.show();
       }
 
       // closure used to trigger hotspots for images

@@ -34,6 +34,11 @@ if data.hotspotConfig
 if data.variation && data.variation.background
   - editorialClasses.push( data.variation.background )
 
+mixin submodule( submodule, _sequenceId )
+  - containerClass = 'visuallyhidden sequence-notes sequence-'+_sequenceId
+  div(class= containerClass, data-id=_sequenceId)
+    +partial( submodule.type, submodule.data, true )
+
 mixin slidelabels
   if data.sequence
     div(class="label-data visuallyhidden")
@@ -205,6 +210,8 @@ mixin boxlayout(_layout)
           - for imgData, i in data.sequence
             if imgData.notes
               +sequenceNotes(imgData.notes, i)
+            if imgData.submodule
+              +submodule(imgData.submodule, i)
 
       if data.layout
         if data.layout.mode == "editorial"
