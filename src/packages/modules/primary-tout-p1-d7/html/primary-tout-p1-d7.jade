@@ -162,6 +162,11 @@ mixin boxlayout(_layout, _style)
           +vbox
             +boxclass
               block
+            if data.legal && data.mode == "product-intro-plate"
+              .div(class="legal-div")
+                for legal in data.legal
+                  if legal.text
+                    +legalText(legal)
 
 primaryToutClasses = ['primary-tout', data.mode, data.theme ]
 +mainElement( primaryToutClasses)
