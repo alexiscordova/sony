@@ -23,7 +23,9 @@ define(function(require) {
     var self = this;
 
     self.$el = $(element);
+    self.$visibleHotspots = null;
     self.idleTimer = 0;
+    self.hotspotHideTimeouts = {};
 
     self.init();
   };
@@ -43,6 +45,20 @@ define(function(require) {
       self.initBindings();
       self.updateHotspotsContainer();
       self.createSliderAnchors();
+      self.setupModalHandling();
+    },
+
+    setupModalHandling: function() {
+      var self = this;
+      //this is all to handle proper z-order when fading and when showing modal popup
+      self.$sequenceHotspotContainer.css('z-index', '100');
+      self.$el.on('HotspotsController:onModalShow', function() {
+        self.$sequenceHotspotContainer.css('z-index', '');
+      });
+      self.$el.on('HotspotsController:onModalClosed', function() {
+        self.$sequenceHotspotContainer.css('z-index', '100');
+      });
+
     },
 
     createSliderAnchors: function() {
@@ -104,13 +120,14 @@ define(function(require) {
           return $el;
         }
       }
+      return null;
     },
 
-    hideHotspots: function() {
-      var self = this;
+    // hideHotspots: function() {
+    //   var self = this;
 
-      self.$sequenceHotspots.addClass('inactive visuallyhidden');
-    },
+    //   self.$sequenceHotspots.addClass('inactive visuallyhidden');
+    // },
 
     updateHotspotsContainer: function() {
       var $hotspotsContainer = this.getCurrentHotspotsContainer(),
@@ -129,35 +146,40 @@ define(function(require) {
 
     updateCurrentHotspots: function() {
       var self = this,
-        $hotspotsContainer;
+        $hotspotsContainer,
+        $previousHotspotContainer;
 
-      // if we have already shown the hotspots
-      if (self.showHotspots === false) {
-        return false;
+      //log('SONY : Editorial Transition : updateCurrentHotspots: currentIndex = ' + self.sequence.curIndex);
+
+      $previousHotspotContainer = self.$visibleHotspots;
+      self.$visibleHotspots = self.getCurrentHotspotsContainer();
+
+      if ( $previousHotspotContainer !== null ) {
+        if ($previousHotspotContainer.is( self.$visibleHotspots ) )  {
+          return;
+        }
+        $previousHotspotContainer.find( '.hotspot-module' )
+          .trigger( 'HotspotsController:reset' )
+          .trigger( 'HotspotsController:hide' );
+        self.hotspotHideTimeouts[$previousHotspotContainer.data().id] =  setTimeout( function() {
+          $previousHotspotContainer.addClass( 'visuallyhidden' );
+        }, 300);
       }
-      self.$el.find('.hotspot-module').trigger('HotspotsController:reset');
 
-      $hotspotsContainer = self.getCurrentHotspotsContainer();
 
       // we have sequence hotspots we can display them
-      if ( $hotspotsContainer ) {
-
-        $hotspotsContainer.removeClass('visuallyhidden inactive')
-          .siblings().addClass('visuallyhidden inactive'); //There's no fade, is that what we want?
-      }
-      else {
-        self.hideHotspots();
+      if ( self.$visibleHotspots) {
+        clearTimeout(self.hotspotHideTimeouts[self.$visibleHotspots.data().id]);
+        self.$visibleHotspots.find( '.hotspot-module' ).trigger( 'HotspotsController:show' );
+        self.$visibleHotspots.removeClass( 'visuallyhidden' );
       }
 
-      // weve shown the goods already
-      self.showHotspots = false;
     },
 
     handleSliderDrag: function(position) {
       var self = this;
 
       self.idleTimer = 0;
-      self.showHotspots = true;
 
       self.sequence.move(position);
       self.updateCurrentHotspots();

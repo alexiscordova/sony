@@ -179,13 +179,15 @@ define(function(require) {
       // height changes for backgrounds with hotspots
       if( 'asset' === self.trackingMode ) {
         self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
-      } else if ( 'backround' === self.trackingMode ) {
+      } else if ( 'background' === self.trackingMode ) {
         self.trackOpacityTimer = setInterval( self.trackHeight, 1000 );
       } else {
-          self.canShowHotspots = true;
-          self.follow();
-          // since we're ready to show it, show it!
-          self.show();
+          //create an API for the enclosing modle
+          self.$el.on( 'HotspotsController:show', function(e) {            
+            self.canShowHotspots = true;
+            self.show();
+          });
+          self.$el.on( 'HotspotsController:hide', $.proxy( self.hide, self ) );
       }
 
       // closure used to trigger hotspots for images
@@ -294,6 +296,7 @@ define(function(require) {
         //self.$modal.css( 'top', newOffset+'px' );
 
       self.$modal.css( 'top', '0px' );
+      self.$el.trigger( 'HotspotsController:onModalShow' );
       return;
     },
 
@@ -306,6 +309,7 @@ define(function(require) {
 
       // Update max height for modal body
       self.getMaxModalHeights();
+      self.$el.trigger( 'HotspotsController:onModalShown' );
     },
 
     onModalClosed : function( evt ) {
@@ -329,6 +333,7 @@ define(function(require) {
       }
 
       Settings.$body.find( '.modal-backdrop' ).remove();
+      self.$el.trigger( 'HotspotsController:onModalClosed' );
 
     },
 
@@ -439,7 +444,7 @@ define(function(require) {
           $el = $( el ),
           data;
 
-      if( 'background' === self.trackingMode ) {
+      if( 'background' === self.trackingMode  || 'none' === self.trackingMode) {
         $el = $( el );
         data = $el.data();
 
@@ -463,11 +468,20 @@ define(function(require) {
             var stagger = function() {
               $( el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
             };
-            setTimeout( stagger, ( self.curAnimationCount * offsetTime ) );
-            self.curAnimationCount++;
+            // setTimeout( stagger, ( self.curAnimationCount * offsetTime ) );
+            // self.curAnimationCount++;
+            setTimeout( stagger, ( index * offsetTime ) );
           }
         });
       }
+    },
+
+    hide: function( event ) {
+      var self = this;
+      self.canShowHotspots = false;
+      self.$els
+        .removeClass( 'eh-visible' )
+        .addClass( 'eh-transparent' );
     },
 
     find: function( currentTarget ) {
