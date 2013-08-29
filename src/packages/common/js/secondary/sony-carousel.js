@@ -628,6 +628,10 @@ define(function(require){
 
       self.$slides = self.$el.find(self.slides).not(self.cloneClass);
 
+      if ( self.$slides.length <= 1 ) {
+        return;
+      }
+
       if ( self.looped ) {
         self.setupLoopedCarousel();
       }

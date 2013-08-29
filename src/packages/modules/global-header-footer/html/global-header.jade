@@ -13,7 +13,7 @@ mixin featuredColumnZone( feat_data )
     div.navtray-secondary-tout
       +iQImage(feat_data.img)
       span.p2 !{feat_data.title}
-      span.p4 
+      span.p4
         span !{feat_data.message}
         a(href=feat_data.href, title=feat_data.title, target=feat_data.target, tabindex='250')  !{feat_data.text}
 
@@ -36,7 +36,7 @@ search_input_default_full = data.search.input_default_text;// "      " + d
 if data.minimal == true
    - minimal = true
    - minimal_class = "nav-wrapper-minimal"
-else 
+else
     - minimal = false
     - minimal_class = ""
 
@@ -48,7 +48,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
       span.hidden-text !{data.logo.text}
     if !minimal
       a.btn.btn-mobile-cart(href=data.store.href, title=data.store.text, target=data.store.target)
-        i.fonticon-10-cart 
+        i.fonticon-10-cart
         span !{sample_session_data.cart_count}
 
   div#nav-outer-container.nav-outer-container
@@ -107,7 +107,7 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
 
       if !minimal
         div.navmenu-w.navmenu-w-mobile-top.visible-phone
-          ul.navmenu-list.navmenu-list-main 
+          ul.navmenu-list.navmenu-list-main
             li.navmenu-line.navmenu-li-location
               +link( data.store_locator, ["tl", "navmenu-style-tl"], "fonticon-10-location", true )
               span.navmenu-li-ext-text !{sample_session_data.current_location}
@@ -118,7 +118,12 @@ nav#nav-wrapper.container.full-bleed-no-max.m-full-bleed.nav-wrapper.no-grid-at-
         div.navtray-w.navtray-w-fullwidth-3-4.navtray-w-electronics.navtray-w-tall#navtray-w-electronics
           div.navtray#navtrayElectronics
 
-            div.navtray-section.navtray-section-main.navtray-section-main-w-all-btn
+            - navtrayMainExtraClasses = []
+            if data.electronics.menu_featured_top && data.electronics.menu_featured_top.show == true
+              if data.electronics.menu_featured_bottom && data.electronics.menu_featured_bottom.show == true
+                - navtrayMainExtraClasses.push('navtray-section-main-tall')
+
+            div.navtray-section.navtray-section-main.navtray-section-main-w-all-btn(class=navtrayMainExtraClasses)
               h4.visible-phone !{data.electronics.text}
               ul.navtray-list-main
                 if data.electronics.menu_main.menu_items

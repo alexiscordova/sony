@@ -11,7 +11,7 @@ if item.headline
     - item.contentType += ' has-eyebrow'
   if item.bodycopy
     - item.contentType += ' has-copy'
-  if item.miniPromo
+  if item.addon && (item.addon.type == "video") && item.video
     - item.contentType += ' has-mini-promo'
 
 if item.isWhatsNewCarousel
@@ -87,16 +87,21 @@ article
         span.l3 people like this
 
 aside(class=item.contentType)(class=item.typeLayout)(class=item.typeAlignment)(class=item.s)
-  if item.miniPromo && item.miniPromo.video
-    a.mini-promo(class='mini-promo-layout-' + item.miniPromo.layout)(href='#')
+  if item.addon && (item.addon.type == "video") && item.video
+
+    - layout = ''
+    - if ( item.addon.style === 'light-text-dark-box' ) { layout = 'dark' } else { layout = 'light' }
+
+    a.mini-promo(class='mini-promo-layout-' + layout)(href='#')
       div.mini-promo-image-container
         .play-button
           i.fonticon-10-video-play
-        img(src=item.miniPromo.imgSrc)
+        img(src=item.addon.img.srcDesktop)
       div.mini-promo-caption.p4
-        | !{item.miniPromo.caption}
+        | !{item.addon.copy}
     .sony-video-placeholder
-      +partial('sony-video/html/sony-video.jade', item.miniPromo.video.jsonData)
+      if (item.video.data)
+        +partial('sony-video/html/sony-video.jade', item.video.data)
 
   if item.counter
     .counter(class=item.typeLayout)

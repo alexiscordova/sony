@@ -21,10 +21,12 @@ mixin filterRange( filterSet )
   .range-output-container
     .relative
       .range-output-min
-        sup $
+        if filterSet.minUnit
+          sup !{filterSet.minUnit}
         span.val
       .range-output-max
-        sup $
+        if filterSet.maxUnit
+          sup !{filterSet.maxUnit}
         span.val
   .range-control-wrap
     .range-control(data-label=filterSet.label, data-filter=filterSet.name, data-filter-type=filterSet.type, data-min=filterSet.min, data-max=filterSet.max)
