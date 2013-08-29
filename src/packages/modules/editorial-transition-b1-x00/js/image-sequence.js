@@ -37,11 +37,11 @@ define(function(require) {
         loop: false
       });
 
-      self.$sequenceNoteContainer = self.$el.find('.sequence-note-container');
-      self.$sequenceNotes = self.$sequenceNoteContainer.find('.sequence-notes');
+      self.$sequenceHotspotContainer = self.$el.find('.sequence-hotspot-container');
+      self.$sequenceHotspots = self.$sequenceHotspotContainer.find('.sequence-hotspots');
 
       self.initBindings();
-      self.followSequenceNotes();
+      self.updateHotspotsContainer();
       self.createSliderAnchors();
     },
 
@@ -86,142 +86,81 @@ define(function(require) {
     },
 
     onResize: function() {
-      this.followSequenceNotes();
+      this.updateHotspotsContainer();
     },
 
-    // gets the sequence notes which are in a cached jquery object and loops
-    // through though to get each of the notes positioning so it can be placed
-    // on the view.
-    getSequenceNotes: function() {
+
+    getCurrentHotspotsContainer: function() {
       var self = this;
 
-      // loop through our sequence notes and see which one has our current
+      // loop through our sequence hotspots and see which one has our current
       // index!
-      for (var _i = 0; _i < self.$sequenceNotes.length; _i++) {
-        var $el = self.$sequenceNotes.eq(_i),
-          sequenceProperties = {},
+      for (var _i = 0; _i < self.$sequenceHotspots.length; _i++) {
+        var $el = self.$sequenceHotspots.eq(_i),
           elData = $el.data();
 
-        // once we have our sequence notes lets close the method
+        // once we have our sequence hotspots return them
         if (elData.id === self.sequence.curIndex) {
-          sequenceProperties.el = $el;
-          sequenceProperties.notes = [];
-          sequenceProperties.notes.el = sequenceProperties.el.find('.note');
-
-          // we need to go throught the notes and throw them into an object to
-          // access later
-          for (var _j = 0; _j < sequenceProperties.notes.el.length; _j++) {
-            var $noteEl = sequenceProperties.notes.el.eq(_j),
-              note,
-              noteData = $noteEl.data();
-
-            note = {
-              el: sequenceProperties.notes.el.eq(_j),
-              x: noteData.x,
-              y: noteData.y
-            };
-
-            sequenceProperties.notes.push(note);
-          }
-
-          return sequenceProperties;
+          return $el;
         }
       }
     },
 
-    hideSequenceNotes: function() {
+    hideHotspots: function() {
       var self = this;
 
-      self.$sequenceNotes.addClass('visuallyhidden');
+      self.$sequenceHotspots.addClass('inactive visuallyhidden');
     },
 
-    // places the sequence notes on the page
-    positionSequence: function(sequence) {
-
-      for (var _i = 0; _i < sequence.notes.length; _i++) {
-        var currSequence = sequence.notes[_i];
-
-        // position the notes!
-        currSequence.el.css({
-          'left': currSequence.x,
-          'top': currSequence.y
-        });
-      }
-    },
-
-    followSequenceNotes: function() {
-      var sequenceNotes = this.getSequenceNotes(),
+    updateHotspotsContainer: function() {
+      var $hotspotsContainer = this.getCurrentHotspotsContainer(),
         trackingAsset = this.$el.find('.image-module[data-sequence-id=' + this.sequence.curIndex + ']'),
-        assetW = trackingAsset.width(),
-        assetH = trackingAsset.height(),
-        percX,
-        percY,
-        adjustedX = null,
-        adjustedY = null,
-        widthOffset = 0,
-        heightOffset = 0;
+         assetH = trackingAsset.height();
 
-      // we must not have any notes defined, so lets just close out
-      if (!sequenceNotes) {
+      // we must not have any hotspots defined, so lets just close out
+      if (!$hotspotsContainer) {
         return;
       }
 
-      sequenceNotes.el.closest('.sequence-note-container').css({
+      $hotspotsContainer.closest('.sequence-hotspot-container').css({
         height: assetH
       });
-
-      for (var _i = 0; _i < sequenceNotes.notes.length; _i++) {
-        var note = sequenceNotes.notes[_i],
-          $noteEl = sequenceNotes.notes[_i].el;
-
-        percX = note.x.replace('%', ''),
-        percY = note.y.replace('%', ''),
-        widthOffset = (trackingAsset.closest('.sony-sequence').width() - assetW) / 2;
-        heightOffset = parseInt(trackingAsset.closest('.sony-sequence').css('padding-top'), 10);
-
-        // get x coordinate
-        adjustedX = (percX * assetW) / 100;
-        adjustedY = (percY * assetH) / 100;
-
-        // lets stop animation
-        $noteEl.css("left", adjustedX);
-        $noteEl.css("top", adjustedY);
-      }
     },
 
-    placeSequenceNote: function() {
+    updateCurrentHotspots: function() {
       var self = this,
-        currentSequence;
+        $hotspotsContainer;
 
-      // if we have already shown the notes
-      if (self.showNotes === false) {
+      // if we have already shown the hotspots
+      if (self.showHotspots === false) {
         return false;
       }
+      self.$el.find('.hotspot-module').trigger('HotspotsController:reset');
 
-      currentSequence = self.getSequenceNotes();
+      $hotspotsContainer = self.getCurrentHotspotsContainer();
 
-      // we have sequence notes so we can display them
-      if (currentSequence) {
-        var $currentSequence = currentSequence.el;
+      // we have sequence hotspots we can display them
+      if ( $hotspotsContainer ) {
 
-        $currentSequence.removeClass('visuallyhidden inactive')
-          .siblings().addClass('visuallyhidden inactive');
-
-        self.positionSequence(currentSequence);
+        $hotspotsContainer.removeClass('visuallyhidden inactive')
+          .siblings().addClass('visuallyhidden inactive'); //There's no fade, is that what we want?
+      }
+      else {
+        self.hideHotspots();
       }
 
       // weve shown the goods already
-      self.showNotes = false;
+      self.showHotspots = false;
     },
 
     handleSliderDrag: function(position) {
       var self = this;
 
       self.idleTimer = 0;
-      self.showNotes = true;
+      self.showHotspots = true;
 
       self.sequence.move(position);
-      self.placeSequenceNote();
+      self.updateCurrentHotspots();
     }
   };
 

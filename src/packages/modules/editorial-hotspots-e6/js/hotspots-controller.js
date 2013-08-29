@@ -41,6 +41,7 @@ define(function(require) {
     self.$container                     = $( element );
     // collection of hotspots we must initialize
     self.$els                           = self.$container.find( '.hspot-outer' );
+    self.$el = $(element);
 
     // LAST OPEN
     self.lastOpen                       = null;
@@ -235,8 +236,20 @@ define(function(require) {
         //log('SONY : Editorial Hotspots : E5 Slide Update');
         Settings.isLTIE9 || self.isSmallChapter ? self.reset() : '';
       });
+      self.bindAPI();
 
       //log('SONY : Editorial Hotspots : Initialized');
+    },
+
+    bindAPI: function() {
+
+      var self = this;
+
+      self.$el.on('HotspotsController:reset', function(e) {
+        self.reset();
+      });
+
+      return self;
     },
 
     setupBreakpoints : function() {
