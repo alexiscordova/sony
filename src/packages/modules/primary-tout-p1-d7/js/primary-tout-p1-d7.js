@@ -76,6 +76,13 @@ define(function(require){
         self.$el.find('.legal-div').prependTo(self.$el.find('.legal-div').closest('.table-center'));
         self.$el.find('.legal-icon').addClass('small');
         //console.log('prepending to table-center');
+
+        if( self.isProductIntroPlate )
+        {
+          self.$imageModule.height(
+            self.$imageModule.height() + $('.legal-grid').height()
+          );
+        }
       }
 
       // If a secondary box exists, the primary one needs to be adjusted
