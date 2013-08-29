@@ -2,6 +2,7 @@ include ../../../common/html/jade-helpers.jade
 +includeCSS('spec-single-z1')
 +includeJavascriptModule('spec-single-z1')
 
+sonyRecommends = data.sonyRecommends ? data.sonyRecommends : 'Sony Recommends'
 if data.submodules
   productData = locals.data( data.submodules[0].data )
   - productData.view = 'single-spec'
@@ -12,6 +13,9 @@ if data.submodules
   .container
     .grid.spec-title-wrap
       +breadcrumbLink( data.titleLink )
+      .sony-recommends
+        span.p3 !{ sonyRecommends }
+        i.fonticon-60-win8.win8-logo
       h1.t2.spec-title !{ data.title }
       p.product-model.p5
         span(itemprop="model") !{ model }
