@@ -41,6 +41,7 @@ define(function(require) {
     self.$container                     = $( element );
     // collection of hotspots we must initialize
     self.$els                           = self.$container.find( '.hspot-outer' );
+    self.$el = $(element);
 
     // LAST OPEN
     self.lastOpen                       = null;
@@ -103,10 +104,15 @@ define(function(require) {
         self.trackingMode   = 'background';
         self.trackingAsset  = moduleHandle;
         self.variant        = 'variant1';
-      } else {
+      } else if ( moduleHandle.hasClass ( 'track-by-asset')) {
         self.trackingMode   = 'asset';
         self.trackingAsset  = $( moduleHandle.children( '.iq-img' )[0] );
         self.variant        = 'variant2';
+      }
+      else { //no background image at all -- where will width and height come from? not sure yet, what was driving them before?
+        self.trackingMode = 'none';
+        self.trackingAsset  = moduleHandle;
+        self.variant        = 'variant1';
       }
 
       //click image to close
@@ -173,8 +179,15 @@ define(function(require) {
       // height changes for backgrounds with hotspots
       if( 'asset' === self.trackingMode ) {
         self.trackOpacityTimer = setInterval( self.trackOpacity, 50 );
-      } else {
+      } else if ( 'background' === self.trackingMode ) {
         self.trackOpacityTimer = setInterval( self.trackHeight, 1000 );
+      } else {
+          //create an API for the enclosing modle
+          self.$el.on( 'HotspotsController:show', function(e) {            
+            self.canShowHotspots = true;
+            self.show();
+          });
+          self.$el.on( 'HotspotsController:hide', $.proxy( self.hide, self ) );
       }
 
       // closure used to trigger hotspots for images
@@ -225,8 +238,20 @@ define(function(require) {
         //log('SONY : Editorial Hotspots : E5 Slide Update');
         Settings.isLTIE9 || self.isSmallChapter ? self.reset() : '';
       });
+      self.bindAPI();
 
       //log('SONY : Editorial Hotspots : Initialized');
+    },
+
+    bindAPI: function() {
+
+      var self = this;
+
+      self.$el.on('HotspotsController:reset', function(e) {
+        self.reset();
+      });
+
+      return self;
     },
 
     setupBreakpoints : function() {
@@ -271,6 +296,7 @@ define(function(require) {
         //self.$modal.css( 'top', newOffset+'px' );
 
       self.$modal.css( 'top', '0px' );
+      self.$el.trigger( 'HotspotsController:onModalShow' );
       return;
     },
 
@@ -283,6 +309,7 @@ define(function(require) {
 
       // Update max height for modal body
       self.getMaxModalHeights();
+      self.$el.trigger( 'HotspotsController:onModalShown' );
     },
 
     onModalClosed : function( evt ) {
@@ -306,6 +333,7 @@ define(function(require) {
       }
 
       Settings.$body.find( '.modal-backdrop' ).remove();
+      self.$el.trigger( 'HotspotsController:onModalClosed' );
 
     },
 
@@ -416,7 +444,7 @@ define(function(require) {
           $el = $( el ),
           data;
 
-      if( 'background' === self.trackingMode ) {
+      if( 'background' === self.trackingMode  || 'none' === self.trackingMode) {
         $el = $( el );
         data = $el.data();
 
@@ -440,11 +468,20 @@ define(function(require) {
             var stagger = function() {
               $( el ).removeClass( 'eh-transparent' ).addClass( 'eh-visible' );
             };
-            setTimeout( stagger, ( self.curAnimationCount * offsetTime ) );
-            self.curAnimationCount++;
+            // setTimeout( stagger, ( self.curAnimationCount * offsetTime ) );
+            // self.curAnimationCount++;
+            setTimeout( stagger, ( index * offsetTime ) );
           }
         });
       }
+    },
+
+    hide: function( event ) {
+      var self = this;
+      self.canShowHotspots = false;
+      self.$els
+        .removeClass( 'eh-visible' )
+        .addClass( 'eh-transparent' );
     },
 
     find: function( currentTarget ) {

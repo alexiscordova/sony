@@ -62,106 +62,22 @@ $windowWidth: 1100;
   position: absolute;
 }
 
-.sequence-note-container {
+.sequence-hotspot-container {
   position: absolute;
   width: 100%;
 
-  .sequence-notes {
-    @include transition();
-    @include opacity(100);
+  // .sequence-hotspots {
+  //   & > div {
+  //     @include transition($transitionSlower);
+  //     @include opacity(100);
+  //   }
 
-    &.inactive {
-      @include opacity(0);
-    }
-  }
+  //   &.inactive > div {
+  //     @include opacity(0);
+  //   }
+  // }
 
-  .note {
-    position: absolute;
-    z-index: 100;
-
-    .headline {
-      color: $gray20;
-    }
-
-    .subhead {
-      color: $gray40;
-    }
-
-    &.direction-right {
-      text-align: right;
-
-      .pointer {
-        top: 12px;
-        width: 30px;
-        right: -42px;
-        &:before {
-          top: -2px;
-          left: 30px;
-        }
-      }
-    } // end &.direction-right
-
-    &.direction-left {
-      .pointer {
-        top: 12px;
-        width: 30px;
-        left: -42px;
-        &:before {
-          top: -2px;
-          left: 0;
-        }
-      }
-    } // end &.direction-left
-
-    &.direction-down {
-      text-align: center;
-
-      .pointer {
-        height: 30px;
-        top: 50px;
-        left: 50%;
-        &:before {
-          top: 30px;
-          left: -2px;
-        }
-      }
-    } // end &.direction-down
-
-    &.direction-up {
-      text-align: center;
-
-      .pointer {
-        height: 30px;
-        top: -38px;
-        left: 50%;
-        &:before {
-          top: 0;
-          left: -2px;
-        }
-      }
-    } // end &.direction-up
-  } // end .note
-
-
-  .pointer {
-    position: absolute;
-    display: block;
-    background: $buttonOrange;
-    width: 1px;
-    height: 1px;
-
-    &:before {
-      content: "";
-      position: relative;
-      display: block;
-      background: $buttonOrange;
-      height: 5px;
-      width: 5px;
-      @include border-radius(50%);
-    }
-  }
-
-} // end .sequence-note-container
+} // end .sequence-hotspot-container
 
 .sony-sequence {
   position: relative;

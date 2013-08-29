@@ -34,6 +34,11 @@ if data.hotspotConfig
 if data.variation && data.variation.background
   - editorialClasses.push( data.variation.background )
 
+mixin hotspots( submodule, _sequenceId )
+  - containerClass = 'visuallyhidden sequence-hotspots sequence-'+_sequenceId
+  div(class= containerClass, data-id=_sequenceId)
+    +partial( 'editorial-hotspots-e6/html/editorial-hotspots-e6-module.jade', submodule.data, true )
+
 mixin slidelabels
   if data.sequence
     div(class="label-data visuallyhidden")
@@ -122,32 +127,6 @@ mixin textonlylayout(_layout)
       block
 
 
-mixin sequenceNotes(_data, _sequenceId)
-  - containerClass = 'visuallyhidden sequence-notes sequence-'+_sequenceId
-  div(class= containerClass, data-id=_sequenceId)
-    for note, _j in _data
-      if note.pointer
-        - noteClass = 'note has-pointer direction-'+note.pointer
-        - noteDataX = note.coords[0]
-        - noteDataY = note.coords[1]
-
-        div(class=noteClass, data-x=noteDataX, data-y=noteDataY)
-          span.pointer
-          .note-content
-            if note.headline
-              p.t7.headline !{note.headline}
-            if note.subhead
-              p.p5.subhead !{note.subhead}
-      else
-        - noteClass = 'note'
-        div(class = noteClass, data-x=noteDataX, data-y=noteDataY)
-          .note-content
-            if note.headline
-              p.t7.headline !{note.headline}
-            if note.subhead
-              p.p5.subhead !{note.subhead}
-
-
 mixin boxlayout(_layout)
   layout = _layout ? _layout : data.layout
   classes = layout.style
@@ -201,10 +180,10 @@ mixin boxlayout(_layout)
               +textonlylayout
                 +copyblock(data.copy, "t2", "t7", "p2")
       if data.sequence
-        .sequence-note-container
+        .sequence-hotspot-container
           - for imgData, i in data.sequence
-            if imgData.notes
-              +sequenceNotes(imgData.notes, i)
+            if imgData.hotspots
+              +hotspots(imgData.hotspots, i)
 
       if data.layout
         if data.layout.mode == "editorial"
