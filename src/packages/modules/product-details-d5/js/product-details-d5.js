@@ -7,32 +7,32 @@
 // * **Author:** Telly Koosis
 // * **Dependencies:** jQuery 1.7+, Modernizr
 
-define(function(require){
+define(function(require) {
 
   'use strict';
 
   var $ = require('jquery'),
-      Modernizr = require('modernizr'),
-      Settings = require('require/sony-global-settings'),
-      Environment = require('require/sony-global-environment');
+    Modernizr = require('modernizr'),
+    Settings = require('require/sony-global-settings'),
+    Environment = require('require/sony-global-environment');
 
   // Public methods
   // --------------
   var module = {
     init: function() {
-      $('.pd-module').each(function(){
+      $('.pd-module').each(function() {
         new ProductDetails(this);
       });
     }
   };
 
-  var ProductDetails = function(element){
+  var ProductDetails = function(element) {
 
     var self = this;
 
     // GENERAL
     self.debounceEvent = 'global:resizeDebounced-200ms.pd-module';
-    self.onResizeFunc = $.proxy( self.resizeFunc, self );
+    self.onResizeFunc = $.proxy(self.resizeFunc, self);
 
     // CACHE
     self.$el = $(element);
@@ -64,11 +64,13 @@ define(function(require){
 
     init: function() {
       var self = this,
-          $images = self.$measurementImages,
-          $readyImages = $images.filter(function(){return $(this).data('hasLoaded');});
+        $images = self.$measurementImages,
+        $readyImages = $images.filter(function() {
+          return $(this).data('hasLoaded');
+        });
 
       // when images are loaded, show
-      $images.on('imageLoaded iQ:imageLoaded', function(){
+      $images.on('imageLoaded iQ:imageLoaded', function() {
         $readyImages = $readyImages.add($(this));
         if ($readyImages.length === $images.length) {
           self.onImagesLoaded();
@@ -81,13 +83,13 @@ define(function(require){
     },
 
     // handle browser/device resize
-    resizeFunc : function(){
+    resizeFunc: function() {
       var self = this;
       self.buildMeasurements();
     },
 
     // once image have loaded perform these
-    onImagesLoaded : function(){
+    onImagesLoaded: function() {
       var self = this;
       self.showImages();
       self.buildMeasurements();
@@ -95,16 +97,16 @@ define(function(require){
     },
 
     // determine the right height/widths for product measurement
-    buildMeasurements : function(){
+    buildMeasurements: function() {
       var self = this;
       self.setMImageDimensions();
       self.setMeasurementDimensions();
     },
 
     // add 'on' class to images
-    showImages : function(){
+    showImages: function() {
       var self = this,
-          $images = self.$measurementImages;
+        $images = self.$measurementImages;
 
       $images.each(function() {
         $(this).addClass('on');
@@ -112,7 +114,7 @@ define(function(require){
     },
 
     // add 'on' class to measurements once they are built
-    showMeasurements : function(){
+    showMeasurements: function() {
       var self = this;
 
       self.$dimensions.each(function() {
@@ -121,9 +123,9 @@ define(function(require){
     },
 
     // store the dimensions of each measurement image
-    setMImageDimensions : function(){
+    setMImageDimensions: function() {
       var self = this,
-          $images = self.$measurementImages;
+        $images = self.$measurementImages;
 
       // get the w/h of each image
       $images.each(function(index) {
@@ -132,37 +134,37 @@ define(function(require){
       });
     },
 
-    getDimesionDataList : function() {
+    getDimesionDataList: function() {
       var self = this,
-          dataList = [];
+        dataList = [];
 
       // for each image, calculate its dimensions and margins
       self.$dimensions.each(function() {
         var parentClass = '',
-        data = {},
-        $el = $(this),
-        isVerticalMeasurement = $el.hasClass('vertical-measurement'),
-        $unitContainer = $el.find('.units-container'),
-        $measurementParent = $unitContainer.closest('div.measurement'),
-        $theImage = $measurementParent.find('.img-wrapper img'),
-        unitContainerHeight = $unitContainer.innerHeight(),
-        unitContainerWidth = $unitContainer.innerWidth(),
-        theImageWidth = isVerticalMeasurement ? unitContainerWidth : $theImage.outerWidth(),
-        theImageHeight = isVerticalMeasurement ? $theImage.outerHeight() : unitContainerHeight,
+          data = {},
+          $el = $(this),
+          isVerticalMeasurement = $el.hasClass('vertical-measurement'),
+          $unitContainer = $el.find('.units-container'),
+          $measurementParent = $unitContainer.closest('div.measurement'),
+          $theImage = $measurementParent.find('.img-wrapper img'),
+          unitContainerHeight = $unitContainer.innerHeight(),
+          unitContainerWidth = $unitContainer.innerWidth(),
+          theImageWidth = isVerticalMeasurement ? unitContainerWidth : $theImage.outerWidth(),
+          theImageHeight = isVerticalMeasurement ? $theImage.outerHeight() : unitContainerHeight,
 
-        // if image is thin, don't add pad/margins
-        isThinImage = $el.closest('div.top-wrapper').hasClass('is-thin'),
-        isSmallVImage = false,
-        isSmallHImage = false,
+          // if image is thin, don't add pad/margins
+          isThinImage = $el.closest('div.top-wrapper').hasClass('is-thin'),
+          isSmallVImage = false,
+          isSmallHImage = false,
 
-        top = 0,
-        theMarginLeft = 0,
-        theMarginTop = 0;
+          top = 0,
+          theMarginLeft = 0,
+          theMarginTop = 0;
 
 
         // for a vertical measurement
-        if ( isVerticalMeasurement ) {
-          if ( theImageHeight >= unitContainerHeight ) {
+        if (isVerticalMeasurement) {
+          if (theImageHeight >= unitContainerHeight) {
             // center vertically
             theMarginTop = -(unitContainerHeight / 2);
             top = '50%';
@@ -176,7 +178,7 @@ define(function(require){
         } else {
           // for a horizontal measurement
 
-          if ( theImageWidth >= unitContainerWidth ) {
+          if (theImageWidth >= unitContainerWidth) {
             // center horiz
             theMarginLeft = -(unitContainerWidth / 2);
           } else {
@@ -187,13 +189,13 @@ define(function(require){
         }
 
         // Save data so that the DOM isn't manipulated between loops
-        if ( parentClass ) {
+        if (parentClass) {
           data.parentClass = parentClass;
           data.$measurementParent = $measurementParent;
         }
 
         // More data!
-        if ( !isSmallHImage || !isSmallVImage ) {
+        if (!isSmallHImage || !isSmallVImage) {
           data.dimensions = {
             $el: $el,
             theImageWidth: theImageWidth,
@@ -208,68 +210,68 @@ define(function(require){
           };
         }
 
-        dataList.push( data );
+        dataList.push(data);
       });
 
       return dataList;
     },
 
-    applyDimensionDataList : function( dataList ) {
+    applyDimensionDataList: function(dataList) {
       var self = this;
 
       // Process the saved data so the DOM is changed all at once
-      self.$dimensions.each(function( i ) {
-        var data = dataList[ i ];
+      self.$dimensions.each(function(i) {
+        var data = dataList[i];
 
-        if ( data.parentClass ) {
-          data.$measurementParent.addClass( data.parentClass );
+        if (data.parentClass) {
+          data.$measurementParent.addClass(data.parentClass);
         }
 
-        if ( data.dimensions ) {
-          self.setHeightWidth( data.dimensions.$el, data.dimensions.theImageWidth, data.dimensions.theImageHeight );
-          self.setMarginsTop( data.margins.$el, data.margins.top, data.margins.theMarginTop, data.margins.theMarginLeft );
+        if (data.dimensions) {
+          self.setHeightWidth(data.dimensions.$el, data.dimensions.theImageWidth, data.dimensions.theImageHeight);
+          self.setMarginsTop(data.margins.$el, data.margins.top, data.margins.theMarginTop, data.margins.theMarginLeft);
         }
       });
     },
 
-    resetDimensions : function() {
+    resetDimensions: function() {
       var self = this;
 
       // Reset
       self.$dimensions.each(function() {
-        $( this ).
-          find('.units-container').
-          closest('div.measurement').
-          removeClass('small-v-image small-h-image');
+        $(this).
+        find('.units-container').
+        closest('div.measurement').
+        removeClass('small-v-image small-h-image');
       });
     },
 
     // determine and set the height/widths of the measurement elements
-    setMeasurementDimensions : function() {
+    setMeasurementDimensions: function() {
       var self = this,
-          dataList;
+        dataList;
 
       self.resetDimensions();
       dataList = self.getDimesionDataList();
-      self.applyDimensionDataList( dataList );
+      self.applyDimensionDataList(dataList);
     },
 
     // set the height and width of the ele
-    setHeightWidth : function( $el, w, h ){
+    setHeightWidth: function($el, w, h) {
       $el.css({
-        'height':h,
-        'width':w,
-        'min-height':h,
-        'min-width':w
+        'height': h,
+        'width': w,
+        'min-height': h,
+        'min-width': w
       });
     },
 
-  // set the left right margins and top position of the ele
-    setMarginsTop : function($el, top, mTop, mLeft){
+    // set the left right margins and top position of the ele
+    setMarginsTop: function($el, top, mTop, mLeft) {
       $el.css({
-        'top' : top,
-        'marginTop' : mTop,
-        'marginLeft' : mLeft
+        'top': top,
+        'marginTop': mTop,
+        'marginLeft': mLeft
       });
     }
   };

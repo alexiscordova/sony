@@ -5,6 +5,7 @@ include product-details-d5-helpers.jade
 
 - productDetailsClasses = ["pd-module","container"]
 +mainElement(productDetailsClasses)
+
   - top = data.top
   - hasDesc = top.desc.length > 0
 
@@ -49,33 +50,51 @@ include product-details-d5-helpers.jade
   //- Set the right grid span based on centerLayoutValue (111 is the only real 3col)
   - centerSpanClasses = centerLayoutValue == 111 ? ["span4"] : ["span6"]
 
+  - context = {}
+
   //- Split into 2-cols if just features
   if (centerLayoutValue == 110)
 
     //- extras should be considered in colum split
-    - totalItems = features.length + extras.length
+    - context.totalItems = features.length + extras.length
 
     //- slice array for first column
-    - col1Start = 0
-    - col1End = Math.round(totalItems/2)
-    - col1Items = features.slice(col1Start, col1End)
+    - context.col1Start = 0
+    - context.col1End = Math.round(context.totalItems/2)
+    - context.col1Items = features.slice(context.col1Start, context.col1End)
 
     //- slice array for second column
-    - col2Start = col1End
-    - col2End = totalItems
-    - col2Items = features.slice(col2Start)
+    - context.col2Start = context.col1End
+    - context.col2End = context.totalItems
+    - context.col2Items = features.slice(context.col2Start)
+
+  //- Split into 2-cols if just features
+  if (centerLayoutValue == 100)
+
+    //- extras should be considered in colum split
+    - context.totalItems = features.length + extras.length
+
+    //- slice array for first column
+    - context.col1Start = 0
+    - context.col1End = Math.round(context.totalItems/2)
+    - context.col1Items = features.slice(context.col1Start, context.col1End)
+
+    //- slice array for second column
+    - context.col2Start = context.col1End
+    - context.col2End = context.totalItems
+    - context.col2Items = features.slice(context.col2Start)
 
   //- Split into 2-cols if just specs (same logic as features split)
   if (centerLayoutValue == 10)
-    - totalItems = specs.length + extras.length
+    - context.totalItems = specs.length + extras.length
 
-    - col1Start = 0
-    - col1End = Math.round(totalItems/2)
-    - col1Items = specs.slice(col1Start, col1End)
+    - context.col1Start = 0
+    - context.col1End = Math.round(context.totalItems/2)
+    - context.col1Items = specs.slice(context.col1Start, context.col1End)
 
-    - col2Start = col1End
-    - col2End = totalItems
-    - col2Items = specs.slice(col2Start)
+    - context.col2Start = context.col1End
+    - context.col2End = context.totalItems
+    - context.col2Items = specs.slice(context.col2Start)
 
   //- DISPLAY
   div(class= centerClasses)
@@ -133,11 +152,11 @@ include product-details-d5-helpers.jade
 
       when 100
         .features.m-span3(class= centerSpanClasses)
-          +featureList(col1Items)
+          +featureList(context.col1Items)
 
         .last-column.m-span3(class= centerSpanClasses)
           .features
-            +featureList(col2Items)
+            +featureList(context.col2Items)
 
           if(isExtras)
             .extras
@@ -145,11 +164,11 @@ include product-details-d5-helpers.jade
 
       when 10
         .specs.m-span3(class= centerSpanClasses)
-          +specsList(col1Items, false)
+          +specsList(context.col1Items, false)
 
         .last-column.m-span3(class= centerSpanClasses)
           .specs
-            +specsList(col2Items, false)
+            +specsList(context.col2Items, false)
 
           if(isExtras)
             .extras
