@@ -23,6 +23,7 @@ define(function(require) {
       Modernizr = require('modernizr'),
       enquire = require('enquire'),
       Environment = require('require/sony-global-environment'),
+      Settings = require( 'require/sony-global-settings' ),
       sonyCarousel = require('secondary/index').sonyCarousel;
 
   var module = {
@@ -87,6 +88,19 @@ define(function(require) {
 
       // Listen for global resize
       Environment.on('global:resizeDebounced', $.proxy( self.onResize, self ));
+      if ( Settings.isLTIE8 ) {
+        //remove the table wrapper stuff and change it to absolute if necessary
+        self.$el.find( '.callout.center-vertical' ).each (function () {
+          var $callout = $( this );
+          $callout
+            .removeClass('center-vertical' )
+            .addClass( 'offset' )
+            .parents( '.quadrant' )
+              .remove( '.table-center' )
+              .append( $callout );
+          $callout.css ( 'top',  ( $callout.parent().height() - $callout.height() ) / 2 + 'px' );
+        });
+      }
 
     },
 
